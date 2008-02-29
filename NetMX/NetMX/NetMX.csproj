@@ -1,0 +1,97 @@
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.50727</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{619AD956-B7BC-492D-9722-25DA4891E144}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>NetMX</RootNamespace>
+    <AssemblyName>NetMX</AssemblyName>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>
+    </DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Exceptions\ListenerNotFoundException.cs" />
+    <Compile Include="Exceptions\MBeanRegistrationException.cs" />
+    <Compile Include="Exceptions\InstanceAlreadyExistsException.cs" />
+    <Compile Include="Exceptions\MalformedObjectNameException.cs" />
+    <Compile Include="Exceptions\OperationsException.cs" />
+    <Compile Include="IMBeanServerConnection.cs" />
+    <Compile Include="Exceptions\AttributeNotFoundException.cs" />
+    <Compile Include="Exceptions\OperationNotFoundException.cs" />
+    <Compile Include="Exceptions\InstanceNotFoundException.cs" />
+    <Compile Include="Exceptions\NetMXException.cs" />
+    <Compile Include="Exceptions\MBeanException.cs" />
+    <Compile Include="Exceptions\NotCompliantMBeanException.cs" />
+    <Compile Include="IDynamicMBean.cs" />
+    <Compile Include="IMBeanServer.cs" />
+    <Compile Include="INetMXPrincipal.cs" />
+    <Compile Include="Info\InfoUtils.cs" />
+    <Compile Include="Info\MBeanAttributeInfo.cs" />
+    <Compile Include="Info\MBeanFeatureInfo.cs" />
+    <Compile Include="Info\MBeanInfo.cs" />
+    <Compile Include="Info\MBeanNotificationAttribute.cs" />
+    <Compile Include="Info\MBeanParameterInfo.cs" />
+    <Compile Include="Info\MBeanOperationInfo.cs" />
+    <Compile Include="Info\NotificationInfo.cs" />
+    <Compile Include="INotficationEmitter.cs" />
+    <Compile Include="MBeanCASPermission.cs" />
+    <Compile Include="MBeanCASPermissionAttribute.cs" />
+    <Compile Include="MBeanPermission.cs" />
+    <Compile Include="MBeanPermissionAction.cs" />
+    <Compile Include="MBeanPermissionImpl.cs" />
+    <Compile Include="IMBeanRegistration.cs" />
+    <Compile Include="MBeanServerBuilder.cs" />
+    <Compile Include="MBeanServerFactory.cs" />
+    <Compile Include="NetMXWindowsPrincipal.cs" />
+    <Compile Include="Notification.cs" />
+    <Compile Include="NotificationEmitterSupport.cs" />
+    <Compile Include="ObjectName.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StandardMBean.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Simon.Configuration\Simon.Configuration.csproj">
+      <Project>{E67606FD-77EF-4498-829C-CA24FFB03117}</Project>
+      <Name>Simon.Configuration</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

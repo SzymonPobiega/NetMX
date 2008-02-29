@@ -1,0 +1,78 @@
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.50727</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{3CB15450-54E5-4CBE-B252-68B15E9A45F3}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>RemotingDemo</RootNamespace>
+    <AssemblyName>RemotingDemo</AssemblyName>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Sample.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\NetMX.Default\NetMX.Default.csproj">
+      <Project>{9B9279AA-5B62-4834-9949-F2CCE7318610}</Project>
+      <Name>NetMX.Default</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\NetMX.Remote.Remoting\NetMX.Remote.Remoting.csproj">
+      <Project>{FF650A14-16B7-4CB3-BBC0-592FAE591D3D}</Project>
+      <Name>NetMX.Remote.Remoting</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\NetMX.Remote\NetMX.Remote.csproj">
+      <Project>{E5D06BDE-F173-4175-BF94-F9DDCE4E347D}</Project>
+      <Name>NetMX.Remote</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\NetMX\NetMX.csproj">
+      <Project>{619AD956-B7BC-492D-9722-25DA4891E144}</Project>
+      <Name>NetMX</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Simon.Configuration\Simon.Configuration.csproj">
+      <Project>{E67606FD-77EF-4498-829C-CA24FFB03117}</Project>
+      <Name>Simon.Configuration</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
