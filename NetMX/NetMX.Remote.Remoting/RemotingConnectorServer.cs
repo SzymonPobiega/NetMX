@@ -5,6 +5,7 @@ using System.Text;
 using System.Runtime.Remoting;
 using System.Runtime.Remoting.Channels.Tcp;
 using System.Runtime.Remoting.Channels;
+using System.Collections;
 #endregion
 
 namespace NetMX.Remote.Remoting
@@ -16,17 +17,17 @@ namespace NetMX.Remote.Remoting
 		private bool _started;
 		private bool _stopped;
 		private Uri _serviceUrl;
-		private TcpChannel _channel;
+		private TcpServerChannel _channel;
 		private IMBeanServer _server;
 		private RemotingServerImpl _remotingServer;
-        private string _securityProvider;
+		private RemotingConnectionImplConfig _connectionConfig;
 		#endregion
 
 		#region PROPERTIES
 		#endregion
 
 		#region CONSTRUCTOR
-		public RemotingConnectorServer(Uri serviceUrl, IMBeanServer server, string securityProvider)
+		public RemotingConnectorServer(Uri serviceUrl, IMBeanServer server, RemotingConnectionImplConfig connectionConfig)
 		{
 			if (!serviceUrl.IsLoopback)
 			{
@@ -34,12 +35,12 @@ namespace NetMX.Remote.Remoting
 			}
 			_serviceUrl = serviceUrl;
 			_server = server;
-            _securityProvider = securityProvider;
+			_connectionConfig = connectionConfig;
 		}
-		#endregion		        
+		#endregion
 
-        #region INetMXConnectorServer Members
-        public IMBeanServer MBeanServer
+		#region INetMXConnectorServer Members
+		public IMBeanServer MBeanServer
 		{
 			get { return _server; }
 		}
@@ -52,9 +53,15 @@ namespace NetMX.Remote.Remoting
 			if (!_started)
 			{
 				int port = _serviceUrl.Port;				
-				_channel = new TcpChannel(port);				
+				BinaryServerFormatterSinkProvider sinkProvider = new BinaryServerFormatterSinkProvider();
+				IDictionary props = new Hashtable();
+				props["name"] = "remotingConnector"+port;
+				props["secure"] = "true";
+				props["port"] = port;
+				props["impersonate"] = "true";
+				_channel = new TcpServerChannel(props, sinkProvider);				
 				ChannelServices.RegisterChannel(_channel, true);
-				_remotingServer = new RemotingServerImpl(_server, _securityProvider);
+				_remotingServer = new RemotingServerImpl(_server, _connectionConfig);
 				RemotingServices.Marshal(_remotingServer, _serviceUrl.AbsolutePath.Trim('/'));
 				_started = true;
 			}
@@ -68,7 +75,7 @@ namespace NetMX.Remote.Remoting
 					ChannelServices.UnregisterChannel(_channel);
 					RemotingServices.Disconnect(_remotingServer);
 					_stopped = true;
-				}				
+				}
 			}
 		}
 		#endregion
@@ -89,6 +96,6 @@ namespace NetMX.Remote.Remoting
 		{
 			Dispose(true);
 		}
-		#endregion		
+		#endregion
 	}
 }

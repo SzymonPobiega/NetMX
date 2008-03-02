@@ -18,146 +18,145 @@ namespace NetMX.Default
 		#region CONSTRUCTOR
 		#endregion
 
-        #region UTILITY
-        private void RegisterMBeanInternal(ObjectName name, IDynamicMBean bean, IMBeanRegistration beanRegistrationController)
-        {
-            IMBeanRegistration registration = new MBeanRegistrationHelper(beanRegistrationController);
-            name = registration.PreRegister(this, name);
+		#region UTILITY
+		private void RegisterMBeanInternal(ObjectName name, IDynamicMBean bean)
+		{
+			IMBeanRegistration registration = new MBeanRegistrationHelper(bean as IMBeanRegistration);
+			name = registration.PreRegister(this, name);
 
-            string className = bean.GetMBeanInfo().ClassName;
-            MBeanCASPermission casPerm = new MBeanCASPermission(className, null, name, MBeanPermissionAction.RegisterMBean);
-            casPerm.Demand();
-            MBeanPermission perm = new MBeanPermission(className, null, name, MBeanPermissionAction.RegisterMBean);
-            perm.Demand();
-
-            if (_beans.ContainsKey(name))
-            {
-                registration.PostRegister(false);
-                throw new InstanceAlreadyExistsException(name.ToString());
-            }
-            _beans[name] = bean;
-            registration.PostRegister(true);
-        }
-        private INotficationEmitter GetEmitterMBean(ObjectName name, out IDynamicMBean bean)
-        {
-            bean = GetMBean(name);
-            INotficationEmitter emitter = bean as INotficationEmitter;
-            if (emitter != null)
-            {                
-                return emitter;                
-            }
-            throw new OperationsException(string.Format("Bean \"{0}\" is not a notification emitter.", name.ToString()));
-        }
-        private IDynamicMBean GetMBean(ObjectName name)
-        {
-            IDynamicMBean bean;
-            if (_beans.TryGetValue(name, out bean))
-            {
-                return bean;
-            }
-            throw new InstanceNotFoundException(name.ToString());
-        }
-        private void TestPermissions(string className, string memberName, ObjectName name, MBeanPermissionAction action)
-        {
-            MBeanCASPermission casPerm = new MBeanCASPermission(className, memberName, name, action);
-            casPerm.Demand();
-            MBeanPermission perm = new MBeanPermission(className, memberName, name, action);
-            perm.Demand();            
-        }
-        #endregion
+			string className = bean.GetMBeanInfo().ClassName;
+			TestPermissions(className, null, name, MBeanPermissionAction.RegisterMBean);			
+			if (_beans.ContainsKey(name))
+			{
+				registration.PostRegister(false);
+				throw new InstanceAlreadyExistsException(name.ToString());
+			}
+			_beans[name] = bean;
+			registration.PostRegister(true);
+		}
+		private INotficationEmitter GetEmitterMBean(ObjectName name, out IDynamicMBean bean)
+		{
+			bean = GetMBean(name);
+			INotficationEmitter emitter = bean as INotficationEmitter;
+			if (emitter != null)
+			{
+				return emitter;
+			}
+			throw new OperationsException(string.Format("Bean \"{0}\" is not a notification emitter.", name.ToString()));
+		}
+		private IDynamicMBean GetMBean(ObjectName name)
+		{
+			IDynamicMBean bean;
+			if (_beans.TryGetValue(name, out bean))
+			{
+				return bean;
+			}
+			throw new InstanceNotFoundException(name.ToString());
+		}
+		private void TestPermissions(string className, string memberName, ObjectName name, MBeanPermissionAction action)
+		{
+			MBeanCASPermission casPerm = new MBeanCASPermission(className, memberName, name, action);
+			casPerm.Demand();
+			MBeanPermission perm = new MBeanPermission(className, memberName, name, action);
+			perm.Demand();
+		}
+		#endregion
 
 		#region IMBeanServer Members
 		public void RegisterMBean(object bean, ObjectName name)
-		{            
+		{
 			IDynamicMBean dynBean = bean as IDynamicMBean;
 			if (dynBean != null)
 			{
-                RegisterMBeanInternal(name, dynBean, dynBean as IMBeanRegistration);
+				RegisterMBeanInternal(name, dynBean);
 			}
 			else
 			{
 				Type beanType = bean.GetType();
-				Type intfType = beanType.GetInterface(beanType.Name+"MBean", false);
+				Type intfType = beanType.GetInterface(beanType.Name + "MBean", false);
 				if (intfType == null)
 				{
 					throw new NotCompliantMBeanException(beanType.AssemblyQualifiedName);
 				}
 				StandardMBean stdBean = new StandardMBean(bean, intfType);
-                RegisterMBeanInternal(name, stdBean, stdBean);
+				RegisterMBeanInternal(name, stdBean);
 			}
 		}
-        
+
 		public object Invoke(ObjectName name, string operationName, object[] arguments)
-		{            
+		{
 			IDynamicMBean bean = GetMBean(name);
-
-            MBeanCASPermission casPerm = new MBeanCASPermission(bean.GetMBeanInfo().ClassName, operationName, name, MBeanPermissionAction.Invoke);
-            casPerm.Demand();
-            MBeanPermission perm = new MBeanPermission(bean.GetMBeanInfo().ClassName, operationName, name, MBeanPermissionAction.Invoke);
-            perm.Demand();            
-
-			return bean.Invoke(operationName, arguments);			
+			TestPermissions(bean.GetMBeanInfo().ClassName, operationName, name, MBeanPermissionAction.Invoke);			
+			return bean.Invoke(operationName, arguments);
 		}
 
 		public void SetAttribute(ObjectName name, string attributeName, object value)
 		{
 			IDynamicMBean bean = GetMBean(name);
-
-            MBeanPermission perm = new MBeanPermission(bean.GetMBeanInfo().ClassName, attributeName, name, MBeanPermissionAction.SetAttribute);
-            perm.Demand();            
-
+			TestPermissions(bean.GetMBeanInfo().ClassName, attributeName, name, MBeanPermissionAction.SetAttribute);	
 			bean.SetAttribute(attributeName, value);
 		}
 
 		public object GetAttribute(ObjectName name, string attributeName)
 		{
 			IDynamicMBean bean = GetMBean(name);
-
-            MBeanPermission perm = new MBeanPermission(bean.GetMBeanInfo().ClassName, attributeName, name, MBeanPermissionAction.GetAttribute);
-            perm.Demand();
-
+			TestPermissions(bean.GetMBeanInfo().ClassName, attributeName, name, MBeanPermissionAction.GetAttribute);	
 			return bean.GetAttribute(attributeName);
 		}
 
 		public MBeanInfo GetMBeanInfo(ObjectName name)
 		{
 			IDynamicMBean bean = GetMBean(name);
+			MBeanInfo info = bean.GetMBeanInfo();
+			TestPermissions(info.ClassName, null, name, MBeanPermissionAction.GetMBeanInfo);	
+			return info;
+		}
+		public void AddNotificationListener(ObjectName name, NotificationCallback callback, NotificationFilterCallback filterCallback, object handback)
+		{
+			IDynamicMBean bean;
+			INotficationEmitter emitter = GetEmitterMBean(name, out bean);
+			TestPermissions(bean.GetMBeanInfo().ClassName, null, name, MBeanPermissionAction.AddNotificationListener);
+			emitter.AddNotificationListener(callback, filterCallback, handback);
+		}
 
-            MBeanPermission perm = new MBeanPermission(bean.GetMBeanInfo().ClassName, null, name, MBeanPermissionAction.GetMBeanInfo);
-            perm.Demand();
+		public void RemoveNotificationListener(ObjectName name, NotificationCallback callback, NotificationFilterCallback filterCallback, object handback)
+		{
+			IDynamicMBean bean;
+			INotficationEmitter emitter = GetEmitterMBean(name, out bean);
+			TestPermissions(bean.GetMBeanInfo().ClassName, null, name, MBeanPermissionAction.RemoveNotificationListener);
+			emitter.RemoveNotificationListener(callback, filterCallback, handback);
+		}
 
-			return bean.GetMBeanInfo();
-		}	
-        public void AddNotificationListener(ObjectName name, NotificationCallback callback, NotificationFilterCallback filterCallback, object handback)
-        {
-            IDynamicMBean bean;
-            INotficationEmitter emitter = GetEmitterMBean(name, out bean);
+		public void RemoveNotificationListener(ObjectName name, NotificationCallback callback)
+		{
+			IDynamicMBean bean;
+			INotficationEmitter emitter = GetEmitterMBean(name, out bean);
+			TestPermissions(bean.GetMBeanInfo().ClassName, null, name, MBeanPermissionAction.RemoveNotificationListener);
+			emitter.RemoveNotificationListener(callback);
+		}		
+		public bool IsInstanceOf(ObjectName name, string className)
+		{
+			IDynamicMBean bean = GetMBean(name);
+			MBeanInfo info = bean.GetMBeanInfo();
+			TestPermissions(info.ClassName, null, name, MBeanPermissionAction.IsInstanceOf);			
+			return info.ClassName == className;			
+		}
+		public bool IsRegistered(ObjectName name)
+		{
+			return _beans.ContainsKey(name);
+		}
+		public void UnregisterMBean(ObjectName name)
+		{
+			IDynamicMBean bean = GetMBean(name);
+			MBeanInfo info = bean.GetMBeanInfo();
 
-            TestPermissions(bean.GetMBeanInfo().ClassName, null, name, MBeanPermissionAction.AddNotificationListener);            
+			TestPermissions(info.ClassName, null, name, MBeanPermissionAction.UnregisterMBean);			
 
-            emitter.AddNotificationListener(callback, filterCallback, handback);
-        }
-
-        public void RemoveNotificationListener(ObjectName name, NotificationCallback callback, NotificationFilterCallback filterCallback, object handback)
-        {
-            IDynamicMBean bean;
-            INotficationEmitter emitter = GetEmitterMBean(name, out bean);
-
-            TestPermissions(bean.GetMBeanInfo().ClassName, null, name, MBeanPermissionAction.RemoveNotificationListener);            
-
-            emitter.RemoveNotificationListener(callback, filterCallback, handback);
-        }
-
-        public void RemoveNotificationListener(ObjectName name, NotificationCallback callback)
-        {
-            IDynamicMBean bean;
-            INotficationEmitter emitter = GetEmitterMBean(name, out bean);
-
-            TestPermissions(bean.GetMBeanInfo().ClassName, null, name, MBeanPermissionAction.RemoveNotificationListener);
-
-            emitter.RemoveNotificationListener(callback);
-        }
-
-        #endregion
-    }
+			IMBeanRegistration registration = new MBeanRegistrationHelper(bean as IMBeanRegistration);
+			registration.PreDeregister();
+			_beans.Remove(name);
+			registration.PostDeregister();
+		}
+		#endregion
+	}
 }

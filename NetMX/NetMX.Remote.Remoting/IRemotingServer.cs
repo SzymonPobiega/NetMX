@@ -5,7 +5,7 @@ using System.Text;
 namespace NetMX.Remote.Remoting
 {
 	public interface IRemotingServer
-	{
-		IRemotingConnection NewClient(object credentials);
+	{		
+		IRemotingConnection NewClient(object credentials, out object token);
 	}
 }

@@ -42,6 +42,7 @@
     <Compile Include="IRemotingConnection.cs" />
     <Compile Include="IRemotingServer.cs" />
     <Compile Include="RemotingConnectionImpl.cs" />
+    <Compile Include="RemotingConnectionImplConfig.cs" />
     <Compile Include="RemotingMBeanServerConnection.cs" />
     <Compile Include="RemotingServerImpl.cs" />
     <Compile Include="RemotingServerProvider.cs" />

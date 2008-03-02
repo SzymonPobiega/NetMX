@@ -24,7 +24,10 @@ namespace RemotingDemo
 
 				using (INetMXConnector connector = NetMXConnectorFactory.Connect(serviceUrl, null))
 				{
-					IMBeanServerConnection remoteServer = connector.MBeanServerConnection;                    
+					IMBeanServerConnection remoteServer = connector.MBeanServerConnection;
+
+					remoteServer.AddNotificationListener(name, CounterChanged, null, null);
+
 					object counter = remoteServer.GetAttribute(name, "Counter");
 
 					Console.WriteLine("Counter value is {0}", counter);
@@ -47,6 +50,10 @@ namespace RemotingDemo
 					Console.ReadKey();
 				}
 			}			
+		}
+		static void CounterChanged(Notification notification, object handback)
+		{
+			Console.WriteLine("Counter changed! New value is {0}", notification.UserData);
 		}
 	}
 }

@@ -10,22 +10,30 @@ namespace NetMX.Remote.Remoting
 	public sealed class RemotingServerProvider : NetMXConnectorServerProvider
 	{
 		#region MEMBERS
-        private string _securityProvider;
+		private RemotingConnectionImplConfig _connectionConfig;
 		#endregion
-		
-		#region OVERRIDDEN		
-        public override void Initialize(string name, System.Collections.Specialized.NameValueCollection config)
-        {
-            base.Initialize(name, config);
-            _securityProvider = config["securityProvider"];
-            if (string.IsNullOrEmpty(_securityProvider))
-            {
-                throw new ProviderException("Security provider is not specified.");
-            }
-        }
-		public override INetMXConnectorServer NewNetMXConnectorServer(Uri serviceUrl, IMBeanServer server)
+
+		#region OVERRIDDEN
+		public override void Initialize(string name, System.Collections.Specialized.NameValueCollection config)
 		{
-			return new RemotingConnectorServer(serviceUrl, server, _securityProvider);
+			base.Initialize(name, config);
+			_connectionConfig = new RemotingConnectionImplConfig();			
+			if (!string.IsNullOrEmpty(config["securityProvider"]))
+			{
+				_connectionConfig.SecurityProvider = config["securityProvider"];				
+			}
+			else
+			{
+				throw new ProviderException("Security provider is not specified.");
+			}
+			if (!string.IsNullOrEmpty(config["notificationBufferSize"]))
+			{
+				_connectionConfig.BufferSize = int.Parse(config["notificationBufferSize"]);
+			}
+		}
+		public override INetMXConnectorServer NewNetMXConnectorServer(Uri serviceUrl, IMBeanServer server)
+		{			
+			return new RemotingConnectorServer(serviceUrl, server, _connectionConfig);
 		}
 		#endregion
 	}

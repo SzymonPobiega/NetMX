@@ -14,13 +14,13 @@ namespace NetMX.Remote
     {
         private static readonly NetMXSecurityService _instance = new NetMXSecurityService();
 
-        public static object Authenticate(string provider, object credentials)
+        public static void Authenticate(string provider, object credentials, out object subject, out object token)
         {
-            return _instance[provider].Authenticate(credentials);
+            _instance[provider].Authenticate(credentials, out subject, out token);
         }
-        public static INetMXPrincipal Authorize(string provider, object subject)
+        public static INetMXPrincipal Authorize(string provider, object subject, object token)
         {
-            return _instance[provider].Authorize(subject);
+            return _instance[provider].Authorize(subject, token);
         }        
     }
 }

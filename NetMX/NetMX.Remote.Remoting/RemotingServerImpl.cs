@@ -11,21 +11,21 @@ namespace NetMX.Remote.Remoting
 	{
 		#region MEMBERS
 		private IMBeanServer _server;
-        private string _securityProvider;
+		private RemotingConnectionImplConfig _connectionConfig;		
 		#endregion
 
 		#region PROPERTIES
 		#endregion
 
 		#region CONSTRUCTOR
-		public RemotingServerImpl(IMBeanServer server, string securityProvider)
+		public RemotingServerImpl(IMBeanServer server, RemotingConnectionImplConfig connectionConfig)
 		{
 			_server = server;
-            _securityProvider = securityProvider;
+			_connectionConfig = connectionConfig;
 		}
 		#endregion
 
-		#region OVERRIDDEN		
+		#region OVERRIDDEN
 		public override object InitializeLifetimeService()
 		{
 			return null;
@@ -33,10 +33,11 @@ namespace NetMX.Remote.Remoting
 		#endregion
 
 		#region IRemotingServer Members
-		public IRemotingConnection NewClient(object credentials)
+		public IRemotingConnection NewClient(object credentials, out object token)
 		{
-            object subject = NetMXSecurityService.Authenticate(_securityProvider, credentials);
-			RemotingConnectionImpl connection = new RemotingConnectionImpl(_server, subject, _securityProvider);			
+			object subject;
+			NetMXSecurityService.Authenticate(_connectionConfig.SecurityProvider, credentials, out subject, out token);
+			RemotingConnectionImpl connection = new RemotingConnectionImpl(_server, subject, _connectionConfig);
 			return connection;
 		}
 		#endregion

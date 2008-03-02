@@ -10,7 +10,7 @@ namespace NetMX.Remote
 {
     public abstract class NetMXSecurityProvider : ProviderBase
     {
-        public abstract object Authenticate(object credentials);
-        public abstract INetMXPrincipal Authorize(object subject);
+        public abstract void Authenticate(object credentials, out object subject, out object token);
+        public abstract INetMXPrincipal Authorize(object subject, object token);
     }
 }

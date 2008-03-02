@@ -38,9 +38,10 @@ namespace NetMX.Remote.Remoting
 
 		public void Connect(object credentials)
 		{
+			object token;
 			IRemotingServer server = (IRemotingServer)Activator.GetObject(typeof(IRemotingServer), _serviceUrl.ToString());
-			_connection = server.NewClient(credentials);
-			_serverConnection = new RemotingMBeanServerConnection(_connection);
+			_connection = server.NewClient(credentials, out token);
+			_serverConnection = new RemotingMBeanServerConnection(_connection, token);
 		}
 
 		public string ConnectionId

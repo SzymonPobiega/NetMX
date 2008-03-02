@@ -10,49 +10,87 @@ namespace NetMX.Remote.Remoting
 	{
 		#region MEMBERS
 		private IRemotingConnection _connection;
-		#endregion		
+		private object _token;
+		private Dictionary<NotificationSubscription, int> _listenerProxys = new Dictionary<NotificationSubscription, int>();
+		#endregion
 
 		#region CONSTRUCTOR
-		public RemotingMBeanServerConnection(IRemotingConnection connection)
+		public RemotingMBeanServerConnection(IRemotingConnection connection, object token)
 		{
 			_connection = connection;
+			_token = token;
 		}
 		#endregion
 
 		#region IMBeanServerConnection Members
 		public object Invoke(ObjectName name, string operationName, object[] arguments)
 		{
-			return _connection.Invoke(name, operationName, arguments);
+			return _connection.Invoke(_token, name, operationName, arguments);
 		}
 
 		public void SetAttribute(ObjectName name, string attributeName, object value)
 		{
-			_connection.SetAttribute(name, attributeName, value);
+			_connection.SetAttribute(_token, name, attributeName, value);
 		}
-
 		public object GetAttribute(ObjectName name, string attributeName)
 		{
-			return _connection.GetAttribute(name, attributeName);
+			return _connection.GetAttribute(_token, name, attributeName);
 		}
-
 		public MBeanInfo GetMBeanInfo(ObjectName name)
 		{
-			return _connection.GetMBeanInfo(name);
+			return _connection.GetMBeanInfo(_token, name);
+		}
+		public void AddNotificationListener(ObjectName name, NotificationCallback callback, NotificationFilterCallback filterCallback, object handback)
+		{			
+			int listenerId = _connection.AddNotificationListener(_token, name, filterCallback);
+			NotificationSubscription subscr = new NotificationSubscription(callback, filterCallback, handback);
+			_listenerProxys[subscr] = listenerId;
+		}
+		public void RemoveNotificationListener(ObjectName name, NotificationCallback callback, NotificationFilterCallback filterCallback, object handback)
+		{
+			int listenerId;
+			if (_listenerProxys.TryGetValue(new NotificationSubscription(callback, filterCallback, handback), out listenerId))
+			{
+				_connection.RemoveNotificationListener(_token, name, listenerId);
+			}
+			else
+			{
+				throw new ListenerNotFoundException(name.ToString());
+			}
+		}
+		public void RemoveNotificationListener(ObjectName name, NotificationCallback callback)
+		{
+			throw new Exception("The method or operation is not implemented.");
 		}		
-        public void AddNotificationListener(ObjectName name, NotificationCallback callback, NotificationFilterCallback filterCallback, object handback)
-        {
-            throw new Exception("The method or operation is not implemented.");
-        }
+		public bool IsInstanceOf(ObjectName name, string className)
+		{
+			return _connection.IsInstanceOf(_token, name, className);
+		}
+		public bool IsRegistered(ObjectName name)
+		{
+			return _connection.IsRegistered(_token, name);
+		}
+		public void UnregisterMBean(ObjectName name)
+		{
+			_connection.unregisterMBean(_token, name);
+		}
+		#endregion
 
-        public void RemoveNotificationListener(ObjectName name, NotificationCallback callback, NotificationFilterCallback filterCallback, object handback)
-        {
-            throw new Exception("The method or operation is not implemented.");
-        }
+		#region Listener proxy
+		private class ClientListenerProxy
+		{
+			private int _listenerId;
+			private object _handback;
+			private NotificationCallback _callback;
 
-        public void RemoveNotificationListener(ObjectName name, NotificationCallback callback)
-        {
-            throw new Exception("The method or operation is not implemented.");
-        }
-        #endregion
-    }
+			public ClientListenerProxy(int listenerId, NotificationCallback callback, object handback)
+			{
+				_listenerId = listenerId;
+				_callback = callback;
+				_handback = handback;
+			}
+
+		}
+		#endregion
+	}
 }

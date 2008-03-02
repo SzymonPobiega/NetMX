@@ -12,7 +12,7 @@ namespace SimpleConsoleDemo
 	{
 		#region MEMBERS
 		private int _counter;
-        private long _sequenceNumber = 0;
+		private long _sequenceNumber = 0;
 		#endregion
 
 		#region SampleMBean Members
@@ -25,42 +25,42 @@ namespace SimpleConsoleDemo
 			set
 			{
 				_counter = value;
-                OnCounterChanged();
+				OnCounterChanged();
 			}
 		}
 		public void ResetCounter()
 		{
 			_counter = 0;
-            OnCounterChanged();
+			OnCounterChanged();
 		}
 		public void AddAmount(int amount)
 		{
 			_counter += amount;
-            OnCounterChanged();
+			OnCounterChanged();
 		}
-        public event EventHandler<Notification> CounterChanged;
-        #endregion
+		public event EventHandler<Notification> CounterChanged;
+		#endregion
 
-        private void OnCounterChanged()
-        {            
-            if (CounterChanged != null)
-            {
-                CounterChanged(this, new Notification("sample.counter", this, _sequenceNumber, "Counter changed", _counter));
-                _sequenceNumber++;
-            }
-        }
-    }
+		private void OnCounterChanged()
+		{
+			if (CounterChanged != null)
+			{
+				CounterChanged(this, new Notification("sample.counter", this, _sequenceNumber, "Counter changed", _counter));
+				_sequenceNumber++;
+			}
+		}
+	}
 
 	public interface SampleMBean
 	{
-        [Description("Counter value")]
+		[Description("Counter value")]
 		int Counter { get; set; }
-        [Description("Sets counter value to 0")]
+		[Description("Sets counter value to 0")]
 		void ResetCounter();
-        [Description("Adds specified value to value of the counter")]
-		void AddAmount(int amount);        
-        [Description("Raised when counter value gets changed")]
-        [MBeanNotification("sample.counter")]
-        event EventHandler<Notification> CounterChanged;
+		[Description("Adds specified value to value of the counter")]
+		void AddAmount(int amount);
+		[Description("Raised when counter value gets changed")]
+		[MBeanNotification("sample.counter")]
+		event EventHandler<Notification> CounterChanged;
 	}
 }

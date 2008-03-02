@@ -63,7 +63,7 @@
     <Compile Include="Info\MBeanNotificationAttribute.cs" />
     <Compile Include="Info\MBeanParameterInfo.cs" />
     <Compile Include="Info\MBeanOperationInfo.cs" />
-    <Compile Include="Info\NotificationInfo.cs" />
+    <Compile Include="Info\MBeanNotificationInfo.cs" />
     <Compile Include="INotficationEmitter.cs" />
     <Compile Include="MBeanCASPermission.cs" />
     <Compile Include="MBeanCASPermissionAttribute.cs" />
@@ -76,6 +76,7 @@
     <Compile Include="NetMXWindowsPrincipal.cs" />
     <Compile Include="Notification.cs" />
     <Compile Include="NotificationEmitterSupport.cs" />
+    <Compile Include="NotificationSubscription.cs" />
     <Compile Include="ObjectName.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StandardMBean.cs" />
