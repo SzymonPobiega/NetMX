@@ -224,10 +224,10 @@ namespace NetMX.Tests
         public void KeyPropertyTest()
         {            
             ObjectName target = new ObjectName("domain:a=1,b=2,c=3");
-            Assert.AreEqual("1", target.KeyProperty["a"]);
-            Assert.AreEqual("2", target.KeyProperty["b"]);
-            Assert.AreEqual("3", target.KeyProperty["c"]);
-            Assert.AreEqual(null, target.KeyProperty["d"]);            
+            Assert.AreEqual("1", target.GetKeyProperty("a"));
+				Assert.AreEqual("2", target.GetKeyProperty("b"));
+				Assert.AreEqual("3", target.GetKeyProperty("c"));
+				Assert.AreEqual(null, target.GetKeyProperty("d"));            
         }
 
         /// <summary>

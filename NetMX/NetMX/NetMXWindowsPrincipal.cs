@@ -10,10 +10,10 @@ namespace NetMX
     {
         private ReadOnlyCollection<MBeanPermission> _permissions;
 
-        public NetMXWindowsPrincipal(List<MBeanPermission> permissions, WindowsIdentity identity)
+		 public NetMXWindowsPrincipal(ReadOnlyCollection<MBeanPermission> permissions, WindowsIdentity identity)
             : base(identity)
         {
-            _permissions = permissions.AsReadOnly();
+			  _permissions = permissions;
         }
 
         #region INetMXPrincipal Members

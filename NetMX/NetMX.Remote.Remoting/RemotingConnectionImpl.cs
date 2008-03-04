@@ -75,6 +75,13 @@ namespace NetMX.Remote.Remoting
 				return _server.GetAttribute(name, attributeName);
 			}
 		}
+		public IList<AttributeValue> GetAttributes(object token, ObjectName name, string[] attributeNames)
+		{
+			using (TemporarySecurityContext tsc = new TemporarySecurityContext(Authorize(token)))
+			{
+				return _server.GetAttributes(name, attributeNames);
+			}
+		}
 		public MBeanInfo GetMBeanInfo(object token, ObjectName name)
 		{
 			using (TemporarySecurityContext tsc = new TemporarySecurityContext(Authorize(token)))
@@ -181,6 +188,6 @@ namespace NetMX.Remote.Remoting
 				return _callback(notification);
 			}
 		}
-		#endregion
+		#endregion		
 	}
 }

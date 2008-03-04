@@ -24,6 +24,7 @@
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>
     </DocumentationFile>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -41,11 +42,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AttributeValue.cs" />
     <Compile Include="Exceptions\ListenerNotFoundException.cs" />
     <Compile Include="Exceptions\MBeanRegistrationException.cs" />
     <Compile Include="Exceptions\InstanceAlreadyExistsException.cs" />
     <Compile Include="Exceptions\MalformedObjectNameException.cs" />
     <Compile Include="Exceptions\OperationsException.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="IMBeanServerConnection.cs" />
     <Compile Include="Exceptions\AttributeNotFoundException.cs" />
     <Compile Include="Exceptions\OperationNotFoundException.cs" />
@@ -65,6 +68,7 @@
     <Compile Include="Info\MBeanOperationInfo.cs" />
     <Compile Include="Info\MBeanNotificationInfo.cs" />
     <Compile Include="INotficationEmitter.cs" />
+    <Compile Include="InternalInfo\MBeanInternalInfo.cs" />
     <Compile Include="MBeanCASPermission.cs" />
     <Compile Include="MBeanCASPermissionAttribute.cs" />
     <Compile Include="MBeanPermission.cs" />

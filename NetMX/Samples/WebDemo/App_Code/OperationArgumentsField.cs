@@ -8,6 +8,7 @@ using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
 using NetMX;
+using System.Collections.ObjectModel;
 
 namespace Controls
 {
@@ -22,9 +23,9 @@ namespace Controls
 
 		protected override void OnDataBindField(object sender, EventArgs e)
 		{
-			PlaceHolder control = (PlaceHolder)sender;			
-			MBeanParameterInfo[] signature = (MBeanParameterInfo[])this.GetValue(control.NamingContainer);			
-			for (int i = 0; i < signature.Length; i++)
+			PlaceHolder control = (PlaceHolder)sender;
+			ReadOnlyCollection<MBeanParameterInfo> signature = (ReadOnlyCollection<MBeanParameterInfo>)this.GetValue(control.NamingContainer);			
+			for (int i = 0; i < signature.Count; i++)
 			{
 				MBeanParameterInfo info = signature[i];				
 				control.Controls.Add(new LiteralControl(info.Name+"&nbsp;"));
@@ -35,7 +36,7 @@ namespace Controls
 				TextBox valueBox = new TextBox();
 				valueBox.ID = info.Name;
 				control.Controls.Add(valueBox);
-				if (i < signature.Length - 1)
+				if (i < signature.Count - 1)
 				{
 					control.Controls.Add(new LiteralControl("&nbsp;"));
 				}

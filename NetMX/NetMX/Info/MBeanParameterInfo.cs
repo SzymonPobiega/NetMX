@@ -29,11 +29,11 @@ namespace NetMX
 		{
 			_type = type;
 		}
-        public MBeanParameterInfo(ParameterInfo paramInfo)
-            : base(paramInfo.Name, InfoUtils.GetDescrition(paramInfo, "MBean operation parameter"))
-        {
-            _type = paramInfo.ParameterType.AssemblyQualifiedName;            
-        }
+		public MBeanParameterInfo(ParameterInfo paramInfo)
+			: base(paramInfo.Name, InfoUtils.GetDescrition(paramInfo, "MBean operation parameter"))
+		{
+			_type = paramInfo.ParameterType.AssemblyQualifiedName;
+		}
 		#endregion
 	}
 }

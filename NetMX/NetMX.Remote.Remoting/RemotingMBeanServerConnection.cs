@@ -36,6 +36,10 @@ namespace NetMX.Remote.Remoting
 		{
 			return _connection.GetAttribute(_token, name, attributeName);
 		}
+		public IList<AttributeValue> GetAttributes(ObjectName name, string[] attributeNames)
+		{
+			return _connection.GetAttributes(_token, name, attributeNames);
+		}
 		public MBeanInfo GetMBeanInfo(ObjectName name)
 		{
 			return _connection.GetMBeanInfo(_token, name);
@@ -91,6 +95,6 @@ namespace NetMX.Remote.Remoting
 			}
 
 		}
-		#endregion
+		#endregion		
 	}
 }

@@ -31,7 +31,7 @@ namespace NetMX.Remote.Remoting.Security
 					permList.AddRange(_permissionMap[role]);
 				}
 			}
-			return new NetMXWindowsPrincipal(permList, (WindowsIdentity)Thread.CurrentPrincipal.Identity);
+			return new NetMXWindowsPrincipal(permList.AsReadOnly(), (WindowsIdentity)Thread.CurrentPrincipal.Identity);
 		}
 		public override void Initialize(string name, System.Collections.Specialized.NameValueCollection config)
 		{

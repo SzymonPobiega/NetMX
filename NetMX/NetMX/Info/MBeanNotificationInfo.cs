@@ -25,10 +25,10 @@ namespace NetMX
 		/// the MBean may emit.</param>
 		/// <param name="name">The fully qualified Java class name of the described notifications.</param>
 		/// <param name="description">A human readable description of the data.</param>
-		public MBeanNotificationInfo(List<string> notifTypes, string name, string description)
+		public MBeanNotificationInfo(string[] notifTypes, string name, string description)
 			: base(name, description)
 		{
-			_notifTypes = notifTypes.AsReadOnly();
+			_notifTypes = Array.AsReadOnly<string>(notifTypes);
 		}
 		/// <summary>
 		/// Constructs <see cref="NetMX.MBeanNotificationInfo"/> object.

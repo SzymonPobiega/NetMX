@@ -12,6 +12,7 @@ namespace NetMX.Remote.Remoting
 		object Invoke(object token, ObjectName name, string operationName, object[] arguments);
 		void SetAttribute(object token, ObjectName name, string attributeName, object value);
 		object GetAttribute(object token, ObjectName name, string attributeName);
+		IList<AttributeValue> GetAttributes(object token, ObjectName name, string[] attributeNames);
 		MBeanInfo GetMBeanInfo(object token, ObjectName name);
 
 		bool IsInstanceOf(object token, ObjectName name, string className);

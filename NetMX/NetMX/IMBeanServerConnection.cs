@@ -47,12 +47,22 @@ namespace NetMX
 		/// <param name="value"></param>
 		void SetAttribute(ObjectName name, string attributeName, object value);
 		/// <summary>
-		/// 
+		/// Gets the value of a specific attribute of a named MBean. The MBean is identified by its object name.
 		/// </summary>
-		/// <param name="name"></param>
-		/// <param name="attributeName"></param>
-		/// <returns></returns>
+		/// <param name="name">The object name of the MBean from which the attribute is to be retrieved.</param>
+		/// <param name="attributeName">A String specifying the name of the attribute to be retrieved.</param>
+		/// <returns>The value of the retrieved attribute.</returns>
 		object GetAttribute(ObjectName name, string attributeName);
+		/// <summary>
+		/// Enables the values of several attributes of a named MBean. The MBean is identified by its object name.
+		/// If attribute cannot be found in MBean, it is not added on returned list. No exception is thrown in this
+		/// case.
+		/// </summary>
+		/// <param name="name">The object name of the MBean from which the attributes are retrieved.</param>
+		/// <param name="attributeNames">A list of the attributes to be retrieved.</param>
+		/// <returns>The list of the retrieved attributes.</returns>
+		/// <exception cref="NetMX.InstanceNotFoundException">The MBean specified is not registered in the MBean server.</exception>
+		IList<AttributeValue> GetAttributes(ObjectName name, string[] attributeNames);
 		/// <summary>
 		/// 
 		/// </summary>

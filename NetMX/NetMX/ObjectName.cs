@@ -30,7 +30,6 @@ namespace NetMX
 		private string _originalPropertyList;
 		private string _canonicalPropertyList;
 		private Dictionary<string, string> _properties;
-		private IKeyProertyCollection _propertyCollection;
 		#endregion
 
 		#region PROPERTIES
@@ -58,7 +57,7 @@ namespace NetMX
 		/// </remarks>
 		public string CanonicalName
 		{
-			get { return string.Format("{0}:{1}", _domain, _canonicalPropertyList); }
+			get { return string.Format(CultureInfo.InvariantCulture, "{0}:{1}", _domain, _canonicalPropertyList); }
 		}
 		/// <summary>
 		/// Returns a string representation of the list of key properties, in which the key properties are 
@@ -78,14 +77,7 @@ namespace NetMX
 		public string KeyProperyListString
 		{
 			get { return _originalPropertyList; }
-		}
-		/// <summary>
-		/// Obtains the value associated with a key in a key property.
-		/// </summary>
-		public IKeyProertyCollection KeyProperty
-		{
-			get { return _propertyCollection; }
-		}
+		}		
 		/// <summary>
 		/// Checks whether the object name is a pattern on the key properties. 
 		/// </summary>
@@ -120,8 +112,7 @@ namespace NetMX
 		public ObjectName(string name)
 		{
 			ParseName(name, out _domain, out _originalPropertyList, out _isPropertyPattern, out _properties);
-			SetDomainPattern();
-			_propertyCollection = new KeyPropertyCollection(_properties);
+			SetDomainPattern();			
 			CreateCanonicalPropertyList();
 		}
 		/// <summary>
@@ -143,8 +134,7 @@ namespace NetMX
 			{
 				_properties.Remove("*");
 				_isPropertyPattern = true;
-			}
-			_propertyCollection = new KeyPropertyCollection(_properties);
+			}			
 			CreateCanonicalPropertyList();
 			_originalPropertyList = _canonicalPropertyList;
 		}
@@ -153,7 +143,7 @@ namespace NetMX
 		/// </summary>
 		/// <param name="info"></param>
 		/// <param name="context"></param>
-		protected ObjectName(SerializationInfo info, StreamingContext context)
+		private ObjectName(SerializationInfo info, StreamingContext context)
 			: this(string.Format(CultureInfo.InvariantCulture, "{0}:{1}", info.GetString("domain"), info.GetString("properties")))
 		{
 		}
@@ -247,7 +237,7 @@ namespace NetMX
 		/// <returns>a string representation of this object name.</returns>
 		public override string ToString()
 		{
-			return string.Format("{0}:{1}", _domain, _originalPropertyList);
+			return string.Format(CultureInfo.InvariantCulture, "{0}:{1}", _domain, _originalPropertyList);
 		}
 		/// <summary>
 		/// Compares the current object name with another object name. Two ObjectName instances are equal 
@@ -277,6 +267,15 @@ namespace NetMX
 		#endregion
 
 		#region INTERFACE
+		public string GetKeyProperty(string key)
+		{
+			string value;
+			if (_properties.TryGetValue(key, out value))
+			{
+				return value;
+			}
+			return null;
+		}
 		/// <summary>
 		/// Test whether this ObjectName, which may be a pattern, matches another ObjectName. If name is a 
 		/// pattern, the result is false. If this ObjectName is a pattern, the result is true if and only if 
@@ -305,46 +304,9 @@ namespace NetMX
 			}
 		}
 		#endregion
-
-		#region UTILITY CLASS
-		/// <summary>
-		/// Provides access to key properties.
-		/// </summary>
-		public interface IKeyProertyCollection
-		{
-			/// <summary>
-			/// Obtains the value associated with a key in a key property.
-			/// </summary>
-			/// <param name="key">key</param>
-			/// <returns></returns>
-			string this[string key] { get; }
-		}
-		private class KeyPropertyCollection : IKeyProertyCollection
-		{
-			private Dictionary<string, string> _internalDictionary;
-			public KeyPropertyCollection(Dictionary<string, string> internalDictionary)
-			{
-				_internalDictionary = internalDictionary;
-			}
-
-			#region IKeyProertyCollection Members
-			public string this[string key]
-			{
-				get
-				{
-					string value;
-					if (_internalDictionary.TryGetValue(key, out value))
-					{
-						return value;
-					}
-					return null;
-				}
-			}
-			#endregion
-		}
-		#endregion
-
+		
 		#region ISerializable Members
+		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods"), System.Security.Permissions.SecurityPermission(System.Security.Permissions.SecurityAction.LinkDemand, Flags = System.Security.Permissions.SecurityPermissionFlag.SerializationFormatter)]
 		public void GetObjectData(SerializationInfo info, StreamingContext context)
 		{
 			info.AddValue("domain", _domain);

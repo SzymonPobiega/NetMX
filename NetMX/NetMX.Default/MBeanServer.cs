@@ -86,8 +86,15 @@ namespace NetMX.Default
 		public object Invoke(ObjectName name, string operationName, object[] arguments)
 		{
 			IDynamicMBean bean = GetMBean(name);
-			TestPermissions(bean.GetMBeanInfo().ClassName, operationName, name, MBeanPermissionAction.Invoke);			
-			return bean.Invoke(operationName, arguments);
+			TestPermissions(bean.GetMBeanInfo().ClassName, operationName, name, MBeanPermissionAction.Invoke);
+			try
+			{				
+				return bean.Invoke(operationName, arguments);
+			}
+			catch (Exception e)
+			{
+				throw new MBeanException("Exception during 'invoke' operation.", e);
+			}
 		}
 
 		public void SetAttribute(ObjectName name, string attributeName, object value)
@@ -102,6 +109,25 @@ namespace NetMX.Default
 			IDynamicMBean bean = GetMBean(name);
 			TestPermissions(bean.GetMBeanInfo().ClassName, attributeName, name, MBeanPermissionAction.GetAttribute);	
 			return bean.GetAttribute(attributeName);
+		}
+
+		public IList<AttributeValue> GetAttributes(ObjectName name, string[] attributeNames)
+		{
+			IDynamicMBean bean = GetMBean(name);
+			string className = bean.GetMBeanInfo().ClassName;
+			List<AttributeValue> results = new List<AttributeValue>();
+			foreach (string attributeName in attributeNames)
+			{
+				TestPermissions(className, attributeName, name, MBeanPermissionAction.GetAttribute);
+				try
+				{
+					results.Add(new AttributeValue(attributeName, bean.GetAttribute(attributeName)));
+				}
+				catch (AttributeNotFoundException)
+				{
+				}
+			}
+			return results;
 		}
 
 		public MBeanInfo GetMBeanInfo(ObjectName name)

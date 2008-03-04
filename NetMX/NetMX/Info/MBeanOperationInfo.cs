@@ -3,11 +3,12 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Reflection;
+using System.Collections.ObjectModel;
 #endregion
 
 namespace NetMX
-{	
-	[Flags]
+{
+	[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1008:EnumsShouldHaveZeroValue"), Flags]
 	public enum OperationImpact
 	{
 		Unknown = 0,
@@ -17,7 +18,7 @@ namespace NetMX
 
 	[Serializable]
 	public class MBeanOperationInfo : MBeanFeatureInfo
-	{		
+	{
 		#region MEMBERS
 		#endregion
 
@@ -28,9 +29,9 @@ namespace NetMX
 		{
 			get { return _returnType; }
 		}
-		private MBeanParameterInfo[] _signature;
+		private ReadOnlyCollection<MBeanParameterInfo> _signature;
 
-		public MBeanParameterInfo[] Signature
+		public IList<MBeanParameterInfo> Signature
 		{
 			get { return _signature; }
 		}
@@ -47,20 +48,21 @@ namespace NetMX
 			: base(name, description)
 		{
 			_returnType = returnType;
-			_signature = signature;
+			_signature = Array.AsReadOnly<MBeanParameterInfo>(signature);
 			_impact = impact;
 		}
-		public MBeanOperationInfo(MethodInfo info, OperationImpact impact) 
-            : base (info.Name, InfoUtils.GetDescrition(info, "MBean operation"))
+		public MBeanOperationInfo(MethodInfo info, OperationImpact impact)
+			: base(info.Name, InfoUtils.GetDescrition(info, "MBean operation"))
 		{
 			_returnType = info.ReturnType != null ? info.ReturnType.AssemblyQualifiedName : null;
 			_impact = impact;
 			ParameterInfo[] paramInfos = info.GetParameters();
-			_signature = new MBeanParameterInfo[paramInfos.Length];
+			List<MBeanParameterInfo> tmp = new List<MBeanParameterInfo>();			
 			for (int i = 0; i < paramInfos.Length; i++)
 			{
-                _signature[i] = new MBeanParameterInfo(paramInfos[i]);
+				tmp.Add(new MBeanParameterInfo(paramInfos[i]));
 			}
+			_signature = tmp.AsReadOnly();
 		}
 		#endregion
 	}
