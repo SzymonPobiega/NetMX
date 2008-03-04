@@ -37,6 +37,18 @@ namespace NetMX
 		#region CONSTRUCTOR
 		public MBeanAttributeInfo(string name, string description, string type, bool isReadable, bool isWritable) : base(name, description)
 		{
+			if (name == null)
+			{
+				throw new ArgumentNullException("name");
+			}
+			if (description == null)
+			{
+				throw new ArgumentNullException("description");
+			}
+			if (type == null)
+			{
+				throw new ArgumentNullException("type");
+			}			
 			_type = type;
 			_isReadable = isReadable;
 			_isWritable = isWritable;

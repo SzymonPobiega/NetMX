@@ -12,7 +12,6 @@ namespace SimpleConsoleDemo
 	{
 		#region MEMBERS
 		private int _counter;
-		private long _sequenceNumber = 0;
 		#endregion
 
 		#region SampleMBean Members
@@ -38,15 +37,14 @@ namespace SimpleConsoleDemo
 			_counter += amount;
 			OnCounterChanged();
 		}
-		public event EventHandler<Notification> CounterChanged;
+		public event EventHandler<NotificationEventArgs> CounterChanged;
 		#endregion
 
 		private void OnCounterChanged()
 		{
 			if (CounterChanged != null)
 			{
-				CounterChanged(this, new Notification("sample.counter", this, _sequenceNumber, "Counter changed", _counter));
-				_sequenceNumber++;
+				CounterChanged(this, new NotificationEventArgs("Counter changed", _counter));
 			}
 		}
 	}
@@ -61,6 +59,6 @@ namespace SimpleConsoleDemo
 		void AddAmount(int amount);
 		[Description("Raised when counter value gets changed")]
 		[MBeanNotification("sample.counter")]
-		event EventHandler<Notification> CounterChanged;
+		event EventHandler<NotificationEventArgs> CounterChanged;
 	}
 }

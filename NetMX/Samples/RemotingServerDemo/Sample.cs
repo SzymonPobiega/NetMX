@@ -33,6 +33,7 @@ namespace RemotingServerDemo
 		public void ResetCounter()
 		{
 			_counter = 0;
+			//throw new ApplicationSpecificException();
 		}
 		public void AddAmount(int amount)
 		{
@@ -40,6 +41,9 @@ namespace RemotingServerDemo
 		}
 		#endregion
 	}
+	[Serializable]
+	public class ApplicationSpecificException : Exception
+	{ }
 
 	public interface SampleMBean
 	{

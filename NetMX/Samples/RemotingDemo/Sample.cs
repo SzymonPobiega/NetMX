@@ -38,14 +38,14 @@ namespace RemotingDemo
 			_counter += amount;
 			OnCounterChanged();
 		}
-		public event EventHandler<Notification> CounterChanged;
+		public event EventHandler<NotificationEventArgs> CounterChanged;
 		#endregion
 
 		private void OnCounterChanged()
 		{
 			if (CounterChanged != null)
 			{
-				CounterChanged(this, new Notification("sample.counter", this, _sequenceNumber, "Counter changed", _counter));
+				CounterChanged(this, new NotificationEventArgs("Counter changed", _counter));
 				_sequenceNumber++;
 			}
 		}
@@ -61,6 +61,6 @@ namespace RemotingDemo
 		void AddAmount(int amount);
 		[Description("Raised when counter value gets changed")]
 		[MBeanNotification("sample.counter")]
-		event EventHandler<Notification> CounterChanged;
+		event EventHandler<NotificationEventArgs> CounterChanged;
 	}
 }
