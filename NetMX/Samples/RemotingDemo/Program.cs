@@ -11,7 +11,7 @@ namespace RemotingDemo
 	{
 		static void Main(string[] args)
 		{
-            AppDomain.CurrentDomain.SetPrincipalPolicy(PrincipalPolicy.WindowsPrincipal);
+			AppDomain.CurrentDomain.SetPrincipalPolicy(PrincipalPolicy.WindowsPrincipal);
 			IMBeanServer server = MBeanServerFactory.CreateMBeanServer();
 			Sample o = new Sample();
 			ObjectName name = new ObjectName("Sample:");
@@ -49,7 +49,7 @@ namespace RemotingDemo
 
 					Console.ReadKey();
 				}
-			}			
+			}
 		}
 		static void CounterChanged(Notification notification, object handback)
 		{

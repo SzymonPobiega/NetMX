@@ -192,13 +192,19 @@ namespace NetMX.Remote.Remoting
 
 			public TemporarySecurityContext(IPrincipal temporary)
 			{
-				_normal = Thread.CurrentPrincipal;
-				Thread.CurrentPrincipal = temporary;
+				if (temporary != null)
+				{
+					_normal = Thread.CurrentPrincipal;
+					Thread.CurrentPrincipal = temporary;
+				}
 			}
 			
 			public void Dispose()
 			{
-				Thread.CurrentPrincipal = _normal;
+				if (_normal != null)
+				{
+					Thread.CurrentPrincipal = _normal;
+				}
 			}
 		}
 		#endregion
