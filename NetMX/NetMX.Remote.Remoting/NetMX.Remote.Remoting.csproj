@@ -39,6 +39,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Internal\NotificationFetcher.cs" />
+    <Compile Include="Internal\NotificationFetcherConfig.cs" />
     <Compile Include="IRemotingConnection.cs" />
     <Compile Include="IRemotingServer.cs" />
     <Compile Include="RemotingConnectionImpl.cs" />

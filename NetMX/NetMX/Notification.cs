@@ -4,6 +4,9 @@ using System.Text;
 
 namespace NetMX
 {	
+	/// <summary>
+	/// Represents a notification about an event. MBeans communicate with other MBeans using ntofications.
+	/// </summary>
 	[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix"), Serializable] //Naming convention from JMX
 	public class Notification : EventArgs, ICloneable
 	{
@@ -106,26 +109,5 @@ namespace NetMX
 			return this.MemberwiseClone();
 		}
 		#endregion
-	}
-
-	public class NotificationEventArgs : EventArgs
-	{
-		private string _message;
-
-		public string Message
-		{
-			get { return _message; }
-		}
-		private object _userData;
-
-		public object UserData
-		{
-			get { return _userData; }
-		}
-		public NotificationEventArgs(string message, object userData)
-		{
-			_message = message;
-			_userData = userData;
-		}
-	}
+	}	
 }

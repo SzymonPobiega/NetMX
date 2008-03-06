@@ -16,8 +16,9 @@ namespace NetMX.Remote
 		#endregion
 
 		#region MEMBERS
-		private LinkedList<TargetedNotification> _notifications = new LinkedList<TargetedNotification>();
-		private int _maxSize = 0;		
+		private LinkedList<KeyValuePair<int, TargetedNotification>> _notifications = new LinkedList<KeyValuePair<int, TargetedNotification>>();
+		private int _maxSize = 0;
+		private int _sequenceNumber = 0;
 		#endregion
 
 		#region PROPERTIES
@@ -42,34 +43,32 @@ namespace NetMX.Remote
 		{
 			lock (_notifications)
 			{
+				_sequenceNumber++;
 				if (_notifications.Count == _maxSize)
 				{
 					_notifications.RemoveLast();
 				}
-				_notifications.AddFirst(notification);
+				_notifications.AddFirst(new KeyValuePair<int, TargetedNotification>(_sequenceNumber, notification));
 			}
 		}
-		public TargetedNotification[] GetLastNotifications(int maxCount)
+		public NotificationResult FetchNotifications(int nextSequenceNumber, int maxCount)
 		{
 			lock (_notifications)
 			{
-				if (maxCount > _maxSize)
+				int earliestSequenceNumber = 0;
+				if (_notifications.Count > 0)
 				{
-					TargetedNotification[] results = new TargetedNotification[_notifications.Count];
-					_notifications.CopyTo(results, 0);
-					_notifications.Clear();
-					return results;
-				}
-				else
+					earliestSequenceNumber = _notifications.First.Value.Key;
+				}							
+				int lastSequenceNumber = nextSequenceNumber;
+				List<TargetedNotification> results = new List<TargetedNotification>();
+				while (_notifications.Count > 0 && results.Count < maxCount)
 				{
-					List<TargetedNotification> results = new List<TargetedNotification>();
-					while (_notifications.Count > 0 && results.Count < maxCount)
-					{						
-						results.Add(_notifications.Last.Value);
-						_notifications.RemoveLast();
-					}
-					return results.ToArray();
+					lastSequenceNumber = _notifications.Last.Value.Key;
+					results.Add(_notifications.Last.Value.Value);
+					_notifications.RemoveLast();
 				}
+				return new NotificationResult(earliestSequenceNumber, lastSequenceNumber+1, results.ToArray());
 			}
 		}
 		#endregion

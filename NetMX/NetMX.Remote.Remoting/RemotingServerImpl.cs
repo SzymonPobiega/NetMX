@@ -11,7 +11,8 @@ namespace NetMX.Remote.Remoting
 	{
 		#region MEMBERS
 		private IMBeanServer _server;
-		private RemotingConnectionImplConfig _connectionConfig;		
+		private RemotingConnectionImplConfig _connectionConfig;
+		private Dictionary<string, RemotingConnectionImpl> _connections = new Dictionary<string, RemotingConnectionImpl>();
 		#endregion
 
 		#region PROPERTIES
@@ -32,13 +33,37 @@ namespace NetMX.Remote.Remoting
 		}
 		#endregion
 
+		#region INTERNAL INTERFACE
+		internal void UnregisterConnection(RemotingConnectionImpl connection)
+		{
+			lock (_connections)
+			{
+				_connections.Remove(connection.ConnectionId);
+			}
+		}
+		#endregion
+
 		#region IRemotingServer Members
 		public IRemotingConnection NewClient(object credentials, out object token)
 		{
 			object subject;
 			NetMXSecurityService.Authenticate(_connectionConfig.SecurityProvider, credentials, out subject, out token);
-			RemotingConnectionImpl connection = new RemotingConnectionImpl(_server, subject, _connectionConfig);
+			string connectionId = Guid.NewGuid().ToString();
+			RemotingConnectionImpl connection = new RemotingConnectionImpl(_server, this, connectionId, subject, _connectionConfig);
+			lock (_connections)
+			{
+				_connections.Add(connectionId, connection);
+			}
 			return connection;
+		}
+		public IRemotingConnection Reconnect(string connectionId)
+		{
+			RemotingConnectionImpl conn;
+			if (_connections.TryGetValue(connectionId, out conn))
+			{				
+				return conn;
+			}
+			throw new ArgumentException("connectionId");
 		}
 		#endregion
 	}

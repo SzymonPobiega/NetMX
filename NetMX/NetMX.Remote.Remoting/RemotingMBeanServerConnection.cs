@@ -12,6 +12,7 @@ namespace NetMX.Remote.Remoting
 		private IRemotingConnection _connection;
 		private object _token;
 		private Dictionary<NotificationSubscription, int> _listenerProxys = new Dictionary<NotificationSubscription, int>();
+		private Dictionary<int, NotificationSubscription> _reverseListenerProxys = new Dictionary<int, NotificationSubscription>();
 		#endregion
 
 		#region CONSTRUCTOR
@@ -21,6 +22,15 @@ namespace NetMX.Remote.Remoting
 			_token = token;
 		}
 		#endregion
+
+		public void Notify(TargetedNotification targetedNotification)
+		{
+			NotificationSubscription subsr;
+			if (_reverseListenerProxys.TryGetValue(targetedNotification.ListenerId, out subsr))
+			{
+				subsr.Callback(targetedNotification.Notification, subsr.Handback);
+			}
+		}
 
 		#region IMBeanServerConnection Members
 		public object Invoke(ObjectName name, string operationName, object[] arguments)
@@ -49,6 +59,7 @@ namespace NetMX.Remote.Remoting
 			int listenerId = _connection.AddNotificationListener(_token, name, filterCallback);
 			NotificationSubscription subscr = new NotificationSubscription(callback, filterCallback, handback);
 			_listenerProxys[subscr] = listenerId;
+			_reverseListenerProxys[listenerId] = subscr;
 		}
 		public void RemoveNotificationListener(ObjectName name, NotificationCallback callback, NotificationFilterCallback filterCallback, object handback)
 		{
@@ -56,6 +67,7 @@ namespace NetMX.Remote.Remoting
 			if (_listenerProxys.TryGetValue(new NotificationSubscription(callback, filterCallback, handback), out listenerId))
 			{
 				_connection.RemoveNotificationListener(_token, name, listenerId);
+				_reverseListenerProxys.Remove(listenerId);
 			}
 			else
 			{
@@ -77,23 +89,6 @@ namespace NetMX.Remote.Remoting
 		public void UnregisterMBean(ObjectName name)
 		{
 			_connection.unregisterMBean(_token, name);
-		}
-		#endregion
-
-		#region Listener proxy
-		private class ClientListenerProxy
-		{
-			private int _listenerId;
-			private object _handback;
-			private NotificationCallback _callback;
-
-			public ClientListenerProxy(int listenerId, NotificationCallback callback, object handback)
-			{
-				_listenerId = listenerId;
-				_callback = callback;
-				_handback = handback;
-			}
-
 		}
 		#endregion		
 	}

@@ -38,10 +38,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="InternalInfo\MBeanInternalAttributeInfo.cs" />
+    <Compile Include="InternalInfo\MBeanInternalInfo.cs" />
+    <Compile Include="InternalInfo\MBeanInternalNotificationInfo.cs" />
+    <Compile Include="InternalInfo\MBeanInternalOperationInfo.cs" />
     <Compile Include="MBeanRegistrationHelper.cs" />
     <Compile Include="MBeanServer.cs" />
     <Compile Include="MBeanServerBuilder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StandardMBean.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NetMX\NetMX.csproj">

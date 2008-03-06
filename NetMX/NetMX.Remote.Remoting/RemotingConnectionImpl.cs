@@ -10,10 +10,13 @@ using System.Security.Principal;
 
 namespace NetMX.Remote.Remoting
 {
-	internal sealed class RemotingConnectionImpl : MarshalByRefObject, IRemotingConnection
+	internal sealed class RemotingConnectionImpl : MarshalByRefObject, IRemotingConnection, IDisposable
 	{
 		#region MEMBERS
+		private bool _disposed;
 		private IMBeanServer _server;
+		private RemotingServerImpl _remotingServer;
+		private string _connectionId;
 		private object _subject;
 		private string _secutityProvider;
 		private int _currentListenerId;
@@ -25,9 +28,11 @@ namespace NetMX.Remote.Remoting
 		#endregion
 
 		#region CONSTRUCTOR
-		public RemotingConnectionImpl(IMBeanServer server, object subject, RemotingConnectionImplConfig config)
+		public RemotingConnectionImpl(IMBeanServer server, RemotingServerImpl remotingServer, string connectionId, object subject, RemotingConnectionImplConfig config)
 		{
 			_server = server;
+			_remotingServer = remotingServer;
+			_connectionId = connectionId;
 			_subject = subject;
 			_secutityProvider = config.SecurityProvider;
 			_buffer = new NotificationBuffer(config.BufferSize);
@@ -38,8 +43,8 @@ namespace NetMX.Remote.Remoting
 		#region Utility
 		private int GetNextListenerId()
 		{
-			return _currentListenerId;
 			_currentListenerId++;				
+			return _currentListenerId;			
 		}
 		private IPrincipal Authorize(object token)
 		{
@@ -92,13 +97,17 @@ namespace NetMX.Remote.Remoting
 		public void Close()
 		{
 			RemotingServices.Disconnect(this);
-		}		
+		}
+		public string ConnectionId
+		{
+			get { return _connectionId; }
+		}
 		public int AddNotificationListener(object token, ObjectName name, NotificationFilterCallback filterCallback)
 		{
 			using (TemporarySecurityContext tsc = new TemporarySecurityContext(Authorize(token)))
 			{
 				int listenerId = GetNextListenerId();
-				ListenerProxy proxy = new ListenerProxy(_buffer, listenerId, filterCallback);
+				ListenerProxy proxy = new ListenerProxy(name, _buffer, listenerId, filterCallback);
 				_listenerProxys.Add(listenerId, proxy);				
 				_server.AddNotificationListener(name, proxy.NotificationCallback, filterCallback, listenerId);
 				return listenerId;
@@ -140,6 +149,40 @@ namespace NetMX.Remote.Remoting
 				_server.UnregisterMBean(name);
 			}
 		}
+		public NotificationResult FetchNotifications(int startSequenceId, int maxCount)
+		{
+			return _buffer.FetchNotifications(startSequenceId, maxCount);
+		}
+		#endregion
+
+		#region IDisposable Members
+		private void Dispose(bool disposing)
+		{
+			if (!_disposed)
+			{
+				if (disposing)
+				{
+					Close();
+					_remotingServer.UnregisterConnection(this);
+					foreach (ListenerProxy proxy in _listenerProxys.Values)
+					{
+						if (proxy.HasFilterCallback)
+						{
+							_server.RemoveNotificationListener(proxy.Name, proxy.NotificationCallback, proxy.NotificationFilterCallback, proxy.ListenerId);
+						}
+						else
+						{
+							_server.RemoveNotificationListener(proxy.Name, proxy.NotificationCallback, null, proxy.ListenerId);
+						}
+					}					
+				}
+				_disposed = true;
+			}
+		}
+		public void Dispose()
+		{
+			Dispose(true);
+		}
 		#endregion
 
 		#region Security context
@@ -163,17 +206,27 @@ namespace NetMX.Remote.Remoting
 		#region Listener proxy
 		private class ListenerProxy
 		{
+			private ObjectName _name;			
 			private NotificationBuffer _buffer;
-			private int _listenerId;
+			private int _listenerId;			
 			private NotificationFilterCallback _callback;
 
 			public bool HasFilterCallback
 			{
 				get { return _callback != null; }
 			}
-
-			public ListenerProxy(NotificationBuffer buffer, int listenerId, NotificationFilterCallback filterCallback)
+			public ObjectName Name
 			{
+				get { return _name; }
+			}
+			public int ListenerId
+			{
+				get { return _listenerId; }
+			}
+
+			public ListenerProxy(ObjectName name, NotificationBuffer buffer, int listenerId, NotificationFilterCallback filterCallback)
+			{
+				_name = name;
 				_buffer = buffer;
 				_listenerId = listenerId;
 			}
@@ -188,6 +241,7 @@ namespace NetMX.Remote.Remoting
 				return _callback(notification);
 			}
 		}
-		#endregion		
+		#endregion				
+		
 	}
 }

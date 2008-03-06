@@ -20,5 +20,7 @@ namespace NetMX.Remote.Remoting
 		void unregisterMBean(object token, ObjectName name);
 
 		void Close();
+		string ConnectionId { get; }
+		NotificationResult FetchNotifications(int startSequenceId, int maxCount);
 	}
 }
