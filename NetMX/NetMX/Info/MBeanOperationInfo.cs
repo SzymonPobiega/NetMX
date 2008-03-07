@@ -52,7 +52,7 @@ namespace NetMX
 			_impact = impact;
 		}
 		public MBeanOperationInfo(MethodInfo info, OperationImpact impact)
-			: base(info.Name, InfoUtils.GetDescrition(info, "MBean operation"))
+			: base(info.Name, InfoUtils.GetDescrition(info, info, "MBean operation"))
 		{
 			_returnType = info.ReturnType != null ? info.ReturnType.AssemblyQualifiedName : null;
 			_impact = impact;

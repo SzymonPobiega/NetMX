@@ -37,7 +37,7 @@ namespace NetMX
 		/// the MBean may emit.</param>
 		/// <param name="notificationType">.NET type of the notification.</param>
 		public MBeanNotificationInfo(EventInfo eventInfo, Type handlerType)
-			: base(handlerType.GetGenericArguments()[0].AssemblyQualifiedName, InfoUtils.GetDescrition(eventInfo, "MBean notification"))
+			: base(handlerType.GetGenericArguments()[0].AssemblyQualifiedName, InfoUtils.GetDescrition(eventInfo, eventInfo, "MBean notification"))
 		{
 			MBeanNotificationAttribute attribute = (MBeanNotificationAttribute)eventInfo.GetCustomAttributes(typeof(MBeanNotificationAttribute), true)[0];
 			List<string> notifTypes = new List<string>();

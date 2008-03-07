@@ -20,6 +20,7 @@ namespace NetMX.Remote
 	/// notifications between the two might have been lost.
 	/// </remarks>
 	/// </summary>
+	[Serializable]
 	public sealed class NotificationResult
 	{
 		private int _earliestSequenceNumber;

@@ -54,7 +54,7 @@ namespace NetMX
 			_isWritable = isWritable;
 		}
 		public MBeanAttributeInfo(PropertyInfo info)
-			: this(info.Name, InfoUtils.GetDescrition(info, "MBean attribute"), info.PropertyType.AssemblyQualifiedName, info.CanRead, info.CanWrite)
+			: this(info.Name, InfoUtils.GetDescrition(info, info, "MBean attribute"), info.PropertyType.AssemblyQualifiedName, info.CanRead, info.CanWrite)
 		{           
 		}        
 		#endregion

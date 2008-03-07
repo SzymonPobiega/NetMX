@@ -73,7 +73,16 @@ namespace NetMX.Default
 			else
 			{
 				Type beanType = bean.GetType();
-				Type intfType = beanType.GetInterface(beanType.Name + "MBean", false);
+				Type intfType = null;
+				while (beanType != null)
+				{
+					intfType = beanType.GetInterface(beanType.Name + "MBean", false);
+					if (intfType != null)
+					{
+						break;
+					}
+					beanType = beanType.BaseType;
+				}				
 				if (intfType == null)
 				{
 					throw new NotCompliantMBeanException(beanType.AssemblyQualifiedName);

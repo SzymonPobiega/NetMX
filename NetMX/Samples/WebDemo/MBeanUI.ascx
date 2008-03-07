@@ -1,7 +1,7 @@
 <%@ Control Language="C#" AutoEventWireup="true" CodeFile="MBeanUI.ascx.cs" Inherits="MBeanUI" %>
 <%@ Register Assembly="App_Code" Namespace="Controls" TagPrefix="uc" %>
 
-<uc:MBeanDataSource runat="server" ID="SampleDS" ObjectName="Sample:" MBeanServerProxyID="proxy" />			
+<uc:MBeanDataSource runat="server" ID="SampleDS" ObjectName=":type=SameThreadRunner,name=SameThread" MBeanServerProxyID="proxy" />			
 
 <div class="mBean">
 	<div class="sectionTitle">

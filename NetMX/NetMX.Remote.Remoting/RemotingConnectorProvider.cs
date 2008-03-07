@@ -40,11 +40,11 @@ namespace NetMX.Remote.Remoting
 
 			IDictionary props = new Hashtable();
 			props["name"] = "remotingConnectorClient";
-			props["secure"] = "true";
-			props["tokenImpersonationLevel"] = "impersonation";
+			//props["secure"] = "true";
+			//props["tokenImpersonationLevel"] = "impersonation";
 			System.Runtime.Remoting.Channels.BinaryClientFormatterSinkProvider sinkProvier = new System.Runtime.Remoting.Channels.BinaryClientFormatterSinkProvider();
 			System.Runtime.Remoting.Channels.Tcp.TcpClientChannel tcc = new System.Runtime.Remoting.Channels.Tcp.TcpClientChannel(props, sinkProvier);
-			System.Runtime.Remoting.Channels.ChannelServices.RegisterChannel(tcc, true);		 
+			System.Runtime.Remoting.Channels.ChannelServices.RegisterChannel(tcc, false);		 
 		}
 		#endregion
 	}

@@ -56,11 +56,11 @@ namespace NetMX.Remote.Remoting
 				BinaryServerFormatterSinkProvider sinkProvider = new BinaryServerFormatterSinkProvider();
 				IDictionary props = new Hashtable();
 				props["name"] = "remotingConnector"+port;
-				props["secure"] = "true";
+				//props["secure"] = "true";
 				props["port"] = port;
-				props["impersonate"] = "true";
-				_channel = new TcpServerChannel(props, sinkProvider);				
-				ChannelServices.RegisterChannel(_channel, true);
+				//props["impersonate"] = "true";
+				_channel = new TcpServerChannel(props, sinkProvider);
+				ChannelServices.RegisterChannel(_channel, false);
 				_remotingServer = new RemotingServerImpl(_server, _connectionConfig);
 				RemotingServices.Marshal(_remotingServer, _serviceUrl.AbsolutePath.Trim('/'));
 				_started = true;

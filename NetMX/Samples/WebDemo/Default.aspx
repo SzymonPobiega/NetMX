@@ -13,7 +13,7 @@
 		<%--<asp:ScriptManager ID="ScriptManager1" runat="server" />--%>
 		<uc:MBeanServerProxy ID="proxy" runat="server" ServiceUrl="tcp://localhost:1234/MBeanServer.tcp" />
 		<div>
-			<uc:MBeanUI runat="server" ID="sampleMBeanUI" ObjectName="Sample:" MBeanServerProxyID="proxy" />						
+			<uc:MBeanUI runat="server" ID="sampleMBeanUI" ObjectName=":type=SameThreadRunner,name=SameThread" MBeanServerProxyID="proxy" />						
 		</div>
 	</form>
 </body>

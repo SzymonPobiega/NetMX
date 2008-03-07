@@ -73,7 +73,7 @@ namespace NetMX
 		/// <param name="operations">List of MBean operations. It should be an empty list if MBean contains no operations.</param>
 		/// <param name="notifications">List of MBean notifications. It should be an empty list if MBean contains no notifications.</param>
 		public MBeanInfo(Type type, List<MBeanAttributeInfo> attributes, List<MBeanOperationInfo> operations, List<MBeanNotificationInfo> notifications)
-			: this(type.AssemblyQualifiedName, InfoUtils.GetDescrition(type, "MBean"), attributes, operations, notifications)
+			: this(type.AssemblyQualifiedName, InfoUtils.GetDescrition(type, type, "MBean"), attributes, operations, notifications)
 		{
 		}
 		/// <summary>
