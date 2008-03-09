@@ -69,11 +69,11 @@ namespace Controls
 		#endregion
 
 		#region OVERRIDDEN
-		protected override void OnLoad(EventArgs e)
-		{
-			base.OnLoad(e);			
-			_connector = NetMXConnectorFactory.Connect(new Uri(ServiceUrl), null);			
-		}
+      protected override void OnInit(EventArgs e)
+      {
+         base.OnInit(e);
+         _connector = NetMXConnectorFactory.Connect(new Uri(ServiceUrl), null);			
+      }		
 		public override void Dispose()
 		{
 			base.Dispose();

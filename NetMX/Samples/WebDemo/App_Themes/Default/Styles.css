@@ -1,52 +1,40 @@
 ﻿body {
 }
-.sectionTitle
+.SectionTitle
 {
 	font-weight: bold;
 	font-size: large;
 }
-.attributes
-{		
-}
-.attribute
+TABLE.Operation
 {
-	width : 100%;
+	width: 100%;
 	table-layout: fixed;
-	border-collapse: collapse;
+	border-collapse: collapse;	
 }
-.attributeName
+TABLE.Attribute
 {
-	width : 30%;
+	width: 100%;
+	table-layout: fixed;
+	border-collapse: collapse;	
 }
-.attributeDescr
-{
-	width: 20%;
-	font-style: italic;
-}
-.attributeValue
-{
-	width : 25%;
-}
-.attributeButtons
+TD.Operation
 {	
-	width : 25%;	
 }
-.operation
+TH.Operation
 {
-	width : 100%;
-	table-layout: fixed;
-	border-collapse: collapse;
+
 }
-.operationDescr
+TD.Attribute
 {
-	font-style: italic;
+
+}
+TH.Attribute
+{
+
 }
 
 INPUT
 {
 	width: 100px;
 }
-TD.attributesHeader
-{
-	font-weight : bold;
-}
+

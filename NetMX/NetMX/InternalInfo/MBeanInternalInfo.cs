@@ -98,16 +98,20 @@ namespace NetMX.InternalInfo
 		{
 			if (!_cache.ContainsKey(intfType))
 			{
+				MBeanInternalInfo info = new MBeanInternalInfo(intfType);
 				lock (_synchRoot)
 				{
-					if (!_cache.ContainsKey(intfType))
-					{
-						MBeanInternalInfo info = new MBeanInternalInfo(intfType);
-						_cache[intfType] = info;
-					}
+					_cache[intfType] = info;
+					return info;
 				}
 			}
-			return _cache[intfType];
+			else
+			{
+				lock (_synchRoot)
+				{
+					return _cache[intfType];
+				}
+			}
 		}
 		#endregion
 	}
