@@ -84,6 +84,21 @@ namespace NetMX
 		/// <returns>True if the MBean is already registered in the MBean server, false otherwise.</returns>
 		bool IsRegistered(ObjectName name);
 		/// <summary>
+		/// Gets the names of MBeans controlled by the MBean server. This method enables any of the following to be 
+		/// obtained: The names of all MBeans, the names of a set of MBeans specified by pattern matching on the 
+		/// ObjectName and/or a Query expression, a specific MBean name (equivalent to testing whether an MBean 
+		/// is registered). When the object name is null or no domain and key properties are specified, all objects 
+		/// are selected (and filtered if a query is specified). It returns the set of ObjectNames for the MBeans 
+		/// selected.
+		/// </summary>
+		/// <param name="name">The object name pattern identifying the MBean names to be retrieved. If null or no 
+		/// domain and key properties are specified, the name of all registered MBeans will be retrieved.</param>
+		/// <param name="query">The query expression to be applied for selecting MBeans. If null no query expression 
+		/// will be applied for selecting MBeans.</param>
+		/// <returns>A set containing the ObjectNames for the MBeans selected. If no MBean satisfies the query, an empty 
+		/// list is returned.</returns>
+		IEnumerable<ObjectName> QueryNames(ObjectName name, QueryExp query);
+		/// <summary>
 		/// Unregisters an MBean from the MBean server. The MBean is identified by its object name. 
 		/// Once the method has been invoked, the MBean may no longer be accessed by its object name.
 		/// </summary>

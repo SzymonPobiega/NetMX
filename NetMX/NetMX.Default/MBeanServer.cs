@@ -180,6 +180,11 @@ namespace NetMX.Default
 		{
 			return _beans.ContainsKey(name);
 		}
+		public IEnumerable<ObjectName> QueryNames(ObjectName name, QueryExp query)
+		{
+			List<ObjectName> results = new List<ObjectName>(_beans.Keys);
+			return results;
+		}
 		public void UnregisterMBean(ObjectName name)
 		{
 			IDynamicMBean bean = GetMBean(name);

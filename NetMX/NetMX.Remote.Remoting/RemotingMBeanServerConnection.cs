@@ -90,6 +90,10 @@ namespace NetMX.Remote.Remoting
 		{
 			_connection.unregisterMBean(_token, name);
 		}
+		public IEnumerable<ObjectName> QueryNames(ObjectName name, QueryExp query)
+		{
+			return _connection.QueryNames(_token, name, query);
+		}
 		#endregion		
 	}
 }

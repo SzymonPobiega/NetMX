@@ -153,6 +153,13 @@ namespace NetMX.Remote.Remoting
 		{
 			return _buffer.FetchNotifications(startSequenceId, maxCount);
 		}
+		public IEnumerable<ObjectName> QueryNames(object token, ObjectName name, QueryExp query)
+		{
+			using (TemporarySecurityContext tsc = new TemporarySecurityContext(Authorize(token)))
+			{
+				return _server.QueryNames(name, query);
+			}
+		}
 		#endregion
 
 		#region IDisposable Members

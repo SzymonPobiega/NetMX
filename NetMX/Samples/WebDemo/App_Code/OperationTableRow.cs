@@ -62,7 +62,7 @@ namespace Controls
          {
             TextBox argumentBox = new TextBox();
             argumentBox.CssClass = this.CssClass;
-            argumentBox.ID = paramInfo.Name;
+            argumentBox.ID = _operInfo.Name +"__" + paramInfo.Name;
             argumentBox.EnableViewState = false;
             _argumentInputs.Add(argumentBox);
             cell.Controls.Add(argumentBox);

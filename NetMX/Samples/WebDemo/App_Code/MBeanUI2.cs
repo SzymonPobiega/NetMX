@@ -23,14 +23,20 @@ namespace Controls
          get { return _mBeanServerProxyID; }
          set { _mBeanServerProxyID = value; }
       }
-      private ObjectName _objectName;
+      //private ObjectName _objectName;
       /// <summary>
       /// ObjectName of displayed/edited MBean
       /// </summary>
       public string ObjectName
       {
-         get { return _objectName.ToString(); }
-         set { _objectName = new ObjectName(value); }
+         get 
+			{
+				return (string) ViewState["ObjectName"];
+			}
+			set
+			{
+				ViewState["ObjectName"] = value;
+			}
       }
       private MBeanServerProxy _proxy;
       private MBeanServerProxy Proxy
@@ -60,12 +66,16 @@ namespace Controls
       {
          base.CreateChildControls();
 
-         MBeanInfo info = Proxy.ServerConnection.GetMBeanInfo(_objectName);
+         MBeanInfo info = Proxy.ServerConnection.GetMBeanInfo(new ObjectName(ObjectName));
 
          Label generalInfoTitle = new Label();
          generalInfoTitle.Text = "General information";
          generalInfoTitle.CssClass = "SectionTitle";
          this.Controls.Add(generalInfoTitle);
+
+			Button refreshButton = new Button();
+			refreshButton.Text = "Refresh";
+			this.Controls.Add(refreshButton);
 
          Table generalInfo = new Table();
          generalInfo.CssClass = "GeneralInfo";
@@ -86,7 +96,7 @@ namespace Controls
          attributes.Rows.Add(CreateAttributesHeader());         
          foreach (MBeanAttributeInfo attrInfo in info.Attributes)
          {
-            AttributeTableRow attributeRow = new AttributeTableRow(_objectName, attrInfo, Proxy.ServerConnection);
+				AttributeTableRow attributeRow = new AttributeTableRow(new ObjectName(ObjectName), attrInfo, Proxy.ServerConnection);
             attributes.Rows.Add(attributeRow);
          }
          this.Controls.Add(attributes);
@@ -102,7 +112,7 @@ namespace Controls
          operations.Rows.Add(CreateOperationsHeader());
          foreach (MBeanOperationInfo operInfo in info.Operations)
          {
-            OperationTableRow operationRow = new OperationTableRow(_objectName, operInfo, Proxy.ServerConnection);
+				OperationTableRow operationRow = new OperationTableRow(new ObjectName(ObjectName), operInfo, Proxy.ServerConnection);
             operations.Rows.Add(operationRow);
          }
          this.Controls.Add(operations);

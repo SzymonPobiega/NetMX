@@ -22,5 +22,6 @@ namespace NetMX.Remote.Remoting
 		void Close();
 		string ConnectionId { get; }
 		NotificationResult FetchNotifications(int startSequenceId, int maxCount);
+		IEnumerable<ObjectName> QueryNames(object token, ObjectName name, QueryExp query);
 	}
 }
