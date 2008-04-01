@@ -9,43 +9,91 @@ namespace NetMX
 	public interface IMBeanServerConnection
 	{
 		/// <summary>
-		/// 
+		/// Adds a listener to a registered MBean. A notification emitted by an MBean will be forwarded by the 
+      /// MBeanServer to the listener. If the source of the notification is a reference to an MBean object, 
+      /// the MBean server will replace it by that MBean's ObjectName. Otherwise the source is unchanged. 
 		/// </summary>
-		/// <param name="name"></param>
-		/// <param name="callback"></param>
-		/// <param name="filterCallback"></param>
-		/// <param name="handback"></param>
+      /// <param name="name">The name of the MBean on which the listener should be added.</param>
+      /// <param name="callback">The listener callback which will handle the notifications emitted by the registered MBean.</param>
+      /// <param name="filterCallback">The filter callback. If filter is null, no filtering will be performed before handling notifications.</param>
+      /// <param name="handback">The context to be sent to the listener when a notification is emitted.</param>
 		void AddNotificationListener(ObjectName name, NotificationCallback callback, NotificationFilterCallback filterCallback, object handback);
+      /// <summary>
+      /// Adds a listener to a registered MBean. A notification emitted by an MBean will be forwarded by the 
+      /// MBeanServer to the listener. If the source of the notification is a reference to an MBean object, 
+      /// the MBean server will replace it by that MBean's ObjectName. Otherwise the source is unchanged.      
+      /// </summary>
+      /// <remarks>
+      /// The listener object that receives notifications is the one that is registered with the given name at 
+      /// the time this method is called. Even if it is subsequently unregistered, it will continue to receive 
+      /// notifications.
+      /// </remarks>
+      /// <param name="name">The name of the MBean on which the listener should be added.</param>
+      /// <param name="listener">The object name of the listener which will handle the notifications emitted by the registered MBean.</param>
+      /// <param name="filterCallback">The filter callback. If filter is null, no filtering will be performed before handling notifications.</param>
+      /// <param name="handback">The context to be sent to the listener when a notification is emitted.</param>
+      void AddNotificationListener(ObjectName name, ObjectName listener, NotificationFilterCallback filterCallback, object handback);
 		/// <summary>
-		/// 
+		/// Removes a listener from a registered MBean. The MBean must have a listener that exactly matches the given 
+      /// <paramref name="listener"/>, <paramref name="filter"/> and <paramref name="handback"/> parameters. If there is more than one such listener, only one is 
+      /// removed. The filter and handback parameters may be null if and only if they are null in a listener 
+      /// to be removed.
 		/// </summary>
-		/// <param name="name"></param>
-		/// <param name="callback"></param>
-		/// <param name="filterCallback"></param>
-		/// <param name="handback"></param>
+      /// <param name="name">The name of the MBean on which the listener should be removed.</param>
+      /// <param name="callback">A listener that was previously added to this MBean.</param>
+      /// <param name="filterCallback">The filter that was specified when the listener was added.</param>
+      /// <param name="handback">The handback that was specified when the listener was added.</param>
 		void RemoveNotificationListener(ObjectName name, NotificationCallback callback, NotificationFilterCallback filterCallback, object handback);
+      /// <summary>
+      /// Removes a listener from a registered MBean. The MBean must have a listener that exactly matches the 
+      /// given <paramref name="listener"/>, <paramref name="filter"/> and <paramref name="handback"/> parameters. If there is more than one such listener, only one is removed.
+      /// The <paramref name="filter"/> and <paramref name="handback"/> parameters may be null if and only if they are null in a listener to be removed.
+      /// </summary>
+      /// <param name="name">The name of the MBean on which the listener should be removed.</param>
+      /// <param name="callback">A listener that was previously added to this MBean.</param>
+      /// <param name="filterCallback">The filter that was specified when the listener was added.</param>
+      /// <param name="handback">The handback that was specified when the listener was added.</param>
+      /// <exception cref="NetMX.InstanceNotFoundException">The MBean name provided does not match any of the registered MBeans. </exception>
+      /// <exception cref="NetMX.ListenerNotFoundException">The listener is not registered in the MBean.</exception>
+      void RemoveNotificationListener(ObjectName name, ObjectName listener, NotificationFilterCallback filterCallback, object handback);
 		/// <summary>
-		/// 
+		/// Removes a listener from a registered MBean. If the listener is registered more than once, perhaps with 
+      /// different filters or callbacks, this method will remove all those registrations. 
 		/// </summary>
-		/// <param name="name"></param>
-		/// <param name="callback"></param>
+      /// <param name="name">The name of the MBean on which the listener should be removed.</param>
+      /// <param name="callback">The object name of the listener to be removed.</param>
 		void RemoveNotificationListener(ObjectName name, NotificationCallback callback);
-
+      /// <summary>
+      /// Removes a listener from a registered MBean. If the listener is registered more than once, perhaps with different filters or callbacks, 
+      /// this method will remove all those registrations.
+      /// </summary>
+      /// <param name="name">The name of the MBean on which the listener should be removed.</param>
+      /// <param name="listener">The object name of the listener to be removed.</param>
+      /// <exception cref="NetMX.InstanceNotFoundException">The MBean name provided does not match any of the registered MBeans. </exception>
+      /// <exception cref="NetMX.ListenerNotFoundException">The listener is not registered in the MBean.</exception>
+      void RemoveNotificationListener(ObjectName name, ObjectName listener);
 		/// <summary>
-		/// 
+      /// Invokes an operation on an MBean.
 		/// </summary>
-		/// <param name="name"></param>
-		/// <param name="operationName"></param>
-		/// <param name="arguments"></param>
-		/// <returns></returns>
+      /// <param name="name">The object name of the MBean on which the method is to be invoked.</param>
+      /// <param name="operationName">The name of the operation to be invoked.</param>
+      /// <param name="arguments">An array containing the parameters to be set when the operation is invoked.</param>
+      /// <returns>The object returned by the operation, which represents the result of invoking the operation on the MBean specified.</returns>
 		object Invoke(ObjectName name, string operationName, object[] arguments);
 		/// <summary>
-		/// 
+      /// Sets the value of a specific attribute of a named MBean. The MBean is identified by its object name.
 		/// </summary>
-		/// <param name="name"></param>
-		/// <param name="attributeName"></param>
-		/// <param name="value"></param>
+      /// <param name="name">The name of the MBean within which the attribute is to be set.</param>
+		/// <param name="attributeName">The identification of the attribute to be set and the value it is to be set to</param>
+		/// <param name="value">Value to set.</param>
 		void SetAttribute(ObjectName name, string attributeName, object value);
+      /// <summary>
+      /// Sets the values of several attributes of a named MBean. The MBean is identified by its object name.
+      /// </summary>
+      /// <param name="name">The object name of the MBean within which the attributes are to be set.</param>
+      /// <param name="namesAndValues">A list of attributes: The identification of the attributes to be set and the values they are to be set to.</param>
+      /// <exception cref="NetMX.InstanceNotFoundException">The MBean specified is not registered in the MBean server.</exception>
+      IList<AttributeValue> SetAttributes(ObjectName name, IEnumerable<AttributeValue> namesAndValues);
 		/// <summary>
 		/// Gets the value of a specific attribute of a named MBean. The MBean is identified by its object name.
 		/// </summary>
@@ -63,11 +111,17 @@ namespace NetMX
 		/// <returns>The list of the retrieved attributes.</returns>
 		/// <exception cref="NetMX.InstanceNotFoundException">The MBean specified is not registered in the MBean server.</exception>
 		IList<AttributeValue> GetAttributes(ObjectName name, string[] attributeNames);
+      /// <summary>
+      /// Returns the number of MBeans registered in the MBean server.
+      /// </summary>
+      /// <returns>The number of MBeans registered.</returns>
+      [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1024:UsePropertiesWhereAppropriate")]
+      int GetMBeanCount();
 		/// <summary>
-		/// 
+      /// This method discovers the attributes and operations that an MBean exposes for management.
 		/// </summary>
-		/// <param name="name"></param>
-		/// <returns></returns>
+      /// <param name="name">The name of the MBean to analyze</param>
+      /// <returns>An instance of <see cref="NetMX.MBeanInfo"/> allowing the retrieval of all attributes and operations of this MBean.</returns>
 		MBeanInfo GetMBeanInfo(ObjectName name);
 		/// <summary>
 		/// Returns true if the MBean specified is an instance of the specified class, false otherwise.
@@ -106,5 +160,20 @@ namespace NetMX
 		/// <exception cref="NetMX.InstanceNotFoundException">The MBean specified is not registered in the MBean server.</exception>
 		/// <exception cref="NetMX.MBeanRegistrationException">The preDeregister method of the MBean has thrown an exception.</exception>
 		void UnregisterMBean(ObjectName name);
+      /// <summary>
+      /// Returns the default domain used for naming the MBean. The default domain name is used as the domain 
+      /// part in the ObjectName of MBeans if no domain is specified by the user.
+      /// </summary>
+      /// <returns>The default domain.</returns>
+      [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1024:UsePropertiesWhereAppropriate")]
+      string GetDefaultDomain();
+      /// <summary>
+      /// Returns the list of domains in which any MBean is currently registered. A string is in the returned 
+      /// list if and only if there is at least one MBean registered with an ObjectName whose GetDomain() is 
+      /// equal to that string. The order of strings within the returned list is not defined.
+      /// </summary>
+      /// <returns>The list of domains.</returns>
+      [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1024:UsePropertiesWhereAppropriate")]
+      IList<string> GetDomains();
 	}
 }

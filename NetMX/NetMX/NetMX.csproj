@@ -72,7 +72,7 @@
     <Compile Include="Info\MBeanOperationInfo.cs" />
     <Compile Include="Info\MBeanNotificationInfo.cs" />
     <Compile Include="INotficationEmitter.cs" />
-    <Compile Include="InternalInfo\MBeanInternalInfo.cs" />
+    <Compile Include="INotificationListener.cs" />
     <Compile Include="MBeanCASPermission.cs" />
     <Compile Include="MBeanCASPermissionAttribute.cs" />
     <Compile Include="MBeanPermission.cs" />

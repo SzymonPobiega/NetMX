@@ -9,7 +9,9 @@ namespace NetMX.Default
 	public class MBeanServer : IMBeanServer
 	{
 		#region MEMBERS
+      private string _defaultDomain = "root";
 		private Dictionary<ObjectName, IDynamicMBean> _beans = new Dictionary<ObjectName, IDynamicMBean>();
+      private Dictionary<string, bool> _domainSet = new Dictionary<string, bool>();
 		#endregion
 
 		#region PROPERTIES
@@ -33,6 +35,7 @@ namespace NetMX.Default
 			}
 			_beans[name] = bean;
 			registration.PostRegister(true);
+         _domainSet[name.Domain] = true;
 		}
 		private INotficationEmitter GetEmitterMBean(ObjectName name, out IDynamicMBean bean)
 		{
@@ -44,6 +47,16 @@ namespace NetMX.Default
 			}
 			throw new OperationsException(string.Format("Bean \"{0}\" is not a notification emitter.", name.ToString()));
 		}
+      private INotificationListener GetListenerMBean(ObjectName name, out IDynamicMBean bean)
+      {
+         bean = GetMBean(name);
+         INotificationListener listner = bean as INotificationListener;
+         if (listner != null)
+         {
+            return listner;
+         }
+         throw new OperationsException(string.Format("Bean \"{0}\" is not a notification listener.", name.ToString()));
+      }
 		private IDynamicMBean GetMBean(ObjectName name)
 		{
 			IDynamicMBean bean;
@@ -196,7 +209,67 @@ namespace NetMX.Default
 			registration.PreDeregister();
 			_beans.Remove(name);
 			registration.PostDeregister();
-		}
-		#endregion
-	}
+         _domainSet.Remove(name.Domain);
+		}		
+      public int GetMBeanCount()
+      {
+         return _beans.Count;
+      }
+      public void AddNotificationListener(ObjectName name, ObjectName listener, NotificationFilterCallback filterCallback, object handback)
+      {
+         IDynamicMBean bean;
+         INotficationEmitter emitter = GetEmitterMBean(name, out bean);
+         TestPermissions(bean.GetMBeanInfo().ClassName, null, name, MBeanPermissionAction.AddNotificationListener);
+         INotificationListener listenerBean = GetListenerMBean(name, out bean);
+         NotificationCallback callback = new NotificationCallback(listenerBean.HandleNotification);
+         emitter.AddNotificationListener(callback, filterCallback, handback);
+      }
+      public void RemoveNotificationListener(ObjectName name, ObjectName listener, NotificationFilterCallback filterCallback, object handback)
+      {
+         IDynamicMBean bean;
+         INotficationEmitter emitter = GetEmitterMBean(name, out bean);
+         TestPermissions(bean.GetMBeanInfo().ClassName, null, name, MBeanPermissionAction.RemoveNotificationListener);
+         INotificationListener listenerBean = GetListenerMBean(name, out bean);
+         NotificationCallback callback = new NotificationCallback(listenerBean.HandleNotification);
+         emitter.RemoveNotificationListener(callback, filterCallback, handback);
+      }
+      public void RemoveNotificationListener(ObjectName name, ObjectName listener)
+      {
+         IDynamicMBean bean;
+         INotficationEmitter emitter = GetEmitterMBean(name, out bean);
+         TestPermissions(bean.GetMBeanInfo().ClassName, null, name, MBeanPermissionAction.RemoveNotificationListener);
+         INotificationListener listenerBean = GetListenerMBean(listener, out bean);
+         NotificationCallback callback = new NotificationCallback(listenerBean.HandleNotification);
+         emitter.RemoveNotificationListener(callback);
+      }
+      public IList<AttributeValue> SetAttributes(ObjectName name, IEnumerable<AttributeValue> namesAndValues)
+      {
+         IDynamicMBean bean = GetMBean(name);
+         string className = bean.GetMBeanInfo().ClassName;
+         List<AttributeValue> results = new List<AttributeValue>();
+         foreach (AttributeValue nameAndValue in namesAndValues)
+         {
+            TestPermissions(className, nameAndValue.Name, name, MBeanPermissionAction.SetAttribute);
+            try
+            {
+               bean.SetAttribute(nameAndValue.Name, nameAndValue.Value);
+               results.Add(new AttributeValue(nameAndValue.Name, nameAndValue.Value));
+            }
+            catch (AttributeNotFoundException)
+            {
+               //Best-effort
+            }
+         }
+         return results;
+      }
+      public string GetDefaultDomain()
+      {
+         return _defaultDomain;
+      }
+      public IList<string> GetDomains()
+      {
+         return new List<string>(_domainSet.Keys);
+      }
+      #endregion
+   }
 }

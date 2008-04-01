@@ -55,16 +55,10 @@ namespace NetMX.Remote.Remoting
 		#region IRemotingConnection Members
 		public object Invoke(object token, ObjectName name, string operationName, object[] arguments)
 		{
-			IPrincipal p = Thread.CurrentPrincipal;
-			try
-			{
-				Thread.CurrentPrincipal = NetMXSecurityService.Authorize(_secutityProvider, _subject, token);
-				return _server.Invoke(name, operationName, arguments);
-			}
-			finally
-			{
-				Thread.CurrentPrincipal = p;
-			}
+         using (TemporarySecurityContext tsc = new TemporarySecurityContext(Authorize(token)))
+         {
+            return _server.Invoke(name, operationName, arguments);
+         }
 		}
 		public void SetAttribute(object token, ObjectName name, string attributeName, object value)
 		{
@@ -142,7 +136,7 @@ namespace NetMX.Remote.Remoting
 				return _server.IsRegistered(name);
 			}
 		}
-		public void unregisterMBean(object token, ObjectName name)
+		public void UnregisterMBean(object token, ObjectName name)
 		{
 			using (TemporarySecurityContext tsc = new TemporarySecurityContext(Authorize(token)))
 			{
@@ -160,6 +154,60 @@ namespace NetMX.Remote.Remoting
 				return _server.QueryNames(name, query);
 			}
 		}
+      public int GetMBeanCount(object token)
+      {
+         using (TemporarySecurityContext tsc = new TemporarySecurityContext(Authorize(token)))
+         {
+            return _server.GetMBeanCount();
+         }
+      }
+      public void AddNotificationListener(object token, ObjectName name, ObjectName listener, NotificationFilterCallback filterCallback, object handback)
+      {
+         using (TemporarySecurityContext tsc = new TemporarySecurityContext(Authorize(token)))
+         {
+            _server.AddNotificationListener(name, listener, filterCallback, handback);
+         }
+      }
+
+      public void RemoveNotificationListener(object token, ObjectName name, ObjectName listener, NotificationFilterCallback filterCallback, object handback)
+      {
+         using (TemporarySecurityContext tsc = new TemporarySecurityContext(Authorize(token)))
+         {
+            _server.RemoveNotificationListener(name, listener, filterCallback, handback);
+         }
+      }
+
+      public void RemoveNotificationListener(object token, ObjectName name, ObjectName listener)
+      {
+         using (TemporarySecurityContext tsc = new TemporarySecurityContext(Authorize(token)))
+         {
+            _server.RemoveNotificationListener(name, listener);
+         }
+      }
+
+      public IList<AttributeValue> SetAttributes(object token, ObjectName name, IEnumerable<AttributeValue> namesAndValues)
+      {
+         using (TemporarySecurityContext tsc = new TemporarySecurityContext(Authorize(token)))
+         {
+            return _server.SetAttributes(name, namesAndValues);
+         }
+      }
+
+      public string GetDefaultDomain(object token)
+      {
+         using (TemporarySecurityContext tsc = new TemporarySecurityContext(Authorize(token)))
+         {
+            return _server.GetDefaultDomain();
+         }
+      }
+
+      public IList<string> GetDomains(object token)
+      {
+         using (TemporarySecurityContext tsc = new TemporarySecurityContext(Authorize(token)))
+         {
+            return _server.GetDomains();
+         }
+      }
 		#endregion
 
 		#region IDisposable Members
@@ -254,7 +302,6 @@ namespace NetMX.Remote.Remoting
 				return _callback(notification);
 			}
 		}
-		#endregion				
-		
-	}
+		#endregion							      
+   }
 }
