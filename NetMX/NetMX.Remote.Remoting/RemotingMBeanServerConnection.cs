@@ -34,6 +34,10 @@ namespace NetMX.Remote.Remoting
 		}
 
 		#region IMBeanServerConnection Members
+      public ObjectInstance CreateMBean(string className, ObjectName name, object[] arguments)
+      {
+         return _connection.CreateMBean(_token, className, name, arguments);
+      }
 		public object Invoke(ObjectName name, string operationName, object[] arguments)
 		{
 			return _connection.Invoke(_token, name, operationName, arguments);

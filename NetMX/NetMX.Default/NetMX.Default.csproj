@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="InternalInfo\MBeanInternalConstructorInfo.cs" />
     <Compile Include="InternalInfo\MBeanInternalAttributeInfo.cs" />
     <Compile Include="InternalInfo\MBeanInternalInfo.cs" />
     <Compile Include="InternalInfo\MBeanInternalNotificationInfo.cs" />

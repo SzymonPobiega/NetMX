@@ -62,6 +62,20 @@ namespace NetMX
 		{
 			get { return _notifications; }
 		}
+      private ReadOnlyCollection<MBeanConstructorInfo> _constructors;
+      /// <summary>
+      /// Returns the list of the public constructors of the MBean. Each constructor is described by an 
+      /// <see cref="NetMX.MBeanConstructorInfo"/> object. The returned list is read-only so it cannot be modified.            
+      /// </summary>
+      /// <remarks>
+      /// The returned list is not necessarily exhaustive. That is, the MBean may have a public constructor that 
+      /// is not in the list. In this case, the MBean server can construct another instance of this MBean's class 
+      /// using that constructor, even though it is not listed here.
+      ///</remarks>            
+      public ReadOnlyCollection<MBeanConstructorInfo> Constructors
+      {
+         get { return _constructors; }
+      }
 		#endregion
 
 		#region CONSTRUCTOR
@@ -70,10 +84,11 @@ namespace NetMX
 		/// </summary>
 		/// <param name="type">Type object of MBean implementation.</param>
 		/// <param name="attributes">List of MBean attributes. It should be an empty list if MBean contains no attributes.</param>
+      /// <param name="constructors">List of MBean constructors. It should be an empty list if MBean contains no constructors.</param>
 		/// <param name="operations">List of MBean operations. It should be an empty list if MBean contains no operations.</param>
 		/// <param name="notifications">List of MBean notifications. It should be an empty list if MBean contains no notifications.</param>
-		public MBeanInfo(Type type, List<MBeanAttributeInfo> attributes, List<MBeanOperationInfo> operations, List<MBeanNotificationInfo> notifications)
-			: this(type.AssemblyQualifiedName, InfoUtils.GetDescrition(type, type, "MBean"), attributes, operations, notifications)
+		public MBeanInfo(Type type, List<MBeanAttributeInfo> attributes, List<MBeanConstructorInfo> constructors, List<MBeanOperationInfo> operations, List<MBeanNotificationInfo> notifications)
+			: this(type.AssemblyQualifiedName, InfoUtils.GetDescrition(type, type, "MBean"), attributes, constructors, operations, notifications)
 		{
 		}
 		/// <summary>
@@ -82,13 +97,15 @@ namespace NetMX
 		/// <param name="className">Name of the MBean described by this MBeanInfo.</param>
 		/// <param name="description">Human readable description of the MBean. </param>
 		/// <param name="attributes">List of MBean attributes. It should be an empty list if MBean contains no attributes.</param>
+      /// <param name="constructors">List of MBean constructors. It should be an empty list if MBean contains no constructors.</param>
 		/// <param name="operations">List of MBean operations. It should be an empty list if MBean contains no operations.</param>
 		/// <param name="notifications">List of MBean notifications. It should be an empty list if MBean contains no notifications.</param>
-		public MBeanInfo(string className, string description, List<MBeanAttributeInfo> attributes, List<MBeanOperationInfo> operations, List<MBeanNotificationInfo> notifications)
+      public MBeanInfo(string className, string description, List<MBeanAttributeInfo> attributes, List<MBeanConstructorInfo> constructors, List<MBeanOperationInfo> operations, List<MBeanNotificationInfo> notifications)
 		{
 			_className = className;
 			_description = description;
 			_attributes = attributes.AsReadOnly();
+         _constructors = constructors.AsReadOnly();
 			_operations = operations.AsReadOnly();
 			_notifications = notifications.AsReadOnly();
 		}

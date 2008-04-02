@@ -26,6 +26,11 @@ namespace NetMX.Default.InternalInfo
 		{
 			get { return _attributes; }
 		}
+      private Dictionary<string, MBeanInternalConstructorInfo> _constructors;
+      internal Dictionary<string, MBeanInternalConstructorInfo> Constructors
+      {
+         get { return _constructors; }
+      }
 		private Dictionary<string,MBeanInternalOperationInfo> _operations;
 		internal Dictionary<string,MBeanInternalOperationInfo> Operations
 		{
@@ -42,10 +47,12 @@ namespace NetMX.Default.InternalInfo
 		private MBeanInternalInfo(Type intfType)
 		{
 			List<MBeanOperationInfo> operations = new List<MBeanOperationInfo>();
+         List<MBeanConstructorInfo> constructors = new List<MBeanConstructorInfo>();
 			List<MBeanAttributeInfo> attributes = new List<MBeanAttributeInfo>();
 			List<MBeanNotificationInfo> notifications = new List<MBeanNotificationInfo>();
 
 			Dictionary<string, MBeanInternalOperationInfo> internalOperations = new Dictionary<string, MBeanInternalOperationInfo>();
+         Dictionary<string, MBeanInternalConstructorInfo> internalConstructors = new Dictionary<string, MBeanInternalConstructorInfo>();
 			Dictionary<string, MBeanInternalAttributeInfo> internalAttributes = new Dictionary<string, MBeanInternalAttributeInfo>();
 			List<MBeanInternalNotificationInfo> internalNotifications = new List<MBeanInternalNotificationInfo>();
 
@@ -77,6 +84,12 @@ namespace NetMX.Default.InternalInfo
 					}
 				}
 			}
+         foreach (ConstructorInfo methInfo in intfType.GetConstructors())
+         {
+            MBeanConstructorInfo constructorInfo = new MBeanConstructorInfo(methInfo);
+            constructors.Add(constructorInfo);
+            internalConstructors.Add(constructorInfo.Name, new MBeanInternalConstructorInfo(constructorInfo, methInfo));
+         }
 			foreach (MethodInfo methInfo in intfType.GetMethods())
 			{
 				if (!methInfo.IsSpecialName)
@@ -86,8 +99,9 @@ namespace NetMX.Default.InternalInfo
 					internalOperations.Add(operationInfo.Name, new MBeanInternalOperationInfo(operationInfo, methInfo));
 				}
 			}
-			_info = new MBeanInfo(intfType, attributes, operations, notifications);
+			_info = new MBeanInfo(intfType, attributes, constructors, operations, notifications);
 			_attributes = internalAttributes;
+         _constructors = internalConstructors;
 			_operations = internalOperations;
 			_notifications = internalNotifications;
 		}

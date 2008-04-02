@@ -6,6 +6,8 @@ namespace NetMX.Remote.Remoting
 {
 	public interface IRemotingConnection
 	{
+      ObjectInstance CreateMBean(object token, string className, ObjectName name, object[] arguments);
+
 		int AddNotificationListener(object token, ObjectName name, NotificationFilterCallback filterCallback);
       void AddNotificationListener(object token, ObjectName name, ObjectName listener, NotificationFilterCallback filterCallback, object handback);
 		void RemoveNotificationListener(object token, ObjectName name, int listenerId);

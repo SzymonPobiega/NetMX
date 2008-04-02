@@ -52,6 +52,7 @@
     <Compile Include="RemotingConnector.cs" />
     <Compile Include="RemotingConnectorProvider.cs" />
     <Compile Include="RemotingConnectorServer.cs" />
+    <Compile Include="Security\NetMXWindowsPrincipal.cs" />
     <Compile Include="Security\PermissionCollection.cs" />
     <Compile Include="Security\PermissionElement.cs" />
     <Compile Include="Security\RoleCollection.cs" />

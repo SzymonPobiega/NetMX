@@ -100,10 +100,10 @@ namespace NetMX
 		{
 			get { return _isPropertyPattern || _isDomainPattern; }
 		}
-		#endregion
+		#endregion      
 
-		#region CONSTRUCTOR
-		/// <summary>
+      #region Constructors
+      /// <summary>
 		/// Construct an object name from the given string.
 		/// </summary>
 		/// <param name="name">A string representation of the object name.</param>
@@ -149,7 +149,7 @@ namespace NetMX
 		}
 		#endregion
 
-		#region UTILITY
+		#region Utility
 		private void SetDomainPattern()
 		{
 			if (_domain.Contains("*") || _domain.Contains("?"))
@@ -313,5 +313,29 @@ namespace NetMX
 			info.AddValue("properties", _canonicalPropertyList);
 		}
 		#endregion
-	}
+
+      #region Operators
+      public static implicit operator ObjectName(string name)
+      {
+         return new ObjectName(name);
+      }
+      public static implicit operator string(ObjectName name)
+      {
+         return name.CanonicalName;
+      }
+      public static bool operator ==(ObjectName left, ObjectName right)
+      {
+         if ((left == null && right == null) ||
+            (left != null && right != null && left.Equals(right)))
+         {
+            return true;
+         }
+         return false;
+      }
+      public static bool operator !=(ObjectName left, ObjectName right)
+      {
+         return !(left == right);
+      }
+      #endregion
+   }
 }

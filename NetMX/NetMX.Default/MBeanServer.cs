@@ -21,7 +21,35 @@ namespace NetMX.Default
 		#endregion
 
 		#region UTILITY
-		private void RegisterMBeanInternal(ObjectName name, IDynamicMBean bean)
+      private ObjectInstance RegisterMBeanExternal(object bean, ObjectName name)
+      {
+         IDynamicMBean dynBean = bean as IDynamicMBean;
+         if (dynBean != null)
+         {
+            return RegisterMBeanInternal(name, dynBean);
+         }
+         else
+         {
+            Type beanType = bean.GetType();
+            Type intfType = null;
+            while (beanType != null)
+            {
+               intfType = beanType.GetInterface(beanType.Name + "MBean", false);
+               if (intfType != null)
+               {
+                  break;
+               }
+               beanType = beanType.BaseType;
+            }
+            if (intfType == null)
+            {
+               throw new NotCompliantMBeanException(beanType.AssemblyQualifiedName);
+            }
+            StandardMBean stdBean = new StandardMBean(bean, intfType);
+            return RegisterMBeanInternal(name, stdBean);
+         }
+      }
+		private ObjectInstance RegisterMBeanInternal(ObjectName name, IDynamicMBean bean)
 		{
 			IMBeanRegistration registration = new MBeanRegistrationHelper(bean as IMBeanRegistration);
 			name = registration.PreRegister(this, name);
@@ -36,6 +64,7 @@ namespace NetMX.Default
 			_beans[name] = bean;
 			registration.PostRegister(true);
          _domainSet[name.Domain] = true;
+         return new ObjectInstance(name, bean.GetMBeanInfo().ClassName);
 		}
 		private INotficationEmitter GetEmitterMBean(ObjectName name, out IDynamicMBean bean)
 		{
@@ -76,35 +105,15 @@ namespace NetMX.Default
 		#endregion
 
 		#region IMBeanServer Members
+      public ObjectInstance CreateMBean(string className, ObjectName name, object[] arguments)
+      {
+         object instance = Activator.CreateInstance(Type.GetType(className), arguments);
+         return RegisterMBeanExternal(instance, name);
+      }
 		public void RegisterMBean(object bean, ObjectName name)
 		{
-			IDynamicMBean dynBean = bean as IDynamicMBean;
-			if (dynBean != null)
-			{
-				RegisterMBeanInternal(name, dynBean);
-			}
-			else
-			{
-				Type beanType = bean.GetType();
-				Type intfType = null;
-				while (beanType != null)
-				{
-					intfType = beanType.GetInterface(beanType.Name + "MBean", false);
-					if (intfType != null)
-					{
-						break;
-					}
-					beanType = beanType.BaseType;
-				}				
-				if (intfType == null)
-				{
-					throw new NotCompliantMBeanException(beanType.AssemblyQualifiedName);
-				}
-				StandardMBean stdBean = new StandardMBean(bean, intfType);
-				RegisterMBeanInternal(name, stdBean);
-			}
+         RegisterMBeanExternal(bean, name);
 		}
-
 		public object Invoke(ObjectName name, string operationName, object[] arguments)
 		{
 			IDynamicMBean bean = GetMBean(name);

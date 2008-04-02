@@ -53,6 +53,13 @@ namespace NetMX.Remote.Remoting
 		#endregion
 
 		#region IRemotingConnection Members
+      public ObjectInstance CreateMBean(object token, string className, ObjectName name, object[] arguments)
+      {
+         using (TemporarySecurityContext tsc = new TemporarySecurityContext(Authorize(token)))
+         {
+            return _server.CreateMBean(className, name, arguments);
+         }
+      }
 		public object Invoke(object token, ObjectName name, string operationName, object[] arguments)
 		{
          using (TemporarySecurityContext tsc = new TemporarySecurityContext(Authorize(token)))

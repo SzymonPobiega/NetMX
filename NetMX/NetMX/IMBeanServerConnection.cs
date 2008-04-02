@@ -45,6 +45,18 @@ namespace NetMX
       /// <param name="handback">The handback that was specified when the listener was added.</param>
 		void RemoveNotificationListener(ObjectName name, NotificationCallback callback, NotificationFilterCallback filterCallback, object handback);
       /// <summary>
+      /// Instantiates and registers an MBean in the MBean server. An object name is associated to the MBean. 
+      /// If the object name given is null, the MBean must provide its own name by implementing the 
+      /// <see cref="NetMX.IMBeanRegistration"/> interface and returning the name from the <see cref="NetMX.IMBeanRegistration.PreRegister"/> method.
+      /// </summary>
+      /// <param name="className">The class name of the MBean to be instantiated.</param>
+      /// <param name="name">The object name of the MBean. May be null.</param>
+      /// <param name="arguments">An array containing the parameters of the constructor to be invoked.</param>
+      /// <returns>An ObjectInstance, containing the ObjectName and the CLR class name of the newly 
+      /// instantiated MBean. If the contained ObjectName is n, the contained CLR class name is 
+      /// <see cref="IMBeanServicer.GetMBeanInfo"/>(n).ClassName.</returns>
+      ObjectInstance CreateMBean(String className, ObjectName name, object[] arguments);      
+      /// <summary>
       /// Removes a listener from a registered MBean. The MBean must have a listener that exactly matches the 
       /// given <paramref name="listener"/>, <paramref name="filter"/> and <paramref name="handback"/> parameters. If there is more than one such listener, only one is removed.
       /// The <paramref name="filter"/> and <paramref name="handback"/> parameters may be null if and only if they are null in a listener to be removed.
