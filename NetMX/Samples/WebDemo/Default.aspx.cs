@@ -21,6 +21,12 @@ public partial class _Default : System.Web.UI.Page
 		view.ActiveViewIndex = 1;
 	}
 
+	protected void HideDetails(object sender, EventArgs e)
+	{
+		MBeanUI.ObjectName = null;
+		view.ActiveViewIndex = 0;
+	}
+
 	protected override void OnInit(EventArgs e)
 	{
 		base.OnInit(e);

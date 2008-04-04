@@ -2,10 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Configuration;
+using Simon.Configuration.Provider;
 
 namespace NetMX.Remote.Remoting.Security
 {
-    public class RoleCollection : ConfigurationElementCollection
+    public class RoleCollection : ConfigurationElementCollection, INestedConfigurationElement
     {
         protected override ConfigurationElement CreateNewElement()
         {
@@ -17,5 +18,17 @@ namespace NetMX.Remote.Remoting.Security
             RoleElement re = (RoleElement)element;
             return re.Name;
         }
-    }
+
+		  #region INestedConfigurationElement Members
+		  void INestedConfigurationElement.Init()
+		  {
+			  this.Init();
+		  }
+
+		  void INestedConfigurationElement.Deserialize(System.Xml.XmlReader reader)
+		  {
+			  this.DeserializeElement(reader, true);
+		  }
+		  #endregion
+	  }
 }

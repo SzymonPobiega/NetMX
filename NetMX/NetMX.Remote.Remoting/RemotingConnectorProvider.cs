@@ -5,6 +5,7 @@ using System.Text;
 using System.Collections;
 using System.Collections.Specialized;
 using NetMX.Remote.Remoting.Internal;
+using System.Configuration;
 #endregion
 
 namespace NetMX.Remote.Remoting
@@ -32,9 +33,9 @@ namespace NetMX.Remote.Remoting
 		{
 			return new RemotingConnector(serviceUrl, _fetcherConfig);
 		}
-		public override void Initialize(string name, NameValueCollection config)
+		public override void Initialize(string name, NameValueCollection config, ConfigurationElement nestedElement)
 		{
-			base.Initialize(name, config);
+			base.Initialize(name, config, nestedElement);
 
 			_fetcherConfig = new NotificationFetcherConfig(config);
 

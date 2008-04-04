@@ -10,9 +10,9 @@ namespace Simon.Configuration.Provider
 	public class ProviderConfigurationSection : ConfigurationSection
 	{
 		[ConfigurationProperty("providers", IsRequired = true)]
-		public ProviderSettingsCollection Providers
+		public ProviderSettingsCollectionEx Providers
 		{
-			get { return (ProviderSettingsCollection)this["providers"]; }
+			get { return (ProviderSettingsCollectionEx)this["providers"]; }
 		}		
 	}
 }

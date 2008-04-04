@@ -6,7 +6,7 @@ using System.Configuration.Provider;
 namespace Simon.Configuration.Provider
 {    
     public abstract class ServiceBase<T>
-        where T : ProviderBase
+        where T : ProviderBaseEx
     {
         #region MEMBERS
         private Dictionary<string, T> _providers;

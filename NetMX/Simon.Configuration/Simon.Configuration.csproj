@@ -43,7 +43,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Provider\ConfigurationSectionAttribute.cs" />
+    <Compile Include="Provider\INestedConfigurationElement.cs" />
+    <Compile Include="Provider\ProviderBaseEx.cs" />
     <Compile Include="Provider\ProviderConfigurationSectionWithDefault.cs" />
+    <Compile Include="Provider\ProviderSettingsCollectionEx.cs" />
+    <Compile Include="Provider\ProviderSettingsEx.cs" />
     <Compile Include="Provider\ProvidersHelper.cs" />
     <Compile Include="Provider\ServiceBase.cs" />
     <Compile Include="TypedConfigurationManager.cs" />

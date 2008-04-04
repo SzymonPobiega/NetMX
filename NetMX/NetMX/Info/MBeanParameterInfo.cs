@@ -30,7 +30,7 @@ namespace NetMX
 			_type = type;
 		}
 		public MBeanParameterInfo(ParameterInfo paramInfo)
-			: base(paramInfo.Name, InfoUtils.GetDescrition(paramInfo.Member, paramInfo, "MBean operation parameter"))
+			: base(paramInfo.Name, InfoUtils.GetDescrition(paramInfo.Member, paramInfo, "MBean operation parameter", paramInfo.Name))
 		{
 			_type = paramInfo.ParameterType.AssemblyQualifiedName;
 		}

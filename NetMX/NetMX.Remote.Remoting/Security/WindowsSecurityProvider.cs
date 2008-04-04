@@ -5,6 +5,7 @@ using System.Threading;
 using System.Security.Principal;
 using System.Configuration.Provider;
 using Simon.Configuration;
+using System.Configuration;
 
 namespace NetMX.Remote.Remoting.Security
 {
@@ -33,29 +34,20 @@ namespace NetMX.Remote.Remoting.Security
 			}
 			return new NetMXWindowsPrincipal(permList.AsReadOnly(), (WindowsIdentity)Thread.CurrentPrincipal.Identity);
 		}
-		public override void Initialize(string name, System.Collections.Specialized.NameValueCollection config)
+		public override void Initialize(string name, System.Collections.Specialized.NameValueCollection config, ConfigurationElement nestedElement)
 		{
-			base.Initialize(name, config);
-			string configSectionName = config["roleMap"];
-			if (string.IsNullOrEmpty(configSectionName))
-			{
-				throw new ProviderException(string.Format("Configuration section not specified for WindowsSecurityProvider {0}.", name));
-			}
-			WindowsSecurityProviderConfigurationSection section = TypedConfigurationManager.GetSection<WindowsSecurityProviderConfigurationSection>(configSectionName, true);
+			base.Initialize(name, config, nestedElement);			
+			RoleCollection roles = (RoleCollection)nestedElement;			
 			_permissionMap = new Dictionary<SecurityIdentifier, IEnumerable<MBeanPermission>>();
-			foreach (RoleElement role in section.Roles)
+			foreach (RoleElement role in roles)
 			{
 				List<MBeanPermission> permissionList = new List<MBeanPermission>();
 				foreach (PermissionElement perm in role.Permissions)
 				{
 					permissionList.Add(new MBeanPermission(perm.Pattern, perm.Actions));
 				}
-				NTAccount identity = new NTAccount(role.Name);
-				//IdentityReferenceCollection sourceAccounts = new IdentityReferenceCollection(1);
-				//sourceAccounts.Add(identity);
-				SecurityIdentifier si = (SecurityIdentifier)identity.Translate(typeof(SecurityIdentifier));
-				//IdentityReferenceCollection references2 = NTAccount.Translate(sourceAccounts, typeof(SecurityIdentifier), false);                
-				//_permissionMap[(SecurityIdentifier)references2[0]] = permissionList;
+				NTAccount identity = new NTAccount(role.Name);				
+				SecurityIdentifier si = (SecurityIdentifier)identity.Translate(typeof(SecurityIdentifier));				
 				_permissionMap[si] = permissionList;
 			}
 		}
