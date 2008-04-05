@@ -7,7 +7,8 @@ namespace NetMX
 	/// <summary>
 	/// Represents a notification about an event. MBeans communicate with other MBeans using ntofications.
 	/// </summary>
-	[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix"), Serializable] //Naming convention from JMX
+   [Serializable]
+	[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix")] //Naming convention from JMX
 	public class Notification : EventArgs, ICloneable
 	{
 		private string _message;

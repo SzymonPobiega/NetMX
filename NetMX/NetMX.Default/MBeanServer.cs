@@ -9,6 +9,7 @@ namespace NetMX.Default
 	public class MBeanServer : IMBeanServer
 	{
 		#region MEMBERS
+      private MBeanServerDelegate _delegate;
       private string _defaultDomain = "root";
 		private Dictionary<ObjectName, IDynamicMBean> _beans = new Dictionary<ObjectName, IDynamicMBean>();
       private Dictionary<string, bool> _domainSet = new Dictionary<string, bool>();
@@ -18,6 +19,12 @@ namespace NetMX.Default
 		#endregion
 
 		#region CONSTRUCTOR
+      public MBeanServer()
+      {
+         _delegate = new MBeanServerDelegate(Guid.NewGuid().ToString(), "", "http://codeplex.com/NetMX", 
+            typeof(MBeanServer).Assembly.GetName().Version.ToString());
+         this.RegisterMBean(_delegate, MBeanServerDelegate.ObjectName);
+      }
 		#endregion
 
 		#region UTILITY
@@ -63,7 +70,10 @@ namespace NetMX.Default
 			}
 			_beans[name] = bean;
 			registration.PostRegister(true);
+         _delegate.SendNotification(new MBeanServerNotification(MBeanServerNotification.RegistrationNotification,
+            null, -1, name));
          _domainSet[name.Domain] = true;
+
          return new ObjectInstance(name, bean.GetMBeanInfo().ClassName);
 		}
 		private INotficationEmitter GetEmitterMBean(ObjectName name, out IDynamicMBean bean)
@@ -218,6 +228,8 @@ namespace NetMX.Default
 			registration.PreDeregister();
 			_beans.Remove(name);
 			registration.PostDeregister();
+         _delegate.SendNotification(new MBeanServerNotification(MBeanServerNotification.UnregistrationNotification,
+            null, -1, name));
          _domainSet.Remove(name.Domain);
 		}		
       public int GetMBeanCount()

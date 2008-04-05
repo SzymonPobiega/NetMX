@@ -81,7 +81,10 @@
     <Compile Include="MBeanPermissionImpl.cs" />
     <Compile Include="IMBeanRegistration.cs" />
     <Compile Include="MBeanServerBuilder.cs" />
+    <Compile Include="MBeanServerDelegate.cs" />
+    <Compile Include="MBeanServerDelegateMBean.cs" />
     <Compile Include="MBeanServerFactory.cs" />
+    <Compile Include="MBeanServerNotification.cs" />
     <Compile Include="Notification.cs" />
     <Compile Include="NotificationEmitterSupport.cs" />
     <Compile Include="NotificationEventArgs.cs" />

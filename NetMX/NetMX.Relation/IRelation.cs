@@ -23,7 +23,7 @@ namespace NetMX.Relation
       /// <returns></returns>
       RoleResult RetrieveAllRoles();
       /// <summary>
-      /// Gets MBeans referenced in the various roles of the relation.
+      /// Gets MBeans referenced in the various roles of the relation. Returns a mapping: ObjectName -> list of String (role names).
       /// </summary>
       /// <exception cref="NetMX.Relation.RelationServiceNotRegisteredException">If the Relation Service is not registered in the MBean Server</exception>
       IDictionary<ObjectName, IList<string>> ReferencedMBeans { get; }
@@ -58,7 +58,7 @@ namespace NetMX.Relation
       /// <returns></returns>
       /// <exception cref="NetMX.Relation.RelationServiceNotRegisteredException">If the Relation Service is not registered in the MBean Server</exception>
       /// <exception cref="NetMX.Relation.RoleNotFoundException">If there is no role with given name or role is not readable.</exception>
-      IList<string> this[string roleName] { get; set; }
+      IList<ObjectName> this[string roleName] { get; set; }
       /// <summary>
       /// Callback used by the Relation Service when a MBean referenced in a role is unregistered.
       /// The Relation Service will call this method to let the relation take action to reflect the impact of such unregistration.

@@ -9,7 +9,7 @@ namespace NetMX
 	{
 		#region Members
 		private string _objectName;
-		private IList<MBeanNotificationInfo> _notificationInfo;
+		private ReadOnlyCollection<MBeanNotificationInfo> _notificationInfo;
 		private Dictionary<NotificationSubscription, List<NotificationSubscription>> _subscriptions = new Dictionary<NotificationSubscription, List<NotificationSubscription>>();
 		private int _sequenceNumber;
 		private readonly object _sequenceNumberSynch = new object();
@@ -21,9 +21,9 @@ namespace NetMX
 		/// </summary>
 		/// <param name="objectName">ObjectName of inheriting or owning MBean</param>
 		/// <param name="notificationInfo">NotificationInfo list of inheriting or owning MBean</param>
-		public void Initialize(string objectName, IList<MBeanNotificationInfo> notificationInfo)
+		public void Initialize(string objectName, IEnumerable<MBeanNotificationInfo> notificationInfo)
 		{
-			_notificationInfo = notificationInfo;
+			_notificationInfo = new List<MBeanNotificationInfo>(notificationInfo).AsReadOnly();
 			_objectName = objectName;
 		}
 		/// <summary>

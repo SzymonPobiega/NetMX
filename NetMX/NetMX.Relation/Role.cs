@@ -9,8 +9,11 @@ using System.Runtime.Serialization;
 namespace NetMX.Relation
 {
    /// <summary>
-   /// Represents a role: includes a role name and referenced MBeans (via their ObjectNames).    
+   /// Represents a role: includes a role name and referenced MBeans (via their ObjectNames).       
    /// </summary>   
+   /// <remarks>
+   /// This class is immutable.
+   /// </remarks>
    [Serializable]
    public sealed class Role //: ISerializable
    {      
@@ -22,7 +25,6 @@ namespace NetMX.Relation
       public string Name
       {
          get { return _name; }
-         set { _name = value; }
       }
       private ReadOnlyCollection<ObjectName> _value;
       /// <summary>
@@ -30,26 +32,21 @@ namespace NetMX.Relation
       /// </summary>
       public IList<ObjectName> Value
       {
-         get { return _value; }
-         set 
-         {
-            List<ObjectName> tmp = new List<ObjectName>(value);
-            _value = new ReadOnlyCollection<ObjectName>(tmp); 
-         }
+         get { return _value; }         
       }
       #endregion
 
       #region CONSTRUCTOR
       /// <summary>
       /// Creates a new Role object. No check is made that the ObjectNames in the role value exist in an MBean 
-      /// server. That check will be made when the role is set in a relation.
+      /// server. That check will be made when the role is set in a relation.      
       /// </summary>
       /// <param name="name">Name of the role.</param>
       /// <param name="value">Value of the role (referenced MBeans)</param>
-      public Role(string name, IList<ObjectName> value)
+      public Role(string name, IEnumerable<ObjectName> value)
       {
          _name = name;
-         Value = value;
+         _value = new List<ObjectName>(value).AsReadOnly();
       }
       //private Role(SerializationInfo info, StreamingContext ctx)
       //{
