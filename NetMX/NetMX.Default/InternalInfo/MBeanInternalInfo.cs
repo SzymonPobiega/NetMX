@@ -56,49 +56,55 @@ namespace NetMX.Default.InternalInfo
 			Dictionary<string, MBeanInternalAttributeInfo> internalAttributes = new Dictionary<string, MBeanInternalAttributeInfo>();
 			List<MBeanInternalNotificationInfo> internalNotifications = new List<MBeanInternalNotificationInfo>();
 
-			foreach (PropertyInfo propInfo in intfType.GetProperties())
-			{
-				MBeanAttributeInfo attrInfo = new MBeanAttributeInfo(propInfo);
-				attributes.Add(attrInfo);
-				internalAttributes.Add(attrInfo.Name, new MBeanInternalAttributeInfo(attrInfo, propInfo));
-			}
-			foreach (EventInfo eventInfo in intfType.GetEvents())
-			{
-				if (eventInfo.IsDefined(typeof(MBeanNotificationAttribute), true))
-				{
-					Type handlerType = eventInfo.GetAddMethod().GetParameters()[0].ParameterType;
-					Type genericArgument = handlerType.GetGenericArguments()[0];
-					if (handlerType.GetGenericTypeDefinition() == typeof(EventHandler<>))
-					{
-						if (typeof(Notification).IsAssignableFrom(genericArgument)
-							|| typeof(NotificationEventArgs).IsAssignableFrom(genericArgument))
-						{
-							MBeanNotificationInfo notifInfo = new MBeanNotificationInfo(eventInfo, handlerType);
-							notifications.Add(notifInfo);
-							internalNotifications.Add(new MBeanInternalNotificationInfo(notifInfo, eventInfo, handlerType, genericArgument));
-						}						
-						else
-						{
-							throw new NotCompliantMBeanException(intfType.AssemblyQualifiedName);
-						}
-					}
-				}
-			}
-         foreach (ConstructorInfo methInfo in intfType.GetConstructors())
+         List<Type> types = new List<Type>();
+         types.Add(intfType);
+         types.AddRange(intfType.GetInterfaces());
+         foreach (Type t in types)
          {
-            MBeanConstructorInfo constructorInfo = new MBeanConstructorInfo(methInfo);
-            constructors.Add(constructorInfo);
-            internalConstructors.Add(constructorInfo.Name, new MBeanInternalConstructorInfo(constructorInfo, methInfo));
+            foreach (PropertyInfo propInfo in t.GetProperties())
+            {
+               MBeanAttributeInfo attrInfo = new MBeanAttributeInfo(propInfo);
+               attributes.Add(attrInfo);
+               internalAttributes.Add(attrInfo.Name, new MBeanInternalAttributeInfo(attrInfo, propInfo));
+            }
+            foreach (EventInfo eventInfo in t.GetEvents())
+            {
+               if (eventInfo.IsDefined(typeof(MBeanNotificationAttribute), true))
+               {
+                  Type handlerType = eventInfo.GetAddMethod().GetParameters()[0].ParameterType;
+                  Type genericArgument = handlerType.GetGenericArguments()[0];
+                  if (handlerType.GetGenericTypeDefinition() == typeof(EventHandler<>))
+                  {
+                     if (typeof(Notification).IsAssignableFrom(genericArgument)
+                        || typeof(NotificationEventArgs).IsAssignableFrom(genericArgument))
+                     {
+                        MBeanNotificationInfo notifInfo = new MBeanNotificationInfo(eventInfo, handlerType);
+                        notifications.Add(notifInfo);
+                        internalNotifications.Add(new MBeanInternalNotificationInfo(notifInfo, eventInfo, handlerType, genericArgument));
+                     }
+                     else
+                     {
+                        throw new NotCompliantMBeanException(intfType.AssemblyQualifiedName);
+                     }
+                  }
+               }
+            }
+            foreach (ConstructorInfo methInfo in t.GetConstructors())
+            {
+               MBeanConstructorInfo constructorInfo = new MBeanConstructorInfo(methInfo);
+               constructors.Add(constructorInfo);
+               internalConstructors.Add(constructorInfo.Name, new MBeanInternalConstructorInfo(constructorInfo, methInfo));
+            }
+            foreach (MethodInfo methInfo in t.GetMethods())
+            {
+               if (!methInfo.IsSpecialName)
+               {
+                  MBeanOperationInfo operationInfo = new MBeanOperationInfo(methInfo, OperationImpact.Unknown);
+                  operations.Add(operationInfo);
+                  internalOperations.Add(operationInfo.Name, new MBeanInternalOperationInfo(operationInfo, methInfo));
+               }
+            }
          }
-			foreach (MethodInfo methInfo in intfType.GetMethods())
-			{
-				if (!methInfo.IsSpecialName)
-				{
-					MBeanOperationInfo operationInfo = new MBeanOperationInfo(methInfo, OperationImpact.Unknown);
-					operations.Add(operationInfo);
-					internalOperations.Add(operationInfo.Name, new MBeanInternalOperationInfo(operationInfo, methInfo));
-				}
-			}
 			_info = new MBeanInfo(intfType, attributes, constructors, operations, notifications);
 			_attributes = internalAttributes;
          _constructors = internalConstructors;

@@ -8,7 +8,7 @@ using NetMX.Default.InternalInfo;
 
 namespace NetMX.Default
 {
-	public sealed class StandardMBean : IDynamicMBean, IMBeanRegistration, INotficationEmitter
+	public sealed class StandardMBean : IDynamicMBean, IMBeanRegistration, INotficationEmitter, INotificationListener
 	{
 		#region MEMBERS
 		private ObjectName _objectName;
@@ -16,6 +16,7 @@ namespace NetMX.Default
 		private MBeanInternalInfo _internalInfo;
 		private object _impl;
 		private IMBeanRegistration _registration;
+      private INotificationListener _notifListener;
 		private Type _implType;
 		private Type _intfType;
 		private NotificationEmitterSupport _notificationSupport;
@@ -32,7 +33,8 @@ namespace NetMX.Default
 			_impl = impl;
 			_implType = impl.GetType();
 			_intfType = intfType;
-			_registration = impl as IMBeanRegistration;			
+			_registration = impl as IMBeanRegistration;
+         _notifListener = impl as INotificationListener;
 		}
 		#endregion
 
@@ -160,6 +162,20 @@ namespace NetMX.Default
 		}
 		#endregion
 
+      #region INotificationListener Members
+      public void HandleNotification(Notification notification, object handback)
+      {
+         if (_notifListener != null)
+         {
+            _notifListener.HandleNotification(notification, handback);
+         }
+         else
+         {
+            throw new OperationsException(string.Format("Bean \"{0}\" is not a notification listener.", _objectName.ToString()));
+         }
+      }
+      #endregion
+
 		#region Utility class
 		private class SimpleNotificationHandler
 		{
@@ -187,6 +203,6 @@ namespace NetMX.Default
 				_support.SendNotification(notification);
 			}
 		}
-		#endregion
-	}
+		#endregion      
+   }
 }

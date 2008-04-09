@@ -21,7 +21,7 @@ namespace NetMX
 		/// </summary>
 		/// <param name="objectName">ObjectName of inheriting or owning MBean</param>
 		/// <param name="notificationInfo">NotificationInfo list of inheriting or owning MBean</param>
-		public void Initialize(string objectName, IEnumerable<MBeanNotificationInfo> notificationInfo)
+		public void Initialize(ObjectName objectName, IEnumerable<MBeanNotificationInfo> notificationInfo)
 		{
 			_notificationInfo = new List<MBeanNotificationInfo>(notificationInfo).AsReadOnly();
 			_objectName = objectName;

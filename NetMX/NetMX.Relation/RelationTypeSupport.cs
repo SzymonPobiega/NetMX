@@ -29,9 +29,14 @@ namespace NetMX.Relation
       #endregion
 
       #region CONSTRUCTOR
-      public RelationTypeSupport(string roleName, IEnumerable<RoleInfo> roleInfos)
+      public RelationTypeSupport(string relationTypeName, params RoleInfo[] roleInfos)
       {
-         _name = roleName;
+         _name = relationTypeName;
+         _roleInfos = new List<RoleInfo>(roleInfos).AsReadOnly();
+      }
+      public RelationTypeSupport(string relationTypeName, IEnumerable<RoleInfo> roleInfos)
+      {
+         _name = relationTypeName;
          _roleInfos = new List<RoleInfo>(roleInfos).AsReadOnly();
       }
       #endregion

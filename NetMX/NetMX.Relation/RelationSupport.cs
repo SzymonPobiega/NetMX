@@ -59,17 +59,47 @@ namespace NetMX.Relation
          _relationService = NetMX.NewMBeanProxy<RelationServiceMBean>(_relationServiceMBeanServer, _relationServiceName);
          _relationTypeName = relationType;
          _roles = new Dictionary<string, Role>();
-         foreach (Role role in roles)
+         if (roles != null)
          {
-            if (!_roles.ContainsKey(role.Name))
+            foreach (Role role in roles)
             {
-               _roles[role.Name] = role;
-            }
-            else
-            {
-               throw new InvalidRoleValueException();
+               if (!_roles.ContainsKey(role.Name))
+               {
+                  _roles[role.Name] = role;
+               }
+               else
+               {
+                  throw new InvalidRoleValueException();
+               }
             }
          }
+      }
+      /// <summary>
+      /// Creates new RelationSupport object.
+      /// 
+      /// This constructor has to be used when the RelationSupport object will be registered as a MBean by the 
+      /// user, or when creating a user relation MBean those class extends RelationSupport.
+      /// 
+      /// Nothing is done at the Relation Service level, i.e. the RelationSupport object is not added, 
+      /// and no check if the provided values are correct. The object is always created, EXCEPT if:
+      /// <list type="bullet">
+      /// <item>one mandatory parameter is not provided</item>
+      /// <item>the same name is used for two roles.</item>
+      /// </list>
+      /// To be handled as a relation, the object has then to be added in the Relation Service using the Relation 
+      /// Service method <see cref="NetMX.Relation.RelationServiceMBean.AddRelation"/>().      
+      /// </summary>
+      /// <param name="relationId">Relation identifier, to identify the relation in the Relation Service. Expected to be unique in the given Relation Service.</param>
+      /// <param name="relationServiceName">ObjectName of the Relation Service where the relation will be registered.
+      /// It is required as this is the Relation Service that is aware of the definition of the relation type 
+      /// of given relation, so that will be able to check update operations (set).
+      /// </param>      
+      /// <param name="relationType">Name of relation type. Expected to have been created in given Relation Service.</param>
+      /// <param name="roles">Roles (Role objects) to initialised the relation. Can be null. Expected to conform to relation info in associated relation type.</param>
+      public RelationSupport(string relationId, ObjectName relationServiceName,
+         string relationType, params Role[] roles)
+         : this(relationId, relationServiceName, null, relationType, roles)
+      {
       }
       /// <summary>
       /// Creates new RelationSupport object.
@@ -100,23 +130,7 @@ namespace NetMX.Relation
       }
       #endregion
 
-      #region Utility
-      private bool CheckRoleClassNames(RoleInfo roleInfo, IEnumerable<ObjectName> objectNames)
-      {
-         foreach (ObjectName name in objectNames)
-         {
-            if (!_relationServiceMBeanServer.IsRegistered(name))
-            {
-               return false;
-            }
-            MBeanInfo beanInfo = _relationServiceMBeanServer.GetMBeanInfo(name);
-            if (beanInfo.ClassName != roleInfo.RefMBeanClassName)
-            {
-               return false;
-            }
-         }
-         return true;
-      }
+      #region Utility      
       private RoleInfo FindRoleInfo(string name, IList<RoleInfo> roleInfos)
       {
          foreach (RoleInfo roleInfo in roleInfos)
@@ -211,14 +225,16 @@ namespace NetMX.Relation
             {
                throw new ArgumentNullException("roleName");
             }
-            if (_roles.ContainsKey(roleName))
+            Role r;
+            if (_roles.TryGetValue(roleName, out r))
             {
-               return _roles[roleName].Value;
+               RoleInfo info = _relationService.GetRoleInfo(_relationTypeName, roleName);
+               if (info.Readable)
+               {
+                  return r.Value;
+               }
             }
-            else
-            {
-               throw new RoleNotFoundException(roleName);
-            }
+            throw new RoleNotFoundException(roleName);            
          }
          set
          {
@@ -226,18 +242,26 @@ namespace NetMX.Relation
             {
                throw new ArgumentNullException("roleName");
             }
-            RoleInfo info = _relationService.GetRoleInfo(_relationTypeName, roleName);
-            if (!info.Writable)
+            Role r;
+            if (_roles.TryGetValue(roleName, out r))
             {
-               throw new RoleNotFoundException(roleName);
+               RoleInfo info = _relationService.GetRoleInfo(_relationTypeName, roleName);
+               if (!info.Writable)
+               {
+                  throw new RoleNotFoundException(roleName);
+               }
+               if (!Role.ValidateRole(value, info, _relationServiceMBeanServer))
+               {
+                  throw new InvalidRoleValueException();
+               }
+               _roles[roleName] = new Role(roleName, value);
             }
-            if (!info.CheckMaxDegree(value.Count) || !info.CheckMinDegree(value.Count) || !CheckRoleClassNames(info, value))
+            else
             {
-               throw new InvalidRoleValueException();
+               throw new RoleNotFoundException(roleName);   
             }
-            _roles[roleName] = new Role(roleName, value);
          }
-      }      
+      }         
       public void HandleMBeanUnregistration(ObjectName objectName, string roleName)
       {
          List<ObjectName> newRoleValue = new List<ObjectName>(this[roleName]);

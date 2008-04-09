@@ -11,6 +11,7 @@ namespace NetMX.Relation
    public class RelationException : NetMXException
    {            
       public RelationException() : base() { }
+      public RelationException(string message) : base(message) { }
       protected RelationException(SerializationInfo info, StreamingContext context)
 			: base(info, context)
 		{			

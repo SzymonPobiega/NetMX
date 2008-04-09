@@ -62,9 +62,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetMX.Proxy", "NetMX.Proxy\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetMX.Proxy.Castle", "NetMX.Proxy.Castle\NetMX.Proxy.Castle.csproj", "{2C4128C4-CD09-4CB6-A97B-E8F36E92AA6E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetMX.Relation.Tests", "NetMX.Relation.Tests\NetMX.Relation.Tests.csproj", "{CF71B902-810B-424A-AF3D-A375D9CB2BC5}"
+EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 16
+		SccNumberOfProjects = 17
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://tfs04.codeplex.com/
 		SccLocalPath0 = .
@@ -119,6 +121,9 @@ Global
 		SccProjectUniqueName15 = NetMX.Proxy.Castle\\NetMX.Proxy.Castle.csproj
 		SccProjectName15 = NetMX.Proxy.Castle
 		SccLocalPath15 = NetMX.Proxy.Castle
+		SccProjectUniqueName16 = NetMX.Relation.Tests\\NetMX.Relation.Tests.csproj
+		SccProjectName16 = NetMX.Relation.Tests
+		SccLocalPath16 = NetMX.Relation.Tests
 	EndGlobalSection
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = NetMX.vsmdi
@@ -282,6 +287,16 @@ Global
 		{2C4128C4-CD09-4CB6-A97B-E8F36E92AA6E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{2C4128C4-CD09-4CB6-A97B-E8F36E92AA6E}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{2C4128C4-CD09-4CB6-A97B-E8F36E92AA6E}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{CF71B902-810B-424A-AF3D-A375D9CB2BC5}.Debug|.NET.ActiveCfg = Debug|Any CPU
+		{CF71B902-810B-424A-AF3D-A375D9CB2BC5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CF71B902-810B-424A-AF3D-A375D9CB2BC5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CF71B902-810B-424A-AF3D-A375D9CB2BC5}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{CF71B902-810B-424A-AF3D-A375D9CB2BC5}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{CF71B902-810B-424A-AF3D-A375D9CB2BC5}.Release|.NET.ActiveCfg = Release|Any CPU
+		{CF71B902-810B-424A-AF3D-A375D9CB2BC5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CF71B902-810B-424A-AF3D-A375D9CB2BC5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CF71B902-810B-424A-AF3D-A375D9CB2BC5}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{CF71B902-810B-424A-AF3D-A375D9CB2BC5}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

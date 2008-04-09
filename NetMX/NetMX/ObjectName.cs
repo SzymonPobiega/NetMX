@@ -325,12 +325,8 @@ namespace NetMX
       }
       public static bool operator ==(ObjectName left, ObjectName right)
       {
-         if ((left == null && right == null) ||
-            (left != null && right != null && left.Equals(right)))
-         {
-            return true;
-         }
-         return false;
+         return  (Object.ReferenceEquals(left, null) && Object.ReferenceEquals(right, null)) ||
+            (!Object.ReferenceEquals(left, null) && !Object.ReferenceEquals(right, null) && left.Equals(right));         
       }
       public static bool operator !=(ObjectName left, ObjectName right)
       {

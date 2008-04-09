@@ -18,8 +18,8 @@ namespace NetMX
    public class MBeanServerNotification : Notification
    {
       #region CONST
-      public const string RegistrationNotification = "NetMX.mbean.registered";
-      public const string UnregistrationNotification = "NetMX.mbean.unregistered";      
+      public const string RegistrationNotification = "netmx.mbean.registered";
+      public const string UnregistrationNotification = "netmx.mbean.unregistered";      
       #endregion      
 
       #region PROPERTIES

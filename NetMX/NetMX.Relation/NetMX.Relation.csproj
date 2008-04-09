@@ -38,6 +38,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Exceptions\InvalidRelationServiceException.cs" />
     <Compile Include="Exceptions\InvalidRoleInfoException.cs" />
     <Compile Include="Exceptions\InvalidRoleValueException.cs" />
     <Compile Include="Exceptions\InvalidRelationIdException.cs" />

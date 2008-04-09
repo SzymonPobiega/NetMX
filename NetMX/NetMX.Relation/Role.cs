@@ -43,6 +43,17 @@ namespace NetMX.Relation
       /// </summary>
       /// <param name="name">Name of the role.</param>
       /// <param name="value">Value of the role (referenced MBeans)</param>
+      public Role(string name, params ObjectName[] value)         
+      {
+         _name = name;
+         _value = new List<ObjectName>(value).AsReadOnly();
+      }
+      /// <summary>
+      /// Creates a new Role object. No check is made that the ObjectNames in the role value exist in an MBean 
+      /// server. That check will be made when the role is set in a relation.      
+      /// </summary>
+      /// <param name="name">Name of the role.</param>
+      /// <param name="value">Value of the role (referenced MBeans)</param>
       public Role(string name, IEnumerable<ObjectName> value)
       {
          _name = name;
@@ -62,5 +73,28 @@ namespace NetMX.Relation
       //   info.get
       //}
       //#endregion
+
+      #region Internal static interface
+      internal static bool ValidateRole(IList<ObjectName> value, RoleInfo info, IMBeanServerConnection serverConnection)
+      {
+         return info.CheckMaxDegree(value.Count) && info.CheckMinDegree(value.Count) && CheckRoleClassNames(info, value, serverConnection);         
+      }
+      private static bool CheckRoleClassNames(RoleInfo roleInfo, IEnumerable<ObjectName> objectNames, IMBeanServerConnection serverConnection)
+      {
+         foreach (ObjectName name in objectNames)
+         {
+            if (!serverConnection.IsRegistered(name))
+            {
+               return false;
+            }
+            MBeanInfo beanInfo = serverConnection.GetMBeanInfo(name);
+            if (beanInfo.ClassName != roleInfo.RefMBeanClassName)
+            {
+               return false;
+            }
+         }
+         return true;
+      }
+      #endregion
    }
 }

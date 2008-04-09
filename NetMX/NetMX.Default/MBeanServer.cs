@@ -241,7 +241,7 @@ namespace NetMX.Default
          IDynamicMBean bean;
          INotficationEmitter emitter = GetEmitterMBean(name, out bean);
          TestPermissions(bean.GetMBeanInfo().ClassName, null, name, MBeanPermissionAction.AddNotificationListener);
-         INotificationListener listenerBean = GetListenerMBean(name, out bean);
+         INotificationListener listenerBean = GetListenerMBean(listener, out bean);
          NotificationCallback callback = new NotificationCallback(listenerBean.HandleNotification);
          emitter.AddNotificationListener(callback, filterCallback, handback);
       }

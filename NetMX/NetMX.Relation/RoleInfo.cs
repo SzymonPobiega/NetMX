@@ -74,12 +74,25 @@ namespace NetMX.Relation
       #endregion
 
       #region Constructors
+      public RoleInfo(string name, Type refMBeanClass)
+         : this(name, refMBeanClass, true, true, 1, 1, null)
+      {
+      }
       public RoleInfo(string name, string refMBeanClassName)
          : this(name, refMBeanClassName, true, true, 1, 1, null)
       {
       }
+      public RoleInfo(string name, Type refMBeanClass, bool readable, bool writable)
+         : this(name, refMBeanClass, readable, writable, 1, 1, null)
+      {
+      }
       public RoleInfo(string name, string refMBeanClassName, bool readable, bool writable)
          : this(name, refMBeanClassName, readable, writable, 1, 1, null)
+      {
+      }
+      public RoleInfo(string name, Type refMBeanClass, bool readable, bool writable, 
+         int minDegree, int maxDegree, string description)
+         : this(name, refMBeanClass.AssemblyQualifiedName, readable, writable, minDegree, maxDegree, description)
       {
       }
       /// <summary>

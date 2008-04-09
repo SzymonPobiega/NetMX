@@ -93,7 +93,6 @@
     <Compile Include="ObjectName.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QueryExp.cs" />
-    <Compile Include="StandardMBean.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Simon.Configuration\Simon.Configuration.csproj">
