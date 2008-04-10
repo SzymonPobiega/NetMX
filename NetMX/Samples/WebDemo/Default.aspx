@@ -10,7 +10,7 @@
 <body>
 	<form id="form1" runat="server">
 		<%--<asp:ScriptManager ID="ScriptManager1" runat="server" />--%>
-		<nwc:MBeanServerProxy ID="proxy" runat="server" ServiceUrl="tcp://test19:1234/MBeanServer.tcp" />
+		<nwc:MBeanServerProxy ID="proxy" runat="server" ServiceUrl="tcp://localhost:1234/MBeanServer.tcp" />
 		<asp:MultiView ID="view" runat="server" ActiveViewIndex="0">
 		    <asp:View ID="browse" runat="server">
 		        <asp:DropDownList ID="beanList" runat="server" EnableViewState="false"/>
@@ -23,7 +23,12 @@
 		        TableCellSpacing="1" 
 		        TableCellPadding="1"
 		        AttributeTableCssClass="Attribute"
-		        OperationTableCssClass="Operation"/>
+		        OperationTableCssClass="Operation"
+		        RelationTableCssClass="Operation"
+		        SectionTitleCssClass="SectionTitle"
+		        GeneralInfoCssClass="GeneralInfo"
+		        GeneralInfoNameCssClass="GeneralInfoName"
+		        GeneralInfoValueCssClass="GeneralInfoValue"/>
 		        <asp:Button ID="returnButton" runat="server" Text="Powrót" OnClick="HideDetails" CssClass="CSS_Button"/>
 		    </asp:View>
 		</asp:MultiView>								

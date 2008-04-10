@@ -122,6 +122,61 @@ namespace NetMX.WebUI.WebControls.Resources
 			}
 		}
 
+      /// <summary>
+      ///   Looks up a localized string similar to Access.
+      /// </summary>
+      internal static string RelationsAccess
+      {
+         get
+         {
+            return ResourceManager.GetString("RelationsAccess", CurrentCulture);
+         }
+      }
+     
+      /// <summary>
+      ///   Looks up a localized string similar to Description.
+      /// </summary>
+      internal static string RelationsDescription
+      {
+         get
+         {
+            return ResourceManager.GetString("RelationsDescription", CurrentCulture);
+         }
+      }
+
+      /// <summary>
+      ///   Looks up a localized string similar to Name.
+      /// </summary>
+      internal static string RelationsName
+      {
+         get
+         {
+            return ResourceManager.GetString("RelationsName", CurrentCulture);
+         }
+      }
+
+      /// <summary>
+      ///   Looks up a localized string similar to Attributes.
+      /// </summary>
+      internal static string RelationsSection
+      {
+         get
+         {
+            return ResourceManager.GetString("RelationsSection", CurrentCulture);
+         }
+      }
+
+      /// <summary>
+      ///   Looks up a localized string similar to Value.
+      /// </summary>
+      internal static string RelationsValue
+      {
+         get
+         {
+            return ResourceManager.GetString("RelationsValue", CurrentCulture);
+         }
+      }
+
 		/// <summary>
 		///   Looks up a localized string similar to Class.
 		/// </summary>

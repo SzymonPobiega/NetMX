@@ -7,6 +7,7 @@ namespace NetMX.Relation
    /// <summary>
    /// A RoleInfo object summarises a role in a relation type.
    /// </summary>
+   [Serializable]
    public sealed class RoleInfo
    {
       #region Const

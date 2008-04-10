@@ -168,4 +168,19 @@
   <data name="RefreshButton" xml:space="preserve">
     <value>Odśwież</value>
   </data>
+  <data name="RelationsAccess" xml:space="preserve">
+    <value>Dostęp</value>
+  </data>
+  <data name="RelationsDescription" xml:space="preserve">
+    <value>Opis</value>
+  </data>
+  <data name="RelationsName" xml:space="preserve">
+    <value>Nazwa</value>
+  </data>
+  <data name="RelationsSection" xml:space="preserve">
+    <value>Relacje</value>
+  </data>
+  <data name="RelationsValue" xml:space="preserve">
+    <value>Powiązania</value>
+  </data>
 </root>

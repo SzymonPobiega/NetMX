@@ -237,14 +237,14 @@ namespace NetMX.Tests
         public void KeyProperyListStringTest()
         {            
             ObjectName target = new ObjectName("domain:b=2,c=3,a=1");
-            Assert.AreEqual("b=2,c=3,a=1", target.KeyProperyListString);
+            Assert.AreEqual("b=2,c=3,a=1", target.KeyPropertyListString);
 
             Dictionary<string, string> properties = new Dictionary<string, string>();
             properties["a"] = "4";
             properties["b"] = "5";
             properties["c"] = "6";
             target = new ObjectName("domain", properties);
-            Assert.AreEqual("a=4,b=5,c=6", target.KeyProperyListString);
+            Assert.AreEqual("a=4,b=5,c=6", target.KeyPropertyListString);
         }        
         /// <summary>
         ///A test for ToString ()

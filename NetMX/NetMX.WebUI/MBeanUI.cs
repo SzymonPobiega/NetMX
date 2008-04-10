@@ -9,6 +9,8 @@ using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
 using NetMX;
 using System.ComponentModel;
+using NetMX.Relation;
+using System.Collections.Generic;
 
 namespace NetMX.WebUI.WebControls
 {
@@ -105,6 +107,56 @@ namespace NetMX.WebUI.WebControls
 			get { return _operationTableCssClass; }
 			set { _operationTableCssClass = value; }
 		}
+      private string _relationTableCssClass;
+      [
+      Category("Appearance"),
+      DefaultValue("")
+      ]
+      public string RelationTableCssClass
+      {
+         get { return _relationTableCssClass; }
+         set { _relationTableCssClass = value; }
+      }
+      private string _generalInfoCssClass;
+      [
+      Category("Appearance"),
+      DefaultValue("")
+      ]
+      public string GeneralInfoCssClass
+      {
+         get { return _generalInfoCssClass; }
+         set { _generalInfoCssClass = value; }
+      }
+      private string _generalInfoNameCssClass;
+      [
+      Category("Appearance"),
+      DefaultValue("")
+      ]
+      public string GeneralInfoNameCssClass
+      {
+         get { return _generalInfoNameCssClass; }
+         set { _generalInfoNameCssClass = value; }
+      }
+      private string _generalInfoValueCssClass;
+      [
+      Category("Appearance"),
+      DefaultValue("")
+      ]
+      public string GeneralInfoValueCssClass
+      {
+         get { return _generalInfoValueCssClass; }
+         set { _generalInfoValueCssClass = value; }
+      }
+      private string _sectionTitleCssClass;
+      [
+      Category("Appearance"),
+      DefaultValue("")
+      ]
+      public string SectionTitleCssClass
+      {
+         get { return _sectionTitleCssClass; }
+         set { _sectionTitleCssClass = value; }
+      }      
 		#endregion
 
 		#region Overridden
@@ -129,14 +181,24 @@ namespace NetMX.WebUI.WebControls
 		}
 		#endregion
 
-		#region Utility
-		private void CreateControls()
+      #region Event handlers
+      private void NavigateCommand(object sender, CommandEventArgs e)
+      {
+         ObjectName = new ObjectName((string)e.CommandArgument);
+         this.Controls.Clear();
+         CreateControls();
+      }
+      #endregion
+
+      #region Utility
+      private void CreateControls()
 		{
 			MBeanInfo info = Proxy.ServerConnection.GetMBeanInfo(new ObjectName(ObjectName));
+         RelationServiceMBean relationService = NetMX.NewMBeanProxy<RelationServiceMBean>(Proxy.ServerConnection, RelationService.ObjectName);
 
 			Label generalInfoTitle = new Label();
 			generalInfoTitle.Text = Resources.MBeanUI.GeneralInformationSection + "&nbsp;&nbsp;";
-			generalInfoTitle.CssClass = "SectionTitle";
+         generalInfoTitle.CssClass = SectionTitleCssClass;
 			this.Controls.Add(generalInfoTitle);
 
 			Button refreshButton = new Button();
@@ -147,7 +209,7 @@ namespace NetMX.WebUI.WebControls
 			Table generalInfo = new Table();
 			generalInfo.CellPadding = TableCellPadding;
 			generalInfo.CellSpacing = TableCellSpacing;
-			generalInfo.CssClass = "GeneralInfo";
+         generalInfo.CssClass = GeneralInfoCssClass;
 			generalInfo.ControlStyle.Width = Unit.Percentage(100);
 			AddGeneralInfoItem(generalInfo, Resources.MBeanUI.GeneralInformationObjectName, ObjectName);
 			AddGeneralInfoItem(generalInfo, Resources.MBeanUI.GeneralInformationDescription, info.Description);
@@ -156,7 +218,7 @@ namespace NetMX.WebUI.WebControls
 
 			Label attributesTitle = new Label();
 			attributesTitle.Text = Resources.MBeanUI.AttributesSection;
-			attributesTitle.CssClass = "SectionTitle";
+         attributesTitle.CssClass = SectionTitleCssClass;
 			this.Controls.Add(attributesTitle);
 
 			Table attributes = new Table();
@@ -174,7 +236,7 @@ namespace NetMX.WebUI.WebControls
 
 			Label operationTitle = new Label();
 			operationTitle.Text = Resources.MBeanUI.OperationsSection;
-			operationTitle.CssClass = "SectionTitle";
+         operationTitle.CssClass = SectionTitleCssClass;
 			this.Controls.Add(operationTitle);
 
 			Table operations = new Table();
@@ -189,20 +251,47 @@ namespace NetMX.WebUI.WebControls
 				operations.Rows.Add(operationRow);
 			}
 			this.Controls.Add(operations);
+
+         Label relationsTitle = new Label();
+         relationsTitle.Text = Resources.MBeanUI.RelationsSection;
+         relationsTitle.CssClass = SectionTitleCssClass;
+         this.Controls.Add(relationsTitle);
+
+         Table relations = new Table();
+         relations.CellPadding = TableCellPadding;
+         relations.CellSpacing = TableCellSpacing;
+         relations.CssClass = RelationTableCssClass;
+         relations.ControlStyle.Width = Unit.Percentage(100);
+         relations.Rows.Add(CreateRelationsHeader());
+         IDictionary<string, IList<string>> referencing = relationService.FindReferencingRelations(ObjectName, null, null);
+         foreach (string relationId in referencing.Keys)
+         {
+            string relationType = relationService.GetRelationTypeName(relationId);
+            IList<RoleInfo> roleInfos = relationService.GetRoleInfos(relationType);
+            foreach (RoleInfo roleInfo in roleInfos)
+            {
+               RelationRoleTableRow relationRow = new RelationRoleTableRow(ObjectName, relationId, roleInfo, relationService, "Operation", this.NavigateCommand);
+               if (relationRow.HasValue)
+               {
+                  relations.Rows.Add(relationRow);
+               }
+            }
+         }          
+         this.Controls.Add(relations);
 		}
 		private void AddGeneralInfoItem(Table table, string name, string value)
 		{
 			TableRow row = new TableRow();
-			row.CssClass = "GeneralInfo";
+         row.CssClass = GeneralInfoCssClass;
 
 			TableCell nameCell = new TableCell();
-			nameCell.CssClass = "GeneralInfoName";
+         nameCell.CssClass = GeneralInfoNameCssClass;
 			nameCell.Text = name;
 			nameCell.ControlStyle.Width = Unit.Percentage(20);
 			row.Cells.Add(nameCell);
 
 			TableCell valueCell = new TableCell();
-			valueCell.CssClass = "GeneralInfoValue";
+         valueCell.CssClass = GeneralInfoValueCssClass;
 			valueCell.Text = value;
 			valueCell.ControlStyle.Width = Unit.Percentage(80);
 			row.Cells.Add(valueCell);
@@ -220,6 +309,16 @@ namespace NetMX.WebUI.WebControls
 			AddAttributesHeaderCell(attrHeader, Resources.MBeanUI.AttributesActions, 25);
 			return attrHeader;
 		}
+      private TableHeaderRow CreateRelationsHeader()
+      {
+         TableHeaderRow relHeader = new TableHeaderRow();
+         relHeader.CssClass = RelationTableCssClass;
+         AddRelationsHeaderCell(relHeader, Resources.MBeanUI.RelationsName, 20);
+         AddRelationsHeaderCell(relHeader, Resources.MBeanUI.RelationsDescription, 20);
+         AddRelationsHeaderCell(relHeader, Resources.MBeanUI.RelationsAccess, 10);
+         AddRelationsHeaderCell(relHeader, Resources.MBeanUI.RelationsValue, 50);
+         return relHeader;
+      }
 		private TableHeaderRow CreateOperationsHeader()
 		{
 			TableHeaderRow operHeader = new TableHeaderRow();
@@ -231,21 +330,25 @@ namespace NetMX.WebUI.WebControls
 			AddOperationsHeaderCell(operHeader, Resources.MBeanUI.OperationsActions, 15);
 			return operHeader;
 		}
+      private void AddHeaderCell(TableHeaderRow row, string name, double percentSize, string cssClass)
+      {
+         TableHeaderCell cell = new TableHeaderCell();
+         cell.CssClass = cssClass;
+         cell.ControlStyle.Width = Unit.Percentage(percentSize);
+         cell.Text = name;
+         row.Cells.Add(cell);
+      }
+      private void AddRelationsHeaderCell(TableHeaderRow row, string name, double percentSize)
+      {
+         AddHeaderCell(row, name, percentSize, RelationTableCssClass);
+      }
 		private void AddOperationsHeaderCell(TableHeaderRow row, string name, double percentSize)
 		{
-			TableHeaderCell cell = new TableHeaderCell();
-			cell.CssClass = OperationTableCssClass;
-			cell.ControlStyle.Width = Unit.Percentage(percentSize);
-			cell.Text = name;
-			row.Cells.Add(cell);
-		}
+         AddHeaderCell(row, name, percentSize, OperationTableCssClass);
+		}      
 		private void AddAttributesHeaderCell(TableHeaderRow row, string name, double percentSize)
 		{
-			TableHeaderCell cell = new TableHeaderCell();
-			cell.CssClass = AttributeTableCssClass;
-			cell.ControlStyle.Width = Unit.Percentage(percentSize);
-			cell.Text = name;
-			row.Cells.Add(cell);
+         AddHeaderCell(row, name, percentSize, AttributeTableCssClass);
 		}
 		private MBeanServerProxy _proxy;
 		private MBeanServerProxy Proxy

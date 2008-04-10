@@ -53,6 +53,10 @@
     <Compile Include="StandardMBean.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\NetMX.Relation\NetMX.Relation.csproj">
+      <Project>{777EBC51-1D14-4170-8ABA-9D78328641D7}</Project>
+      <Name>NetMX.Relation</Name>
+    </ProjectReference>
     <ProjectReference Include="..\NetMX\NetMX.csproj">
       <Project>{619AD956-B7BC-492D-9722-25DA4891E144}</Project>
       <Name>NetMX</Name>

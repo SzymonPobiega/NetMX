@@ -117,70 +117,28 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AttributesAccess" xml:space="preserve">
-    <value>Access</value>
+  <data name="ImplementationName" xml:space="preserve">
+    <value>Name of the this product</value>
   </data>
-  <data name="AttributesActions" xml:space="preserve">
-    <value>Actions</value>
+  <data name="ImplementationVendor" xml:space="preserve">
+    <value>Manufacturer of this product</value>
   </data>
-  <data name="AttributesDescription" xml:space="preserve">
-    <value>Description</value>
+  <data name="ImplementationVersion" xml:space="preserve">
+    <value>Version of this product</value>
   </data>
-  <data name="AttributesName" xml:space="preserve">
-    <value>Name</value>
+  <data name="MBeanServerDelegateMBean" xml:space="preserve">
+    <value>MBean which provides information about agent</value>
   </data>
-  <data name="AttributesSection" xml:space="preserve">
-    <value>Attributes</value>
+  <data name="MBeanServerId" xml:space="preserve">
+    <value>Agent identity</value>
   </data>
-  <data name="AttributesValue" xml:space="preserve">
-    <value>Value</value>
+  <data name="SpecificationName" xml:space="preserve">
+    <value>Full name of implemented NetMX specification</value>
   </data>
-  <data name="GeneralInformationClass" xml:space="preserve">
-    <value>Class</value>
+  <data name="SpecificationVendor" xml:space="preserve">
+    <value>Creator of implemented NetMX specification</value>
   </data>
-  <data name="GeneralInformationDescription" xml:space="preserve">
-    <value>Description</value>
-  </data>
-  <data name="GeneralInformationObjectName" xml:space="preserve">
-    <value>Object name</value>
-  </data>
-  <data name="GeneralInformationSection" xml:space="preserve">
-    <value>General information</value>
-  </data>
-  <data name="OperationsActions" xml:space="preserve">
-    <value>Actions</value>
-  </data>
-  <data name="OperationsArguments" xml:space="preserve">
-    <value>Arguments</value>
-  </data>
-  <data name="OperationsDescription" xml:space="preserve">
-    <value>Description</value>
-  </data>
-  <data name="OperationsImpact" xml:space="preserve">
-    <value>Impact</value>
-  </data>
-  <data name="OperationsName" xml:space="preserve">
-    <value>Name</value>
-  </data>
-  <data name="OperationsSection" xml:space="preserve">
-    <value>Operations</value>
-  </data>
-  <data name="RefreshButton" xml:space="preserve">
-    <value>Refresh</value>
-  </data>
-  <data name="RelationsAccess" xml:space="preserve">
-    <value>Access</value>
-  </data>
-  <data name="RelationsDescription" xml:space="preserve">
-    <value>Description</value>
-  </data>
-  <data name="RelationsName" xml:space="preserve">
-    <value>Name</value>
-  </data>
-  <data name="RelationsSection" xml:space="preserve">
-    <value>Relations</value>
-  </data>
-  <data name="RelationsValue" xml:space="preserve">
-    <value>Relatives</value>
+  <data name="SpecificationVersion" xml:space="preserve">
+    <value>Version of implemented NetMX specification</value>
   </data>
 </root>

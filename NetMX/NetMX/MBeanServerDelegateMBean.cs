@@ -9,6 +9,7 @@ namespace NetMX
    /// <summary>
    /// Defines the management interface of an object of class MBeanServerDelegate.
    /// </summary>
+   [MBeanResource("NetMX.Resources.MBeanServerDelegate")]
    public interface MBeanServerDelegateMBean
    {
       /// <summary>

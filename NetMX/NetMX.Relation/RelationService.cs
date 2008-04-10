@@ -20,6 +20,10 @@ namespace NetMX.Relation
    /// </summary>   
    public class RelationService : NotificationEmitterSupport, RelationServiceMBean, IMBeanRegistration, INotificationListener
    {
+      #region Const
+      public const string ObjectName = ":type=RelationService";
+      #endregion
+
       #region MEMBERS
       private bool _purge;
       private IMBeanServer _server;

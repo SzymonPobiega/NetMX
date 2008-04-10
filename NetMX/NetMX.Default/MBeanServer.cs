@@ -10,7 +10,7 @@ namespace NetMX.Default
 	{
 		#region MEMBERS
       private MBeanServerDelegate _delegate;
-      private string _defaultDomain = "root";
+      private string _defaultDomain = "NetMXImplementation";
 		private Dictionary<ObjectName, IDynamicMBean> _beans = new Dictionary<ObjectName, IDynamicMBean>();
       private Dictionary<string, bool> _domainSet = new Dictionary<string, bool>();
 		#endregion
@@ -21,9 +21,9 @@ namespace NetMX.Default
 		#region CONSTRUCTOR
       public MBeanServer()
       {
-         _delegate = new MBeanServerDelegate(Guid.NewGuid().ToString(), "", "http://codeplex.com/NetMX", 
-            typeof(MBeanServer).Assembly.GetName().Version.ToString());
-         this.RegisterMBean(_delegate, MBeanServerDelegate.ObjectName);
+         _delegate = new MBeanServerDelegate(Guid.NewGuid().ToString(), "", "http://netmx.eu", 
+            typeof(MBeanServer).Assembly.GetName().Version.ToString());         
+         this.RegisterMBean(_delegate, MBeanServerDelegate.ObjectName);         
       }
 		#endregion
 
@@ -112,20 +112,32 @@ namespace NetMX.Default
 			MBeanPermission perm = new MBeanPermission(className, memberName, name, action);
 			perm.Demand();
 		}
+      private ObjectName GetNameWithDomain(ObjectName name)
+      {
+         if (name.Domain == "")
+         {
+            return new ObjectName(this._defaultDomain, name.KeyPropertyList);
+         }
+         else
+         {
+            return name;
+         }
+      }
 		#endregion
 
 		#region IMBeanServer Members
       public ObjectInstance CreateMBean(string className, ObjectName name, object[] arguments)
       {
          object instance = Activator.CreateInstance(Type.GetType(className), arguments);
-         return RegisterMBeanExternal(instance, name);
+         return RegisterMBeanExternal(instance, GetNameWithDomain(name));
       }
 		public void RegisterMBean(object bean, ObjectName name)
 		{
-         RegisterMBeanExternal(bean, name);
+         RegisterMBeanExternal(bean, GetNameWithDomain(name));
 		}
 		public object Invoke(ObjectName name, string operationName, object[] arguments)
 		{
+         name = GetNameWithDomain(name);
 			IDynamicMBean bean = GetMBean(name);
 			TestPermissions(bean.GetMBeanInfo().ClassName, operationName, name, MBeanPermissionAction.Invoke);
 			try
@@ -140,6 +152,7 @@ namespace NetMX.Default
 
 		public void SetAttribute(ObjectName name, string attributeName, object value)
 		{
+         name = GetNameWithDomain(name);
 			IDynamicMBean bean = GetMBean(name);
 			TestPermissions(bean.GetMBeanInfo().ClassName, attributeName, name, MBeanPermissionAction.SetAttribute);	
 			bean.SetAttribute(attributeName, value);
@@ -147,6 +160,7 @@ namespace NetMX.Default
 
 		public object GetAttribute(ObjectName name, string attributeName)
 		{
+         name = GetNameWithDomain(name);
 			IDynamicMBean bean = GetMBean(name);
 			TestPermissions(bean.GetMBeanInfo().ClassName, attributeName, name, MBeanPermissionAction.GetAttribute);	
 			return bean.GetAttribute(attributeName);
@@ -154,6 +168,7 @@ namespace NetMX.Default
 
 		public IList<AttributeValue> GetAttributes(ObjectName name, string[] attributeNames)
 		{
+         name = GetNameWithDomain(name);
 			IDynamicMBean bean = GetMBean(name);
 			string className = bean.GetMBeanInfo().ClassName;
 			List<AttributeValue> results = new List<AttributeValue>();
@@ -173,6 +188,7 @@ namespace NetMX.Default
 
 		public MBeanInfo GetMBeanInfo(ObjectName name)
 		{
+         name = GetNameWithDomain(name);
 			IDynamicMBean bean = GetMBean(name);
 			MBeanInfo info = bean.GetMBeanInfo();
 			TestPermissions(info.ClassName, null, name, MBeanPermissionAction.GetMBeanInfo);	
@@ -180,6 +196,7 @@ namespace NetMX.Default
 		}
 		public void AddNotificationListener(ObjectName name, NotificationCallback callback, NotificationFilterCallback filterCallback, object handback)
 		{
+         name = GetNameWithDomain(name);
 			IDynamicMBean bean;
 			INotficationEmitter emitter = GetEmitterMBean(name, out bean);
 			TestPermissions(bean.GetMBeanInfo().ClassName, null, name, MBeanPermissionAction.AddNotificationListener);
@@ -188,6 +205,7 @@ namespace NetMX.Default
 
 		public void RemoveNotificationListener(ObjectName name, NotificationCallback callback, NotificationFilterCallback filterCallback, object handback)
 		{
+         name = GetNameWithDomain(name);
 			IDynamicMBean bean;
 			INotficationEmitter emitter = GetEmitterMBean(name, out bean);
 			TestPermissions(bean.GetMBeanInfo().ClassName, null, name, MBeanPermissionAction.RemoveNotificationListener);
@@ -196,6 +214,7 @@ namespace NetMX.Default
 
 		public void RemoveNotificationListener(ObjectName name, NotificationCallback callback)
 		{
+         name = GetNameWithDomain(name);
 			IDynamicMBean bean;
 			INotficationEmitter emitter = GetEmitterMBean(name, out bean);
 			TestPermissions(bean.GetMBeanInfo().ClassName, null, name, MBeanPermissionAction.RemoveNotificationListener);
@@ -203,6 +222,7 @@ namespace NetMX.Default
 		}		
 		public bool IsInstanceOf(ObjectName name, string className)
 		{
+         name = GetNameWithDomain(name);
 			IDynamicMBean bean = GetMBean(name);
 			MBeanInfo info = bean.GetMBeanInfo();
 			TestPermissions(info.ClassName, null, name, MBeanPermissionAction.IsInstanceOf);			
@@ -210,15 +230,16 @@ namespace NetMX.Default
 		}
 		public bool IsRegistered(ObjectName name)
 		{
-			return _beans.ContainsKey(name);
+			return _beans.ContainsKey(GetNameWithDomain(name));
 		}
 		public IEnumerable<ObjectName> QueryNames(ObjectName name, QueryExp query)
-		{
+		{         
 			List<ObjectName> results = new List<ObjectName>(_beans.Keys);
 			return results;
 		}
 		public void UnregisterMBean(ObjectName name)
 		{
+         name = GetNameWithDomain(name);
 			IDynamicMBean bean = GetMBean(name);
 			MBeanInfo info = bean.GetMBeanInfo();
 
@@ -238,6 +259,8 @@ namespace NetMX.Default
       }
       public void AddNotificationListener(ObjectName name, ObjectName listener, NotificationFilterCallback filterCallback, object handback)
       {
+         name = GetNameWithDomain(name);
+         listener = GetNameWithDomain(listener);
          IDynamicMBean bean;
          INotficationEmitter emitter = GetEmitterMBean(name, out bean);
          TestPermissions(bean.GetMBeanInfo().ClassName, null, name, MBeanPermissionAction.AddNotificationListener);
@@ -247,6 +270,8 @@ namespace NetMX.Default
       }
       public void RemoveNotificationListener(ObjectName name, ObjectName listener, NotificationFilterCallback filterCallback, object handback)
       {
+         name = GetNameWithDomain(name);
+         listener = GetNameWithDomain(listener);
          IDynamicMBean bean;
          INotficationEmitter emitter = GetEmitterMBean(name, out bean);
          TestPermissions(bean.GetMBeanInfo().ClassName, null, name, MBeanPermissionAction.RemoveNotificationListener);
@@ -256,6 +281,8 @@ namespace NetMX.Default
       }
       public void RemoveNotificationListener(ObjectName name, ObjectName listener)
       {
+         name = GetNameWithDomain(name);
+         listener = GetNameWithDomain(listener);
          IDynamicMBean bean;
          INotficationEmitter emitter = GetEmitterMBean(name, out bean);
          TestPermissions(bean.GetMBeanInfo().ClassName, null, name, MBeanPermissionAction.RemoveNotificationListener);
@@ -265,6 +292,7 @@ namespace NetMX.Default
       }
       public IList<AttributeValue> SetAttributes(ObjectName name, IEnumerable<AttributeValue> namesAndValues)
       {
+         name = GetNameWithDomain(name);
          IDynamicMBean bean = GetMBean(name);
          string className = bean.GetMBeanInfo().ClassName;
          List<AttributeValue> results = new List<AttributeValue>();

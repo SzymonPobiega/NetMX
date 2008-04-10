@@ -51,6 +51,18 @@
       <Project>{9B9279AA-5B62-4834-9949-F2CCE7318610}</Project>
       <Name>NetMX.Default</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\NetMX.Proxy.Castle\NetMX.Proxy.Castle.csproj">
+      <Project>{2C4128C4-CD09-4CB6-A97B-E8F36E92AA6E}</Project>
+      <Name>NetMX.Proxy.Castle</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\NetMX.Proxy\NetMX.Proxy.csproj">
+      <Project>{DD2598EC-FF14-468C-AE00-EFC63D18693B}</Project>
+      <Name>NetMX.Proxy</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\NetMX.Relation\NetMX.Relation.csproj">
+      <Project>{777EBC51-1D14-4170-8ABA-9D78328641D7}</Project>
+      <Name>NetMX.Relation</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\NetMX.Remote.Remoting\NetMX.Remote.Remoting.csproj">
       <Project>{FF650A14-16B7-4CB3-BBC0-592FAE591D3D}</Project>
       <Name>NetMX.Remote.Remoting</Name>

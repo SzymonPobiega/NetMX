@@ -74,7 +74,7 @@ namespace NetMX
 		/// If this <see cref="ObjectName"/> was constructed with the constructor <see cref="ObjectName(String)"/>, the key properties 
 		/// in the returned String will be in the same order as in the argument to the constructor.
 		/// </summary>
-		public string KeyProperyListString
+		public string KeyPropertyListString
 		{
 			get { return _originalPropertyList; }
 		}		
@@ -100,6 +100,17 @@ namespace NetMX
 		{
 			get { return _isPropertyPattern || _isDomainPattern; }
 		}
+      /// <summary>
+      /// Returns the key properties as a dictionary. The returned value is a dictionary in which each key 
+      /// is a key in the ObjectName's key property list and each value is the associated value.
+      /// </summary>
+      public IDictionary<string, string> KeyPropertyList
+      {
+         get
+         {
+            return new Dictionary<string, string>(_properties);
+         }
+      }
 		#endregion      
 
       #region Constructors
@@ -125,11 +136,11 @@ namespace NetMX
 		/// <exception cref="NetMX.MalformedObjectNameException">The domain contains an illegal character, or one of 
 		/// the keys or values in table contains an illegal character, or one of the values in table does not 
 		/// follow the rules for quoting.</exception>
-		public ObjectName(string domain, Dictionary<string, string> properties)
+		public ObjectName(string domain, IDictionary<string, string> properties)
 		{
 			_domain = domain;
 			SetDomainPattern();
-			_properties = properties;
+			_properties = new Dictionary<string,string>(properties);
 			if (_properties.ContainsKey("*"))
 			{
 				_properties.Remove("*");
