@@ -8,8 +8,8 @@ using System.Runtime.Serialization;
 namespace NetMX.OpenMBean
 {   
    /// <summary>
-	/// This exception is thrown to indicate that a method parameter which was expected to be an item name of a 
-	/// composite data or a row index of a tabular data is not valid.
+	/// This checked exception is thrown when an open type, an open data or an open MBean metadata info instance 
+	/// could not be constructed because one or more validity constraints were not met.
    /// </summary>
    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1032:ImplementStandardExceptionConstructors"), Serializable] //Other constructos do not make sense.
    public sealed class OpenDataException : NetMXException
