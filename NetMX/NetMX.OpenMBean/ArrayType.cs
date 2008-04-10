@@ -5,10 +5,10 @@ using System.Text;
 namespace NetMX.OpenMBean
 {
 	[Serializable]
-	public sealed class TabularType : OpenType
+	public sealed class ArrayType : OpenType
 	{
-		public TabularType(string typeName, string description, CompositeType rowType, IEnumerable<string> indexNames)
-			: base(OpenTypeRepresentation.Tabular, typeName, description)
+		public ArrayType(int dimension, OpenType elementType)
+			: base(elementType.Representation, "Array", "Array")
 		{
 		}
 

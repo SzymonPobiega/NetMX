@@ -37,6 +37,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ArrayType.cs" />
     <Compile Include="CompositeType.cs" />
     <Compile Include="Exceptions\OpenDataException .cs" />
     <Compile Include="Exceptions\KeyAlreadyExistsException .cs" />
