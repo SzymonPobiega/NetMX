@@ -1,0 +1,31 @@
+﻿<UserCombinePreferences version="1.0" filename="/Users/pawelek/Projekty/Mono/NetMX/NetMX.mds">
+  <Files />
+  <Views>
+    <ViewMemento id="ProjectPad">
+      <Node expanded="True">
+        <Node name="NetMX.Default" selected="True" />
+      </Node>
+    </ViewMemento>
+    <ViewMemento id="ClassPad">
+      <Node expanded="True">
+        <Node name="NetMX" expanded="True" />
+        <Node name="NetMX.Default" expanded="True" />
+        <Node name="NetMX.OpenMBean" expanded="True" />
+        <Node name="NetMX.Proxy" expanded="True" />
+        <Node name="NetMX.Proxy.Castle" expanded="True" />
+        <Node name="NetMX.Relation" expanded="True" />
+        <Node name="NetMX.Remote" expanded="True" />
+        <Node name="NetMX.Remote.Remoting" expanded="True" />
+        <Node name="NetMX.WebUI" expanded="True" />
+        <Node name="Simon.Configuration" expanded="True" />
+      </Node>
+    </ViewMemento>
+    <ViewMemento id="MonoDevelop.NUnit.TestPad">
+      <Node />
+    </ViewMemento>
+  </Views>
+  <Properties>
+    <Property key="ActiveWindow" value="" />
+    <Property key="ActiveConfiguration" value="Debug|Any CPU" />
+  </Properties>
+</UserCombinePreferences>
