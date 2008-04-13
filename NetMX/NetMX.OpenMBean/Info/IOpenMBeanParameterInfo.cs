@@ -24,7 +24,7 @@ namespace NetMX.OpenMBean
       /// </summary>
       string Description { get; }
       /// <summary>
-      ///  Gets the set of legal values for this parameter, if it has one, or null otherwise.
+      /// Gets the set of legal values for this parameter, if it has one, or null otherwise.
       /// </summary>
       IEnumerable LegalValues { get; }
       /// <summary>
