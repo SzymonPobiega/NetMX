@@ -14,11 +14,11 @@ namespace NetMX.OpenMBean
    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1032:ImplementStandardExceptionConstructors"), Serializable] //Other constructos do not make sense.
    public sealed class KeyAlreadyExistsException : ArgumentException
    {
-      private string _key;
+      private readonly IEnumerable<object> _key;
       /// <summary>
       /// Key which caused the problem.
       /// </summary>
-      public string Key
+      public IEnumerable<object> Key
       {
 			get { return _key; }
       }      
@@ -26,7 +26,7 @@ namespace NetMX.OpenMBean
 		/// Creates new KeyAlreadyExistsException object.
       /// </summary>
 		/// <param name="key">Key which caused the problem.</param>
-      public KeyAlreadyExistsException(string key) 
+      public KeyAlreadyExistsException(IEnumerable<object> key) 
 			: base()
       {
 			_key = key;
@@ -34,7 +34,7 @@ namespace NetMX.OpenMBean
 		private KeyAlreadyExistsException(SerializationInfo info, StreamingContext context)
 			: base(info, context)
 		{
-			_key = info.GetString("key");			
+         _key = (IEnumerable<object>)info.GetValue("key", typeof(IEnumerable<object>));
 		}
       [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods"), System.Security.Permissions.SecurityPermission(System.Security.Permissions.SecurityAction.LinkDemand, Flags = System.Security.Permissions.SecurityPermissionFlag.SerializationFormatter)]
       public override void GetObjectData(SerializationInfo info, StreamingContext context)

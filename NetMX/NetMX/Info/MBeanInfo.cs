@@ -16,7 +16,7 @@ namespace NetMX
 	public class MBeanInfo
 	{
 		#region PROPERTIES
-		private string _description;
+		private readonly string _description;
 		/// <summary>
 		/// Returns a human readable description of the MBean. 
 		/// </summary>
@@ -24,7 +24,7 @@ namespace NetMX
 		{
 			get { return _description; }
 		}
-		private string _className;
+      private readonly string _className;
 		/// <summary>
 		/// Returns the name of the .NET class of the MBean described by this MBeanInfo.
 		/// </summary>
@@ -32,7 +32,7 @@ namespace NetMX
 		{
 			get { return _className; }
 		}
-		private ReadOnlyCollection<MBeanAttributeInfo> _attributes;
+      private readonly ReadOnlyCollection<MBeanAttributeInfo> _attributes;
 		/// <summary>
 		/// Returns the list of attributes exposed for management. Each attribute is described by an 
 		/// <see cref="NetMX.MBeanAttributeInfo"/> object. The returned list is read-only so it cannot be modified.
@@ -42,7 +42,7 @@ namespace NetMX
 		{
 			get { return _attributes; }
 		}
-		private ReadOnlyCollection<MBeanOperationInfo> _operations;
+      private readonly ReadOnlyCollection<MBeanOperationInfo> _operations;
 		/// <summary>
 		/// Returns the list of operations exposed for management. Each operation is described by an 
 		/// <see cref="NetMX.MBeanOperationInfo"/> object. The returned list is read-only so it cannot be modified.
@@ -52,17 +52,17 @@ namespace NetMX
 		{
 			get { return _operations; }
 		}
-		private ReadOnlyCollection<MBeanNotificationInfo> _notifications;
+      private readonly ReadOnlyCollection<MBeanNotificationInfo> _notifications;
 		/// <summary>
 		/// Returns the list of notifications exposed for management. Each operation is described by an 
 		/// <see cref="NetMX.MBeanNotificationInfo"/> object. The returned list is read-only so it cannot be modified.
 		/// List items are immutable by definition because they are of <see cref="NetMX.MBeanNotificationInfo"/> type.        
 		/// </summary>
-		public ReadOnlyCollection<MBeanNotificationInfo> Notifications
+		public IList<MBeanNotificationInfo> Notifications
 		{
 			get { return _notifications; }
 		}
-      private ReadOnlyCollection<MBeanConstructorInfo> _constructors;
+      private readonly ReadOnlyCollection<MBeanConstructorInfo> _constructors;
       /// <summary>
       /// Returns the list of the public constructors of the MBean. Each constructor is described by an 
       /// <see cref="NetMX.MBeanConstructorInfo"/> object. The returned list is read-only so it cannot be modified.            
@@ -72,7 +72,7 @@ namespace NetMX
       /// is not in the list. In this case, the MBean server can construct another instance of this MBean's class 
       /// using that constructor, even though it is not listed here.
       ///</remarks>            
-      public ReadOnlyCollection<MBeanConstructorInfo> Constructors
+      public IList<MBeanConstructorInfo> Constructors
       {
          get { return _constructors; }
       }
@@ -87,7 +87,7 @@ namespace NetMX
       /// <param name="constructors">List of MBean constructors. It should be an empty list if MBean contains no constructors.</param>
 		/// <param name="operations">List of MBean operations. It should be an empty list if MBean contains no operations.</param>
 		/// <param name="notifications">List of MBean notifications. It should be an empty list if MBean contains no notifications.</param>
-		public MBeanInfo(Type type, List<MBeanAttributeInfo> attributes, List<MBeanConstructorInfo> constructors, List<MBeanOperationInfo> operations, List<MBeanNotificationInfo> notifications)
+      public MBeanInfo(Type type, IEnumerable<MBeanAttributeInfo> attributes, IEnumerable<MBeanConstructorInfo> constructors, IEnumerable<MBeanOperationInfo> operations, IEnumerable<MBeanNotificationInfo> notifications)
 			: this(type.AssemblyQualifiedName, InfoUtils.GetDescrition(type, type, "MBean"), attributes, constructors, operations, notifications)
 		{
 		}
@@ -100,15 +100,52 @@ namespace NetMX
       /// <param name="constructors">List of MBean constructors. It should be an empty list if MBean contains no constructors.</param>
 		/// <param name="operations">List of MBean operations. It should be an empty list if MBean contains no operations.</param>
 		/// <param name="notifications">List of MBean notifications. It should be an empty list if MBean contains no notifications.</param>
-      public MBeanInfo(string className, string description, List<MBeanAttributeInfo> attributes, List<MBeanConstructorInfo> constructors, List<MBeanOperationInfo> operations, List<MBeanNotificationInfo> notifications)
+      public MBeanInfo(string className, string description, IEnumerable<MBeanAttributeInfo> attributes, IEnumerable<MBeanConstructorInfo> constructors, IEnumerable<MBeanOperationInfo> operations, IEnumerable<MBeanNotificationInfo> notifications)
 		{
 			_className = className;
 			_description = description;
-			_attributes = attributes.AsReadOnly();
-         _constructors = constructors.AsReadOnly();
-			_operations = operations.AsReadOnly();
-			_notifications = notifications.AsReadOnly();
+			_attributes = new List<MBeanAttributeInfo>(attributes).AsReadOnly();
+         _constructors = new List<MBeanConstructorInfo>(constructors).AsReadOnly();
+			_operations = new List<MBeanOperationInfo>(operations).AsReadOnly();
+			_notifications = new List<MBeanNotificationInfo>(notifications).AsReadOnly();
 		}
+      /// <summary>
+      /// Protected constructor.
+      /// </summary>
+      /// <param name="type">Type object of MBean implementation.</param>
+      /// <param name="attributes">List of MBean attributes. It should be an empty list if MBean contains no attributes.</param>
+      /// <param name="constructors">List of MBean constructors. It should be an empty list if MBean contains no constructors.</param>
+      /// <param name="operations">List of MBean operations. It should be an empty list if MBean contains no operations.</param>
+      /// <param name="notifications">List of MBean notifications. It should be an empty list if MBean contains no notifications.</param>
+      /// <param name="dummy">A dummy parameter used to differenciate constructor signatures.</param>
+      protected MBeanInfo(Type type, ReadOnlyCollection<MBeanAttributeInfo> attributes, ReadOnlyCollection<MBeanConstructorInfo> constructors, ReadOnlyCollection<MBeanOperationInfo> operations, ReadOnlyCollection<MBeanNotificationInfo> notifications, bool dummy)         
+      {
+         _className = type.AssemblyQualifiedName;
+         _description = InfoUtils.GetDescrition(type, type, "MBean");
+         _attributes = attributes;
+         _constructors = constructors;
+         _operations = operations;
+         _notifications = notifications;
+      }
+      /// <summary>
+      /// Protected constructor.
+      /// </summary>
+      /// <param name="className">Name of the MBean described by this MBeanInfo.</param>
+      /// <param name="description">Human readable description of the MBean.</param>
+      /// <param name="attributes">List of MBean attributes. It should be an empty list if MBean contains no attributes.</param>
+      /// <param name="constructors">List of MBean constructors. It should be an empty list if MBean contains no constructors.</param>
+      /// <param name="operations">List of MBean operations. It should be an empty list if MBean contains no operations.</param>
+      /// <param name="notifications">List of MBean notifications. It should be an empty list if MBean contains no notifications.</param>
+      /// <param name="dummy">A dummy parameter used to differenciate constructor signatures.</param>
+      protected MBeanInfo(string className, string description, ReadOnlyCollection<MBeanAttributeInfo> attributes, ReadOnlyCollection<MBeanConstructorInfo> constructors, ReadOnlyCollection<MBeanOperationInfo> operations, ReadOnlyCollection<MBeanNotificationInfo> notifications, bool dummy)
+      {
+         _className = className;
+         _description = description;
+         _attributes = attributes;
+         _constructors = constructors;
+         _operations = operations;
+         _notifications = notifications;
+      }      
 		#endregion
 	}
 }

@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace NetMX.OpenMBean
 {
@@ -31,9 +29,9 @@ namespace NetMX.OpenMBean
 		/// whose index is the specified key. If key is null or does not conform to this ITabularData instance's 
 		/// <see cref="NetMX.OpenMBean.TabularType"/> definition, this method simply returns false.
 		/// </summary>
-		/// <param name="value">The index value whose presence in this ITabularData instance is to be tested.</param>
+		/// <param name="key">The index value whose presence in this ITabularData instance is to be tested.</param>
 		/// <returns>True if this ITabularData indexes a row value with the specified key.</returns>
-		bool ContainsKey(IEnumerable<object> value);
+		bool ContainsKey(IEnumerable<object> key);
 		/// <summary>
 		/// Returns true if and only if this ITabularData instance contains the specified 
 		/// <see cref="NetMX.OpenMBean.ICompositeData"/> value. If value is null or does not conform to this 
@@ -44,12 +42,11 @@ namespace NetMX.OpenMBean
 		bool ContainsValue(ICompositeData value);
 		/// <summary>
 		/// Gets the <see cref="NetMX.OpenMBean.ICompositeData"/> value whose index is key, or null if there is no 
-		/// value mapping to key, in this ITabularData instance.
+      /// value mapping to key, in this ITabularData instance or the key does not conform to this ITabularData
+      /// instance's <see cref="NetMX.OpenMBean.TabularType"/> definition</exception>
 		/// </summary>
 		/// <param name="key">The key of the row to return.</param>
-		/// <returns>The value corresponding to key.</returns>
-		/// <exception cref="NetMX.OpenMBean.InvalidKeyException">If the key does not conform to this ITabularData 
-		/// instance's <see cref="NetMX.OpenMBean.TabularType"/> definition</exception>
+		/// <returns>The value corresponding to key.</returns>		
 		ICompositeData this[IEnumerable<object> key] { get; }
 		/// <summary>
 		/// Gets the tabular type describing this ITabularData instance.
@@ -64,7 +61,7 @@ namespace NetMX.OpenMBean
 		/// Gets the keys (the index values) of the <see cref="NetMX.OpenMBean.ICompositeData"/> values (the rows) 
 		/// contained in this ITabularData instance. 
 		/// </summary>
-		IEnumerable<IList<object>> Keys { get; }
+		IEnumerable<IEnumerable<object>> Keys { get; }
 		/// <summary>
 		/// Adds value to this ITabularData instance. The composite type of value must be the same as this 
 		/// instance's row type (the composite type returned by this.TabularType.RowType), and there must not 
@@ -96,9 +93,7 @@ namespace NetMX.OpenMBean
 		/// </summary>
 		/// <param name="key">The index of the value to get in this ITabularData instance; must be valid with 
 		/// this ITabularData instance's row type definition; must not be null.</param>
-		/// <returns></returns>
-		/// <exception cref="NetMX.OpenMBean.InvalidKeyException">If the key does not conform to this ITabularData 
-		/// instance's <see cref="NetMX.OpenMBean.TabularType"/> definition.</exception>
+		/// <returns></returns>		
 		ICompositeData Remove(IEnumerable<object> key);
 		/// <summary>
 		/// Gets the number of <see cref="NetMX.OpenMBean.ICompositeData"/> values (the number of rows) contained 

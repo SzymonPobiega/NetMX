@@ -15,7 +15,7 @@ namespace NetMX
 		#endregion
 
 		#region PROPERTIES
-		private string _type;
+		private readonly string _type;
 
 		public string Type
 		{

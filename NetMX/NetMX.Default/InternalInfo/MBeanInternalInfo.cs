@@ -99,7 +99,7 @@ namespace NetMX.Default.InternalInfo
             {
                if (!methInfo.IsSpecialName)
                {
-                  MBeanOperationInfo operationInfo = new MBeanOperationInfo(methInfo, OperationImpact.Unknown);
+                  MBeanOperationInfo operationInfo = new MBeanOperationInfo(methInfo);
                   operations.Add(operationInfo);
                   internalOperations.Add(operationInfo.Name, new MBeanInternalOperationInfo(operationInfo, methInfo));
                }

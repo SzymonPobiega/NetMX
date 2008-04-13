@@ -16,9 +16,9 @@ namespace NetMX.OpenMBean
 	/// </list>
 	/// </summary>
 	public abstract class OpenType
-	{
-		#region Properties
-		private string _name;
+   {
+      #region Properties
+      private readonly string _name;
 		/// <summary>
 		/// Gets the name of this OpenType instance.
 		/// </summary>
@@ -26,7 +26,7 @@ namespace NetMX.OpenMBean
 		{
 			get { return _name; }
 		}
-		private string _description;
+		private readonly string _description;
 		/// <summary>
 		/// Gets the text description of this OpenType instance.
 		/// </summary>
@@ -34,18 +34,18 @@ namespace NetMX.OpenMBean
 		{
 			get { return _description; }
 		}
-		private OpenTypeRepresentation _representation;
+		private readonly Type _representation;
 		/// <summary>
 		/// Gets the value representation (physical) of this open type.
 		/// </summary>
-		public OpenTypeRepresentation Representation
+		public Type Representation
 		{
 			get { return _representation; }
 		}
 		#endregion
 
 		#region Constructor
-		protected OpenType(OpenTypeRepresentation representation, string typeName, string description)
+		protected OpenType(Type representation, string typeName, string description)
 		{
 			_representation = representation;
 			_name = typeName;
@@ -54,9 +54,23 @@ namespace NetMX.OpenMBean
 		#endregion
 
 		#region Abstract
-		public abstract bool IsValue(object value);		
+		public abstract bool IsValue(object value);
+      public abstract OpenTypeKind Kind { get; }
 		#endregion
-	}
+
+      #region Operator
+      public static bool operator == (OpenType left, OpenType right)
+      {
+         return (ReferenceEquals(left, null) && ReferenceEquals(right, null)) ||
+                (!ReferenceEquals(left, null) && !ReferenceEquals(right, null) &&
+                 left.Equals(right));
+      }
+	   public static bool operator !=(OpenType left, OpenType right)
+	   {
+	      return !(left == right);
+	   }
+	   #endregion
+   }
 
 	/// <summary>
 	/// Enumearation type describing open type value representation.

@@ -15,11 +15,8 @@ namespace NetMX
    [Serializable]   
    public class MBeanConstructorInfo : MBeanFeatureInfo
    {
-      #region MEMBERS
-      #endregion
-
       #region PROPERTIES
-      private ReadOnlyCollection<MBeanParameterInfo> _signature;
+      private readonly ReadOnlyCollection<MBeanParameterInfo> _signature;
       /// <summary>
       /// Gets the list of parameters for this constructor.
       /// </summary>
@@ -33,14 +30,26 @@ namespace NetMX
       /// <summary>
       /// Constructs an MBeanConstructorInfo object.
       /// </summary>      
-      /// <param name="description">Name of constructor</param>
+      /// <param name="name">Name of constructor</param>
       /// <param name="description">Description of constructor</param>
       /// <param name="signature">Parameters for this constructor.</param>
-      public MBeanConstructorInfo(string name, string description, MBeanParameterInfo[] signature)
+      public MBeanConstructorInfo(string name, string description, IEnumerable<MBeanParameterInfo> signature)
 			: base(name, description)
-		{			
-			_signature = Array.AsReadOnly<MBeanParameterInfo>(signature);		
+		{
+         _signature = new List<MBeanParameterInfo>(signature).AsReadOnly();
 		}
+      /// <summary>
+      /// Constructs an MBeanConstructorInfo object.
+      /// </summary>      
+      /// <param name="name">Name of constructor</param>
+      /// <param name="description">Description of constructor</param>
+      /// <param name="signature">Parameters for this constructor.</param>
+      /// <param name="dummy">A dummy parameter used to differenciate constructor signatures.</param>
+      protected MBeanConstructorInfo(string name, string description, ReadOnlyCollection<MBeanParameterInfo> signature, bool dummy)
+         : base(name, description)
+      {
+         _signature = signature;
+      }
       /// <summary>
       /// Constructs an MBeanConstructorInfo object.
       /// </summary>

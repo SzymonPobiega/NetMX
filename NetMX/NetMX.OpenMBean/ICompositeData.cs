@@ -45,6 +45,6 @@ namespace NetMX.OpenMBean
 		/// Returns an unmodifiable list view of the item values contained in this ICompositeData instance. 
 		/// Values are returned in ascending lexicographic order of their correponding keys.		
 		/// </summary>
-		IList<object> Values { get; }
+		ICollection<object> Values { get; }
 	}
 }

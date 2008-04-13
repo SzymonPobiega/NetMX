@@ -38,15 +38,32 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ArrayType.cs" />
+    <Compile Include="Attributes\LegalValuesAttribute.cs" />
+    <Compile Include="Attributes\MaxValueAttribute.cs" />
+    <Compile Include="Attributes\MinValueAttribute.cs" />
+    <Compile Include="CompositeDataSupport.cs" />
     <Compile Include="CompositeType.cs" />
     <Compile Include="Exceptions\OpenDataException .cs" />
     <Compile Include="Exceptions\KeyAlreadyExistsException .cs" />
     <Compile Include="Exceptions\InvalidOpenTypeException .cs" />
     <Compile Include="Exceptions\InvalidKeyException .cs" />
     <Compile Include="ICompositeData.cs" />
+    <Compile Include="Info\IOpenMBeanAttributeInfo.cs" />
+    <Compile Include="Info\IOpenMBeanConstructorInfo.cs" />
+    <Compile Include="Info\IOpenMBeanInfo.cs" />
+    <Compile Include="Info\IOpenMBeanOperationInfo.cs" />
+    <Compile Include="Info\IOpenMBeanParameterInfo.cs" />
+    <Compile Include="Info\OpenInfoUtils.cs" />
+    <Compile Include="Info\OpenMBeanAttributeInfoSupport.cs" />
+    <Compile Include="Info\OpenMBeanConstructorInfoSupport.cs" />
+    <Compile Include="Info\OpenMBeanInfoSupport.cs" />
+    <Compile Include="Info\OpenMBeanOperationInfoSupport.cs" />
     <Compile Include="ITabularData.cs" />
     <Compile Include="OpenType.cs" />
+    <Compile Include="OpenTypeVisitor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SimpleType.cs" />
+    <Compile Include="TabularDataSupport.cs" />
     <Compile Include="TabularType.cs" />
   </ItemGroup>
   <ItemGroup>
