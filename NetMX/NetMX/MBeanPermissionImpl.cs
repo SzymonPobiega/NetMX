@@ -64,14 +64,14 @@ namespace NetMX
 		{
 			if (_className == "" || _memberName == "" || (_objectName != null && _objectName.ToString() == ""))
 			{
-				throw new InvalidOperationException("This operation equires a 'needed' permission.");
+				throw new InvalidOperationException("This operation requires a 'needed' permission.");
 			}
 		}
 		internal void VerifyAsHeld()
 		{
 			if (_className == null || _memberName == null || _objectName == null)
 			{
-				throw new InvalidOperationException("This operation equires a 'held' permission.");
+				throw new InvalidOperationException("This operation requires a 'held' permission.");
 			}
 		}
 		private static void ParseName(string name, out string className, out string memberName, out ObjectName objectName)
