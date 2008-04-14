@@ -81,7 +81,7 @@ namespace NetMX.OpenMBean
          }         
          if (_items.Count != compositeType.KeySet.Count)
          {
-            throw new OpenDataException("Composite type has more items than provided.");
+            throw new OpenDataException("Composite type has different item count than count of items provided.");
          }
          _compositeType = compositeType;         
       }

@@ -160,7 +160,7 @@ namespace NetMX.OpenMBean
       public override bool Equals(object obj)
       {
          CompositeType other = obj as CompositeType;
-         if (other != null && other._members.Count == _members.Count)
+         if (other != null && TypeName.Equals(other.TypeName) && other._members.Count == _members.Count)
          {
             foreach (string key in _members.Keys)
             {
@@ -184,7 +184,7 @@ namespace NetMX.OpenMBean
       }
       public override int GetHashCode()
       {
-         int code = 0;
+         int code = TypeName.GetHashCode();
          foreach (string key in _members.Keys)
          {
             code ^= key.GetHashCode();
@@ -215,11 +215,11 @@ namespace NetMX.OpenMBean
          public override bool Equals(object obj)
          {
             CompositeTypeMember other = obj as CompositeTypeMember;
-            return other != null && _description.Equals(other._description) && _type.Equals(other._type);
+            return other != null && _type.Equals(other._type);
          }
          public override int GetHashCode()
          {
-            return _description.GetHashCode() ^ _type.GetHashCode();
+            return _type.GetHashCode();
          }
       }
       #endregion

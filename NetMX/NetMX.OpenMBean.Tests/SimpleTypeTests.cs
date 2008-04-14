@@ -10,33 +10,8 @@ namespace NetMX.OpenMBean.Tests
    /// </summary>
    [TestClass]
    public class SimpleTypeTests
-   {      
-      #region Additional test attributes
-      //
-      // You can use the following additional attributes as you write your tests:
-      //
-      // Use ClassInitialize to run code before running the first test in the class
-      // [ClassInitialize()]
-      // public static void MyClassInitialize(TestContext testContext) { }
-      //
-      // Use ClassCleanup to run code after all tests in a class have run
-      // [ClassCleanup()]
-      // public static void MyClassCleanup() { }
-      //
-      // Use TestInitialize to run code before running each test 
-      // [TestInitialize()]
-      // public void MyTestInitialize() { }
-      //
-      // Use TestCleanup to run code after each test has run
-      // [TestCleanup()]
-      // public void MyTestCleanup() { }
-      //
-      #endregion
-
-      [TestMethod]
-      public void TestIsValue()
-      {
-         object[][] values = new object[][]
+   {
+      private readonly object[][] _values = new object[][]
          {
             new object[] { SimpleType.Boolean, true},
             new object[] { SimpleType.Byte, (byte)5},
@@ -51,13 +26,17 @@ namespace NetMX.OpenMBean.Tests
             new object[] { SimpleType.Short, (short)6},
             new object[] { SimpleType.String, "string"},
             new object[] { SimpleType.TimeSpan, TimeSpan.Zero},            
-         };
-         for (int i = 0; i < values.Length; i++)
+         };  
+ 
+      [TestMethod]
+      public void TestIsValue()
+      {         
+         for (int i = 0; i < _values.Length; i++)
          {
-            for (int j = 0; j < values.Length; j++)
+            for (int j = 0; j < _values.Length; j++)
             {
-               SimpleType st = (SimpleType) values[i][0];
-               object value = values[j][1];
+               SimpleType st = (SimpleType) _values[i][0];
+               object value = _values[j][1];
                if (i != j)
                {
                   Assert.IsFalse(st.IsValue(value));
@@ -69,5 +48,46 @@ namespace NetMX.OpenMBean.Tests
             }
          }
       }
+      [TestMethod]
+      public void TestEquals()
+      {
+         for (int i = 0; i < _values.Length; i++)
+         {
+            for (int j = 0; j < _values.Length; j++)
+            {
+               SimpleType thisType = (SimpleType) _values[i][0];
+               SimpleType otherType = (SimpleType) _values[j][0];
+               if (i != j)
+               {
+                  Assert.IsFalse(thisType.Equals(otherType));
+               }
+               else
+               {
+                  Assert.IsTrue(thisType.Equals(otherType));
+               }
+            }
+         }
+      }
+      [TestMethod]
+      public void TestEqualityOperator()
+      {
+         for (int i = 0; i < _values.Length; i++)
+         {
+            for (int j = 0; j < _values.Length; j++)
+            {
+               SimpleType thisType = (SimpleType)_values[i][0];
+               SimpleType otherType = (SimpleType)_values[j][0];
+               if (i != j)
+               {
+                  Assert.IsFalse(thisType == otherType);
+               }
+               else
+               {
+                  Assert.IsTrue(thisType == otherType);
+               }
+            }
+         }
+      }
    }
 }
+
