@@ -24,7 +24,7 @@ namespace NetMX.OpenMBean
       {
          get { return _minValue; }
          set { _minValue = value; }
-      }      
+      }
       private object _maxValue;
       /// <summary>
       /// Gets or sets the maximal value for this parameter/attribute, if it has one, or null otherwise.

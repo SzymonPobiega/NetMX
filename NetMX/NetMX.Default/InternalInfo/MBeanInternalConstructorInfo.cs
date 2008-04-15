@@ -8,12 +8,12 @@ namespace NetMX.Default.InternalInfo
 	internal sealed class MBeanInternalConstructorInfo
 	{
 		#region PROPERTIES
-		private ConstructorInfo _methodInfo;
+		private readonly ConstructorInfo _methodInfo;
       public ConstructorInfo MethodInfo
 		{
          get { return _methodInfo; }
 		}
-		private MBeanConstructorInfo _constructorInfo;
+		private readonly MBeanConstructorInfo _constructorInfo;
       public MBeanConstructorInfo ConstructorInfo
 		{
 			get { return _constructorInfo; }
@@ -21,10 +21,10 @@ namespace NetMX.Default.InternalInfo
 		#endregion
 
 		#region CONSTRUCTOR
-      public MBeanInternalConstructorInfo(MBeanConstructorInfo constructorInfo, ConstructorInfo method)
+      public MBeanInternalConstructorInfo(ConstructorInfo method, IMBeanInfoFactory factory)
 		{
 			_methodInfo = method;
-			_constructorInfo = constructorInfo;
+         _constructorInfo = factory.CreateMBeanConstructorInfo(method);
 		}
 		#endregion
 	}

@@ -12,17 +12,13 @@ namespace NetMX.Default
 	{
 		#region MEMBERS
 		private ObjectName _objectName;
-		private MBeanInfo _info;
-		private MBeanInternalInfo _internalInfo;
-		private object _impl;
-		private IMBeanRegistration _registration;
-      private INotificationListener _notifListener;
-		private Type _implType;
-		private Type _intfType;
+		private readonly MBeanInfo _info;
+		private readonly MBeanInternalInfo _internalInfo;
+		private readonly object _impl;
+		private readonly IMBeanRegistration _registration;
+      private readonly INotificationListener _notifListener;		
+		private readonly Type _intfType;
 		private NotificationEmitterSupport _notificationSupport;
-		#endregion
-
-		#region PROPERTIES
 		#endregion
 
 		#region CONSTRUCTOR
@@ -30,8 +26,7 @@ namespace NetMX.Default
 		{
 			_internalInfo = MBeanInternalInfo.GetCached(intfType);
 			_info = _internalInfo.MBeanInfo;//CreateMBeanInfo(impl, intfType);
-			_impl = impl;
-			_implType = impl.GetType();
+			_impl = impl;			
 			_intfType = intfType;
 			_registration = impl as IMBeanRegistration;
          _notifListener = impl as INotificationListener;
@@ -82,7 +77,7 @@ namespace NetMX.Default
 			}			
 			throw new OperationNotFoundException(operationName, _objectName.ToString(), _info.ClassName);
 		}
-		private void AttachNotifications(Type intfType)
+		private void AttachNotifications()
 		{
 			foreach (MBeanInternalNotificationInfo notifInfo in _internalInfo.Notifications)
 			{
@@ -138,7 +133,7 @@ namespace NetMX.Default
 			_objectName = newName;
 			_notificationSupport = new NotificationEmitterSupport();
 			_notificationSupport.Initialize(newName.ToString(), _info.Notifications);
-			AttachNotifications(_intfType);
+			AttachNotifications();
 			return newName;
 		}
 		#endregion
@@ -171,7 +166,7 @@ namespace NetMX.Default
          }
          else
          {
-            throw new OperationsException(string.Format("Bean \"{0}\" is not a notification listener.", _objectName.ToString()));
+            throw new OperationsException(string.Format("Bean \"{0}\" is not a notification listener.", _objectName));
          }
       }
       #endregion
@@ -179,8 +174,8 @@ namespace NetMX.Default
 		#region Utility class
 		private class SimpleNotificationHandler
 		{
-			private string _notifType;
-			private NotificationEmitterSupport _support;
+			private readonly string _notifType;
+			private readonly NotificationEmitterSupport _support;
 
 			public SimpleNotificationHandler(NotificationEmitterSupport support, string notifType)
 			{

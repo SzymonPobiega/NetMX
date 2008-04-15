@@ -17,7 +17,40 @@ namespace NetMX.OpenMBean
    /// </summary>
    [Serializable]
    public class OpenMBeanInfoSupport : MBeanInfo, IOpenMBeanInfo
-   {      
+   {
+      /// <summary>
+      /// Constructs
+      /// </summary>
+      /// <param name="type">Type object of MBean implementation.</param>
+      /// <param name="attributes">List of MBean attributes. It should be an empty list if MBean contains no attributes.</param>
+      /// <param name="constructors">List of MBean constructors. It should be an empty list if MBean contains no constructors.</param>
+      /// <param name="operations">List of MBean operations. It should be an empty list if MBean contains no operations.</param>
+      /// <param name="notifications">List of MBean notifications. It should be an empty list if MBean contains no notifications.</param>
+      public OpenMBeanInfoSupport(Type type, IEnumerable<MBeanAttributeInfo> attributes, IEnumerable<MBeanConstructorInfo> constructors, IEnumerable<MBeanOperationInfo> operations, IEnumerable<MBeanNotificationInfo> notifications)
+         : base(type,
+         OpenInfoUtils.ValidateAs<MBeanAttributeInfo, IOpenMBeanAttributeInfo>(attributes),
+         OpenInfoUtils.ValidateAs<MBeanConstructorInfo, IOpenMBeanConstructorInfo>(constructors),
+         OpenInfoUtils.ValidateAs<MBeanOperationInfo, IOpenMBeanOperationInfo>(operations),
+         new List<MBeanNotificationInfo>(notifications).AsReadOnly())
+      {
+      }
+      /// <summary>
+      /// Constructs
+      /// </summary>
+      /// <param name="className">Name of the MBean described by this MBeanInfo.</param>
+      /// <param name="description">Human readable description of the MBean. </param>
+      /// <param name="attributes">List of MBean attributes. It should be an empty list if MBean contains no attributes.</param>
+      /// <param name="constructors">List of MBean constructors. It should be an empty list if MBean contains no constructors.</param>
+      /// <param name="operations">List of MBean operations. It should be an empty list if MBean contains no operations.</param>
+      /// <param name="notifications">List of MBean notifications. It should be an empty list if MBean contains no notifications.</param>
+      public OpenMBeanInfoSupport(string className, string description, IEnumerable<MBeanAttributeInfo> attributes, IEnumerable<MBeanConstructorInfo> constructors, IEnumerable<MBeanOperationInfo> operations, IEnumerable<MBeanNotificationInfo> notifications)
+         : base(className, description,
+         OpenInfoUtils.ValidateAs<MBeanAttributeInfo, IOpenMBeanAttributeInfo>(attributes),
+         OpenInfoUtils.ValidateAs<MBeanConstructorInfo, IOpenMBeanConstructorInfo>(constructors),
+         OpenInfoUtils.ValidateAs<MBeanOperationInfo, IOpenMBeanOperationInfo>(operations),
+         new List<MBeanNotificationInfo>(notifications).AsReadOnly())
+      {
+      }
 		/// <summary>
 		/// Constructs
 		/// </summary>

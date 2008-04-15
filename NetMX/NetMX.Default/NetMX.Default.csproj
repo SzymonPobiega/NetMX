@@ -41,11 +41,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="InternalInfo\OpenMBeanBeanInfoFactory.cs" />
+    <Compile Include="InternalInfo\IMBeanInfoFactory.cs" />
     <Compile Include="InternalInfo\MBeanInternalConstructorInfo.cs" />
     <Compile Include="InternalInfo\MBeanInternalAttributeInfo.cs" />
     <Compile Include="InternalInfo\MBeanInternalInfo.cs" />
     <Compile Include="InternalInfo\MBeanInternalNotificationInfo.cs" />
     <Compile Include="InternalInfo\MBeanInternalOperationInfo.cs" />
+    <Compile Include="InternalInfo\StandardBeanInfoFactory.cs" />
     <Compile Include="MBeanRegistrationHelper.cs" />
     <Compile Include="MBeanServer.cs" />
     <Compile Include="MBeanServerBuilder.cs" />
@@ -53,6 +56,10 @@
     <Compile Include="StandardMBean.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\NetMX.OpenMBean\NetMX.OpenMBean.csproj">
+      <Project>{27AAB473-F263-4F24-A0DC-9B3CAFCE1E16}</Project>
+      <Name>NetMX.OpenMBean</Name>
+    </ProjectReference>
     <ProjectReference Include="..\NetMX.Relation\NetMX.Relation.csproj">
       <Project>{777EBC51-1D14-4170-8ABA-9D78328641D7}</Project>
       <Name>NetMX.Relation</Name>

@@ -34,8 +34,15 @@ namespace NetMX.OpenMBean
       /// </summary>
       /// <param name="info">Object describing CLR constructor.</param>      
       public OpenMBeanConstructorInfoSupport(ConstructorInfo info)
-			: base(info)
-		{						
+			: base(info, true)
+		{         
+         ParameterInfo[] paramInfos = info.GetParameters();
+         List<MBeanParameterInfo> tmp = new List<MBeanParameterInfo>();
+         for (int i = 0; i < paramInfos.Length; i++)
+         {
+            tmp.Add(new OpenMBeanParameterInfoSupport(paramInfos[i]));
+         }
+         _signature = tmp.AsReadOnly();	
 		}
    }
 }
