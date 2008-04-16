@@ -36,29 +36,7 @@ namespace Simon.Configuration.Provider
 			this.Name = name;
 			this.Type = type;
 		}
-
-		private string GetProperty(string PropName)
-		{
-			if (this._properties.Contains(PropName))
-			{
-				ConfigurationProperty property = this._properties[PropName];
-				if (property != null)
-				{
-					return (string)base[property];
-				}
-			}
-			return null;
-		}
-
-		//protected override bool IsModified()
-		//{
-		//   if (!this.UpdatePropertyCollection())
-		//   {
-		//      return base.IsModified();
-		//   }
-		//   return true;
-		//}
-
+		
 		protected override bool OnDeserializeUnrecognizedAttribute(string name, string value)
 		{
 			ConfigurationProperty property = new ConfigurationProperty(name, typeof(string), value);
@@ -77,93 +55,7 @@ namespace Simon.Configuration.Provider
 			elem.Deserialize(reader);
 			base[_propNestedType] = (ConfigurationElement)elem;
 			return true;
-		}
-
-		//protected override void Reset(ConfigurationElement parentElement)
-		//{
-		//   ProviderSettingsEx settings = parentElement as ProviderSettingsEx;
-		//   if (settings != null)
-		//   {
-		//      settings.UpdatePropertyCollection();
-		//   }
-		//   base.Reset(parentElement);
-		//}
-
-		private bool SetProperty(string PropName, string value)
-		{
-			ConfigurationProperty property;
-			if (this._properties.Contains(PropName))
-			{
-				property = this._properties[PropName];
-			}
-			else
-			{
-				property = new ConfigurationProperty(PropName, typeof(string), null);
-				this._properties.Add(property);
-			}
-			base[property] = value;
-			return true;
-		}
-
-		//protected override void Unmerge(ConfigurationElement sourceElement, ConfigurationElement parentElement, ConfigurationSaveMode saveMode)
-		//{
-		//   ProviderSettingsEx settings = parentElement as ProviderSettingsEx;
-		//   if (settings != null)
-		//   {
-		//      settings.UpdatePropertyCollection();
-		//   }
-		//   ProviderSettingsEx settings2 = sourceElement as ProviderSettingsEx;
-		//   if (settings2 != null)
-		//   {
-		//      settings2.UpdatePropertyCollection();
-		//   }
-		//   base.Unmerge(sourceElement, parentElement, saveMode);
-		//   this.UpdatePropertyCollection();
-		//}
-
-		//internal bool UpdatePropertyCollection()
-		//{
-		//   bool flag = false;
-		//   ArrayList list = null;
-		//   if (this._PropertyNameCollection != null)
-		//   {
-		//      foreach (ConfigurationProperty property in this._properties)
-		//      {
-		//         if (((property.Name == "name") || (property.Name == "type") || (property.Name == "nestedType")) || (this._PropertyNameCollection.Get(property.Name) != null))
-		//         {
-		//            continue;
-		//         }
-		//         if (list == null)
-		//         {
-		//            list = new ArrayList();
-		//         }
-		//         if ((base.Values.GetConfigValue(property.Name).ValueFlags & ConfigurationValueFlags.Locked) == ConfigurationValueFlags.Default)
-		//         {
-		//            list.Add(property.Name);
-		//            flag = true;
-		//         }
-		//      }
-		//      if (list != null)
-		//      {
-		//         foreach (string str in list)
-		//         {
-		//            this._properties.Remove(str);
-		//         }
-		//      }
-		//      foreach (string str2 in this._PropertyNameCollection)
-		//      {
-		//         string str3 = this._PropertyNameCollection[str2];
-		//         string str4 = this.GetProperty(str2);
-		//         if ((str4 == null) || (str3 != str4))
-		//         {
-		//            this.SetProperty(str2, str3);
-		//            flag = true;
-		//         }
-		//      }
-		//   }
-		//   this._PropertyNameCollection = null;
-		//   return flag;
-		//}
+		}		
 
 		// Properties
 		[ConfigurationProperty("name", IsRequired = true, IsKey = true)]
