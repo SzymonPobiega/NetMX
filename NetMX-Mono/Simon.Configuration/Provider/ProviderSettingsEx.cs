@@ -4,6 +4,7 @@ using System.Text;
 using System.Configuration;
 using System.Collections.Specialized;
 using System.Collections;
+using System.Reflection;
 
 namespace Simon.Configuration.Provider
 {
@@ -62,11 +63,30 @@ namespace Simon.Configuration.Provider
 		protected override bool OnDeserializeUnrecognizedAttribute(string name, string value)
 		{
 			ConfigurationProperty property = new ConfigurationProperty(name, typeof(string), value);
-			this._properties.Add(property);
+         AddProperty(property);
 			base[property] = value;
-			this.Parameters[name] = value;
+			 this.Parameters[name] = value;
 			return true;
 		}
+      
+      private void AddProperty(ConfigurationProperty property)
+      {
+         /* to jest hack, przy dodawaniu nowego property do Properties nie jest odswierzana informacja o propertisach w ElementInformation.Properties 
+          * wiec trzeba recznie najpierw dodac nasze property ta metoda do ElementInformation.Properties a dopiero pozniej 
+          * probowac sie do niej dostac przez odwolania w stylu base[property] = value; lub	 this.Parameters[name] = value;
+          *  ElementInformation.Properties wypelniane jest wylacznie w konstruktorze, ten kod poprzez refleksje ze wzgledu na metody interal dodaje do kolekcji ElementInformation.Properties nowe property ktore nie jest zdefiniowane stricte na tej klasie jak np. name, type
+			 */
+         this._properties.Add(property);
+         // pobranie konstruktora PropertyInformation
+         ConstructorInfo ctor = typeof(PropertyInformation).GetConstructor(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic, null, new Type[]{typeof(ConfigurationElement), typeof(ConfigurationProperty)}, null);
+         // stworzenie nowej instancji obiektu PropertyInformation  
+         PropertyInformation propertyInformation =ctor.Invoke(new object[]{this, property}) as PropertyInformation;
+         // pobranie metody dodajacej nowe elementy na kolekcji propertiesow ElementInformation.Properties
+		   MethodInfo mi = ElementInformation.Properties.GetType().GetMethod("Add", BindingFlags.Instance|BindingFlags.NonPublic|BindingFlags.Public,null,new Type[]{typeof(PropertyInformation)}, null);
+         // dodanie property do ElementInformation.Properties
+         mi.Invoke(ElementInformation.Properties, new object[]{propertyInformation});
+
+      }
 
 		protected override bool OnDeserializeUnrecognizedElement(string elementName, System.Xml.XmlReader reader)
 		{			
