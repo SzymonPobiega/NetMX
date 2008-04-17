@@ -21,10 +21,10 @@ namespace NetMX.Default.InternalInfo
 		#endregion
 
 		#region CONSTRUCTOR
-		public MBeanInternalOperationInfo(MBeanOperationInfo operationInfo, MethodInfo method)
+		public MBeanInternalOperationInfo(MethodInfo method, IMBeanInfoFactory factory)
 		{
 			_methodInfo = method;
-			_operationInfo = operationInfo;
+			_operationInfo = factory.CreateMBeanOperationInfo(method);
 		}
 		#endregion
 	}

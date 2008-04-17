@@ -2,6 +2,9 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Configuration;
+using NetMX.Default.Configuration;
+using Simon.Configuration;
 #endregion
 
 namespace NetMX.Default
@@ -9,21 +12,38 @@ namespace NetMX.Default
 	public class MBeanServer : IMBeanServer
 	{
 		#region MEMBERS
-      private MBeanServerDelegate _delegate;
-      private string _defaultDomain = "NetMXImplementation";
-		private Dictionary<ObjectName, IDynamicMBean> _beans = new Dictionary<ObjectName, IDynamicMBean>();
-      private Dictionary<string, bool> _domainSet = new Dictionary<string, bool>();
+      private readonly MBeanServerDelegate _delegate;
+      private readonly string _defaultDomain = "NetMXImplementation";
+		private readonly Dictionary<ObjectName, IDynamicMBean> _beans = new Dictionary<ObjectName, IDynamicMBean>();
+      private readonly Dictionary<string, bool> _domainSet = new Dictionary<string, bool>();
 		#endregion
 
 		#region PROPERTIES
 		#endregion
 
 		#region CONSTRUCTOR
+		public MBeanServer(string instanceName)
+		{
+			_delegate = new MBeanServerDelegate(instanceName, "", "http://netmx.eu",
+				typeof(MBeanServer).Assembly.GetName().Version.ToString());
+			RegisterMBean(_delegate, MBeanServerDelegate.ObjectName);
+			MBeanServerConfigurationSection section = TypedConfigurationManager.GetSection<MBeanServerConfigurationSection>(instanceName, false);
+			if (section != null)
+			{
+				foreach (MBean beanConfig in section.Beans)
+				{
+					List<object> args = new List<object>();
+					foreach (MBeanConstructorArgument arg in beanConfig.Arguments)
+					{
+						args.Add(arg.Value);
+					}
+					CreateMBean(beanConfig.ClassName, beanConfig.ObjectName, args.ToArray());
+				}
+			}
+		}
       public MBeanServer()
-      {
-         _delegate = new MBeanServerDelegate(Guid.NewGuid().ToString(), "", "http://netmx.eu", 
-            typeof(MBeanServer).Assembly.GetName().Version.ToString());         
-         this.RegisterMBean(_delegate, MBeanServerDelegate.ObjectName);         
+			: this(Guid.NewGuid().ToString())
+      {         
       }
 		#endregion
 
@@ -84,7 +104,7 @@ namespace NetMX.Default
 			{
 				return emitter;
 			}
-			throw new OperationsException(string.Format("Bean \"{0}\" is not a notification emitter.", name.ToString()));
+			throw new OperationsException(string.Format("Bean \"{0}\" is not a notification emitter.", name));
 		}
       private INotificationListener GetListenerMBean(ObjectName name, out IDynamicMBean bean)
       {
@@ -94,7 +114,7 @@ namespace NetMX.Default
          {
             return listner;
          }
-         throw new OperationsException(string.Format("Bean \"{0}\" is not a notification listener.", name.ToString()));
+         throw new OperationsException(string.Format("Bean \"{0}\" is not a notification listener.", name));
       }
 		private IDynamicMBean GetMBean(ObjectName name)
 		{
@@ -105,7 +125,7 @@ namespace NetMX.Default
 			}
 			throw new InstanceNotFoundException(name.ToString());
 		}
-		private void TestPermissions(string className, string memberName, ObjectName name, MBeanPermissionAction action)
+		private static void TestPermissions(string className, string memberName, ObjectName name, MBeanPermissionAction action)
 		{
 			MBeanCASPermission casPerm = new MBeanCASPermission(className, memberName, name, action);
 			casPerm.Demand();
@@ -116,7 +136,7 @@ namespace NetMX.Default
       {
          if (name.Domain == "")
          {
-            return new ObjectName(this._defaultDomain, name.KeyPropertyList);
+            return new ObjectName(_defaultDomain, name.KeyPropertyList);
          }
          else
          {

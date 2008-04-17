@@ -54,11 +54,24 @@ namespace NetMX.OpenMBean
       #endregion
 
       #region Overridden
+      public override bool Equals(object obj)
+      {
+         ArrayType other = obj as ArrayType;
+         return other != null && _dimension == other._dimension && _elementType.Equals(other._elementType);
+      }
+      public override int GetHashCode()
+      {
+         return _dimension.GetHashCode() ^ _elementType.GetHashCode();
+      }
       public override bool IsValue(object value)
       {
          Array array = value as Array;
          if (array != null)
          {
+            if (array.Rank != _dimension)
+            {
+               return false;
+            }
             int count = 1;
             int[] index = null;
             int[] lengths = new int[array.Rank];
@@ -71,7 +84,8 @@ namespace NetMX.OpenMBean
             }            
             for (int i = 0; i < count; i++)
             {
-               object element = array.GetValue(GetNextIndex(index, lengths, lowerBounds));
+               index = GetNextIndex(index, lengths, lowerBounds);
+               object element = array.GetValue(index);
                if (element != null && !ElementType.IsValue(element))
                {
                   return false;
@@ -114,7 +128,7 @@ namespace NetMX.OpenMBean
                return null;
             }
             prevIndex[i]++;
-            for (int j = i + 1; i < prevIndex.Length; j++)
+            for (int j = i + 1; j < prevIndex.Length; j++)
             {
                prevIndex[j] = lowerBounds[j];
             }

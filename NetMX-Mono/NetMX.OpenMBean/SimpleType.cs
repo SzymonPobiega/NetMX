@@ -81,6 +81,72 @@ namespace NetMX.OpenMBean
       }
       #endregion
 
+      #region Factory
+      public static OpenType CreateFromType(Type t)
+      {
+         if (t == typeof(void))
+         {
+            return Void;
+         }
+         else if (t == typeof(bool))
+         {
+            return Boolean;
+         }
+         else if (t == typeof(char))
+         {
+            return Character;
+         }
+         else if (t == typeof(byte))
+         {
+            return Byte;
+         }
+         else if (t == typeof(short))
+         {
+            return Short;
+         }
+         else if (t == typeof(int))
+         {
+            return Integer;
+         }
+         else if (t == typeof(long))
+         {
+            return Long;
+         }
+         else if (t == typeof(float))
+         {
+            return Float;
+         }
+         else if (t == typeof(double))
+         {
+            return Double;
+         }
+         else if (t == typeof(string))
+         {
+            return String;
+         }
+         else if (t == typeof(decimal))
+         {
+            return Decimal;
+         }
+         else if (t == typeof(DateTime))
+         {
+            return DateTime;
+         }
+         else if (t == typeof(TimeSpan))
+         {
+            return TimeSpan;
+         }
+         else if (t == typeof(ObjectName))
+         {
+            return ObjectName;
+         }
+         else
+         {
+            throw new NotSupportedException("Not supported type: "+t);
+         }
+      }
+      #endregion
+
       #region Overridden
       public override bool IsValue(object value)
       {

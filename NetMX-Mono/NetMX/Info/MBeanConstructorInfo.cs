@@ -16,7 +16,7 @@ namespace NetMX
    public class MBeanConstructorInfo : MBeanFeatureInfo
    {
       #region PROPERTIES
-      private readonly ReadOnlyCollection<MBeanParameterInfo> _signature;
+      protected ReadOnlyCollection<MBeanParameterInfo> _signature;
       /// <summary>
       /// Gets the list of parameters for this constructor.
       /// </summary>
@@ -65,6 +65,15 @@ namespace NetMX
 			}
 			_signature = tmp.AsReadOnly();
 		}
+      /// <summary>
+      /// Constructs an MBeanConstructorInfo object.
+      /// </summary>
+      /// <param name="info">Object describing CLR constructor.</param>      
+      /// <param name="dummy">A dummy parameter used to differenciate constructor signatures.</param>
+      public MBeanConstructorInfo(ConstructorInfo info, bool dummy)
+         : base(info.Name, InfoUtils.GetDescrition(info, info, "MBean constructor"))
+      {         
+      }
       #endregion
    }
 }

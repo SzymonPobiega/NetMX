@@ -36,8 +36,27 @@ namespace NetMX.OpenMBean
       /// </summary>
       /// <param name="info">Method information object</param>
       public OpenMBeanOperationInfoSupport(MethodInfo info)
-         : base(info)
-      {         
+         : base(info, true)
+      {
+         object[] attrTmp = info.GetCustomAttributes(typeof (OpenMBeanOperationAttribute), false);
+         if (attrTmp.Length == 0)
+         {
+            throw new OpenDataException("Open MBean operation have to have its impact specified.");
+         }
+         OpenMBeanOperationAttribute attr = (OpenMBeanOperationAttribute)attrTmp[0];
+         if (attr.Impact == OperationImpact.Unknown)
+         {
+            throw new OpenDataException("Open MBean operation have to have its impact specified.");
+         }
+         _impact = attr.Impact;
+         ParameterInfo[] paramInfos = info.GetParameters();
+         List<MBeanParameterInfo> tmp = new List<MBeanParameterInfo>();
+         for (int i = 0; i < paramInfos.Length; i++)
+         {
+            tmp.Add(new OpenMBeanParameterInfoSupport(paramInfos[i]));
+         }
+         _signature = tmp.AsReadOnly();
+         _returnOpenType = info.ReturnType != null ? OpenType.CreateFromType(info.ReturnType) : SimpleType.Void;
       }
       #endregion
 

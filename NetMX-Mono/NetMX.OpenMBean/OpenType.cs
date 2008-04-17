@@ -70,6 +70,20 @@ namespace NetMX.OpenMBean
 	      return !(left == right);
 	   }
 	   #endregion
+
+      #region Factory
+      public static OpenType CreateFromType(Type type)
+      {
+         if (type.IsArray)
+         {
+            return new ArrayType(type.GetArrayRank(), SimpleType.CreateFromType(type.GetElementType()));
+         }
+         else
+         {
+            return SimpleType.CreateFromType(type);
+         }
+      }      
+      #endregion
    }
 
 	/// <summary>

@@ -3,6 +3,7 @@ using System.Text;
 using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Threading;
+using System.Security.Principal;
 
 namespace NetMX.Tests
 {
@@ -169,7 +170,7 @@ namespace NetMX.Tests
       }
 
       [TestMethod]
-      [ExpectedException(typeof(InvalidOperationException), "This operation equires a 'needed' permission.")]
+      [ExpectedException(typeof(InvalidOperationException), "This operation requires a 'needed' permission.")]
       public void DemandVerifyAsNeededFailueTest()
       {
          SetPermissions(new MBeanPermission(null, "getMBeanInfo", new ObjectName("Sample:"), MBeanPermissionAction.Invoke));
@@ -178,7 +179,7 @@ namespace NetMX.Tests
       }
 
       [TestMethod]
-      [ExpectedException(typeof(InvalidOperationException), "This operation equires a 'held' permission.")]
+      [ExpectedException(typeof(InvalidOperationException), "This operation requires a 'held' permission.")]
       public void DemandVerifyAsHeldFailueTest()
       {
          SetPermissions(new MBeanPermission("NetMX.StandardMBean, NetMX", "getMBeanInfo", new ObjectName("Sample:"), MBeanPermissionAction.Invoke));
@@ -186,9 +187,29 @@ namespace NetMX.Tests
          perm.Demand();
       }
 
-      private void SetPermissions(params MBeanPermission[] permissions)
+      #region Utility
+      private static void SetPermissions(params MBeanPermission[] permissions)
       {
-         Thread.SetData(Thread.GetNamedDataSlot("NetMX.MBeanPermission"), permissions);
+         //Thread.SetData(Thread.GetNamedDataSlot("NetMX.MBeanPermission"), permissions);
+         Thread.CurrentPrincipal = new DummyPrincipal(permissions);
       }
+      private class DummyPrincipal : GenericPrincipal, INetMXPrincipal
+      {
+         private readonly IEnumerable<MBeanPermission> _permissions;
+
+         public DummyPrincipal(IEnumerable<MBeanPermission> permissions)
+            : base(new GenericIdentity("Name", "Type"),new string[] {})
+         {            
+            _permissions = permissions;
+         }
+
+         #region INetMXPrincipal Members
+         public IEnumerable<MBeanPermission> Permissions
+         {
+            get { return _permissions; }
+         }
+         #endregion
+      }
+      #endregion
    }
 }

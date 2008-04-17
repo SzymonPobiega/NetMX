@@ -52,17 +52,7 @@ namespace NetMX.OpenMBean
       public OpenMBeanAttributeInfoSupport(string name, string description, OpenType openType, bool isReadable, bool isWritable, object defaultValue)
          : this(name, description, openType, isReadable, isWritable)
       {
-         if (defaultValue != null)
-         {
-            if (!openType.IsValue(defaultValue))
-            {
-               throw new OpenDataException("Default value must be valid for supplied open type.");
-            }
-            if (openType.Kind == OpenTypeKind.ArrayType || openType.Kind == OpenTypeKind.TabularType)
-            {
-               throw new OpenDataException("Cannot specify default value for attribute of type array or tabular.");
-            }
-         }
+         OpenInfoUtils.ValidateDefaultValue(openType, defaultValue);
          _defaultValue = defaultValue;
       }
       /// <summary>
@@ -83,35 +73,10 @@ namespace NetMX.OpenMBean
       public OpenMBeanAttributeInfoSupport(string name, string description, OpenType openType, bool isReadable, bool isWritable, IComparable defaultValue, IComparable minValue, IComparable maxValue)
          : this(name, description, openType, isReadable, isWritable, defaultValue)
       {
-         if (minValue != null)
-         {
-            if (!openType.IsValue(minValue))
-            {
-               throw new OpenDataException("Minimum value must be valid for supplied open type.");
-            }
-            if (defaultValue != null && minValue.CompareTo(defaultValue) > 0 )
-            {
-               throw new OpenDataException("Minimum value must be less or equal to default value.");
-            }
-         }
-         if (maxValue != null)
-         {
-            if (!openType.IsValue(maxValue))
-            {
-               throw new OpenDataException("Maximum value must be valid for supplied open type.");
-            }
-            if (defaultValue != null && defaultValue.CompareTo(maxValue) > 0)
-            {
-               throw new OpenDataException("Maximum value must be greater than or equal to default value.");
-            }
-         }
-         if (maxValue != null && minValue != null && minValue.CompareTo(maxValue) > 0)
-         {
-            throw new OpenDataException("Maximum value must be greater than or equal to minimum value.");
-         }
+         OpenInfoUtils.ValidateMinMaxValue(openType, defaultValue, minValue, maxValue);
          _minValue = minValue;
          _maxValue = maxValue;
-      }
+      }      
       /// <summary>
       /// Constructs an OpenMBeanAttributeInfoSupport object.
       /// </summary>
@@ -129,31 +94,40 @@ namespace NetMX.OpenMBean
       public OpenMBeanAttributeInfoSupport(string name, string description, OpenType openType, bool isReadable, bool isWritable, IComparable defaultValue, IEnumerable<object> legalValues)
          : this(name, description, openType, isReadable, isWritable, defaultValue)
       {
-         if (legalValues == null)
-         {
-            throw new ArgumentNullException("legalValues");
-         }
-         if (openType.Kind == OpenTypeKind.ArrayType || openType.Kind == OpenTypeKind.TabularType)
-         {
-            throw new OpenDataException("Cannot specify legal values for attribute of type array or tabular.");
-         }
-         foreach (object o in legalValues)
-         {
-            if (!openType.IsValue(o))
-            {
-               throw new OpenDataException("Each legal value must be valid for supplied open type.");
-            }
-         }
+         OpenInfoUtils.ValidateLegalValues(openType, legalValues);
          _legalValues = new List<object>(legalValues).AsReadOnly();
-      }
+      }      
       /// <summary>
       /// Constructs an OpenMBeanAttributeInfoSupport object.
       /// </summary>
       /// <param name="info">Property information object.</param>
       public OpenMBeanAttributeInfoSupport(PropertyInfo info)
 			: base(info)
-		{           
-		} 
+      {
+         object[] tmp = info.GetCustomAttributes(typeof (OpenMBeanAttributeAttribute), false);
+         if (tmp.Length > 0)
+         {
+            OpenMBeanAttributeAttribute attr = (OpenMBeanAttributeAttribute) tmp[0];
+            if (attr.LegalValues != null && (attr.MinValue != null || attr.MaxValue != null))
+            {
+               throw new OpenDataException("Cannot specify both min/max values and legal values.");
+            }
+            _openType = OpenMBean.OpenType.CreateFromType(info.PropertyType);
+            OpenInfoUtils.ValidateDefaultValue(_openType, attr.DefaultValue);
+            IComparable defaultValue = (IComparable)attr.DefaultValue;
+            IComparable minValue = (IComparable)attr.MinValue;
+            IComparable maxValue = (IComparable)attr.MaxValue;
+            OpenInfoUtils.ValidateMinMaxValue(_openType, defaultValue, minValue, maxValue);
+            if (attr.LegalValues != null)
+            {
+               OpenInfoUtils.ValidateLegalValues(_openType, attr.LegalValues);
+               _legalValues = new ReadOnlyCollection<object>(attr.LegalValues);
+            }            
+            _defaultValue = attr.DefaultValue;
+            _minValue = minValue;
+            _maxValue = maxValue;  
+         }
+      }      
       #endregion
 
 

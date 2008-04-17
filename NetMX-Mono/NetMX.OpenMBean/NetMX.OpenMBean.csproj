@@ -22,6 +22,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\NetMX.OpenMBean.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -38,8 +39,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ArrayType.cs" />
+    <Compile Include="Attributes\OpenMBeanAttribute.cs" />
     <Compile Include="Attributes\OpenMBeanAttributeAttribute.cs" />
     <Compile Include="Attributes\OpenMBeanAttrParamBase.cs" />
+    <Compile Include="Attributes\OpenMBeanOperationAttribute.cs" />
     <Compile Include="Attributes\OpenMBeanParameterAttribute.cs" />
     <Compile Include="CompositeDataSupport.cs" />
     <Compile Include="CompositeType.cs" />
@@ -48,6 +51,7 @@
     <Compile Include="Exceptions\InvalidOpenTypeException .cs" />
     <Compile Include="Exceptions\InvalidKeyException .cs" />
     <Compile Include="ICompositeData.cs" />
+    <Compile Include="Info\OpenMBeanParameterInfoSupport.cs" />
     <Compile Include="Info\IOpenMBeanAttributeInfo.cs" />
     <Compile Include="Info\IOpenMBeanConstructorInfo.cs" />
     <Compile Include="Info\IOpenMBeanInfo.cs" />

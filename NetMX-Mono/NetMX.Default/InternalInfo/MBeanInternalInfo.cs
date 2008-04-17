@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Text;
 using System.Reflection;
 using System.Collections.ObjectModel;
+using NetMX.OpenMBean;
+
 #endregion
 
 namespace NetMX.Default.InternalInfo
@@ -11,32 +13,32 @@ namespace NetMX.Default.InternalInfo
 	internal sealed class MBeanInternalInfo
 	{
 		#region MEMBERS		
-		private static Dictionary<Type, MBeanInternalInfo> _cache = new Dictionary<Type, MBeanInternalInfo>();
-		private static object _synchRoot = new object();
+		private static readonly Dictionary<Type, MBeanInternalInfo> _cache = new Dictionary<Type, MBeanInternalInfo>();
+		private static readonly object _synchRoot = new object();
 		#endregion
 
 		#region PROPERTIES
-		private MBeanInfo _info;
+		private readonly MBeanInfo _info;
 		public MBeanInfo MBeanInfo
 		{
 			get { return _info; }
 		}
-		private Dictionary<string,MBeanInternalAttributeInfo> _attributes;
+		private readonly Dictionary<string,MBeanInternalAttributeInfo> _attributes;
 		internal Dictionary<string,MBeanInternalAttributeInfo> Attributes
 		{
 			get { return _attributes; }
 		}
-      private Dictionary<string, MBeanInternalConstructorInfo> _constructors;
+      private readonly Dictionary<string, MBeanInternalConstructorInfo> _constructors;
       internal Dictionary<string, MBeanInternalConstructorInfo> Constructors
       {
          get { return _constructors; }
       }
-		private Dictionary<string,MBeanInternalOperationInfo> _operations;
+		private readonly Dictionary<string,MBeanInternalOperationInfo> _operations;
 		internal Dictionary<string,MBeanInternalOperationInfo> Operations
 		{
 			get { return _operations; }
 		}
-		private List<MBeanInternalNotificationInfo> _notifications;
+		private readonly List<MBeanInternalNotificationInfo> _notifications;
 		internal List<MBeanInternalNotificationInfo> Notifications
 		{
 			get { return _notifications; }
@@ -59,76 +61,69 @@ namespace NetMX.Default.InternalInfo
          List<Type> types = new List<Type>();
          types.Add(intfType);
          types.AddRange(intfType.GetInterfaces());
+		   IMBeanInfoFactory factory;
+         if (intfType.IsDefined(typeof(OpenMBeanAttribute), true))
+         {
+            factory = new OpenMBeanBeanInfoFactory();
+         }
+         else
+         {
+            factory = new StandardBeanInfoFactory();
+         }
          foreach (Type t in types)
          {
             foreach (PropertyInfo propInfo in t.GetProperties())
             {
-               MBeanAttributeInfo attrInfo = new MBeanAttributeInfo(propInfo);
-               attributes.Add(attrInfo);
-               internalAttributes.Add(attrInfo.Name, new MBeanInternalAttributeInfo(attrInfo, propInfo));
+               MBeanInternalAttributeInfo attrInfo = new MBeanInternalAttributeInfo(propInfo, factory);
+               attributes.Add(attrInfo.AttributeInfo);
+               internalAttributes.Add(attrInfo.AttributeInfo.Name, attrInfo);
             }
             foreach (EventInfo eventInfo in t.GetEvents())
             {
                if (eventInfo.IsDefined(typeof(MBeanNotificationAttribute), true))
                {
-                  Type handlerType = eventInfo.GetAddMethod().GetParameters()[0].ParameterType;
-                  Type genericArgument = handlerType.GetGenericArguments()[0];
-                  if (handlerType.GetGenericTypeDefinition() == typeof(EventHandler<>))
-                  {
-                     if (typeof(Notification).IsAssignableFrom(genericArgument)
-                        || typeof(NotificationEventArgs).IsAssignableFrom(genericArgument))
-                     {
-                        MBeanNotificationInfo notifInfo = new MBeanNotificationInfo(eventInfo, handlerType);
-                        notifications.Add(notifInfo);
-                        internalNotifications.Add(new MBeanInternalNotificationInfo(notifInfo, eventInfo, handlerType, genericArgument));
-                     }
-                     else
-                     {
-                        throw new NotCompliantMBeanException(intfType.AssemblyQualifiedName);
-                     }
-                  }
+                  MBeanInternalNotificationInfo notifInfo = new MBeanInternalNotificationInfo(eventInfo, factory);
+                  notifications.Add(notifInfo.NotificationInfo);
+                  internalNotifications.Add(notifInfo);                  
                }
             }
             foreach (ConstructorInfo methInfo in t.GetConstructors())
             {
-               MBeanConstructorInfo constructorInfo = new MBeanConstructorInfo(methInfo);
-               constructors.Add(constructorInfo);
-               internalConstructors.Add(constructorInfo.Name, new MBeanInternalConstructorInfo(constructorInfo, methInfo));
+               MBeanInternalConstructorInfo constructorInfo = new MBeanInternalConstructorInfo(methInfo, factory);
+               constructors.Add(constructorInfo.ConstructorInfo);
+               internalConstructors.Add(constructorInfo.ConstructorInfo.Name, constructorInfo);
             }
             foreach (MethodInfo methInfo in t.GetMethods())
             {
                if (!methInfo.IsSpecialName)
                {
-                  MBeanOperationInfo operationInfo = new MBeanOperationInfo(methInfo);
-                  operations.Add(operationInfo);
-                  internalOperations.Add(operationInfo.Name, new MBeanInternalOperationInfo(operationInfo, methInfo));
+                  MBeanInternalOperationInfo operationInfo = new MBeanInternalOperationInfo(methInfo, factory);
+                  operations.Add(operationInfo.OperationInfo);
+                  internalOperations.Add(operationInfo.OperationInfo.Name, operationInfo);
                }
             }
          }
-			_info = new MBeanInfo(intfType, attributes, constructors, operations, notifications);
+			_info = factory.CreateMBeanInfo(intfType, attributes, constructors, operations, notifications);
 			_attributes = internalAttributes;
          _constructors = internalConstructors;
 			_operations = internalOperations;
 			_notifications = internalNotifications;
-		}
-		#endregion
+		}	   
+	   #endregion
 
 		#region INTERFACE
-		internal static MBeanInternalInfo GetCached(Type intfType)
-		{
-			if (!_cache.ContainsKey(intfType))
-			{
-				lock (_synchRoot)
-				{
-					if (!_cache.ContainsKey(intfType))
-					{
-						MBeanInternalInfo info = new MBeanInternalInfo(intfType);
-						_cache[intfType] = info;
-					}
-				}
-			}
-			return _cache[intfType];
-		}
-		#endregion
+      internal static MBeanInternalInfo GetCached(Type intfType)
+      {
+         lock (_synchRoot)
+         {
+            if (!_cache.ContainsKey(intfType))
+            {
+               MBeanInternalInfo info = new MBeanInternalInfo(intfType);
+               _cache[intfType] = info;
+            }
+         }
+         return _cache[intfType];
+      }
+	   #endregion
 	}
 }

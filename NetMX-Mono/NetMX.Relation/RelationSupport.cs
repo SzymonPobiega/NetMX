@@ -9,12 +9,12 @@ namespace NetMX.Relation
    public class RelationSupport : IRelation, RelationSupportMBean, IMBeanRegistration
    {
       #region MEMBERS
-      private string _relationId;
+      private readonly string _relationId;
       private ObjectName _relationServiceName;
       private IMBeanServer _relationServiceMBeanServer;
       private RelationServiceMBean _relationService;
-      private string _relationTypeName;
-      private Dictionary<string, Role> _roles;
+      private readonly string _relationTypeName;
+      private readonly Dictionary<string, Role> _roles;
       #endregion
 
       #region CONSTRUCTOR
@@ -38,7 +38,7 @@ namespace NetMX.Relation
       /// <item>the same name is used for two roles.</item>
       /// </list>
       /// To be handled as a relation, the object has then to be added in the Relation Service using the Relation 
-      /// Service method <see cref="NetMX.Relation.RelationServiceMBean.AddRelation"/>().      
+      /// Service method <see cref="RelationServiceMBean.AddRelation"/>().      
       /// </summary>
       /// <param name="relationId">Relation identifier, to identify the relation in the Relation Service. Expected to be unique in the given Relation Service.</param>
       /// <param name="relationServiceName">ObjectName of the Relation Service where the relation will be registered.
@@ -54,7 +54,14 @@ namespace NetMX.Relation
          string relationType, IEnumerable<Role> roles)
       {
          _relationId = relationId;
-         _relationServiceName = relationServiceName;
+         if (relationServiceMBeanServer == null || relationServiceName.Domain != "")
+         {
+            _relationServiceName = relationServiceName;
+         }
+         else
+         {
+            _relationServiceName = new ObjectName(relationServiceMBeanServer.GetDefaultDomain(), relationServiceName.KeyPropertyList);
+         }
          _relationServiceMBeanServer = relationServiceMBeanServer;
          _relationService = NetMX.NewMBeanProxy<RelationServiceMBean>(_relationServiceMBeanServer, _relationServiceName);
          _relationTypeName = relationType;
@@ -87,7 +94,7 @@ namespace NetMX.Relation
       /// <item>the same name is used for two roles.</item>
       /// </list>
       /// To be handled as a relation, the object has then to be added in the Relation Service using the Relation 
-      /// Service method <see cref="NetMX.Relation.RelationServiceMBean.AddRelation"/>().      
+      /// Service method <see cref="RelationServiceMBean.AddRelation"/>().      
       /// </summary>
       /// <param name="relationId">Relation identifier, to identify the relation in the Relation Service. Expected to be unique in the given Relation Service.</param>
       /// <param name="relationServiceName">ObjectName of the Relation Service where the relation will be registered.
@@ -114,7 +121,7 @@ namespace NetMX.Relation
       /// <item>the same name is used for two roles.</item>
       /// </list>
       /// To be handled as a relation, the object has then to be added in the Relation Service using the Relation 
-      /// Service method <see cref="NetMX.Relation.RelationServiceMBean.AddRelation"/>().      
+      /// Service method <see cref="RelationServiceMBean.AddRelation"/>().      
       /// </summary>
       /// <param name="relationId">Relation identifier, to identify the relation in the Relation Service. Expected to be unique in the given Relation Service.</param>
       /// <param name="relationServiceName">ObjectName of the Relation Service where the relation will be registered.
@@ -131,7 +138,7 @@ namespace NetMX.Relation
       #endregion
 
       #region Utility      
-      private RoleInfo FindRoleInfo(string name, IList<RoleInfo> roleInfos)
+      private static RoleInfo FindRoleInfo(string name, IEnumerable<RoleInfo> roleInfos)
       {
          foreach (RoleInfo roleInfo in roleInfos)
          {
@@ -351,6 +358,10 @@ namespace NetMX.Relation
       public ObjectName PreRegister(IMBeanServer server, ObjectName name)
       {
          _relationServiceMBeanServer = server;
+         if (_relationServiceName.Domain == "")
+         {
+            _relationServiceName = new ObjectName(server.GetDefaultDomain(), _relationServiceName.KeyPropertyList);
+         }
          _relationService = NetMX.NewMBeanProxy<RelationServiceMBean>(_relationServiceMBeanServer, _relationServiceName);
          return name;
       }

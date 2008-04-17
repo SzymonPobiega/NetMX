@@ -28,7 +28,7 @@ namespace NetMX
 		{
 			get { return _returnType; }
 		}
-      private readonly ReadOnlyCollection<MBeanParameterInfo> _signature;
+      protected ReadOnlyCollection<MBeanParameterInfo> _signature;
       /// <summary>
       /// 
       /// </summary>
@@ -36,7 +36,7 @@ namespace NetMX
 		{
 			get { return _signature; }
 		}
-      private readonly OperationImpact _impact;
+      protected OperationImpact _impact;
       /// <summary>
       /// 
       /// </summary>
@@ -77,6 +77,16 @@ namespace NetMX
          _returnType = returnType;
          _signature = signature;
          _impact = impact;
+      }
+      /// <summary>
+      /// Creates new MBeanOperationInfo object using reflection.
+      /// </summary>
+      /// <param name="info">Method information object.</param>
+      /// <param name="dummy">A dummy parameter used to differenciate constructor signatures.</param>
+      protected MBeanOperationInfo(MethodInfo info, bool dummy)
+			: base(info.Name, InfoUtils.GetDescrition(info, info, "MBean operation"))
+      {
+         _returnType = info.ReturnType != null ? info.ReturnType.AssemblyQualifiedName : null;         
       }
       /// <summary>
       /// Creates new MBeanOperationInfo object using reflection.
