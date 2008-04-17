@@ -41,6 +41,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Configuration\MBeanCollection.cs" />
+    <Compile Include="Configuration\MBeanConstructorArgumentCollection.cs" />
+    <Compile Include="Configuration\MBean.cs" />
+    <Compile Include="Configuration\MBeanConstructorArgument.cs" />
+    <Compile Include="Configuration\MBeanServerConfigurationSection.cs" />
     <Compile Include="InternalInfo\OpenMBeanBeanInfoFactory.cs" />
     <Compile Include="InternalInfo\IMBeanInfoFactory.cs" />
     <Compile Include="InternalInfo\MBeanInternalConstructorInfo.cs" />

@@ -2,6 +2,9 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Configuration;
+using NetMX.Default.Configuration;
+using Simon.Configuration;
 #endregion
 
 namespace NetMX.Default
@@ -19,11 +22,28 @@ namespace NetMX.Default
 		#endregion
 
 		#region CONSTRUCTOR
+		public MBeanServer(string instanceName)
+		{
+			_delegate = new MBeanServerDelegate(instanceName, "", "http://netmx.eu",
+				typeof(MBeanServer).Assembly.GetName().Version.ToString());
+			RegisterMBean(_delegate, MBeanServerDelegate.ObjectName);
+			MBeanServerConfigurationSection section = TypedConfigurationManager.GetSection<MBeanServerConfigurationSection>(instanceName, false);
+			if (section != null)
+			{
+				foreach (MBean beanConfig in section.Beans)
+				{
+					List<object> args = new List<object>();
+					foreach (MBeanConstructorArgument arg in beanConfig.Arguments)
+					{
+						args.Add(arg.Value);
+					}
+					CreateMBean(beanConfig.ClassName, beanConfig.ObjectName, args.ToArray());
+				}
+			}
+		}
       public MBeanServer()
-      {
-         _delegate = new MBeanServerDelegate(Guid.NewGuid().ToString(), "", "http://netmx.eu", 
-            typeof(MBeanServer).Assembly.GetName().Version.ToString());         
-         RegisterMBean(_delegate, MBeanServerDelegate.ObjectName);         
+			: this(Guid.NewGuid().ToString())
+      {         
       }
 		#endregion
 
