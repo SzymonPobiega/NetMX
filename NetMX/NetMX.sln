@@ -68,9 +68,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetMX.OpenMBean", "NetMX.Op
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetMX.OpenMBean.Tests", "NetMX.OpenMBean.Tests\NetMX.OpenMBean.Tests.csproj", "{AE3326F7-D030-498E-9C4D-CF067A97146A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CLRMonitoringSample", "Samples\CLRMonitoringSample\CLRMonitoringSample.csproj", "{C20C2476-6811-4557-8DA1-389BCB5A4399}"
+EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 19
+		SccNumberOfProjects = 20
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://tfs04.codeplex.com/
 		SccLocalPath0 = .
@@ -134,6 +136,10 @@ Global
 		SccProjectUniqueName18 = NetMX.OpenMBean.Tests\\NetMX.OpenMBean.Tests.csproj
 		SccProjectName18 = NetMX.OpenMBean.Tests
 		SccLocalPath18 = NetMX.OpenMBean.Tests
+		SccProjectUniqueName19 = Samples\\CLRMonitoringSample\\CLRMonitoringSample.csproj
+		SccProjectTopLevelParentUniqueName19 = NetMX.sln
+		SccProjectName19 = Samples/CLRMonitoringSample
+		SccLocalPath19 = Samples\\CLRMonitoringSample
 	EndGlobalSection
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = NetMX.vsmdi
@@ -327,6 +333,16 @@ Global
 		{AE3326F7-D030-498E-9C4D-CF067A97146A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{AE3326F7-D030-498E-9C4D-CF067A97146A}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{AE3326F7-D030-498E-9C4D-CF067A97146A}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{C20C2476-6811-4557-8DA1-389BCB5A4399}.Debug|.NET.ActiveCfg = Debug|Any CPU
+		{C20C2476-6811-4557-8DA1-389BCB5A4399}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C20C2476-6811-4557-8DA1-389BCB5A4399}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C20C2476-6811-4557-8DA1-389BCB5A4399}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{C20C2476-6811-4557-8DA1-389BCB5A4399}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{C20C2476-6811-4557-8DA1-389BCB5A4399}.Release|.NET.ActiveCfg = Release|Any CPU
+		{C20C2476-6811-4557-8DA1-389BCB5A4399}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C20C2476-6811-4557-8DA1-389BCB5A4399}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C20C2476-6811-4557-8DA1-389BCB5A4399}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{C20C2476-6811-4557-8DA1-389BCB5A4399}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -336,5 +352,6 @@ Global
 		{3CB15450-54E5-4CBE-B252-68B15E9A45F3} = {95F701FD-2093-4520-AB90-D314864AE21F}
 		{F6077349-28DF-454E-9F74-140821760C0E} = {95F701FD-2093-4520-AB90-D314864AE21F}
 		{717E0E35-9A63-4A2B-B9AE-6C6139CC6861} = {95F701FD-2093-4520-AB90-D314864AE21F}
+		{C20C2476-6811-4557-8DA1-389BCB5A4399} = {95F701FD-2093-4520-AB90-D314864AE21F}
 	EndGlobalSection
 EndGlobal
