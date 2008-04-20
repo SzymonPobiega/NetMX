@@ -15,7 +15,7 @@ namespace NetMX.Proxy
    {
       /// <summary>
       /// Creates proxy object. Proxy implements <paramref name="beanInterfaceType"/> and forwards invocations
-      /// to <see cref="NetMX.Proxy.ProxyInvocationHandler"/> instance provided as <paramref name="handler"/>.
+      /// to <see cref="ProxyInvocationHandler"/> instance provided as <paramref name="handler"/>.
       /// </summary>
       /// <param name="beanInterfaceType">Type of MBean interface.</param>
       /// <param name="handler">Handler which invokes MBean server through a connection.</param>

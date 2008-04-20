@@ -9,13 +9,16 @@ using System.Reflection;
 
 namespace NetMX.OpenMBean
 {
-   [Serializable]
+   /// <summary>
+   /// Describes a parameter used in one or more operations or constructors of an open MBean.
+   /// </summary>
+   [Serializable]   
    public class OpenMBeanParameterInfoSupport : MBeanParameterInfo, IOpenMBeanParameterInfo
    {
       #region Members
       private readonly object _defaultValue;
-      private readonly IComparable _minValue;
-      private readonly IComparable _maxValue;
+      private readonly object _minValue;
+      private readonly object _maxValue;
       private readonly ReadOnlyCollection<object> _legalValues;
       private readonly OpenType _openType;
       #endregion
@@ -96,15 +99,15 @@ namespace NetMX.OpenMBean
       public OpenMBeanParameterInfoSupport(ParameterInfo info)
 			: base(info)
       {
-         object[] tmp = info.GetCustomAttributes(typeof (OpenMBeanAttributeAttribute), false);
+         _openType = OpenMBean.OpenType.CreateFromType(info.ParameterType);
+         object[] tmp = info.GetCustomAttributes(typeof (OpenMBeanParameterAttribute), false);
          if (tmp.Length > 0)
          {
-            OpenMBeanAttributeAttribute attr = (OpenMBeanAttributeAttribute) tmp[0];
+            OpenMBeanParameterAttribute attr = (OpenMBeanParameterAttribute)tmp[0];
             if (attr.LegalValues != null && (attr.MinValue != null || attr.MaxValue != null))
             {
                throw new OpenDataException("Cannot specify both min/max values and legal values.");
-            }
-            _openType = OpenMBean.OpenType.CreateFromType(info.ParameterType);
+            }            
             OpenInfoUtils.ValidateDefaultValue(_openType, attr.DefaultValue);
             IComparable defaultValue = (IComparable) attr.DefaultValue;
             IComparable minValue = (IComparable) attr.MinValue;
@@ -134,11 +137,11 @@ namespace NetMX.OpenMBean
       }
       public IComparable MaxValue
       {
-         get { return _maxValue; }
+         get { return (IComparable)_maxValue; }
       }
       public IComparable MinValue
       {
-         get { return _minValue; }
+         get { return (IComparable)_minValue; }
       }
       public OpenType OpenType
       {

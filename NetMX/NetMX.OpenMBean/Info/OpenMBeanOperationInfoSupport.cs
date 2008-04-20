@@ -2,14 +2,16 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
+using NetMX;
 
 #endregion
 
 namespace NetMX.OpenMBean
 {
    /// <summary>
-   /// 
+   /// Describes an operation of an Open MBean.   
    /// </summary>
+   [Serializable]
    public class OpenMBeanOperationInfoSupport : MBeanOperationInfo, IOpenMBeanOperationInfo
    {
       #region Members

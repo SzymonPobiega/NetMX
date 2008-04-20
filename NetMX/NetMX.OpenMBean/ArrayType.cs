@@ -63,6 +63,10 @@ namespace NetMX.OpenMBean
       {
          return _dimension.GetHashCode() ^ _elementType.GetHashCode();
       }
+      public override void Visit(OpenTypeVisitor visitor)
+      {
+         visitor.VisitArrayType(this);
+      }
       public override bool IsValue(object value)
       {
          Array array = value as Array;

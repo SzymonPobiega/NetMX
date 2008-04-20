@@ -169,6 +169,7 @@ namespace NetMX.OpenMBean
       #endregion
 
       #region Nested class
+      [Serializable]
       private class IndexEntry : IEnumerable<object >
       {
          private readonly IEnumerable<object> _items;

@@ -42,6 +42,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Sample.cs" />
+    <Compile Include="SampleDynamicMBean.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -50,6 +51,10 @@
     <ProjectReference Include="..\..\NetMX.Default\NetMX.Default.csproj">
       <Project>{9B9279AA-5B62-4834-9949-F2CCE7318610}</Project>
       <Name>NetMX.Default</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\NetMX.OpenMBean\NetMX.OpenMBean.csproj">
+      <Project>{27AAB473-F263-4F24-A0DC-9B3CAFCE1E16}</Project>
+      <Name>NetMX.OpenMBean</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\NetMX.Proxy.Castle\NetMX.Proxy.Castle.csproj">
       <Project>{2C4128C4-CD09-4CB6-A97B-E8F36E92AA6E}</Project>

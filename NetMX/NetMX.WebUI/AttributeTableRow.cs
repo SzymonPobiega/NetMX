@@ -9,14 +9,18 @@ using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
 using NetMX;
 using System.ComponentModel;
+using NetMX.OpenMBean;
 
 namespace NetMX.WebUI.WebControls
 {   
    public class AttributeTableRow : TableRow
-   {
-      private IMBeanServerConnection _connection;
-      private ObjectName _name;
-      private MBeanAttributeInfo _attrInfo;
+   {      
+      private readonly EventHandler<ViewEditOpenTypeEventArgs> _handleViewEditOpenType;
+
+      private readonly IMBeanServerConnection _connection;
+      private readonly ObjectName _name;
+      private readonly MBeanAttributeInfo _attrInfo;
+      private readonly IOpenMBeanAttributeInfo _openAttrInfo;
 
       private bool _editMode;
       /// <summary>
@@ -32,14 +36,17 @@ namespace NetMX.WebUI.WebControls
       private Button _updateButton;
       private Button _cancelButton;
       private TextBox _input;
+      private Button _editOpenType;
       private LiteralControl _literal;
       #endregion
 
-		internal AttributeTableRow(ObjectName name, MBeanAttributeInfo attrInfo, IMBeanServerConnection connection, string rowCssClass, string buttonCssClass)
+		internal AttributeTableRow(ObjectName name, MBeanAttributeInfo attrInfo, IMBeanServerConnection connection, EventHandler<ViewEditOpenTypeEventArgs> handleViewEditOpenType, string rowCssClass, string buttonCssClass)
       {
          _name = name;
          _attrInfo = attrInfo;
+		   _openAttrInfo = attrInfo as IOpenMBeanAttributeInfo;
          _connection = connection;
+		   _handleViewEditOpenType = handleViewEditOpenType;
          this.CssClass = rowCssClass;
 
          AddCell(attrInfo.Name, false);
@@ -85,16 +92,40 @@ namespace NetMX.WebUI.WebControls
          cell.CssClass = this.CssClass;
          cell.HorizontalAlign = HorizontalAlign.Center;
 
-         _input = new TextBox();
-         _input.CssClass = this.CssClass;
-         _input.EnableViewState = false;
-         cell.Controls.Add(_input);
+         if (_openAttrInfo != null && _openAttrInfo.OpenType.Kind != OpenTypeKind.SimpleType)
+         {
+            _editOpenType =new Button();
+            _editOpenType.Click += new EventHandler(HandleEditOpenType);
+            _editOpenType.EnableViewState = false;
+            _editOpenType.Text = "Set/Edit";
+            cell.Controls.Add(_editOpenType);
+         }
+         else
+         {
+            _input = new TextBox();
+            _input.CssClass = this.CssClass;
+            _input.EnableViewState = false;
+            cell.Controls.Add(_input);
+         }
 
          _literal = new LiteralControl();
          cell.Controls.Add(_literal);
 
          this.Cells.Add(cell);
       }
+
+      private void HandleEditOpenType(object sender, EventArgs e)
+      {
+         _handleViewEditOpenType(this,
+                             new ViewEditOpenTypeEventArgs(true, _connection.GetAttribute(_name, _attrInfo.Name),
+                                                       _openAttrInfo.OpenType));
+      }
+      private void HandleViewOpenType(object sender, EventArgs e)
+      {
+         _handleViewEditOpenType(this,
+                             new ViewEditOpenTypeEventArgs(false, _connection.GetAttribute(_name, _attrInfo.Name),
+                                                       _openAttrInfo.OpenType));
+      } 
       private void AddCell(string value, bool center)
       {
          TableCell cell = new TableCell();
@@ -136,7 +167,14 @@ namespace NetMX.WebUI.WebControls
          }
          else
          {
-            _input.Visible = false;
+            if (_input != null)
+            {
+               _input.Visible = false;
+            }
+            if (_editOpenType != null)
+            {
+               _editOpenType.Visible = false;
+            }
             if (_updateButton != null && _cancelButton != null)
             {
                _updateButton.Visible = false;
@@ -146,8 +184,11 @@ namespace NetMX.WebUI.WebControls
          if (_attrInfo.Readable)
          {
             object value = _connection.GetAttribute(_name, _attrInfo.Name);
-            _input.Text = value != null ? value.ToString() : "";
-            _literal.Text = HttpUtility.HtmlEncode(_input.Text);
+            if (_input != null)
+            {
+               _input.Text = value != null ? value.ToString() : "";
+               _literal.Text = HttpUtility.HtmlEncode(_input.Text);
+            }            
          }
          else
          {

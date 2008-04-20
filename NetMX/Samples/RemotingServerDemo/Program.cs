@@ -4,6 +4,7 @@ using System.Text;
 using NetMX;
 using NetMX.Remote;
 using NetMX.Relation;
+using NetMX.OpenMBean;
 
 namespace RemotingServerDemo
 {
@@ -19,6 +20,10 @@ namespace RemotingServerDemo
 			server.RegisterMBean(sample1, "Sample:type=Sample,id=1");
          server.RegisterMBean(sample2, "Sample:type=Sample,id=2");
          server.RegisterMBean(sample3, "Sample:type=Sample,id=3");
+         SampleDynamicMBean dynSample = new SampleDynamicMBean();
+		   dynSample.AddRow(1, "First row");
+         dynSample.AddRow(2, "Second row");
+         server.RegisterMBean(dynSample, "Sample:type=SampleDynamicMBean");
 
          RelationServiceMBean relationSerice = NetMX.NetMX.NewMBeanProxy<RelationServiceMBean>(server, RelationService.ObjectName);
          relationSerice.CreateRelationType("Binding", new RoleInfo[] {

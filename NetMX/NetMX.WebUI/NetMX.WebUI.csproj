@@ -40,16 +40,24 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AttributeTableRow.cs" />
+    <Compile Include="Class1.cs" />
+    <Compile Include="ComplexValueControlBase.cs" />
     <Compile Include="MBeanServerProxy.cs" />
     <Compile Include="MBeanUI.cs" />
+    <Compile Include="OpenTypeIndex.cs" />
     <Compile Include="OperationTableRow.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RelationRoleTableRow.cs" />
     <Compile Include="Resources\AttributeTableRow.cs" />
     <Compile Include="Resources\MBeanUI.cs" />
     <Compile Include="Resources\OperationTableRow.cs" />
+    <Compile Include="TabularValueControl.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\NetMX.OpenMBean\NetMX.OpenMBean.csproj">
+      <Project>{27AAB473-F263-4F24-A0DC-9B3CAFCE1E16}</Project>
+      <Name>NetMX.OpenMBean</Name>
+    </ProjectReference>
     <ProjectReference Include="..\NetMX.Proxy\NetMX.Proxy.csproj">
       <Project>{DD2598EC-FF14-468C-AE00-EFC63D18693B}</Project>
       <Name>NetMX.Proxy</Name>

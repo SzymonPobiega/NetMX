@@ -57,6 +57,10 @@ namespace NetMX.OpenMBean
       #endregion
 
       #region Overridden
+      public override void Visit(OpenTypeVisitor visitor)
+      {
+         visitor.VisitTabularType(this);
+      }
       public override bool IsValue(object value)
 		{
          ITabularData data = value as ITabularData;

@@ -9,15 +9,26 @@ using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
 using NetMX;
 using System.ComponentModel;
+using NetMX.OpenMBean;
 using NetMX.Relation;
 using System.Collections.Generic;
 
 namespace NetMX.WebUI.WebControls
 {
 	public class MBeanUI : CompositeControl
-	{
-		#region Data source properties
-		private string _mBeanServerProxyID;
+   {
+      #region Members
+	   private bool _recreateOpenTypeView;
+	   private OpenTypeKind _openTypeKind;
+      #endregion
+
+      #region Controls
+      private PlaceHolder beanView;
+	   private PlaceHolder openValueView;
+      #endregion
+
+      #region Data source properties
+      private string _mBeanServerProxyID;
 		/// <summary>
 		/// ID of MBeanServerProxy control
 		/// </summary>
@@ -159,7 +170,7 @@ namespace NetMX.WebUI.WebControls
       }      
 		#endregion
 
-		#region Overridden
+		#region Overridden      
 		protected override HtmlTextWriterTag TagKey
 		{
 			get
@@ -167,10 +178,22 @@ namespace NetMX.WebUI.WebControls
 				return HtmlTextWriterTag.Div;
 			}
 		}
-		protected override void CreateChildControls()
-		{
-			base.CreateChildControls();						
-		}
+      protected override void OnInit(EventArgs e)
+      {
+         base.OnInit(e);
+         Page.RegisterRequiresControlState(this);
+      }      
+      protected override void LoadControlState(object savedState)
+      {
+         object[] state = (object[]) savedState;
+         base.LoadControlState(state[0]);
+         _recreateOpenTypeView = (bool) state[1];
+         _openTypeKind = (OpenTypeKind) state[2];
+      }
+      protected override object SaveControlState()
+      {
+         return new object[] { base.SaveControlState(), _recreateOpenTypeView, _openTypeKind };
+      }
 		protected override void OnLoad(EventArgs e)
 		{
 			base.OnLoad(e);
@@ -179,6 +202,14 @@ namespace NetMX.WebUI.WebControls
 				CreateControls();
 			}
 		}
+      protected override void OnPreRender(EventArgs e)
+      {
+         base.OnPreRender(e);
+         if (!_recreateOpenTypeView)
+         {
+            openValueView.Visible = false;
+         }
+      }
 		#endregion
 
       #region Event handlers
@@ -188,23 +219,56 @@ namespace NetMX.WebUI.WebControls
          this.Controls.Clear();
          CreateControls();
       }
+      private void HandleViewEditOpenType(object sender, ViewEditOpenTypeEventArgs e)
+      {
+         ComplexValueControlBase ctl = ComplexValueControlBase.Create(e.EnableEdit, e.Type, e.Value);
+         ctl.ID = "openTypeViewControl";
+         ctl.Cancel += HandleCancelOpenType;         
+         openValueView.Controls.Add(ctl);
+         _openTypeKind = e.Type.Kind;
+         _recreateOpenTypeView = true;
+      }	   
+      private void HandleCancelOpenType(object sender, EventArgs e)
+      {
+         _recreateOpenTypeView = false;
+      }
+      private void HandleSubmitOpenType(object sender, ValueAndIndexEventArgs e)
+      {
+         _recreateOpenTypeView = false;
+      }
       #endregion
 
       #region Utility
       private void CreateControls()
 		{
+         beanView = new PlaceHolder();
+         beanView.EnableViewState = false;
+         Controls.Add(beanView);
+         openValueView = new PlaceHolder();
+         openValueView.EnableViewState = false;
+         Controls.Add(openValueView);
+
+         if (_recreateOpenTypeView)
+         {
+            ComplexValueControlBase ctl = ComplexValueControlBase.Recreate(_openTypeKind);
+            ctl.ID = "openTypeViewControl";
+            ctl.Cancel += HandleCancelOpenType;
+            ctl.Submit += HandleSubmitOpenType;
+            openValueView.Controls.Add(ctl);
+         }
+
 			MBeanInfo info = Proxy.ServerConnection.GetMBeanInfo(new ObjectName(ObjectName));
          RelationServiceMBean relationService = NetMX.NewMBeanProxy<RelationServiceMBean>(Proxy.ServerConnection, RelationService.ObjectName);
 
 			Label generalInfoTitle = new Label();
 			generalInfoTitle.Text = Resources.MBeanUI.GeneralInformationSection + "&nbsp;&nbsp;";
          generalInfoTitle.CssClass = SectionTitleCssClass;
-			this.Controls.Add(generalInfoTitle);
+         beanView.Controls.Add(generalInfoTitle);
 
 			Button refreshButton = new Button();
 			refreshButton.Text = Resources.MBeanUI.RefreshButton;
 			refreshButton.CssClass = ButtonCssClass;
-			this.Controls.Add(refreshButton);
+         beanView.Controls.Add(refreshButton);
 
 			Table generalInfo = new Table();
 			generalInfo.CellPadding = TableCellPadding;
@@ -214,12 +278,12 @@ namespace NetMX.WebUI.WebControls
 			AddGeneralInfoItem(generalInfo, Resources.MBeanUI.GeneralInformationObjectName, ObjectName);
 			AddGeneralInfoItem(generalInfo, Resources.MBeanUI.GeneralInformationDescription, info.Description);
 			AddGeneralInfoItem(generalInfo, Resources.MBeanUI.GeneralInformationClass, info.ClassName);
-			this.Controls.Add(generalInfo);
+         beanView.Controls.Add(generalInfo);
 
 			Label attributesTitle = new Label();
 			attributesTitle.Text = Resources.MBeanUI.AttributesSection;
          attributesTitle.CssClass = SectionTitleCssClass;
-			this.Controls.Add(attributesTitle);
+         beanView.Controls.Add(attributesTitle);
 
 			Table attributes = new Table();
 			attributes.CellPadding = TableCellPadding;
@@ -229,10 +293,10 @@ namespace NetMX.WebUI.WebControls
 			attributes.Rows.Add(CreateAttributesHeader());
 			foreach (MBeanAttributeInfo attrInfo in info.Attributes)
 			{
-				AttributeTableRow attributeRow = new AttributeTableRow(new ObjectName(ObjectName), attrInfo, Proxy.ServerConnection, "Attribute", ButtonCssClass);
+				AttributeTableRow attributeRow = new AttributeTableRow(new ObjectName(ObjectName), attrInfo, Proxy.ServerConnection, HandleViewEditOpenType, "Attribute", ButtonCssClass);
 				attributes.Rows.Add(attributeRow);
 			}
-			this.Controls.Add(attributes);
+         beanView.Controls.Add(attributes);
 
 			Label operationTitle = new Label();
 			operationTitle.Text = Resources.MBeanUI.OperationsSection;
@@ -247,15 +311,15 @@ namespace NetMX.WebUI.WebControls
 			operations.Rows.Add(CreateOperationsHeader());
 			foreach (MBeanOperationInfo operInfo in info.Operations)
 			{
-				OperationTableRow operationRow = new OperationTableRow(new ObjectName(ObjectName), operInfo, Proxy.ServerConnection, "Operation", ButtonCssClass);
+				OperationTableRow operationRow = new OperationTableRow(new ObjectName(ObjectName), operInfo, Proxy.ServerConnection, HandleViewEditOpenType, "Operation", ButtonCssClass);
 				operations.Rows.Add(operationRow);
 			}
-			this.Controls.Add(operations);
+         beanView.Controls.Add(operations);
 
          Label relationsTitle = new Label();
          relationsTitle.Text = Resources.MBeanUI.RelationsSection;
          relationsTitle.CssClass = SectionTitleCssClass;
-         this.Controls.Add(relationsTitle);
+         beanView.Controls.Add(relationsTitle);
 
          Table relations = new Table();
          relations.CellPadding = TableCellPadding;
@@ -276,8 +340,8 @@ namespace NetMX.WebUI.WebControls
                   relations.Rows.Add(relationRow);
                }
             }
-         }          
-         this.Controls.Add(relations);
+         }
+         beanView.Controls.Add(relations);
 		}
 		private void AddGeneralInfoItem(Table table, string name, string value)
 		{

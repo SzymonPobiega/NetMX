@@ -35,7 +35,7 @@ namespace NetMX.WebUI.WebControls
       private List<TextBox> _argumentInputs;      
       #endregion
 
-		internal OperationTableRow(ObjectName name, MBeanOperationInfo operInfo, IMBeanServerConnection connection, string rowCssClass, string buttonCssClass)
+      internal OperationTableRow(ObjectName name, MBeanOperationInfo operInfo, IMBeanServerConnection connection, EventHandler<ViewEditOpenTypeEventArgs> handleOpenTypeEdit, string rowCssClass, string buttonCssClass)
       {
          _name = name;
          _operInfo = operInfo;

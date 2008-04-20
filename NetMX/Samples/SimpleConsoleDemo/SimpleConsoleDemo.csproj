@@ -47,6 +47,10 @@
       <Project>{9B9279AA-5B62-4834-9949-F2CCE7318610}</Project>
       <Name>NetMX.Default</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\NetMX.OpenMBean\NetMX.OpenMBean.csproj">
+      <Project>{27AAB473-F263-4F24-A0DC-9B3CAFCE1E16}</Project>
+      <Name>NetMX.OpenMBean</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\NetMX\NetMX.csproj">
       <Project>{619AD956-B7BC-492D-9722-25DA4891E144}</Project>
       <Name>NetMX</Name>

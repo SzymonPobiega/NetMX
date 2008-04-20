@@ -9,13 +9,16 @@ using System.Reflection;
 
 namespace NetMX.OpenMBean
 {
-   [Serializable]
+   /// <summary>
+   /// Describes an attribute of an open MBean.
+   /// </summary>
+   [Serializable]   
    public class OpenMBeanAttributeInfoSupport : MBeanAttributeInfo, IOpenMBeanAttributeInfo
    {
       #region Members
       private readonly object _defaultValue;
-      private readonly IComparable _minValue;
-      private readonly IComparable _maxValue;
+      private readonly object _minValue;
+      private readonly object _maxValue;
       private readonly ReadOnlyCollection<object> _legalValues;
       private readonly OpenType _openType;
       #endregion
@@ -104,6 +107,7 @@ namespace NetMX.OpenMBean
       public OpenMBeanAttributeInfoSupport(PropertyInfo info)
 			: base(info)
       {
+         _openType = OpenMBean.OpenType.CreateFromType(info.PropertyType);
          object[] tmp = info.GetCustomAttributes(typeof (OpenMBeanAttributeAttribute), false);
          if (tmp.Length > 0)
          {
@@ -111,8 +115,7 @@ namespace NetMX.OpenMBean
             if (attr.LegalValues != null && (attr.MinValue != null || attr.MaxValue != null))
             {
                throw new OpenDataException("Cannot specify both min/max values and legal values.");
-            }
-            _openType = OpenMBean.OpenType.CreateFromType(info.PropertyType);
+            }            
             OpenInfoUtils.ValidateDefaultValue(_openType, attr.DefaultValue);
             IComparable defaultValue = (IComparable)attr.DefaultValue;
             IComparable minValue = (IComparable)attr.MinValue;
@@ -142,11 +145,11 @@ namespace NetMX.OpenMBean
       }
       public IComparable MaxValue
       {
-         get { return _maxValue; }
+         get { return (IComparable)_maxValue; }
       }
       public IComparable MinValue
       {
-         get { return _minValue; }
+         get { return (IComparable)_minValue; }
       }
       public OpenType OpenType
       {
