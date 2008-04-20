@@ -35,7 +35,7 @@ namespace NetMX.WebUI.WebControls
       private Button _editButton;
       private Button _updateButton;
       private Button _cancelButton;
-      private TextBox _input;
+      private IValueEditControl _input;
       private Button _editOpenType;
       private LiteralControl _literal;
       #endregion
@@ -102,10 +102,10 @@ namespace NetMX.WebUI.WebControls
          }
          else
          {
-            _input = new TextBox();
+            _input = ValueEditControlFactory.CreateValueEditControl(_openAttrInfo);
             _input.CssClass = this.CssClass;
             _input.EnableViewState = false;
-            cell.Controls.Add(_input);
+            cell.Controls.Add((Control)_input);
          }
 
          _literal = new LiteralControl();
@@ -183,12 +183,19 @@ namespace NetMX.WebUI.WebControls
          }
          if (_attrInfo.Readable)
          {
-            object value = _connection.GetAttribute(_name, _attrInfo.Name);
-            if (_input != null)
+            try
             {
-               _input.Text = value != null ? value.ToString() : "";
-               _literal.Text = HttpUtility.HtmlEncode(_input.Text);
-            }            
+               object value = _connection.GetAttribute(_name, _attrInfo.Name);
+               if (_input != null)
+               {
+                  _input.Value = value != null ? value.ToString() : "";
+                  _literal.Text = HttpUtility.HtmlEncode(_input.Value);
+               }
+            }
+            catch (AttributeNotFoundException ex)
+            {
+               this.Visible = false;
+            }
          }
          else
          {
@@ -206,7 +213,7 @@ namespace NetMX.WebUI.WebControls
       {
          _editMode = false;
          TypeConverter converter = TypeDescriptor.GetConverter(Type.GetType(_attrInfo.Type, true));
-         _connection.SetAttribute(_name, _attrInfo.Name, converter.ConvertFromString(_input.Text));
+         _connection.SetAttribute(_name, _attrInfo.Name, converter.ConvertFromString(_input.Value));
       }
       private void OnEdit(object sender, EventArgs e)
       {

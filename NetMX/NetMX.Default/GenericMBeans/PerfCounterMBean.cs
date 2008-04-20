@@ -67,6 +67,21 @@ namespace NetMX.Default.GenericMBeans
       #endregion
 
       #region Interface
+      public bool RemovePerformanceCounter(string counterName)
+      {
+         if (!_category.CounterExists(counterName))
+         {
+            return false;
+         }
+         if (!_counters.ContainsKey(counterName))
+         {
+            return true;
+         }
+         _counters[counterName].Dispose();
+         _counters.Remove(counterName);
+         _beanInfoDirty = true;
+         return true;
+      }
       public bool AddPerformanceCounter(string counterName)
       {
          if (!_category.CounterExists(counterName))
@@ -103,8 +118,30 @@ namespace NetMX.Default.GenericMBeans
             List<IOpenMBeanOperationInfo> operations = new List<IOpenMBeanOperationInfo>();
             List<MBeanNotificationInfo> notifications = new List<MBeanNotificationInfo>();
 
+            List<object> legalCountersToCreate = new List<object>();
+            List<object> legalCountersToRemove = new List<object>();
+
+            foreach (PerformanceCounter counter in _category.GetCounters(_perfInstanceName))
+            {
+               if (_counters.ContainsKey(counter.CounterName))
+               {
+                  legalCountersToRemove.Add(counter.CounterName);
+               }
+               else
+               {
+                  legalCountersToCreate.Add(counter.CounterName);
+               }
+            }
+
+            OpenMBeanParameterInfoSupport addParam =
+               new OpenMBeanParameterInfoSupport("counterName", "Name of new counter", SimpleType.String, null, legalCountersToCreate );
             operations.Add(new OpenMBeanOperationInfoSupport("AddPerformanceCounter", "Adds new performance counter", SimpleType.Boolean, 
-               new IOpenMBeanParameterInfo[] { new OpenMBeanParameterInfoSupport("counterName", "Name of new counter", SimpleType.String)}, OperationImpact.Action));
+               new IOpenMBeanParameterInfo[] { addParam}, OperationImpact.Action));
+
+            OpenMBeanParameterInfoSupport removeParam =
+               new OpenMBeanParameterInfoSupport("counterName", "Name of new counter", SimpleType.String, null, legalCountersToRemove);
+            operations.Add(new OpenMBeanOperationInfoSupport("RemovePerformanceCounter", "Removes existing performance counter", SimpleType.Boolean,
+               new IOpenMBeanParameterInfo[] { removeParam }, OperationImpact.Action));
 
             foreach (PerformanceCounter counter in _counters.Values)
             {
@@ -139,6 +176,10 @@ namespace NetMX.Default.GenericMBeans
          if (operationName == "AddPerformanceCounter")
          {
             return AddPerformanceCounter((string) arguments[0]);
+         }
+         else if (operationName == "RemovePerformanceCounter")
+         {
+            return RemovePerformanceCounter((string)arguments[0]);
          }
          else throw new OperationNotFoundException(operationName, _thisName, typeof(PerfCounterMBean).AssemblyQualifiedName);
       }

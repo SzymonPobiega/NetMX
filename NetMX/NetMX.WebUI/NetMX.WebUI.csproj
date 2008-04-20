@@ -40,7 +40,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AttributeTableRow.cs" />
-    <Compile Include="Class1.cs" />
+    <Compile Include="IValueEditControl.cs" />
+    <Compile Include="ListValueEditControl.cs" />
+    <Compile Include="TextValueEditControl.cs" />
+    <Compile Include="ValueEditControlFactory.cs" />
+    <Compile Include="ViewEditOpenTypeEventArgs.cs" />
     <Compile Include="ComplexValueControlBase.cs" />
     <Compile Include="MBeanServerProxy.cs" />
     <Compile Include="MBeanUI.cs" />
