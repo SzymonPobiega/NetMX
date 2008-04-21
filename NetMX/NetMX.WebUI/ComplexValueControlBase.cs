@@ -101,7 +101,10 @@ namespace NetMX.WebUI.WebControls
          _rootType = (OpenType) state[2];
          _rootValue = state[3];
          _index = (OpenTypeIndex) state[4];
-         _nestedControl = _index.CreateControl(_editMode, _rootType, _rootValue);
+         if (_index != null)
+         {
+            _nestedControl = _index.CreateControl(_editMode, _rootType, _rootValue);
+         }
       }
       protected override object SaveControlState()
       {

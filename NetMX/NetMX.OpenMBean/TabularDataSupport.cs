@@ -150,7 +150,7 @@ namespace NetMX.OpenMBean
          IndexEntry entry = new IndexEntry(key);
          if (_rows.TryGetValue(entry, out result))
          {
-            _rows.Remove(key);
+            _rows.Remove(entry);
             return result;
          }
          else
