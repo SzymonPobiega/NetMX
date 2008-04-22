@@ -11,6 +11,12 @@
       <Entry build="True" name="NetMX.Remote" configuration="Debug|Any CPU" />
       <Entry build="True" name="NetMX.Remote.Remoting" configuration="Debug|Any CPU" />
       <Entry build="True" name="NetMX.WebUI" configuration="Debug|Any CPU" />
+      <Entry build="True" name="CLRMonitoringSample" configuration="Debug|Any CPU" />
+      <Entry build="True" name="SimpleConsoleDemo" configuration="Debug|Any CPU" />
+      <Entry build="True" name="RemotingDemo" configuration="Debug|Any CPU" />
+      <Entry build="True" name="RemotingServerDemo" configuration="Debug|Any CPU" />
+      <Entry build="True" name="WebDemo" configuration="Debug" />
+      <Entry build="True" name="RemotingDemo" configuration="Debug|Any CPU" />
     </Configuration>
     <Configuration name="Release|Any CPU" ctype="CombineConfiguration">
       <Entry build="True" name="NetMX" configuration="Release|Any CPU" />
@@ -23,9 +29,15 @@
       <Entry build="True" name="NetMX.Remote" configuration="Release|Any CPU" />
       <Entry build="True" name="NetMX.Remote.Remoting" configuration="Release|Any CPU" />
       <Entry build="True" name="NetMX.WebUI" configuration="Release|Any CPU" />
+      <Entry build="True" name="CLRMonitoringSample" configuration="Release|Any CPU" />
+      <Entry build="True" name="SimpleConsoleDemo" configuration="Release|Any CPU" />
+      <Entry build="True" name="RemotingDemo" configuration="Release|Any CPU" />
+      <Entry build="True" name="RemotingServerDemo" configuration="Release|Any CPU" />
+      <Entry build="True" name="WebDemo" configuration="Debug" />
+      <Entry build="True" name="RemotingDemo" configuration="Release|Any CPU" />
     </Configuration>
   </Configurations>
-  <StartMode startupentry="NetMX" single="True">
+  <StartMode startupentry="RemotingDemo" single="True">
     <Execute type="None" entry="NetMX" />
     <Execute type="None" entry="Simon.Configuration" />
     <Execute type="None" entry="NetMX.Default" />
@@ -36,6 +48,12 @@
     <Execute type="None" entry="NetMX.Remote" />
     <Execute type="None" entry="NetMX.Remote.Remoting" />
     <Execute type="None" entry="NetMX.WebUI" />
+    <Execute type="None" entry="CLRMonitoringSample" />
+    <Execute type="None" entry="SimpleConsoleDemo" />
+    <Execute type="None" entry="RemotingDemo" />
+    <Execute type="None" entry="RemotingServerDemo" />
+    <Execute type="None" entry="WebDemo" />
+    <Execute type="None" entry="RemotingDemo" />
   </StartMode>
   <Entries>
     <Entry filename="NetMX/NetMX.csproj" />
@@ -48,5 +66,11 @@
     <Entry filename="NetMX.Remote/NetMX.Remote.csproj" />
     <Entry filename="NetMX.Remote.Remoting/NetMX.Remote.Remoting.csproj" />
     <Entry filename="NetMX.WebUI/NetMX.WebUI.csproj" />
+    <Entry filename="Samples/CLRMonitoringSample/CLRMonitoringSample.csproj" />
+    <Entry filename="Samples/SimpleConsoleDemo/SimpleConsoleDemo.csproj" />
+    <Entry filename="Samples/RemotingDemo/RemotingDemo.csproj" />
+    <Entry filename="Samples/RemotingServerDemo/RemotingServerDemo.csproj" />
+    <Entry filename="Samples/WebDemo/WebDemo.mdp" />
+    <Entry filename="Samples/RemotingDemo/RemotingDemo.csproj" />
   </Entries>
 </Combine>

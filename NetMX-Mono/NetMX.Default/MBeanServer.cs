@@ -5,6 +5,7 @@ using System.Text;
 using System.Configuration;
 using NetMX.Default.Configuration;
 using Simon.Configuration;
+using System.ComponentModel;
 #endregion
 
 namespace NetMX.Default
@@ -24,6 +25,10 @@ namespace NetMX.Default
 		#region CONSTRUCTOR
 		public MBeanServer(string instanceName)
 		{
+         if (instanceName == null)
+         {
+            instanceName = Guid.NewGuid().ToString();
+         }
 			_delegate = new MBeanServerDelegate(instanceName, "", "http://netmx.eu",
 				typeof(MBeanServer).Assembly.GetName().Version.ToString());
 			RegisterMBean(_delegate, MBeanServerDelegate.ObjectName);
@@ -35,14 +40,16 @@ namespace NetMX.Default
 					List<object> args = new List<object>();
 					foreach (MBeanConstructorArgument arg in beanConfig.Arguments)
 					{
-						args.Add(arg.Value);
+					   Type valueType = Type.GetType(arg.Type);
+					   TypeConverter tc = TypeDescriptor.GetConverter(valueType);
+						args.Add(tc.ConvertFromString(arg.Value));
 					}
 					CreateMBean(beanConfig.ClassName, beanConfig.ObjectName, args.ToArray());
 				}
 			}
 		}
       public MBeanServer()
-			: this(Guid.NewGuid().ToString())
+			: this(null)
       {         
       }
 		#endregion
@@ -142,7 +149,7 @@ namespace NetMX.Default
          {
             return name;
          }
-      }
+      }      
 		#endregion
 
 		#region IMBeanServer Members

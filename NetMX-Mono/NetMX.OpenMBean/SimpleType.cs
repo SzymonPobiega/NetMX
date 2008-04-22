@@ -148,6 +148,10 @@ namespace NetMX.OpenMBean
       #endregion
 
       #region Overridden
+      public override void Visit(OpenTypeVisitor visitor)
+      {
+         visitor.VisitSimpleType(this);
+      }
       public override bool IsValue(object value)
       {
          return (value != null) && (value.GetType() == Representation);

@@ -148,6 +148,10 @@ namespace NetMX.OpenMBean
       #endregion
 
       #region Overridden
+      public override void Visit(OpenTypeVisitor visitor)
+      {
+         visitor.VisitCompositeType(this);
+      }
       public override bool IsValue(object value)
       {
          ICompositeData composite = value as ICompositeData;
@@ -195,6 +199,7 @@ namespace NetMX.OpenMBean
       #endregion
 
       #region Nested class
+      [Serializable]
       private class CompositeTypeMember
       {
          private readonly string _description;
@@ -206,6 +211,9 @@ namespace NetMX.OpenMBean
          public OpenType Type
          {
             get { return _type; }
+         }
+         public CompositeTypeMember()
+         {
          }
          public CompositeTypeMember(string description, OpenType type)
          {

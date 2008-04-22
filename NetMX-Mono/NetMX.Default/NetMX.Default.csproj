@@ -25,6 +25,11 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <OutputType>Library</OutputType>
+    <AssemblyName>NetMX.Default</AssemblyName>
+    <RootNamespace>NetMX.Default</RootNamespace>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -33,10 +38,16 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <OutputType>Library</OutputType>
+    <AssemblyName>NetMX.Default</AssemblyName>
+    <DebugSymbols>true</DebugSymbols>
+    <RootNamespace>NetMX.Default</RootNamespace>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="System.configuration" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
   </ItemGroup>
@@ -46,6 +57,7 @@
     <Compile Include="Configuration\MBean.cs" />
     <Compile Include="Configuration\MBeanConstructorArgument.cs" />
     <Compile Include="Configuration\MBeanServerConfigurationSection.cs" />
+    <Compile Include="GenericMBeans\PerfCounterMBean.cs" />
     <Compile Include="InternalInfo\OpenMBeanBeanInfoFactory.cs" />
     <Compile Include="InternalInfo\IMBeanInfoFactory.cs" />
     <Compile Include="InternalInfo\MBeanInternalConstructorInfo.cs" />

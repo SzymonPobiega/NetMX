@@ -8,9 +8,9 @@ namespace NetMX.Default
 {
 	public sealed class MBeanServerBuilder : NetMX.MBeanServerBuilder
 	{		
-		public override IMBeanServer NewMBeanServer(string defaultDomain)
+		public override IMBeanServer NewMBeanServer(string instanceName)
 		{
-			return new MBeanServer();
+			return new MBeanServer(instanceName);
 		}
 	}
 }

@@ -15,6 +15,7 @@ namespace NetMX.OpenMBean
 	/// <item>its description.</item>
 	/// </list>
 	/// </summary>
+	[Serializable]
 	public abstract class OpenType
    {
       #region Properties
@@ -56,6 +57,7 @@ namespace NetMX.OpenMBean
 		#region Abstract
 		public abstract bool IsValue(object value);
       public abstract OpenTypeKind Kind { get; }
+	   public abstract void Visit(OpenTypeVisitor visitor);
 		#endregion
 
       #region Operator

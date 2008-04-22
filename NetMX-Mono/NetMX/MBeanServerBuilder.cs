@@ -10,6 +10,6 @@ namespace NetMX
 {
 	public abstract class MBeanServerBuilder : ProviderBaseEx
 	{		
-		public abstract IMBeanServer NewMBeanServer(string defaultDomain);	
+		public abstract IMBeanServer NewMBeanServer(string instanceName);	
 	}
 }

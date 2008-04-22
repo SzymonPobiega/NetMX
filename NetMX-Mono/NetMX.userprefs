@@ -1,15 +1,19 @@
-﻿<UserCombinePreferences version="1.0" filename="/Users/pawelek/Projekty/Mono/NetMX/NetMX.mds">
+﻿<UserCombinePreferences version="1.0" filename="/Users/pawelek/Projekty/Mono/NetMX-Mono/NetMX.mds">
   <Files />
   <Views>
     <ViewMemento id="ProjectPad">
       <Node expanded="True">
-        <Node name="NetMX.Default" selected="True" />
+        <Option id="GroupCodeBehind" value="True" />
+        <Option id="ShowAllFiles" value="True" />
+        <Node name="RemotingDemo" selected="True" />
+        <Node name="WebDemo">
+          <Option id="GroupCodeBehind" value="False" />
+          <Option id="ShowAllFiles" value="False" />
+        </Node>
       </Node>
     </ViewMemento>
     <ViewMemento id="ClassPad">
       <Node expanded="True">
-        <Node name="NetMX" expanded="True" />
-        <Node name="NetMX.Default" expanded="True" />
         <Node name="NetMX.OpenMBean" expanded="True" />
         <Node name="NetMX.Proxy" expanded="True" />
         <Node name="NetMX.Proxy.Castle" expanded="True" />
@@ -17,7 +21,12 @@
         <Node name="NetMX.Remote" expanded="True" />
         <Node name="NetMX.Remote.Remoting" expanded="True" />
         <Node name="NetMX.WebUI" expanded="True" />
+        <Node name="RemotingDemo" expanded="True" />
+        <Node name="RemotingDemo" expanded="True" />
+        <Node name="RemotingServerDemo" expanded="True" />
         <Node name="Simon.Configuration" expanded="True" />
+        <Node name="SimpleConsoleDemo" expanded="True" />
+        <Node name="WebDemo" expanded="True" />
       </Node>
     </ViewMemento>
     <ViewMemento id="MonoDevelop.NUnit.TestPad">

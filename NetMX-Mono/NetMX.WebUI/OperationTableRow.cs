@@ -10,6 +10,7 @@ using System.Web.UI.HtmlControls;
 using NetMX;
 using System.ComponentModel;
 using System.Collections.Generic;
+using NetMX.OpenMBean;
 
 namespace NetMX.WebUI.WebControls
 {
@@ -32,10 +33,10 @@ namespace NetMX.WebUI.WebControls
       private Button _invokeButton;
 		private Button _cancelButton;
 		private Table _arguments;
-      private List<TextBox> _argumentInputs;      
+      private List<IValueEditControl> _argumentInputs;      
       #endregion
 
-		internal OperationTableRow(ObjectName name, MBeanOperationInfo operInfo, IMBeanServerConnection connection, string rowCssClass, string buttonCssClass)
+      internal OperationTableRow(ObjectName name, MBeanOperationInfo operInfo, IMBeanServerConnection connection, EventHandler<ViewEditOpenTypeEventArgs> handleOpenTypeEdit, string rowCssClass, string buttonCssClass)
       {
          _name = name;
          _operInfo = operInfo;
@@ -75,12 +76,13 @@ namespace NetMX.WebUI.WebControls
          TableCell cell = new TableCell();
          cell.CssClass = this.CssClass;
          cell.HorizontalAlign = HorizontalAlign.Center;
-         _argumentInputs = new List<TextBox>();
+         _argumentInputs = new List<IValueEditControl>();
 			_arguments = new Table();
 			cell.Controls.Add(_arguments);
 			for (int i = 0; i < _operInfo.Signature.Count; i++)         
          {
 				MBeanParameterInfo paramInfo = _operInfo.Signature[i];
+            IOpenMBeanParameterInfo openParamInfo = paramInfo as IOpenMBeanParameterInfo;
 				TableRow row = new TableRow();
 				TableCell nameCell = new TableCell();
 				nameCell.ControlStyle.Width = Unit.Percentage(30);
@@ -88,12 +90,12 @@ namespace NetMX.WebUI.WebControls
 				row.Cells.Add(nameCell);
 
 				TableCell inputCell = new TableCell();
-				TextBox argumentBox = new TextBox();
+            IValueEditControl argumentBox = ValueEditControlFactory.CreateValueEditControl(openParamInfo);
 				argumentBox.CssClass = this.CssClass;
 				argumentBox.ID = _operInfo.Name + "__" + paramInfo.Name;
 				argumentBox.EnableViewState = false;
 				_argumentInputs.Add(argumentBox);
-				inputCell.Controls.Add(argumentBox);
+				inputCell.Controls.Add((Control)argumentBox);
 				inputCell.ControlStyle.Width = Unit.Percentage(40);
 				row.Cells.Add(inputCell);
 
@@ -101,20 +103,7 @@ namespace NetMX.WebUI.WebControls
 				descrCell.ControlStyle.Width = Unit.Percentage(30);
 				descrCell.Text = string.Format("({0})", paramInfo.Description);
 				row.Cells.Add(descrCell);
-				_arguments.Rows.Add(row);
-
-				//cell.Controls.Add(new LiteralControl(string.Format("{0}:", paramInfo.Name)));
-				//TextBox argumentBox = new TextBox();
-				//argumentBox.CssClass = this.CssClass;
-				//argumentBox.ID = _operInfo.Name +"__" + paramInfo.Name;
-				//argumentBox.EnableViewState = false;
-				//_argumentInputs.Add(argumentBox);
-				//cell.Controls.Add(argumentBox);
-				//cell.Controls.Add(new LiteralControl(string.Format("({0})", paramInfo.Description)));
-				//if (i < _operInfo.Signature.Count - 1)
-				//{
-				//   cell.Controls.Add(new LiteralControl("<br />"));
-				//}
+				_arguments.Rows.Add(row);				
          }			
          this.Cells.Add(cell);
       }
@@ -160,7 +149,7 @@ namespace NetMX.WebUI.WebControls
 				for (int i = 0; i < arguments.Length; i++)
 				{
 					TypeConverter converter = TypeDescriptor.GetConverter(Type.GetType(_operInfo.Signature[i].Type, true));
-					arguments[i] = converter.ConvertFromString(_argumentInputs[i].Text);
+					arguments[i] = converter.ConvertFromString(_argumentInputs[i].Value);
 				}
 				_connection.Invoke(_name, _operInfo.Name, arguments);
 				_invokeMode = false;

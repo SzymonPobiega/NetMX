@@ -2,14 +2,16 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
+using NetMX;
 
 #endregion
 
 namespace NetMX.OpenMBean
 {
    /// <summary>
-   /// 
+   /// Describes an operation of an Open MBean.   
    /// </summary>
+   [Serializable]
    public class OpenMBeanOperationInfoSupport : MBeanOperationInfo, IOpenMBeanOperationInfo
    {
       #region Members
@@ -48,14 +50,14 @@ namespace NetMX.OpenMBean
          {
             throw new OpenDataException("Open MBean operation have to have its impact specified.");
          }
-         _impact = attr.Impact;
+         Impact = attr.Impact;
          ParameterInfo[] paramInfos = info.GetParameters();
          List<MBeanParameterInfo> tmp = new List<MBeanParameterInfo>();
          for (int i = 0; i < paramInfos.Length; i++)
          {
             tmp.Add(new OpenMBeanParameterInfoSupport(paramInfos[i]));
          }
-         _signature = tmp.AsReadOnly();
+         Signature = tmp.AsReadOnly();
          _returnOpenType = info.ReturnType != null ? OpenType.CreateFromType(info.ReturnType) : SimpleType.Void;
       }
       #endregion

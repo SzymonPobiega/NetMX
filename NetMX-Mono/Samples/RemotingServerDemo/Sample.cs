@@ -2,6 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using NetMX.OpenMBean;
+using NetMX;
 #endregion
 
 namespace RemotingServerDemo
@@ -45,12 +47,17 @@ namespace RemotingServerDemo
 	public class ApplicationSpecificException : Exception
 	{ }
 
+   [OpenMBean]
 	public interface SampleMBean
 	{
+      [OpenMBeanAttributeAttribute(DefaultValue = 1, MinValue = 0, MaxValue = 5)]
 		int Step { get; set; }
 		int Counter { get; }
+      [OpenMBeanOperation(OperationImpact.Action)]
 		void Increment();
+      [OpenMBeanOperation(OperationImpact.Action)]
 		void ResetCounter();
-		void AddAmount(int amount);
+      [OpenMBeanOperation(OperationImpact.Action)]
+		void AddAmount([OpenMBeanParameter(DefaultValue = 2, LegalValues = new object[] {1,2,3})] int amount);
 	}
 }

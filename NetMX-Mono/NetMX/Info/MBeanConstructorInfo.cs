@@ -16,13 +16,14 @@ namespace NetMX
    public class MBeanConstructorInfo : MBeanFeatureInfo
    {
       #region PROPERTIES
-      protected ReadOnlyCollection<MBeanParameterInfo> _signature;
+      private ReadOnlyCollection<MBeanParameterInfo> _signature;
       /// <summary>
       /// Gets the list of parameters for this constructor.
       /// </summary>
 		public IList<MBeanParameterInfo> Signature
 		{
 			get { return _signature; }
+         protected set { _signature = value as ReadOnlyCollection<MBeanParameterInfo>; }
 		}
       #endregion
 

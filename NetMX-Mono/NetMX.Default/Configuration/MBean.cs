@@ -9,7 +9,7 @@ namespace NetMX.Default.Configuration
 {
 	/// <summary>
 	/// Represents one MBean instance. Defines name, class and construcotr arguments for this bean. Values are
-	/// to be passed to <see cref="IMBeanServicer.CreateMBean"/> method.
+	/// to be passed to <see cref="IMBeanServer.CreateMBean"/> method.
 	/// </summary>
 	public class MBean : ConfigurationElement
 	{

@@ -7,9 +7,19 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
+using NetMX.WebUI.WebControls;
 
 public partial class _Default : System.Web.UI.Page
 {
+//   protected MBeanServerProxy proxy;
+//   protected MBeanUI MBeanUI;
+//   protected MultiView view;
+//   protected View browse;
+//   protected DropDownList beanList;
+//   protected Button selectButton;
+//   protected View details;
+//   protected Button returnButton;
+   
 	protected void Page_Load(object sender, EventArgs e)
 	{		
 	}

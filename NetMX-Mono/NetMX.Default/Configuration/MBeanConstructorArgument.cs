@@ -27,10 +27,19 @@ namespace NetMX.Default.Configuration
 		/// The value of the argument.
 		/// </summary>
 		[ConfigurationProperty("value", IsRequired = true)]
-		public object Value
+		public string Value
 		{
-			get { return this["value"]; }
+			get { return (string)this["value"]; }
 			set { this["value"] = value; }
 		}
+      /// <summary>
+      /// The assembly qualified name of type of the argument.
+      /// </summary>
+      [ConfigurationProperty("type", IsRequired = true)]
+      public string Type
+      {
+         get { return (string)this["type"]; }
+         set { this["type"] = value; }
+      }
 	}
 }

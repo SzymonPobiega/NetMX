@@ -23,6 +23,11 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Debug\NetMX.WebUI.XML</DocumentationFile>
+    <OutputType>Library</OutputType>
+    <AssemblyName>NetMX.WebUI</AssemblyName>
+    <RootNamespace>NetMX.WebUI.WebControls</RootNamespace>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -31,6 +36,12 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <OutputType>Library</OutputType>
+    <AssemblyName>NetMX.WebUI</AssemblyName>
+    <DebugSymbols>true</DebugSymbols>
+    <RootNamespace>NetMX.WebUI.WebControls</RootNamespace>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -40,16 +51,28 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AttributeTableRow.cs" />
+    <Compile Include="IValueEditControl.cs" />
+    <Compile Include="ListValueEditControl.cs" />
+    <Compile Include="TextValueEditControl.cs" />
+    <Compile Include="ValueEditControlFactory.cs" />
+    <Compile Include="ViewEditOpenTypeEventArgs.cs" />
+    <Compile Include="ComplexValueControlBase.cs" />
     <Compile Include="MBeanServerProxy.cs" />
     <Compile Include="MBeanUI.cs" />
+    <Compile Include="OpenTypeIndex.cs" />
     <Compile Include="OperationTableRow.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RelationRoleTableRow.cs" />
     <Compile Include="Resources\AttributeTableRow.cs" />
     <Compile Include="Resources\MBeanUI.cs" />
     <Compile Include="Resources\OperationTableRow.cs" />
+    <Compile Include="TabularValueControl.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\NetMX.OpenMBean\NetMX.OpenMBean.csproj">
+      <Project>{27AAB473-F263-4F24-A0DC-9B3CAFCE1E16}</Project>
+      <Name>NetMX.OpenMBean</Name>
+    </ProjectReference>
     <ProjectReference Include="..\NetMX.Proxy\NetMX.Proxy.csproj">
       <Project>{DD2598EC-FF14-468C-AE00-EFC63D18693B}</Project>
       <Name>NetMX.Proxy</Name>

@@ -9,13 +9,7 @@ using NetMX;
 namespace NetMX.OpenMBean
 {
    /// <summary>
-   /// Describes a constructor of an Open MBean.
-   /// 
-   /// This interface declares the same methods as the class <see cref="MBeanConstructorInfo"/>. A class 
-   /// implementing this interface (typically OpenMBeanConstructorInfoSupport) should extend 
-   /// <see cref="MBeanConstructorInfo"/>.
-   /// 
-   /// The getSignature() method should return at runtime an array of instances of a subclass of MBeanParameterInfo  which implements the OpenMBeanParameterInfo interface (typically OpenMBeanParameterInfoSupport).
+   /// Describes a constructor of an Open MBean.   
    /// </summary>
    public class OpenMBeanConstructorInfoSupport : MBeanConstructorInfo, IOpenMBeanConstructorInfo
    {
@@ -42,7 +36,7 @@ namespace NetMX.OpenMBean
          {
             tmp.Add(new OpenMBeanParameterInfoSupport(paramInfos[i]));
          }
-         _signature = tmp.AsReadOnly();	
+         Signature = tmp.AsReadOnly();	
 		}
    }
 }

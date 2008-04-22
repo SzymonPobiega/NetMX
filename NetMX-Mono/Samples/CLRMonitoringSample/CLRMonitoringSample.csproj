@@ -4,11 +4,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.50727</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{DD2598EC-FF14-468C-AE00-EFC63D18693B}</ProjectGuid>
-    <OutputType>Library</OutputType>
+    <ProjectGuid>{C20C2476-6811-4557-8DA1-389BCB5A4399}</ProjectGuid>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>NetMX.Proxy</RootNamespace>
-    <AssemblyName>NetMX.Proxy</AssemblyName>
+    <RootNamespace>CLRMonitoringSample</RootNamespace>
+    <AssemblyName>CLRMonitoringSample</AssemblyName>
     <SccProjectName>SAK</SccProjectName>
     <SccLocalPath>SAK</SccLocalPath>
     <SccAuxPath>SAK</SccAuxPath>
@@ -22,10 +22,9 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Debug\NetMX.Proxy.XML</DocumentationFile>
-    <OutputType>Library</OutputType>
-    <AssemblyName>NetMX.Proxy</AssemblyName>
-    <RootNamespace>NetMX.Proxy</RootNamespace>
+    <OutputType>Exe</OutputType>
+    <AssemblyName>CLRMonitoringSample</AssemblyName>
+    <RootNamespace>CLRMonitoringSample</RootNamespace>
     <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
     <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
   </PropertyGroup>
@@ -36,10 +35,10 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <OutputType>Library</OutputType>
-    <AssemblyName>NetMX.Proxy</AssemblyName>
+    <OutputType>Exe</OutputType>
+    <AssemblyName>CLRMonitoringSample</AssemblyName>
     <DebugSymbols>true</DebugSymbols>
-    <RootNamespace>NetMX.Proxy</RootNamespace>
+    <RootNamespace>CLRMonitoringSample</RootNamespace>
     <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
     <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
   </PropertyGroup>
@@ -47,21 +46,50 @@
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Runtime.Remoting" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ProxyInvocationHandler.cs" />
-    <Compile Include="NetMX.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ProxyFactory.cs" />
-    <Compile Include="ProxyProvider.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\NetMX\NetMX.csproj">
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\NetMX.Default\NetMX.Default.csproj">
+      <Project>{9B9279AA-5B62-4834-9949-F2CCE7318610}</Project>
+      <Name>NetMX.Default</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\NetMX.OpenMBean\NetMX.OpenMBean.csproj">
+      <Project>{27AAB473-F263-4F24-A0DC-9B3CAFCE1E16}</Project>
+      <Name>NetMX.OpenMBean</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\NetMX.Proxy.Castle\NetMX.Proxy.Castle.csproj">
+      <Project>{2C4128C4-CD09-4CB6-A97B-E8F36E92AA6E}</Project>
+      <Name>NetMX.Proxy.Castle</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\NetMX.Proxy\NetMX.Proxy.csproj">
+      <Project>{DD2598EC-FF14-468C-AE00-EFC63D18693B}</Project>
+      <Name>NetMX.Proxy</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\NetMX.Relation\NetMX.Relation.csproj">
+      <Project>{777EBC51-1D14-4170-8ABA-9D78328641D7}</Project>
+      <Name>NetMX.Relation</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\NetMX.Remote.Remoting\NetMX.Remote.Remoting.csproj">
+      <Project>{FF650A14-16B7-4CB3-BBC0-592FAE591D3D}</Project>
+      <Name>NetMX.Remote.Remoting</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\NetMX.Remote\NetMX.Remote.csproj">
+      <Project>{E5D06BDE-F173-4175-BF94-F9DDCE4E347D}</Project>
+      <Name>NetMX.Remote</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\NetMX\NetMX.csproj">
       <Project>{619AD956-B7BC-492D-9722-25DA4891E144}</Project>
       <Name>NetMX</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Simon.Configuration\Simon.Configuration.csproj">
+    <ProjectReference Include="..\..\Simon.Configuration\Simon.Configuration.csproj">
       <Project>{E67606FD-77EF-4498-829C-CA24FFB03117}</Project>
       <Name>Simon.Configuration</Name>
     </ProjectReference>

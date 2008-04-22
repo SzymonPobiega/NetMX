@@ -28,21 +28,23 @@ namespace NetMX
 		{
 			get { return _returnType; }
 		}
-      protected ReadOnlyCollection<MBeanParameterInfo> _signature;
+      private ReadOnlyCollection<MBeanParameterInfo> _signature;
       /// <summary>
       /// 
       /// </summary>
 		public IList<MBeanParameterInfo> Signature
 		{
 			get { return _signature; }
+         protected set { _signature = value as ReadOnlyCollection<MBeanParameterInfo>; } 
 		}
-      protected OperationImpact _impact;
+      private OperationImpact _impact;
       /// <summary>
       /// 
       /// </summary>
 		public OperationImpact Impact
 		{
 			get { return _impact; }
+         protected set { _impact = value; } 
 		}
 		#endregion
 
