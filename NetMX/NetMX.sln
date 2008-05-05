@@ -1,6 +1,14 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 9.00
-# Visual Studio 2005
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{95F701FD-2093-4520-AB90-D314864AE21F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{65736DF0-90F5-4DA5-831F-384E81F52639}"
+	ProjectSection(SolutionItems) = preProject
+		localtestrun.testrunconfig = localtestrun.testrunconfig
+		NetMX.vsmdi = NetMX.vsmdi
+	EndProjectSection
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetMX", "NetMX\NetMX.csproj", "{619AD956-B7BC-492D-9722-25DA4891E144}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetMX.Default", "NetMX.Default\NetMX.Default.csproj", "{9B9279AA-5B62-4834-9949-F2CCE7318610}"
@@ -11,19 +19,18 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simon.Configuration", "Simo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetMX.Remote.Remoting", "NetMX.Remote.Remoting\NetMX.Remote.Remoting.csproj", "{FF650A14-16B7-4CB3-BBC0-592FAE591D3D}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{95F701FD-2093-4520-AB90-D314864AE21F}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleConsoleDemo", "Samples\SimpleConsoleDemo\SimpleConsoleDemo.csproj", "{3E96B42A-8678-4B4E-BC43-F64F2FFE48B6}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RemotingDemo", "Samples\RemotingDemo\RemotingDemo.csproj", "{3CB15450-54E5-4CBE-B252-68B15E9A45F3}"
 EndProject
-Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "P:\...\WebDemo\", "Samples\WebDemo", "{F6077349-28DF-454E-9F74-140821760C0E}"
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "WebDemo", "Samples\WebDemo", "{F6077349-28DF-454E-9F74-140821760C0E}"
 	ProjectSection(WebsiteProperties) = preProject
 		SccProjectName = "SAK"
 		SccAuxPath = "SAK"
 		SccLocalPath = "SAK"
 		SccProvider = "SAK"
-		ProjectReferences = "{619AD956-B7BC-492D-9722-25DA4891E144}|NetMX.dll;{9B9279AA-5B62-4834-9949-F2CCE7318610}|NetMX.Default.dll;{E5D06BDE-F173-4175-BF94-F9DDCE4E347D}|NetMX.Remote.dll;{FF650A14-16B7-4CB3-BBC0-592FAE591D3D}|NetMX.Remote.Remoting.dll;{7ABCFCE5-8A64-4D8F-AC60-731637E54F3B}|NetMX.WebUI.dll;{2C4128C4-CD09-4CB6-A97B-E8F36E92AA6E}|NetMX.Proxy.Castle.dll;"
+		TargetFramework = "2.0"
+		ProjectReferences = "{619AD956-B7BC-492D-9722-25DA4891E144}|NetMX.dll;{9B9279AA-5B62-4834-9949-F2CCE7318610}|NetMX.Default.dll;{E5D06BDE-F173-4175-BF94-F9DDCE4E347D}|NetMX.Remote.dll;{FF650A14-16B7-4CB3-BBC0-592FAE591D3D}|NetMX.Remote.Remoting.dll;{7ABCFCE5-8A64-4D8F-AC60-731637E54F3B}|NetMX.WebUI.dll;{2C4128C4-CD09-4CB6-A97B-E8F36E92AA6E}|NetMX.Proxy.Castle.dll;{E67606FD-77EF-4498-829C-CA24FFB03117}|Simon.Configuration.dll;{DD2598EC-FF14-468C-AE00-EFC63D18693B}|NetMX.Proxy.dll;{27AAB473-F263-4F24-A0DC-9B3CAFCE1E16}|NetMX.OpenMBean.dll;{777EBC51-1D14-4170-8ABA-9D78328641D7}|NetMX.Relation.dll;"
 		Debug.AspNetCompiler.VirtualPath = "/WebDemo"
 		Debug.AspNetCompiler.PhysicalPath = "Samples\WebDemo\"
 		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\WebDemo\"
@@ -45,12 +52,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RemotingServerDemo", "Samples\RemotingServerDemo\RemotingServerDemo.csproj", "{717E0E35-9A63-4A2B-B9AE-6C6139CC6861}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetMX.Tests", "NetMX.Tests\NetMX.Tests.csproj", "{02C0718F-E261-41BE-BB30-5978AE2E1CC7}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{65736DF0-90F5-4DA5-831F-384E81F52639}"
-	ProjectSection(SolutionItems) = preProject
-		localtestrun.testrunconfig = localtestrun.testrunconfig
-		NetMX.vsmdi = NetMX.vsmdi
-	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetMX.IntegrationTests", "NetMX.IntegrationTests\NetMX.IntegrationTests.csproj", "{1521A50C-FFDE-44E7-91E3-9CEE1FCDB56A}"
 EndProject
@@ -109,6 +110,7 @@ Global
 		SccWebProject10 = true
 		SccProjectUniqueName10 = Samples\\WebDemo
 		SccProjectTopLevelParentUniqueName10 = NetMX.sln
+		SccProjectName10 = Samples/WebDemo
 		SccLocalPath10 = .
 		SccProjectFilePathRelativizedFromConnection10 = Samples\\WebDemo\\
 		SccProjectEnlistmentChoice10 = 2
@@ -140,9 +142,6 @@ Global
 		SccProjectTopLevelParentUniqueName19 = NetMX.sln
 		SccProjectName19 = Samples/CLRMonitoringSample
 		SccLocalPath19 = Samples\\CLRMonitoringSample
-	EndGlobalSection
-	GlobalSection(TestCaseManagementSettings) = postSolution
-		CategoryFile = NetMX.vsmdi
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|.NET = Debug|.NET
