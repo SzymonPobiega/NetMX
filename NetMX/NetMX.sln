@@ -7,6 +7,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		localtestrun.testrunconfig = localtestrun.testrunconfig
 		NetMX.vsmdi = NetMX.vsmdi
+		NetMX1.vsmdi = NetMX1.vsmdi
+		NetMX2.vsmdi = NetMX2.vsmdi
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetMX", "NetMX\NetMX.csproj", "{619AD956-B7BC-492D-9722-25DA4891E144}"
@@ -71,9 +73,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetMX.OpenMBean.Tests", "Ne
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CLRMonitoringSample", "Samples\CLRMonitoringSample\CLRMonitoringSample.csproj", "{C20C2476-6811-4557-8DA1-389BCB5A4399}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetMX.Remote.WebServices", "NetMX.Remote.WebServices\NetMX.Remote.WebServices.csproj", "{FBBD9CCF-1755-4E9A-8371-46B1D938B1CA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetMX.Remote.WebServices.Tests", "NetMX.Remote.WebServices.Tests\NetMX.Remote.WebServices.Tests.csproj", "{72698159-B3D0-4988-99EB-22A57C3654D3}"
+EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 20
+		SccNumberOfProjects = 22
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://tfs04.codeplex.com/
 		SccLocalPath0 = .
@@ -142,6 +148,15 @@ Global
 		SccProjectTopLevelParentUniqueName19 = NetMX.sln
 		SccProjectName19 = Samples/CLRMonitoringSample
 		SccLocalPath19 = Samples\\CLRMonitoringSample
+		SccProjectUniqueName20 = NetMX.Remote.WebServices\\NetMX.Remote.WebServices.csproj
+		SccProjectName20 = NetMX.Remote.WebServices
+		SccLocalPath20 = NetMX.Remote.WebServices
+		SccProjectUniqueName21 = NetMX.Remote.WebServices.Tests\\NetMX.Remote.WebServices.Tests.csproj
+		SccProjectName21 = NetMX.Remote.WebServices.Tests
+		SccLocalPath21 = NetMX.Remote.WebServices.Tests
+	EndGlobalSection
+	GlobalSection(TestCaseManagementSettings) = postSolution
+		CategoryFile = NetMX2.vsmdi
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|.NET = Debug|.NET
@@ -342,6 +357,26 @@ Global
 		{C20C2476-6811-4557-8DA1-389BCB5A4399}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C20C2476-6811-4557-8DA1-389BCB5A4399}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{C20C2476-6811-4557-8DA1-389BCB5A4399}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{FBBD9CCF-1755-4E9A-8371-46B1D938B1CA}.Debug|.NET.ActiveCfg = Debug|Any CPU
+		{FBBD9CCF-1755-4E9A-8371-46B1D938B1CA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FBBD9CCF-1755-4E9A-8371-46B1D938B1CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FBBD9CCF-1755-4E9A-8371-46B1D938B1CA}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{FBBD9CCF-1755-4E9A-8371-46B1D938B1CA}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{FBBD9CCF-1755-4E9A-8371-46B1D938B1CA}.Release|.NET.ActiveCfg = Release|Any CPU
+		{FBBD9CCF-1755-4E9A-8371-46B1D938B1CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FBBD9CCF-1755-4E9A-8371-46B1D938B1CA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FBBD9CCF-1755-4E9A-8371-46B1D938B1CA}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{FBBD9CCF-1755-4E9A-8371-46B1D938B1CA}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{72698159-B3D0-4988-99EB-22A57C3654D3}.Debug|.NET.ActiveCfg = Debug|Any CPU
+		{72698159-B3D0-4988-99EB-22A57C3654D3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{72698159-B3D0-4988-99EB-22A57C3654D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{72698159-B3D0-4988-99EB-22A57C3654D3}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{72698159-B3D0-4988-99EB-22A57C3654D3}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{72698159-B3D0-4988-99EB-22A57C3654D3}.Release|.NET.ActiveCfg = Release|Any CPU
+		{72698159-B3D0-4988-99EB-22A57C3654D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{72698159-B3D0-4988-99EB-22A57C3654D3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{72698159-B3D0-4988-99EB-22A57C3654D3}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{72698159-B3D0-4988-99EB-22A57C3654D3}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

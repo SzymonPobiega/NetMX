@@ -1,23 +1,21 @@
-﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
+﻿<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>8.0.50727</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{E5D06BDE-F173-4175-BF94-F9DDCE4E347D}</ProjectGuid>
+    <ProjectGuid>{72698159-B3D0-4988-99EB-22A57C3654D3}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>NetMX.Remote</RootNamespace>
-    <AssemblyName>NetMX.Remote</AssemblyName>
+    <RootNamespace>NetMX.Remote.WebServices.Tests</RootNamespace>
+    <AssemblyName>NetMX.Remote.WebServices.Tests</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <SccProjectName>SAK</SccProjectName>
     <SccLocalPath>SAK</SccLocalPath>
     <SccAuxPath>SAK</SccAuxPath>
     <SccProvider>SAK</SccProvider>
-    <FileUpgradeFlags>
-    </FileUpgradeFlags>
-    <OldToolsVersion>2.0</OldToolsVersion>
-    <UpgradeBackupLocation>
-    </UpgradeBackupLocation>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -27,7 +25,6 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <RegisterForComInterop>true</RegisterForComInterop>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -38,34 +35,27 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="System" />
-    <Reference Include="System.configuration" />
-    <Reference Include="System.Data" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.ServiceModel">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="NetMXSecurityService..cs" />
-    <Compile Include="INetMXConnector.cs" />
-    <Compile Include="NetMXSecurityProvider.cs" />
-    <Compile Include="NetMXConnectorProvider.cs" />
-    <Compile Include="NetMXConnectorServerProvider.cs" />
-    <Compile Include="NetMXConnectorFactory.cs" />
-    <Compile Include="INetMXConnectorServer.cs" />
-    <Compile Include="NetMXConnectorServerFactory.cs" />
-    <Compile Include="NotificationBuffer.cs" />
-    <Compile Include="NotificationResult.cs" />
-    <Compile Include="NullSecurityProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TargetedNotification.cs" />
+    <Compile Include="SelectorTests.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\NetMX\NetMX.csproj">
-      <Project>{619AD956-B7BC-492D-9722-25DA4891E144}</Project>
-      <Name>NetMX</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Simon.Configuration\Simon.Configuration.csproj">
-      <Project>{E67606FD-77EF-4498-829C-CA24FFB03117}</Project>
-      <Name>Simon.Configuration</Name>
+    <ProjectReference Include="..\NetMX.Remote.WebServices\NetMX.Remote.WebServices.csproj">
+      <Project>{FBBD9CCF-1755-4E9A-8371-46B1D938B1CA}</Project>
+      <Name>NetMX.Remote.WebServices</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
