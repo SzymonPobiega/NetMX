@@ -20,6 +20,11 @@ namespace NetMX.Remote.WebServices.WSManagement
             get { return WSMan.WSManagementNamespace; }
         }
 
+        public List<Selector> Selectors
+        {
+            get { return _selectors; }
+        }
+
         public WsmanSelectorSetHeader(params Selector[] selectors)
         {
             _selectors = new List<Selector>(selectors);
@@ -38,7 +43,7 @@ namespace NetMX.Remote.WebServices.WSManagement
         protected override void OnWriteAddressHeaderContents(XmlDictionaryWriter writer)
         {
             //writer.WriteStartElement(Name, Namespace);
-            foreach (Selector selector in _selectors)
+            foreach (Selector selector in Selectors)
             {
                 selector.WriteTo(writer);
             }
@@ -51,7 +56,7 @@ namespace NetMX.Remote.WebServices.WSManagement
             while (reader.Name == "Selector")
             {
                 Selector newSelector = Selector.ReadFrom(reader);
-                result._selectors.Add(newSelector);
+                result.Selectors.Add(newSelector);
             }
             reader.ReadEndElement();
             return result;
