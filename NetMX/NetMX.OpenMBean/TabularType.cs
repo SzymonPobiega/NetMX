@@ -64,7 +64,7 @@ namespace NetMX.OpenMBean
       public override bool IsValue(object value)
 		{
          ITabularData data = value as ITabularData;
-         return data != null && data.TabularType.Equals(RowType);
+         return data != null && data.TabularType.Equals(this);
       }
       public override OpenTypeKind Kind
       {

@@ -47,12 +47,12 @@ namespace NetMX.WebUI.WebControls
 		   _openAttrInfo = attrInfo as IOpenMBeanAttributeInfo;
          _connection = connection;
 		   _handleViewEditOpenType = handleViewEditOpenType;
-         this.CssClass = rowCssClass;
+         CssClass = rowCssClass;
 
          AddCell(attrInfo.Name, false);
          AddCell(attrInfo.Description, false);
 			AddCell(string.Format("{0}{1}", attrInfo.Readable ? Resources.AttributeTableRow.ReadableSymbol : "", attrInfo.Writable ? Resources.AttributeTableRow.WritableSymbol : ""), true);
-         AddValueCell();
+         AddValueCell(buttonCssClass);
          AddActionsCell(attrInfo.Name, buttonCssClass);
       }
 		private void AddActionsCell(string name, string buttonCssClass)
@@ -86,7 +86,7 @@ namespace NetMX.WebUI.WebControls
          }
          this.Cells.Add(actionsCell);
       }
-      private void AddValueCell()
+      private void AddValueCell(string buttonCssClass)
       {
          TableCell cell = new TableCell();
          cell.CssClass = this.CssClass;
@@ -96,6 +96,7 @@ namespace NetMX.WebUI.WebControls
          {
             _editOpenType =new Button();
             _editOpenType.Click += new EventHandler(HandleEditOpenType);
+            _editOpenType.CssClass = buttonCssClass;
             _editOpenType.EnableViewState = false;
             _editOpenType.Text = "Set/Edit";
             cell.Controls.Add(_editOpenType);
@@ -118,13 +119,13 @@ namespace NetMX.WebUI.WebControls
       {
          _handleViewEditOpenType(this,
                              new ViewEditOpenTypeEventArgs(true, _connection.GetAttribute(_name, _attrInfo.Name),
-                                                       _openAttrInfo.OpenType));
+                                                       _openAttrInfo.OpenType, _attrInfo.Description));
       }
       private void HandleViewOpenType(object sender, EventArgs e)
       {
          _handleViewEditOpenType(this,
                              new ViewEditOpenTypeEventArgs(false, _connection.GetAttribute(_name, _attrInfo.Name),
-                                                       _openAttrInfo.OpenType));
+                                                       _openAttrInfo.OpenType, _attrInfo.Description));
       } 
       private void AddCell(string value, bool center)
       {

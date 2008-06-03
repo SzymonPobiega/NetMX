@@ -9,6 +9,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Collections;
 using System.ComponentModel;
+using System.Collections.Specialized;
 
 #endregion
 
@@ -35,57 +36,102 @@ namespace NetMX.WebUI.WebControls
       public TabularValueControl()
       {
       }
-      public TabularValueControl(bool editMode, TabularType rootType, ITabularData rootValue, OpenTypeIndex index)
-         : base(editMode, rootType, rootValue, index)
+      public TabularValueControl(bool editMode, TabularType rootType, ITabularData rootValue, OpenTypeIndex index, string title)
+         : base(editMode, rootType, rootValue, index, title)
       {
       }
       #endregion
 
-      #region Overridden
-      protected override void OnPreRender(EventArgs e)
-      {
-         base.OnPreRender(e);
-         //_view.DataBind();
-      }
+      #region Overridden      
       protected override Control ContentControl
       {
          get
          {
             _view = new GridView();
             _view.AutoGenerateColumns = false;
+            _view.CssClass = Context.TabularDataTableCssClass;
+            _view.RowStyle.CssClass = Context.TabularDataTableCssClass;
+            _view.CellPadding = Context.TableCellPadding;
+            _view.CellSpacing = Context.TableCellSpacing;
+            
             CompositeType rowType = RootType.RowType;
+            bool renderEditButton = false;
             foreach (string columnName in rowType.KeySet)
             {
+               OpenType columnOpenType = rowType.GetOpenType(columnName);
+               renderEditButton |= (columnOpenType.Kind == OpenTypeKind.SimpleType && !RootType.IndexNames.Contains(columnName));
+               string columnDescription = rowType.GetDescription(columnName);
                DataControlField field =
-                  CreateField(columnName, rowType.GetOpenType(columnName), RootType.IndexNames.Contains(columnName));
+                  CreateField(columnName, columnDescription, columnOpenType, RootType.IndexNames.Contains(columnName));
+               field.ItemStyle.CssClass = Context.TabularDataTableCssClass;
+               field.HeaderStyle.CssClass = Context.TabularDataTableCssClass;
                _view.Columns.Add(field);
+            }            
+            if (renderEditButton)
+            {
+               CommandField commandColumn = new CommandField();
+               commandColumn.ShowEditButton = true;
+               commandColumn.EditText = "Edit simple values";
+               commandColumn.ItemStyle.CssClass = Context.TabularDataTableCssClass;
+               commandColumn.HeaderStyle.CssClass = Context.TabularDataTableCssClass;
+               _view.Columns.Add(commandColumn);
             }
-            CommandField commandColumn = new CommandField();
-            commandColumn.ShowEditButton = true;
-            ObjectDataSource source = new ObjectDataSource();
-            source.ID = "dataSource";
-            source.SelectMethod = "Select";
-            source.UpdateMethod = "Update";
-            source.TypeName = typeof(TabularDataSource).AssemblyQualifiedName;
-            source.ObjectCreating += new ObjectDataSourceObjectEventHandler(source_ObjectCreating);
-            Controls.Add(source);
-            _view.DataSourceID = "dataSource";
-            _view.Columns.Add(commandColumn);
-            _view.RowUpdating += new GridViewUpdateEventHandler(_view_RowUpdating);
+            Controls.Add(CreateDataSource());
+            _view.DataSourceID = "dataSource";            
+            _view.RowUpdating += HandleRowUpdating;
+            _view.RowCancelingEdit += HandleRowCancelingEdit;
+            _view.RowEditing += HandleRowEditing;
+            _view.RowCommand += HandleRowCommand;            
             return _view;
          }
       }
 
-      void source_ObjectCreating(object sender, ObjectDataSourceEventArgs e)
+      private ObjectDataSource CreateDataSource()
+      {
+         ObjectDataSource source = new ObjectDataSource();
+         source.ID = "dataSource";
+         source.SelectMethod = "Select";
+         source.UpdateMethod = "Update";
+         source.TypeName = typeof(TabularDataSource).AssemblyQualifiedName;
+         source.ObjectCreating += HandleObjectCreating;
+         return source;
+      }
+
+      private void HandleRowCommand(object sender, GridViewCommandEventArgs e)
+      {
+         if (e.CommandName.StartsWith("EditNested"))
+         {
+            OrderedDictionary keyValues = new OrderedDictionary();
+            foreach (DataControlFieldCell cell in _view.Rows[int.Parse((string) e.CommandArgument)].Cells)
+            {
+               BoundField boundField = cell.ContainingField as BoundField;
+               if (boundField != null && RootType.IndexNames.Contains(boundField.DataField))
+               {
+                  boundField.ExtractValuesFromCell(keyValues, cell, DataControlRowState.Normal, true);
+               }
+            }
+            List<object> key = new List<object>();
+            foreach (string indexName in RootType.IndexNames)
+            {
+               TypeConverter conv =
+                  TypeDescriptor.GetConverter(((SimpleType) RootType.RowType.GetOpenType(indexName)).Representation);
+               key.Add(conv.ConvertFromString((string)keyValues[indexName]));
+            }
+            string[] parts = e.CommandName.Split('|');
+            base.AddNestedControl(new TabularTypeIndex(key, parts[1]));
+         }
+      }
+
+      private void HandleObjectCreating(object sender, ObjectDataSourceEventArgs e)
       {
          e.ObjectInstance = new TabularDataSource(RootValue);
       }
 
-      void _view_RowCancelingEdit(object sender, GridViewCancelEditEventArgs e)
+      private void HandleRowCancelingEdit(object sender, GridViewCancelEditEventArgs e)
       {
-         _view.EditIndex = -1;
+         SetButtonsState(true);
       }
-      void _view_RowUpdating(object sender, GridViewUpdateEventArgs e)
+      private void HandleRowUpdating(object sender, GridViewUpdateEventArgs e)
       {
          Dictionary<string, object> newValues = new Dictionary<string, object>();
          foreach (string key in e.NewValues.Keys)
@@ -95,30 +141,103 @@ namespace NetMX.WebUI.WebControls
          e.NewValues.Clear();
          e.NewValues["values"] = newValues;
          _view.EditIndex = -1;
+         SetButtonsState(true);
       }
-      void _view_RowEditing(object sender, GridViewEditEventArgs e)
+      private void HandleRowEditing(object sender, GridViewEditEventArgs e)
       {
-         _view.EditIndex = e.NewEditIndex;
+         SetButtonsState(false);
       }      
 
       protected override object ExtractValue()
-      {
-         //TabularDataSupport result = new TabularDataSupport(RootType);
-         //return result;
+      {         
          return RootValue;
       }
       #endregion
 
       #region Utility
-      private DataControlField CreateField(string columnName, OpenType columnType, bool keyColumn)
+      private static DataControlField CreateField(string columnName, string columnDescription, OpenType columnType, bool keyColumn)
       {
-         BoundField result = new TabularBoundField();
-         result.ConvertEmptyStringToNull = true;
-         result.DataField = columnName;
-         result.ReadOnly = keyColumn;
-         return result;
+         if (columnType.Kind != OpenTypeKind.SimpleType)
+         {
+            ButtonField result = new ButtonField();            
+            result.CommandName = "EditNested|"+columnName;
+            result.Text = "Edit";            
+            result.HeaderText = columnDescription;
+            return result;               
+         }
+         else
+         {
+            TabularBoundField result = new TabularBoundField();
+            result.ConvertEmptyStringToNull = true;
+            result.DataField = columnName;
+            result.ReadOnly = keyColumn;
+            result.HeaderText = columnDescription;
+            return result;
+         }
       }
       #endregion
+
+      public class TabularBoundField : BoundField
+      {
+         protected override object GetValue(Control controlContainer)
+         {
+            ICompositeData row = (ICompositeData)DataBinder.GetDataItem(controlContainer);
+            return row[DataField];
+         }
+         public override void ExtractValuesFromCell(System.Collections.Specialized.IOrderedDictionary dictionary, DataControlFieldCell cell, DataControlRowState rowState, bool includeReadOnly)
+         {
+            string dataField = this.DataField;
+            object text = null;
+            string nullDisplayText = this.NullDisplayText;
+            if (((rowState & DataControlRowState.Insert) == DataControlRowState.Normal) || this.InsertVisible)
+            {
+               if (cell.Controls.Count > 0)
+               {
+                  Control control = cell.Controls[0];
+                  TextBox box = control as TextBox;
+                  if (box != null)
+                  {
+                     text = box.Text;
+                  }
+               }
+               else
+               {
+                  string s = cell.Text;
+                  if (s == "&nbsp;")
+                  {
+                     text = string.Empty;
+                  }
+                  else if (this.SupportsHtmlEncode && this.HtmlEncode)
+                  {
+                     text = HttpUtility.HtmlDecode(s);
+                  }
+                  else
+                  {
+                     text = s;
+                  }
+               }
+               if (text != null)
+               {
+                  if (((text is string) && (((string)text).Length == 0)) && this.ConvertEmptyStringToNull)
+                  {
+                     text = null;
+                  }
+                  if (((text is string) && (((string)text) == nullDisplayText)) && (nullDisplayText.Length > 0))
+                  {
+                     text = null;
+                  }
+                  if (dictionary.Contains(dataField))
+                  {
+                     dictionary[dataField] = text;
+                  }
+                  else
+                  {
+                     dictionary.Add(dataField, text);
+                  }
+               }
+            }
+         }
+      }
    }
 
    public class TabularDataSource
@@ -154,68 +273,5 @@ namespace NetMX.WebUI.WebControls
          CompositeDataSupport newRowValue = new CompositeDataSupport(rowType, rowType.KeySet, newValue);             
          _data.Put(newRowValue);
       }
-   }
-
-   public class TabularBoundField : BoundField
-   {
-      protected override object GetValue(Control controlContainer)
-      {
-         ICompositeData row = (ICompositeData)DataBinder.GetDataItem(controlContainer);
-         return row[DataField];
-      }
-      public override void ExtractValuesFromCell(System.Collections.Specialized.IOrderedDictionary dictionary, DataControlFieldCell cell, DataControlRowState rowState, bool includeReadOnly)
-      {
-         Control control = null;
-         string dataField = this.DataField;
-         object text = null;
-         string nullDisplayText = this.NullDisplayText;
-         if (((rowState & DataControlRowState.Insert) == DataControlRowState.Normal) || this.InsertVisible)
-         {
-            if (cell.Controls.Count > 0)
-            {
-               control = cell.Controls[0];
-               TextBox box = control as TextBox;
-               if (box != null)
-               {
-                  text = box.Text;
-               }
-            }
-            else 
-            {
-               string s = cell.Text;
-               if (s == "&nbsp;")
-               {
-                  text = string.Empty;
-               }
-               else if (this.SupportsHtmlEncode && this.HtmlEncode)
-               {
-                  text = HttpUtility.HtmlDecode(s);
-               }
-               else
-               {
-                  text = s;
-               }
-            }
-            if (text != null)
-            {
-               if (((text is string) && (((string)text).Length == 0)) && this.ConvertEmptyStringToNull)
-               {
-                  text = null;
-               }
-               if (((text is string) && (((string)text) == nullDisplayText)) && (nullDisplayText.Length > 0))
-               {
-                  text = null;
-               }
-               if (dictionary.Contains(dataField))
-               {
-                  dictionary[dataField] = text;
-               }
-               else
-               {
-                  dictionary.Add(dataField, text);
-               }
-            }
-         }
-      }
-   }
+   }   
 }

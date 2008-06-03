@@ -15,109 +15,120 @@ using System.Collections.Generic;
 
 namespace NetMX.WebUI.WebControls
 {
-	public class MBeanUI : CompositeControl
+   public class MBeanUI : CompositeControl
    {
       #region Members
-	   private bool _recreateOpenTypeView;
-	   private OpenTypeKind _openTypeKind;
+      private bool _recreateOpenTypeView;
+      private OpenTypeKind _openTypeKind;
       #endregion
 
       #region Controls
-      private PlaceHolder beanView;
-	   private PlaceHolder openValueView;
+      private PlaceHolder _beanView;
+      private PlaceHolder _openValueView;
+      private Button _refreshButton;
       #endregion
 
       #region Data source properties
       private string _mBeanServerProxyID;
-		/// <summary>
-		/// ID of MBeanServerProxy control
-		/// </summary>
-		public string MBeanServerProxyID
-		{
-			get { return _mBeanServerProxyID; }
-			set { _mBeanServerProxyID = value; }
-		}
-		//private ObjectName _objectName;
-		/// <summary>
-		/// ObjectName of displayed/edited MBean
-		/// </summary>
-		public string ObjectName
-		{
-			get
-			{
-				return (string)ViewState["ObjectName"];
-			}
-			set
-			{				
-				ViewState["ObjectName"] = value;
-				if (value != null)
-				{
-					CreateControls();
-				}
-			}
-		}
-		#endregion
+      /// <summary>
+      /// ID of MBeanServerProxy control
+      /// </summary>
+      public string MBeanServerProxyID
+      {
+         get { return _mBeanServerProxyID; }
+         set { _mBeanServerProxyID = value; }
+      }
+      //private ObjectName _objectName;
+      /// <summary>
+      /// ObjectName of displayed/edited MBean
+      /// </summary>
+      public string ObjectName
+      {
+         get
+         {
+            return (string)ViewState["ObjectName"];
+         }
+         set
+         {
+            ViewState["ObjectName"] = value;
+            if (value != null)
+            {
+               CreateControls();
+            }
+         }
+      }
+      #endregion
 
-		#region Appearance properties
-		private string _buttonCssClass;
-		/// <summary>
-		/// Css class of buttons
-		/// </summary>
-		[
-		Category("Appearance"),
-		DefaultValue("")
-		]
-		public string ButtonCssClass
-		{
-			get { return _buttonCssClass; }
-			set { _buttonCssClass = value; }
-		}
-		private int _tableCellSpacing;
-		/// <summary>
-		/// Cell-spacing of rendered tables (general info, attributes and operations)
-		/// </summary>
-		[
-		Category("Appearance"),
-		DefaultValue(0)
-		]
-		public int TableCellSpacing
-		{
-			get { return _tableCellSpacing; }
-			set { _tableCellSpacing = value; }
-		}
-		private int _tableCellPadding;
-		/// <summary>
-		/// Cell-padding of rendered tables (general info, attributes and operations)
-		/// </summary>
-		[
-		Category("Appearance"),
-		DefaultValue(0)
-		]
-		public int TableCellPadding
-		{
-			get { return _tableCellPadding; }
-			set { _tableCellPadding = value; }
-		}
-		private string _attributeTableCssClass;
-		[
-		Category("Appearance"),
-		DefaultValue("")
-		]
-		public string AttributeTableCssClass
-		{
-			get { return _attributeTableCssClass; }
-			set { _attributeTableCssClass = value; }
-		}
-		private string _operationTableCssClass;
-		[
-		Category("Appearance"),
-		DefaultValue("")
-		]
-		public string OperationTableCssClass
-		{
-			get { return _operationTableCssClass; }
-			set { _operationTableCssClass = value; }
-		}
+      #region Appearance properties
+      private string _buttonCssClass;
+      /// <summary>
+      /// Css class of buttons
+      /// </summary>
+      [
+      Category("Appearance"),
+      DefaultValue("")
+      ]
+      public string ButtonCssClass
+      {
+         get { return _buttonCssClass; }
+         set { _buttonCssClass = value; }
+      }
+      private int _tableCellSpacing;
+      /// <summary>
+      /// Cell-spacing of rendered tables (general info, attributes and operations)
+      /// </summary>
+      [
+      Category("Appearance"),
+      DefaultValue(0)
+      ]
+      public int TableCellSpacing
+      {
+         get { return _tableCellSpacing; }
+         set { _tableCellSpacing = value; }
+      }
+      private int _tableCellPadding;
+      /// <summary>
+      /// Cell-padding of rendered tables (general info, attributes and operations)
+      /// </summary>
+      [
+      Category("Appearance"),
+      DefaultValue(0)
+      ]
+      public int TableCellPadding
+      {
+         get { return _tableCellPadding; }
+         set { _tableCellPadding = value; }
+      }
+      private string _attributeTableCssClass;
+      [
+      Category("Appearance"),
+      DefaultValue("")
+      ]
+      public string AttributeTableCssClass
+      {
+         get { return _attributeTableCssClass; }
+         set { _attributeTableCssClass = value; }
+      }
+      private string _tabularDataTableCssClass;
+      [
+      Category("Appearance"),
+      DefaultValue("")
+      ]
+      public string TabularDataTableCssClass
+      {
+         get { return _tabularDataTableCssClass; }
+         set { _tabularDataTableCssClass = value; }
+      }
+      private string _operationTableCssClass;
+      [
+      Category("Appearance"),
+      DefaultValue("")
+      ]
+      public string OperationTableCssClass
+      {
+         get { return _operationTableCssClass; }
+         set { _operationTableCssClass = value; }
+      }
       private string _relationTableCssClass;
       [
       Category("Appearance"),
@@ -167,50 +178,48 @@ namespace NetMX.WebUI.WebControls
       {
          get { return _sectionTitleCssClass; }
          set { _sectionTitleCssClass = value; }
-      }      
-		#endregion
+      }
+      #endregion
 
-		#region Overridden      
-		protected override HtmlTextWriterTag TagKey
-		{
-			get
-			{
-				return HtmlTextWriterTag.Div;
-			}
-		}
+      #region Overridden
+      protected override HtmlTextWriterTag TagKey
+      {
+         get
+         {
+            return HtmlTextWriterTag.Div;
+         }
+      }
       protected override void OnInit(EventArgs e)
       {
          base.OnInit(e);
          Page.RegisterRequiresControlState(this);
-      }      
+      }
       protected override void LoadControlState(object savedState)
       {
-         object[] state = (object[]) savedState;
+         object[] state = (object[])savedState;
          base.LoadControlState(state[0]);
-         _recreateOpenTypeView = (bool) state[1];
-         _openTypeKind = (OpenTypeKind) state[2];
+         _recreateOpenTypeView = (bool)state[1];
+         _openTypeKind = (OpenTypeKind)state[2];
       }
       protected override object SaveControlState()
       {
          return new object[] { base.SaveControlState(), _recreateOpenTypeView, _openTypeKind };
       }
-		protected override void OnLoad(EventArgs e)
-		{
-			base.OnLoad(e);
-			if (ObjectName != null)
-			{
-				CreateControls();
-			}
-		}
+      protected override void OnLoad(EventArgs e)
+      {
+         base.OnLoad(e);
+         if (ObjectName != null)
+         {
+            CreateControls();
+         }
+      }
       protected override void OnPreRender(EventArgs e)
       {
          base.OnPreRender(e);
-         if (!_recreateOpenTypeView)
-         {
-            openValueView.Visible = false;
-         }
+         _openValueView.Visible = _recreateOpenTypeView;
+         _beanView.Visible = _refreshButton.Visible = !_recreateOpenTypeView;
       }
-		#endregion
+      #endregion
 
       #region Event handlers
       private void NavigateCommand(object sender, CommandEventArgs e)
@@ -221,13 +230,13 @@ namespace NetMX.WebUI.WebControls
       }
       private void HandleViewEditOpenType(object sender, ViewEditOpenTypeEventArgs e)
       {
-         ComplexValueControlBase ctl = ComplexValueControlBase.Create(e.EnableEdit, e.Type, e.Value);
+         ComplexValueControlBase ctl = ComplexValueControlBase.Create(e.EnableEdit, e.Type, e.Value, e.Description);
          ctl.ID = "openTypeViewControl";
-         ctl.Cancel += HandleCancelOpenType;         
-         openValueView.Controls.Add(ctl);
+         ctl.Cancel += HandleCancelOpenType;
+         _openValueView.Controls.Add(ctl);
          _openTypeKind = e.Type.Kind;
          _recreateOpenTypeView = true;
-      }	   
+      }
       private void HandleCancelOpenType(object sender, EventArgs e)
       {
          _recreateOpenTypeView = false;
@@ -240,13 +249,11 @@ namespace NetMX.WebUI.WebControls
 
       #region Utility
       private void CreateControls()
-		{
-         beanView = new PlaceHolder();
-         beanView.EnableViewState = false;
-         Controls.Add(beanView);
-         openValueView = new PlaceHolder();
-         openValueView.EnableViewState = false;
-         Controls.Add(openValueView);
+      {
+         _beanView = new PlaceHolder();
+         _beanView.EnableViewState = false;         
+         _openValueView = new PlaceHolder();
+         _openValueView.EnableViewState = false;         
 
          if (_recreateOpenTypeView)
          {
@@ -254,72 +261,75 @@ namespace NetMX.WebUI.WebControls
             ctl.ID = "openTypeViewControl";
             ctl.Cancel += HandleCancelOpenType;
             ctl.Submit += HandleSubmitOpenType;
-            openValueView.Controls.Add(ctl);
+            _openValueView.Controls.Add(ctl);
          }
 
-			MBeanInfo info = Proxy.ServerConnection.GetMBeanInfo(new ObjectName(ObjectName));
+         MBeanInfo info = Proxy.ServerConnection.GetMBeanInfo(new ObjectName(ObjectName));
          RelationServiceMBean relationService = NetMX.NewMBeanProxy<RelationServiceMBean>(Proxy.ServerConnection, RelationService.ObjectName);
 
-			Label generalInfoTitle = new Label();
-			generalInfoTitle.Text = Resources.MBeanUI.GeneralInformationSection + "&nbsp;&nbsp;";
+         Label generalInfoTitle = new Label();
+         generalInfoTitle.Text = Resources.MBeanUI.GeneralInformationSection + "&nbsp;&nbsp;";
          generalInfoTitle.CssClass = SectionTitleCssClass;
-         beanView.Controls.Add(generalInfoTitle);
+         this.Controls.Add(generalInfoTitle);
 
-			Button refreshButton = new Button();
-			refreshButton.Text = Resources.MBeanUI.RefreshButton;
-			refreshButton.CssClass = ButtonCssClass;
-         beanView.Controls.Add(refreshButton);
+         _refreshButton = new Button();
+         _refreshButton.Text = Resources.MBeanUI.RefreshButton;
+         _refreshButton.CssClass = ButtonCssClass;
+         this.Controls.Add(_refreshButton);
 
-			Table generalInfo = new Table();
-			generalInfo.CellPadding = TableCellPadding;
-			generalInfo.CellSpacing = TableCellSpacing;
+         Table generalInfo = new Table();
+         generalInfo.CellPadding = TableCellPadding;
+         generalInfo.CellSpacing = TableCellSpacing;
          generalInfo.CssClass = GeneralInfoCssClass;
-			generalInfo.ControlStyle.Width = Unit.Percentage(100);
-			AddGeneralInfoItem(generalInfo, Resources.MBeanUI.GeneralInformationObjectName, ObjectName);
-			AddGeneralInfoItem(generalInfo, Resources.MBeanUI.GeneralInformationDescription, info.Description);
-			AddGeneralInfoItem(generalInfo, Resources.MBeanUI.GeneralInformationClass, info.ClassName);
-         beanView.Controls.Add(generalInfo);
+         generalInfo.ControlStyle.Width = Unit.Percentage(100);
+         AddGeneralInfoItem(generalInfo, Resources.MBeanUI.GeneralInformationObjectName, ObjectName);
+         AddGeneralInfoItem(generalInfo, Resources.MBeanUI.GeneralInformationDescription, info.Description);
+         AddGeneralInfoItem(generalInfo, Resources.MBeanUI.GeneralInformationClass, info.ClassName);
+         this.Controls.Add(generalInfo);
 
-			Label attributesTitle = new Label();
-			attributesTitle.Text = Resources.MBeanUI.AttributesSection;
+         Controls.Add(_beanView);
+         Controls.Add(_openValueView);
+
+         Label attributesTitle = new Label();
+         attributesTitle.Text = Resources.MBeanUI.AttributesSection;
          attributesTitle.CssClass = SectionTitleCssClass;
-         beanView.Controls.Add(attributesTitle);
+         _beanView.Controls.Add(attributesTitle);
 
-			Table attributes = new Table();
-			attributes.CellPadding = TableCellPadding;
-			attributes.CellSpacing = TableCellSpacing;
-			attributes.CssClass = AttributeTableCssClass;
-			attributes.ControlStyle.Width = Unit.Percentage(100);
-			attributes.Rows.Add(CreateAttributesHeader());
-			foreach (MBeanAttributeInfo attrInfo in info.Attributes)
-			{
-				AttributeTableRow attributeRow = new AttributeTableRow(new ObjectName(ObjectName), attrInfo, Proxy.ServerConnection, HandleViewEditOpenType, "Attribute", ButtonCssClass);
-				attributes.Rows.Add(attributeRow);
-			}
-         beanView.Controls.Add(attributes);
+         Table attributes = new Table();
+         attributes.CellPadding = TableCellPadding;
+         attributes.CellSpacing = TableCellSpacing;
+         attributes.CssClass = AttributeTableCssClass;
+         attributes.ControlStyle.Width = Unit.Percentage(100);
+         attributes.Rows.Add(CreateAttributesHeader());
+         foreach (MBeanAttributeInfo attrInfo in info.Attributes)
+         {
+            AttributeTableRow attributeRow = new AttributeTableRow(new ObjectName(ObjectName), attrInfo, Proxy.ServerConnection, HandleViewEditOpenType, AttributeTableCssClass, ButtonCssClass);
+            attributes.Rows.Add(attributeRow);
+         }
+         _beanView.Controls.Add(attributes);
 
-			Label operationTitle = new Label();
-			operationTitle.Text = Resources.MBeanUI.OperationsSection;
+         Label operationTitle = new Label();
+         operationTitle.Text = Resources.MBeanUI.OperationsSection;
          operationTitle.CssClass = SectionTitleCssClass;
-			this.Controls.Add(operationTitle);
+         _beanView.Controls.Add(operationTitle);
 
-			Table operations = new Table();
-			operations.CellPadding = TableCellPadding;
-			operations.CellSpacing = TableCellSpacing;
-			operations.CssClass = OperationTableCssClass;
-			operations.ControlStyle.Width = Unit.Percentage(100);
-			operations.Rows.Add(CreateOperationsHeader());
-			foreach (MBeanOperationInfo operInfo in info.Operations)
-			{
-				OperationTableRow operationRow = new OperationTableRow(new ObjectName(ObjectName), operInfo, Proxy.ServerConnection, HandleViewEditOpenType, "Operation", ButtonCssClass);
-				operations.Rows.Add(operationRow);
-			}
-         beanView.Controls.Add(operations);
+         Table operations = new Table();
+         operations.CellPadding = TableCellPadding;
+         operations.CellSpacing = TableCellSpacing;
+         operations.CssClass = OperationTableCssClass;
+         operations.ControlStyle.Width = Unit.Percentage(100);
+         operations.Rows.Add(CreateOperationsHeader());
+         foreach (MBeanOperationInfo operInfo in info.Operations)
+         {
+            OperationTableRow operationRow = new OperationTableRow(new ObjectName(ObjectName), operInfo, Proxy.ServerConnection, HandleViewEditOpenType, OperationTableCssClass, ButtonCssClass);
+            operations.Rows.Add(operationRow);
+         }
+         _beanView.Controls.Add(operations);
 
          Label relationsTitle = new Label();
          relationsTitle.Text = Resources.MBeanUI.RelationsSection;
          relationsTitle.CssClass = SectionTitleCssClass;
-         beanView.Controls.Add(relationsTitle);
+         _beanView.Controls.Add(relationsTitle);
 
          Table relations = new Table();
          relations.CellPadding = TableCellPadding;
@@ -334,45 +344,45 @@ namespace NetMX.WebUI.WebControls
             IList<RoleInfo> roleInfos = relationService.GetRoleInfos(relationType);
             foreach (RoleInfo roleInfo in roleInfos)
             {
-               RelationRoleTableRow relationRow = new RelationRoleTableRow(ObjectName, relationId, roleInfo, relationService, "Operation", this.NavigateCommand);
+               RelationRoleTableRow relationRow = new RelationRoleTableRow(ObjectName, relationId, roleInfo, relationService, RelationTableCssClass, this.NavigateCommand);
                if (relationRow.HasValue)
                {
                   relations.Rows.Add(relationRow);
                }
             }
          }
-         beanView.Controls.Add(relations);
-		}
-		private void AddGeneralInfoItem(Table table, string name, string value)
-		{
-			TableRow row = new TableRow();
+         _beanView.Controls.Add(relations);
+      }
+      private void AddGeneralInfoItem(Table table, string name, string value)
+      {
+         TableRow row = new TableRow();
          row.CssClass = GeneralInfoCssClass;
 
-			TableCell nameCell = new TableCell();
+         TableCell nameCell = new TableCell();
          nameCell.CssClass = GeneralInfoNameCssClass;
-			nameCell.Text = name;
-			nameCell.ControlStyle.Width = Unit.Percentage(20);
-			row.Cells.Add(nameCell);
+         nameCell.Text = name;
+         nameCell.ControlStyle.Width = Unit.Percentage(20);
+         row.Cells.Add(nameCell);
 
-			TableCell valueCell = new TableCell();
+         TableCell valueCell = new TableCell();
          valueCell.CssClass = GeneralInfoValueCssClass;
-			valueCell.Text = value;
-			valueCell.ControlStyle.Width = Unit.Percentage(80);
-			row.Cells.Add(valueCell);
+         valueCell.Text = value;
+         valueCell.ControlStyle.Width = Unit.Percentage(80);
+         row.Cells.Add(valueCell);
 
-			table.Rows.Add(row);
-		}
-		private TableHeaderRow CreateAttributesHeader()
-		{
-			TableHeaderRow attrHeader = new TableHeaderRow();
-			attrHeader.CssClass = AttributeTableCssClass;
-			AddAttributesHeaderCell(attrHeader, Resources.MBeanUI.AttributesName, 20);
-			AddAttributesHeaderCell(attrHeader, Resources.MBeanUI.AttributesDescription, 20);
-			AddAttributesHeaderCell(attrHeader, Resources.MBeanUI.AttributesAccess, 10);
-			AddAttributesHeaderCell(attrHeader, Resources.MBeanUI.AttributesValue, 25);
-			AddAttributesHeaderCell(attrHeader, Resources.MBeanUI.AttributesActions, 25);
-			return attrHeader;
-		}
+         table.Rows.Add(row);
+      }
+      private TableHeaderRow CreateAttributesHeader()
+      {
+         TableHeaderRow attrHeader = new TableHeaderRow();
+         attrHeader.CssClass = AttributeTableCssClass;
+         AddAttributesHeaderCell(attrHeader, Resources.MBeanUI.AttributesName, 20);
+         AddAttributesHeaderCell(attrHeader, Resources.MBeanUI.AttributesDescription, 20);
+         AddAttributesHeaderCell(attrHeader, Resources.MBeanUI.AttributesAccess, 10);
+         AddAttributesHeaderCell(attrHeader, Resources.MBeanUI.AttributesValue, 25);
+         AddAttributesHeaderCell(attrHeader, Resources.MBeanUI.AttributesActions, 25);
+         return attrHeader;
+      }
       private TableHeaderRow CreateRelationsHeader()
       {
          TableHeaderRow relHeader = new TableHeaderRow();
@@ -383,17 +393,17 @@ namespace NetMX.WebUI.WebControls
          AddRelationsHeaderCell(relHeader, Resources.MBeanUI.RelationsValue, 50);
          return relHeader;
       }
-		private TableHeaderRow CreateOperationsHeader()
-		{
-			TableHeaderRow operHeader = new TableHeaderRow();
-			operHeader.CssClass = OperationTableCssClass;
-			AddOperationsHeaderCell(operHeader, Resources.MBeanUI.OperationsName, 20);
-			AddOperationsHeaderCell(operHeader, Resources.MBeanUI.OperationsDescription, 20);
-			AddOperationsHeaderCell(operHeader, Resources.MBeanUI.OperationsImpact, 10);
-			AddOperationsHeaderCell(operHeader, Resources.MBeanUI.OperationsArguments, 35);
-			AddOperationsHeaderCell(operHeader, Resources.MBeanUI.OperationsActions, 15);
-			return operHeader;
-		}
+      private TableHeaderRow CreateOperationsHeader()
+      {
+         TableHeaderRow operHeader = new TableHeaderRow();
+         operHeader.CssClass = OperationTableCssClass;
+         AddOperationsHeaderCell(operHeader, Resources.MBeanUI.OperationsName, 20);
+         AddOperationsHeaderCell(operHeader, Resources.MBeanUI.OperationsDescription, 20);
+         AddOperationsHeaderCell(operHeader, Resources.MBeanUI.OperationsImpact, 10);
+         AddOperationsHeaderCell(operHeader, Resources.MBeanUI.OperationsArguments, 35);
+         AddOperationsHeaderCell(operHeader, Resources.MBeanUI.OperationsActions, 15);
+         return operHeader;
+      }
       private void AddHeaderCell(TableHeaderRow row, string name, double percentSize, string cssClass)
       {
          TableHeaderCell cell = new TableHeaderCell();
@@ -406,38 +416,38 @@ namespace NetMX.WebUI.WebControls
       {
          AddHeaderCell(row, name, percentSize, RelationTableCssClass);
       }
-		private void AddOperationsHeaderCell(TableHeaderRow row, string name, double percentSize)
-		{
+      private void AddOperationsHeaderCell(TableHeaderRow row, string name, double percentSize)
+      {
          AddHeaderCell(row, name, percentSize, OperationTableCssClass);
-		}      
-		private void AddAttributesHeaderCell(TableHeaderRow row, string name, double percentSize)
-		{
+      }
+      private void AddAttributesHeaderCell(TableHeaderRow row, string name, double percentSize)
+      {
          AddHeaderCell(row, name, percentSize, AttributeTableCssClass);
-		}
-		private MBeanServerProxy _proxy;
-		private MBeanServerProxy Proxy
-		{
-			get
-			{
-				if (_proxy == null)
-				{
-					Control container = this.NamingContainer;
-					while (container != null)
-					{
-						_proxy = (MBeanServerProxy)container.FindControl(MBeanServerProxyID);
-						if (_proxy != null)
-						{
-							break;
-						}
-						else
-						{
-							container = container.NamingContainer;
-						}
-					}
-				}
-				return _proxy;
-			}
-		}
-		#endregion
-	}
+      }
+      private MBeanServerProxy _proxy;
+      private MBeanServerProxy Proxy
+      {
+         get
+         {
+            if (_proxy == null)
+            {
+               Control container = this.NamingContainer;
+               while (container != null)
+               {
+                  _proxy = (MBeanServerProxy)container.FindControl(MBeanServerProxyID);
+                  if (_proxy != null)
+                  {
+                     break;
+                  }
+                  else
+                  {
+                     container = container.NamingContainer;
+                  }
+               }
+            }
+            return _proxy;
+         }
+      }
+      #endregion
+   }
 }

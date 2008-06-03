@@ -8,21 +8,24 @@ using NetMX.OpenMBean;
 
 namespace RemotingServerDemo
 {
-	class Program
-	{
-		static void Main(string[] args)
-		{
-			IMBeanServer server = MBeanServerFactory.CreateMBeanServer();
+   class Program
+   {
+      static void Main(string[] args)
+      {
+         IMBeanServer server = MBeanServerFactory.CreateMBeanServer();
          server.RegisterMBean(new RelationService(), RelationService.ObjectName);
-			Sample sample1 = new Sample();
+         Sample sample1 = new Sample();
          Sample sample2 = new Sample();
-         Sample sample3 = new Sample();			
-			server.RegisterMBean(sample1, "Sample:type=Sample,id=1");
+         Sample sample3 = new Sample();
+         server.RegisterMBean(sample1, "Sample:type=Sample,id=1");
          server.RegisterMBean(sample2, "Sample:type=Sample,id=2");
          server.RegisterMBean(sample3, "Sample:type=Sample,id=3");
          SampleDynamicMBean dynSample = new SampleDynamicMBean();
-		   dynSample.AddRow(1, "First row");
+         dynSample.AddRow(1, "First row");
          dynSample.AddRow(2, "Second row");
+
+         dynSample.AddNestedRow(1, 3, "First nested row");
+         dynSample.AddNestedRow(2, 4, "Second nested row");
          server.RegisterMBean(dynSample, "Sample:type=SampleDynamicMBean");
 
          RelationServiceMBean relationSerice = NetMX.NetMX.NewMBeanProxy<RelationServiceMBean>(server, RelationService.ObjectName);
@@ -39,14 +42,14 @@ namespace RemotingServerDemo
             new Role("Destination", new ObjectName("Sample:type=Sample,id=3"))});
 
 
-			Uri serviceUrl = new Uri("tcp://localhost:1234/MBeanServer.tcp");
+         Uri serviceUrl = new Uri("tcp://localhost:1234/MBeanServer.tcp");
 
-			using (INetMXConnectorServer connectorServer = NetMXConnectorServerFactory.NewNetMXConnectorServer(serviceUrl, server))
-			{
-				connectorServer.Start();
-				Console.WriteLine("Press any key to quit");
-				Console.ReadKey();
-			}			
-		}
-	}
+         using (INetMXConnectorServer connectorServer = NetMXConnectorServerFactory.NewNetMXConnectorServer(serviceUrl, server))
+         {
+            connectorServer.Start();
+            Console.WriteLine("Press any key to quit");
+            Console.ReadKey();
+         }
+      }
+   }
 }

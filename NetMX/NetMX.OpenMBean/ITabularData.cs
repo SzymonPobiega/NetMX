@@ -104,6 +104,6 @@ namespace NetMX.OpenMBean
 		/// Gets a collection view of the <see cref="NetMX.OpenMBean.ICompositeData"/> values (the rows) contained 
 		/// in this ITabularData instance. The returned collection can then be used to iterate over the values.
 		/// </summary>
-		IEnumerable<ICompositeData> Values { get; }
+		IEnumerable<ICompositeData> Values { get; }      
 	}
 }

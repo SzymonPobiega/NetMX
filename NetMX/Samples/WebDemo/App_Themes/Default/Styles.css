@@ -16,17 +16,12 @@ TABLE.GeneralInfo
 	width: 100%;
 	table-layout: fixed;
 }
-TABLE.Operation
+TABLE.Table
 {
 	width: 100%;
 	table-layout: fixed;
 }
-TABLE.Attribute
-{
-	width: 100%;
-	table-layout: fixed;
-}
-TD.Operation
+TD.Table
 {
 	padding: 2px;
 	border: #006699 1px solid;
@@ -56,27 +51,7 @@ TD.GeneralInfoValue
 	color: #000000;
 	vertical-align: baseline;
 }
-TH.Operation
-{
-	font-weight: bold;
-	font-size: 11px;
-	color: #3362a6;
-	padding: 2px;
-	border: #006699 1px solid;
-	background-color: #DEEDFE;
-	vertical-align: top;
-}
-TD.Attribute
-{
-	padding: 2px;
-	border: #006699 1px solid;
-	background-color: #FCF9E8;
-	font-weight: bold;
-	font-size: 10px;
-	color: #000000;
-	vertical-align: baseline;
-}
-TH.Attribute
+TH.Table
 {
 	font-weight: bold;
 	font-size: 11px;
