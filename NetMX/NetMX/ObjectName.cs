@@ -328,13 +328,15 @@ namespace NetMX
       #region Operators
       public static implicit operator ObjectName(string name)
       {
-         return new ObjectName(name);
+         return name == null ? null : new ObjectName(name);
       }
-      public static implicit operator string(ObjectName name)
+
+	   public static implicit operator string(ObjectName name)
       {
-         return name.CanonicalName;
+         return name == null ? null : name.CanonicalName;
       }
-      public static bool operator ==(ObjectName left, ObjectName right)
+
+	   public static bool operator ==(ObjectName left, ObjectName right)
       {
          return  (Object.ReferenceEquals(left, null) && Object.ReferenceEquals(right, null)) ||
             (!Object.ReferenceEquals(left, null) && !Object.ReferenceEquals(right, null) && left.Equals(right));         

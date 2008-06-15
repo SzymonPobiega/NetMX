@@ -45,8 +45,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AttributeTableRow.cs" />
+    <Compile Include="ChangeUIStateEventArgs.cs" />
+    <Compile Include="CompositeValueControl.cs" />
+    <Compile Include="IMBeanFeatureControl.cs" />
     <Compile Include="IValueEditControl.cs" />
     <Compile Include="ListValueEditControl.cs" />
+    <Compile Include="MBeanFeatureSelector.cs" />
     <Compile Include="MBeanUIContext.cs" />
     <Compile Include="TextValueEditControl.cs" />
     <Compile Include="ValueEditControlFactory.cs" />
@@ -62,6 +66,7 @@
     <Compile Include="Resources\MBeanUI.cs" />
     <Compile Include="Resources\OperationTableRow.cs" />
     <Compile Include="TabularValueControl.cs" />
+    <Compile Include="ViewStateExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NetMX.OpenMBean\NetMX.OpenMBean.csproj">

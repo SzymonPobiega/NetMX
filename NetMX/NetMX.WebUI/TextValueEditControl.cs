@@ -13,7 +13,7 @@ namespace NetMX.WebUI.WebControls
    {
       #region Controls
       private TextBox _input;
-      private RangeValidator _validator;
+      private BaseCompareValidator _validator;
       #endregion
 
       #region PROPERTIES
@@ -34,14 +34,24 @@ namespace NetMX.WebUI.WebControls
          : this()
       {
          _input.Text = defaultValue;
-         _validator = new RangeValidator();
+         if (string.IsNullOrEmpty(minValue) && string.IsNullOrEmpty(maxValue))
+         {
+            CompareValidator validator = new CompareValidator();
+            validator.Operator = ValidationCompareOperator.DataTypeCheck;
+            _validator = validator;
+         }
+         else
+         {
+            RangeValidator validator = new RangeValidator();            
+            validator.MinimumValue = minValue;
+            validator.MaximumValue = maxValue;
+            _validator = validator;
+         }
          _validator.ControlToValidate = "input";
          _validator.Text = "*";
-         _validator.ErrorMessage =
-            string.Format(CultureInfo.CurrentCulture, "Invalid value for attribute/property {0}.", name);
          _validator.Type = dataType;
-         _validator.MinimumValue = minValue;
-         _validator.MaximumValue = maxValue;
+         _validator.ErrorMessage =
+               string.Format(CultureInfo.CurrentCulture, "Invalid value for attribute/property {0}.", name);
       }
       #endregion
 

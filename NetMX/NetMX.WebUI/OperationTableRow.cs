@@ -14,11 +14,12 @@ using NetMX.OpenMBean;
 
 namespace NetMX.WebUI.WebControls
 {
-   public class OperationTableRow : TableRow
+   internal sealed class OperationTableRow : TableRow, IMBeanFeatureControl, INamingContainer
    {
-      private IMBeanServerConnection _connection;
-      private ObjectName _name;
-      private MBeanOperationInfo _operInfo;
+      #region Members
+      private readonly IMBeanServerConnection _connection;
+      private readonly ObjectName _name;
+      private readonly MBeanOperationInfo _operInfo;
 
 		private bool _invokeMode;
 		/// <summary>
@@ -27,8 +28,21 @@ namespace NetMX.WebUI.WebControls
 		public bool InvokeMode
 		{
 			get { return _invokeMode; }
-		}
-      
+      }
+      private MBeanUIContext _context;
+      private MBeanUIContext UIContext
+      {
+         get
+         {
+            if (_context == null)
+            {
+               _context = MBeanUIContext.GetInstance(this);
+            }
+            return _context;
+         }
+      }
+      #endregion
+
       #region Controls
       private Button _invokeButton;
 		private Button _cancelButton;
@@ -36,45 +50,42 @@ namespace NetMX.WebUI.WebControls
       private List<IValueEditControl> _argumentInputs;      
       #endregion
 
-      internal OperationTableRow(ObjectName name, MBeanOperationInfo operInfo, IMBeanServerConnection connection, EventHandler<ViewEditOpenTypeEventArgs> handleOpenTypeEdit, string rowCssClass, string buttonCssClass)
+      internal OperationTableRow(ObjectName name, MBeanOperationInfo operInfo, IMBeanServerConnection connection)
       {
+         ID = operInfo.Name;
+
          _name = name;
          _operInfo = operInfo;
-         _connection = connection;
-			this.CssClass = rowCssClass;
-
-         AddCell(operInfo.Name, false);
-         AddCell(operInfo.Description, false);
-         AddCell(operInfo.Impact.ToString(), true);
-         AddArgumentsCell();
-			AddActionCell(buttonCssClass);
+         _connection = connection;		         
       }
-      private void AddActionCell(string buttonCssClass)
+
+      #region Subcontrol creation
+      private void AddActionCell()
       {
          TableCell actionsCell = new TableCell();
-         actionsCell.CssClass = this.CssClass;
+         actionsCell.CssClass = CssClass;
          actionsCell.HorizontalAlign = HorizontalAlign.Center;
 
          _invokeButton = new Button();
          _invokeButton.Text = Resources.OperationTableRow.InvokeButton;
-			_invokeButton.CssClass = buttonCssClass;
-         _invokeButton.Click += new EventHandler(OnInvoke);
+			_invokeButton.CssClass = UIContext.ButtonCssClass;
+         _invokeButton.Click += OnInvoke;
          _invokeButton.EnableViewState = false;
          actionsCell.Controls.Add(_invokeButton);
 
 			_cancelButton = new Button();
 			_cancelButton.Text = Resources.OperationTableRow.CancelButton;
-			_cancelButton.CssClass = buttonCssClass;
-			_cancelButton.Click += new EventHandler(OnCancel);
+			_cancelButton.CssClass = UIContext.ButtonCssClass;
+			_cancelButton.Click += OnCancel;
 			_cancelButton.EnableViewState = false;
 			actionsCell.Controls.Add(_cancelButton);
 
-         this.Cells.Add(actionsCell);
+         Cells.Add(actionsCell);
       }
       private void AddArgumentsCell()
       {
          TableCell cell = new TableCell();
-         cell.CssClass = this.CssClass;
+         cell.CssClass = CssClass;
          cell.HorizontalAlign = HorizontalAlign.Center;
          _argumentInputs = new List<IValueEditControl>();
 			_arguments = new Table();
@@ -91,7 +102,7 @@ namespace NetMX.WebUI.WebControls
 
 				TableCell inputCell = new TableCell();
             IValueEditControl argumentBox = ValueEditControlFactory.CreateValueEditControl(openParamInfo);
-				argumentBox.CssClass = this.CssClass;
+				argumentBox.CssClass = CssClass;
 				argumentBox.ID = _operInfo.Name + "__" + paramInfo.Name;
 				argumentBox.EnableViewState = false;
 				_argumentInputs.Add(argumentBox);
@@ -105,16 +116,59 @@ namespace NetMX.WebUI.WebControls
 				row.Cells.Add(descrCell);
 				_arguments.Rows.Add(row);				
          }			
-         this.Cells.Add(cell);
+         Cells.Add(cell);
       }
       private void AddCell(string value, bool center)
       {
          TableCell cell = new TableCell();
-         cell.CssClass = this.CssClass;
+         cell.CssClass = CssClass;
          cell.Text = value;
          cell.HorizontalAlign = center ? HorizontalAlign.Center : HorizontalAlign.Left;
-         this.Cells.Add(cell);
+         Cells.Add(cell);
       }
+      #endregion
+
+      #region IMBeanFeatureControl Members
+      public void SetUIState(bool enabled)
+      {
+         _invokeButton.Enabled = enabled;
+      }
+      public object Selector
+      {
+         get { return new MBeanOperationSelector(_operInfo.Name, null); }
+      }
+      public void SetOpenTypeValue(object currentSelector, object value)
+      {
+      }
+      #endregion
+
+      #region Events
+      /// <summary>
+      /// Raised when action performed by user should change the behavior of other controls. In response for 
+      /// this event, the main control (<see cref="MBeanUI"/>) executes 
+      /// </summary>
+      public event EventHandler<ChangeUIStateEventArgs> ChangeUIState;
+      private void OnChangeUIState(bool enabled)
+      {
+         if (ChangeUIState != null)
+         {
+            EventHandler<ChangeUIStateEventArgs> handler = ChangeUIState;
+            handler(this, new ChangeUIStateEventArgs(enabled, new MBeanOperationSelector(_operInfo.Name, null)));
+         }
+      }
+      /// <summary>
+      /// Raised when user wants to view or edit <see cref="TabularType"/> or <see cref="CompositeType"/> value.
+      /// </summary>
+      public event EventHandler<ViewEditOpenTypeEventArgs> ViewEditOpenType;
+      private void OnViewEditOpenType(ViewEditOpenTypeEventArgs args)
+      {
+         if (ViewEditOpenType != null)
+         {
+            EventHandler<ViewEditOpenTypeEventArgs> handler = ViewEditOpenType;
+            handler(this, args);
+         }
+      }
+      #endregion
 
       #region Overridden  
 		protected override void OnInit(EventArgs e)
@@ -132,9 +186,19 @@ namespace NetMX.WebUI.WebControls
 		{
 			return new object[] { base.SaveControlState(), _invokeMode };
 		}
+      protected override void OnLoad(EventArgs e)
+      {
+         base.OnLoad(e);
+         CssClass = UIContext.OperationTableCssClass;
+         AddCell(_operInfo.Name, false);
+         AddCell(_operInfo.Description, false);
+         AddCell(_operInfo.Impact.ToString(), true);
+         AddArgumentsCell();
+         AddActionCell();
+      }
 		protected override void OnPreRender(EventArgs e)
 		{
-			base.OnPreRender(e);
+			base.OnPreRender(e);         
 			_arguments.Visible = _invokeMode;
 			_cancelButton.Visible = _invokeMode;
 		}
@@ -153,9 +217,11 @@ namespace NetMX.WebUI.WebControls
 				}
 				_connection.Invoke(_name, _operInfo.Name, arguments);
 				_invokeMode = false;
+            OnChangeUIState(true);
 			}
 			else
-			{				
+			{
+				OnChangeUIState(false);
 				_invokeMode = true;
 			}
       }
@@ -164,5 +230,40 @@ namespace NetMX.WebUI.WebControls
 			_invokeMode = false;
 		}
       #endregion
+
+      #region Selector class
+      [Serializable]
+      private sealed class MBeanOperationSelector
+      {
+         private readonly string _name;
+         private readonly string _argumentName;
+
+         public MBeanOperationSelector(string name, string argumentName)
+         {
+            _name = name;
+            _argumentName = argumentName;
+         }
+
+         public string Name
+         {
+            get { return _name; }
+         }
+
+         public string ArgumentName
+         {
+            get { return _argumentName;  }
+         }
+
+         public override int GetHashCode()
+         {
+            return Name.GetHashCode();
+         }
+         public override bool Equals(object obj)
+         {
+            MBeanOperationSelector other = obj as MBeanOperationSelector;
+            return other != null && Name.Equals(other.Name);
+         }
+      }
+      #endregion      
    }
 }

@@ -1,9 +1,7 @@
 #region USING
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Text;
 using NetMX.OpenMBean;
 using System.Globalization;
 #endregion
@@ -11,17 +9,75 @@ using System.Globalization;
 namespace NetMX.WebUI.WebControls
 {
    [Serializable]
-   public abstract class OpenTypeIndex
-   {
-      public abstract ComplexValueControlBase CreateControl(bool editMode, OpenType rootType, object rootValue);
-      public abstract void UpdateValue(OpenType rootType, object rootValue, object value);
+   internal abstract class OpenTypeIndex
+   {      
+      public abstract void UpdateValue(OpenType rootType, ref object rootValue, object value);
       public abstract string Visualize();
+
+      public ComplexValueControlBase CreateControl(bool editMode, OpenType rootType, object rootValue)
+      {
+         OpenType nestedType;
+         object nestedValue;
+         ExtractNestedData(rootType, rootValue, out nestedType, out nestedValue);
+
+         return DelegatingOpenTypeVisitor<ComplexValueControlBase>.VisitOpenType(nestedType, null, null,
+         delegate(TabularType visited)
+         {
+            return new TabularValueControl(editMode, visited, (ITabularData)nestedValue, this, null);
+         },
+         delegate(CompositeType visited)
+         {
+            return new CompositeValueControl(editMode, visited, (ICompositeData)nestedValue, this, null);
+         });
+      }
+      protected abstract void ExtractNestedData(OpenType rootType, object rootValue, out OpenType nestedType,
+                                             out object nestedValue);
+
    }
    [Serializable]
-   public sealed class TabularTypeIndex : OpenTypeIndex
+   internal sealed class CompositeTypeIndex : OpenTypeIndex
    {
-      private ReadOnlyCollection<object> _rowKey;
-      private string _itemName;
+      private readonly string _itemName;
+
+      public CompositeTypeIndex(string itemName)
+      {
+         _itemName = itemName;
+      }
+
+      protected override void ExtractNestedData(OpenType rootType, object rootValue, out OpenType nestedType,
+                                             out object nestedValue)
+      {
+         nestedValue = null;
+         CompositeType compositeRootType = (CompositeType)rootType;
+         nestedType = compositeRootType.GetOpenType(_itemName);
+         if (rootValue != null)
+         {
+            ICompositeData compositeData = (ICompositeData)rootValue;
+            nestedValue = compositeData[_itemName];
+         }
+      }
+      
+      public override void UpdateValue(OpenType rootType, ref object rootValue, object value)
+      {
+         ICompositeData compositeData = (ICompositeData)rootValue;                           
+         Dictionary<string, object> newItems = new Dictionary<string, object>();
+         foreach (string itemName in compositeData.CompositeType.KeySet)
+         {
+            newItems[itemName] = _itemName == itemName ? value : compositeData[itemName];
+         }
+         rootValue = new CompositeDataSupport(compositeData.CompositeType, newItems);
+      }
+
+      public override string Visualize()
+      {
+         return string.Format(CultureInfo.CurrentCulture, "Item name: {0}", _itemName);
+      }
+   }
+   [Serializable]
+   internal sealed class TabularTypeIndex : OpenTypeIndex
+   {
+      private readonly ReadOnlyCollection<object> _rowKey;
+      private readonly string _itemName;
 
       public TabularTypeIndex(IEnumerable<object> rowKey, string itemName)
       {
@@ -29,30 +85,22 @@ namespace NetMX.WebUI.WebControls
          _itemName = itemName;
       }
 
-      public override ComplexValueControlBase CreateControl(bool editMode, OpenType rootType, object rootValue)
+      protected override void ExtractNestedData(OpenType rootType, object rootValue, out OpenType nestedType,
+                                             out object nestedValue)
       {
-         object nestedValue = null;
+         nestedValue = null;
          TabularType tabularRootType = (TabularType)rootType;
-         OpenType nestedType = tabularRootType.RowType.GetOpenType(_itemName);
+         nestedType = tabularRootType.RowType.GetOpenType(_itemName);
          if (rootValue != null)
          {
             ITabularData tabularData = (ITabularData)rootValue;
             ICompositeData row = tabularData[_rowKey];
             nestedValue = row[_itemName];
          }
-         return DelegatingOpenTypeVisitor<ComplexValueControlBase>.VisitOpenType(nestedType, null, null,
-            delegate(TabularType visited)
-            {
-               return new TabularValueControl(editMode, visited, (ITabularData)nestedValue, this, null);
-            },
-               delegate(CompositeType visited)
-               {
-                  return null;
-               });
       }
-      public override void UpdateValue(OpenType rootType, object rootValue, object value)
+      
+      public override void UpdateValue(OpenType rootType, ref object rootValue, object value)
       {
-         TabularType tabularRootType = (TabularType)rootType;
          ITabularData tabularData = (ITabularData)rootValue;
          ICompositeData row = tabularData[_rowKey];
          List<object> newValues = new List<object>();

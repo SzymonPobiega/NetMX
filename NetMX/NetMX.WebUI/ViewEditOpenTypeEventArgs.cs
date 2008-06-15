@@ -26,17 +26,24 @@ namespace NetMX.WebUI.WebControls
          get { return _type; }
       }
 
+      private readonly object _selector;
+      public object Selector
+      {
+         get { return _selector; }
+      }
+
       private readonly string _description;
       public string Description
       {
          get { return _description; }
       }
 
-      public ViewEditOpenTypeEventArgs(bool enableEdit, object value, OpenType type, string description)
+      public ViewEditOpenTypeEventArgs(bool enableEdit, object value, OpenType type, object selector, string description)
       {
          _enableEdit = enableEdit;
          _value = value;
          _type = type;
+         _selector = selector;
          _description = description;
       }
    }

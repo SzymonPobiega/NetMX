@@ -121,5 +121,27 @@ namespace NetMX.WebUI.WebControls.Resources
 				return ResourceManager.GetString("WritableSymbol", CurrentCulture);
 			}
 		}
+
+      /// <summary>
+      ///   Looks up a localized string similar to Set/Edit.
+      /// </summary>
+      internal static string SetEditButton
+      {
+         get
+         {
+            return ResourceManager.GetString("SetEditButton", CurrentCulture);
+         }
+      }
+
+      /// <summary>
+      ///   Looks up a localized string similar to View.
+      /// </summary>
+      internal static string ViewButton
+      {
+         get
+         {
+            return ResourceManager.GetString("ViewButton", CurrentCulture);
+         }
+      }
 	}
 }

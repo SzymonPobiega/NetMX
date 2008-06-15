@@ -126,11 +126,17 @@
   <data name="ReadableSymbol" xml:space="preserve">
     <value>O</value>
   </data>
+  <data name="SetEditButton" xml:space="preserve">
+    <value>Ustaw/Edytuj</value>
+  </data>
   <data name="UnreadableValue" xml:space="preserve">
     <value>(nie można odczytać)</value>
   </data>
   <data name="UpdateButton" xml:space="preserve">
     <value>Aktualizuj</value>
+  </data>
+  <data name="ViewButton" xml:space="preserve">
+    <value>Zobacz</value>
   </data>
   <data name="WritableSymbol" xml:space="preserve">
     <value>Z</value>
