@@ -58,7 +58,7 @@ namespace NetMX.OpenMBean
             tmp.Add(new OpenMBeanParameterInfoSupport(paramInfos[i]));
          }
          _signature = tmp.AsReadOnly();
-         _returnOpenType = info.ReturnType != null ? OpenType.CreateFromType(info.ReturnType) : SimpleType.Void;
+         _returnOpenType = info.ReturnType != null ? OpenType.CreateOpenType(info.ReturnType) : SimpleType.Void;
       }
       #endregion
 

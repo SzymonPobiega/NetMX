@@ -10,6 +10,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		NetMX1.vsmdi = NetMX1.vsmdi
 		NetMX2.vsmdi = NetMX2.vsmdi
 		NetMX3.vsmdi = NetMX3.vsmdi
+		NetMX4.vsmdi = NetMX4.vsmdi
+		NetMX5.vsmdi = NetMX5.vsmdi
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetMX", "NetMX\NetMX.csproj", "{619AD956-B7BC-492D-9722-25DA4891E144}"
@@ -78,9 +80,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetMX.Remote.WebServices", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetMX.Remote.WebServices.Tests", "NetMX.Remote.WebServices.Tests\NetMX.Remote.WebServices.Tests.csproj", "{72698159-B3D0-4988-99EB-22A57C3654D3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetMX.OpenMBean.Mapper", "NetMX.OpenMBean.Mapper\NetMX.OpenMBean.Mapper.csproj", "{ADD61DDF-F142-4688-B8C3-93F378630252}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetMX.OpenMBean.Mapper.Tests", "NetMX.OpenMBean.Mapper.Tests\NetMX.OpenMBean.Mapper.Tests.csproj", "{0A703F9B-CA81-4E90-AB7F-356E1E810C59}"
+EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 22
+		SccNumberOfProjects = 24
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://tfs04.codeplex.com/
 		SccLocalPath0 = .
@@ -155,9 +161,15 @@ Global
 		SccProjectUniqueName21 = NetMX.Remote.WebServices.Tests\\NetMX.Remote.WebServices.Tests.csproj
 		SccProjectName21 = NetMX.Remote.WebServices.Tests
 		SccLocalPath21 = NetMX.Remote.WebServices.Tests
+		SccProjectUniqueName22 = NetMX.OpenMBean.Mapper\\NetMX.OpenMBean.Mapper.csproj
+		SccProjectName22 = NetMX.OpenMBean.Mapper
+		SccLocalPath22 = NetMX.OpenMBean.Mapper
+		SccProjectUniqueName23 = NetMX.OpenMBean.Mapper.Tests\\NetMX.OpenMBean.Mapper.Tests.csproj
+		SccProjectName23 = NetMX.OpenMBean.Mapper.Tests
+		SccLocalPath23 = NetMX.OpenMBean.Mapper.Tests
 	EndGlobalSection
 	GlobalSection(TestCaseManagementSettings) = postSolution
-		CategoryFile = NetMX3.vsmdi
+		CategoryFile = NetMX5.vsmdi
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|.NET = Debug|.NET
@@ -378,6 +390,26 @@ Global
 		{72698159-B3D0-4988-99EB-22A57C3654D3}.Release|Any CPU.Build.0 = Release|Any CPU
 		{72698159-B3D0-4988-99EB-22A57C3654D3}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{72698159-B3D0-4988-99EB-22A57C3654D3}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{ADD61DDF-F142-4688-B8C3-93F378630252}.Debug|.NET.ActiveCfg = Debug|Any CPU
+		{ADD61DDF-F142-4688-B8C3-93F378630252}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ADD61DDF-F142-4688-B8C3-93F378630252}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ADD61DDF-F142-4688-B8C3-93F378630252}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{ADD61DDF-F142-4688-B8C3-93F378630252}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{ADD61DDF-F142-4688-B8C3-93F378630252}.Release|.NET.ActiveCfg = Release|Any CPU
+		{ADD61DDF-F142-4688-B8C3-93F378630252}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ADD61DDF-F142-4688-B8C3-93F378630252}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ADD61DDF-F142-4688-B8C3-93F378630252}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{ADD61DDF-F142-4688-B8C3-93F378630252}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{0A703F9B-CA81-4E90-AB7F-356E1E810C59}.Debug|.NET.ActiveCfg = Debug|Any CPU
+		{0A703F9B-CA81-4E90-AB7F-356E1E810C59}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0A703F9B-CA81-4E90-AB7F-356E1E810C59}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0A703F9B-CA81-4E90-AB7F-356E1E810C59}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{0A703F9B-CA81-4E90-AB7F-356E1E810C59}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{0A703F9B-CA81-4E90-AB7F-356E1E810C59}.Release|.NET.ActiveCfg = Release|Any CPU
+		{0A703F9B-CA81-4E90-AB7F-356E1E810C59}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0A703F9B-CA81-4E90-AB7F-356E1E810C59}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0A703F9B-CA81-4E90-AB7F-356E1E810C59}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{0A703F9B-CA81-4E90-AB7F-356E1E810C59}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

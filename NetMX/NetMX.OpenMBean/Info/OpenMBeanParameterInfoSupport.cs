@@ -99,7 +99,7 @@ namespace NetMX.OpenMBean
       public OpenMBeanParameterInfoSupport(ParameterInfo info)
 			: base(info)
       {
-         _openType = OpenMBean.OpenType.CreateFromType(info.ParameterType);
+         _openType = OpenMBean.OpenType.CreateOpenType(info.ParameterType);
          object[] tmp = info.GetCustomAttributes(typeof (OpenMBeanParameterAttribute), false);
          if (tmp.Length > 0)
          {

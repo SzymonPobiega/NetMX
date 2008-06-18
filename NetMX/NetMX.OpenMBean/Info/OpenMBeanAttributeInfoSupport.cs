@@ -107,7 +107,7 @@ namespace NetMX.OpenMBean
       public OpenMBeanAttributeInfoSupport(PropertyInfo info)
 			: base(info)
       {
-         _openType = OpenMBean.OpenType.CreateFromType(info.PropertyType);
+         _openType = OpenMBean.OpenType.CreateOpenType(info.PropertyType);
          object[] tmp = info.GetCustomAttributes(typeof (OpenMBeanAttributeAttribute), false);
          if (tmp.Length > 0)
          {

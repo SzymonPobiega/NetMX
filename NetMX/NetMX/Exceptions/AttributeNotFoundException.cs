@@ -8,10 +8,10 @@ using System.Globalization;
 
 namespace NetMX
 {
-	[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1032:ImplementStandardExceptionConstructors"), Serializable] //Other constructos do not make sense.
+   [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1032:ImplementStandardExceptionConstructors", Justification = "Other constructos do not make sense"), Serializable]
 	public sealed class AttributeNotFoundException : OperationsException
 	{
-		private string _attributeName;
+		private readonly string _attributeName;
 		/// <summary>
 		/// Missing attribute name.
 		/// </summary>
@@ -19,7 +19,7 @@ namespace NetMX
 		{
 			get { return _attributeName; }
 		}
-		private string _objectName;
+		private readonly string _objectName;
 		/// <summary>
 		/// ObjectName of MBean
 		/// </summary>
@@ -27,7 +27,7 @@ namespace NetMX
 		{
 			get { return _objectName; }
 		}
-		private string _className;
+		private readonly string _className;
 		/// <summary>
 		/// Class name of MBean
 		/// </summary>

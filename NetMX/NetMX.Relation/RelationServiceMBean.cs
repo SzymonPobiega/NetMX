@@ -137,7 +137,7 @@ namespace NetMX.Relation
       /// <summary>
       /// Gets or sets the flag to indicate if when a notification is received for the unregistration of 
       /// an MBean referenced in a relation, if an immediate "purge" of the relations (look for the relations 
-      /// no longer valid) has to be performed, or if that will be performed only when the <see cref="NetMX.RelationServiceMBean.PurgeRelations"/> method 
+      /// no longer valid) has to be performed, or if that will be performed only when the <see cref="RelationServiceMBean.PurgeRelations"/> method 
       /// is explicitly called.
       /// </summary>
       bool Purge { get; set; }
@@ -146,14 +146,14 @@ namespace NetMX.Relation
       /// </summary>
       /// <param name="relationId">Relation id.</param>
       /// <returns>A dictionary mapping ObjectName -> list of String (role names)</returns>
-      /// <exception cref="NetMX.Relation.RelationNotFoundException">If no relation for given relation id</exception>
+      /// <exception cref="RelationNotFoundException">If no relation for given relation id</exception>
       IDictionary<ObjectName, IList<string>> GetReferencedMBeans(string relationId);
       /// <summary>
       /// Returns name of associated relation type for given relation.
       /// </summary>
       /// <param name="relationId">Relation id.</param>
       /// <returns>The name of the associated relation type.</returns>
-      /// <exception cref="NetMX.Relation.RelationNotFoundException">If no relation for given relation id</exception>
+      /// <exception cref="RelationNotFoundException">If no relation for given relation id</exception>
       string GetRelationTypeName(string relationId);
       /// <summary>
       /// Retrieves role value for given role name in given relation.
@@ -161,9 +161,9 @@ namespace NetMX.Relation
       /// <param name="relationId">Relation id.</param>
       /// <param name="roleName">Name of role.</param>
       /// <returns></returns>
-      /// <exception cref="NetMX.Relation.RelationServiceNotRegisteredException">If the Relation Service is not registered in the MBean Server</exception>
-      /// <exception cref="NetMX.Relation.RelationNotFoundException">If no relation for given relation id</exception>
-      /// <exception cref="NetMX.Relation.RoleNotFoundException">If:
+      /// <exception cref="RelationServiceNotRegisteredException">If the Relation Service is not registered in the MBean Server</exception>
+      /// <exception cref="RelationNotFoundException">If no relation for given relation id</exception>
+      /// <exception cref="RoleNotFoundException">If:
       /// <list type="bullet">
       /// <item>there is no role with given name, or</item>
       /// <item>the role is not readable.</item>

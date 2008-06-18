@@ -1,5 +1,7 @@
 #region USING
 using System;
+using System.Collections.Generic;
+
 #endregion
 
 namespace NetMX.OpenMBean
@@ -73,7 +75,28 @@ namespace NetMX.OpenMBean
       /// </summary>
       public static readonly OpenType ObjectName = new SimpleType(typeof(ObjectName), "ObjectName type");      
       #endregion
-      
+
+      #region Static type dictionary
+      private readonly static Dictionary<Type, OpenType> _typeDictionary = new Dictionary<Type, OpenType>();
+      static SimpleType()
+      {
+         _typeDictionary[typeof (void)] = Void;
+         _typeDictionary[typeof (bool)] = Boolean;
+         _typeDictionary[typeof (char)] = Character;
+         _typeDictionary[typeof (byte)] = Byte;
+         _typeDictionary[typeof (short)] = Short;
+         _typeDictionary[typeof (int)] = Integer;
+         _typeDictionary[typeof (long)] = Long;
+         _typeDictionary[typeof (float)] = Float;
+         _typeDictionary[typeof (Double)] = Double;
+         _typeDictionary[typeof (string)] = String;
+         _typeDictionary[typeof (decimal)] = Decimal;
+         _typeDictionary[typeof (DateTime)] = DateTime;
+         _typeDictionary[typeof (TimeSpan)] = TimeSpan;
+         _typeDictionary[typeof (ObjectName)] = ObjectName;
+      }
+      #endregion
+
       #region CONSTRUCTOR
       private SimpleType(Type representation, string description)
          : base(representation, representation.FullName, description)
@@ -82,68 +105,28 @@ namespace NetMX.OpenMBean
       #endregion
 
       #region Factory
-      public static OpenType CreateFromType(Type t)
+      /// <summary>
+      /// Creates new <see cref="SimpleType"/> instance based on CLR type.
+      /// </summary>
+      /// <param name="t">CLR simple type.</param>
+      /// <returns></returns>
+      public static OpenType CreateSimpleType(Type t)
       {
-         if (t == typeof(void))
+         OpenType type;
+         if (_typeDictionary.TryGetValue(t, out type))
          {
-            return Void;
+            return type;
          }
-         else if (t == typeof(bool))
-         {
-            return Boolean;
-         }
-         else if (t == typeof(char))
-         {
-            return Character;
-         }
-         else if (t == typeof(byte))
-         {
-            return Byte;
-         }
-         else if (t == typeof(short))
-         {
-            return Short;
-         }
-         else if (t == typeof(int))
-         {
-            return Integer;
-         }
-         else if (t == typeof(long))
-         {
-            return Long;
-         }
-         else if (t == typeof(float))
-         {
-            return Float;
-         }
-         else if (t == typeof(double))
-         {
-            return Double;
-         }
-         else if (t == typeof(string))
-         {
-            return String;
-         }
-         else if (t == typeof(decimal))
-         {
-            return Decimal;
-         }
-         else if (t == typeof(DateTime))
-         {
-            return DateTime;
-         }
-         else if (t == typeof(TimeSpan))
-         {
-            return TimeSpan;
-         }
-         else if (t == typeof(ObjectName))
-         {
-            return ObjectName;
-         }
-         else
-         {
-            throw new NotSupportedException("Not supported type: "+t);
-         }
+         throw new NotSupportedException("Not supported type: "+t);
+      }
+      /// <summary>
+      /// Tests if provided CLR type maps to a <see cref="SimpleType"/>.
+      /// </summary>
+      /// <param name="t"></param>
+      /// <returns></returns>
+      public static bool IsSimpleType(Type t)
+      {
+         return _typeDictionary.ContainsKey(t);
       }
       #endregion
 

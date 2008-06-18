@@ -74,16 +74,17 @@ namespace NetMX.OpenMBean
 	   #endregion
 
       #region Factory
-      public static OpenType CreateFromType(Type type)
+      public static OpenType CreateOpenType(Type type)
       {
          if (type.IsArray)
          {
-            return new ArrayType(type.GetArrayRank(), SimpleType.CreateFromType(type.GetElementType()));
+            return new ArrayType(type.GetArrayRank(), OpenType.CreateOpenType(type.GetElementType()));
          }
-         else
+         if (SimpleType.IsSimpleType(type))
          {
-            return SimpleType.CreateFromType(type);
+            return SimpleType.CreateSimpleType(type);
          }
+         throw new NotSupportedException("Not supported type.");
       }      
       #endregion
    }
