@@ -10,9 +10,11 @@ namespace NetMX.OpenMBean.Mapper
       private IMBeanServer _server;
       private ObjectName _ownName;
       private ObjectName[] _beansToMapPatterns;
+		private string _proxyIndicatorProperty = "OpenMBeanProxy";
+
+
       private readonly SortedList<int, ITypeMapper> _mappers = new SortedList<int, ITypeMapper>();
       private readonly Dictionary<ObjectName, int> _externalMappers = new Dictionary<ObjectName, int>();
-
       private readonly Dictionary<ObjectName, ObjectName> _mappedBeans = new Dictionary<ObjectName, ObjectName>();
       #endregion
 
@@ -67,7 +69,7 @@ namespace NetMX.OpenMBean.Mapper
             {
                if (ShouldMapBean(serverNotification.ObjectName))
                {
-                  
+						MapBean(serverNotification.ObjectName);
                }
             }
             else if (serverNotification.Type == MBeanServerNotification.UnregistrationNotification)
@@ -84,7 +86,14 @@ namespace NetMX.OpenMBean.Mapper
                }
             }
          }
-      }  
+      }
+		private void MapBean(ObjectName originalBeanName)
+		{
+			Dictionary<string, string> props = new Dictionary<string,string>(originalBeanName.KeyPropertyList);
+			props.Add(_proxyIndicatorProperty, "true");
+			ObjectName proxyName = new ObjectName(originalBeanName.Domain, props);
+
+		}
       private bool ShouldMapBean(ObjectName newBeanName)
       {         
          foreach (ObjectName name in _beansToMapPatterns)

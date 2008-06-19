@@ -4,10 +4,10 @@ using System.Text;
 
 namespace NetMX.OpenMBean.Mapper
 {
-   internal class MappedBean : NotificationEmitterSupport, IDynamicMBean
+   internal class ProxyBean : NotificationEmitterSupport, IDynamicMBean
    {
 
-      public MappedBean(MBeanInfo originalBeanInfo)
+      public ProxyBean(MBeanInfo originalBeanInfo)
       {
          
       }
