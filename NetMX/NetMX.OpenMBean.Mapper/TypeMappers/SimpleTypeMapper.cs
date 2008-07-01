@@ -19,7 +19,7 @@ namespace NetMX.OpenMBean.Mapper
       {
          return SimpleType.CreateSimpleType(plainNetType);
       }
-      public object MapValue(OpenType mappedType, object value, MapValueDelegate mapNestedValueCallback)
+      public object MapValue(Type plainNetType, OpenType mappedType, object value, MapValueDelegate mapNestedValueCallback)
       {
          return value;
       }

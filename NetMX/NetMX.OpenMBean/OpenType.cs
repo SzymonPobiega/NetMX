@@ -9,8 +9,8 @@ namespace NetMX.OpenMBean
 	/// data values.
 	/// An open type is defined by:
 	/// <list type="bullet">
-	/// <item>the fully qualified class name of the open data values this type describes; note that only a limited</item>
-	/// set of classes is allowed for open data values (see ALLOWED_CLASSNAMES),
+	/// <item>the fully qualified class name of the open data values this type describes; note that only a limited
+   /// set of classes is allowed for open data values (see ALLOWED_CLASSNAMES),</item>
 	/// <item>its name,</item>
 	/// <item>its description.</item>
 	/// </list>
@@ -78,7 +78,7 @@ namespace NetMX.OpenMBean
       {
          if (type.IsArray)
          {
-            return new ArrayType(type.GetArrayRank(), OpenType.CreateOpenType(type.GetElementType()));
+            return new ArrayType(type.GetArrayRank(), CreateOpenType(type.GetElementType()));
          }
          if (SimpleType.IsSimpleType(type))
          {

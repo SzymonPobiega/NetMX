@@ -58,7 +58,7 @@ namespace NetMX.OpenMBean.Mapper.Tests
          value.IntValue = 5;
          value.StringValue = "A text";
 
-         object mappedValue = mapper.MapValue(mappedType, value, MapValue);
+         object mappedValue = mapper.MapValue(typeof(SimpleFlatType), mappedType, value, MapValue);
          Assert.IsTrue(mappedValue is ICompositeData);
          ICompositeData compositeData = (ICompositeData) mappedValue;
          Assert.IsTrue(compositeType.IsValue(compositeData));
@@ -124,7 +124,7 @@ namespace NetMX.OpenMBean.Mapper.Tests
          value.Inner = new InnerType();
          value.Inner.Value = "Inner text value";
 
-         object mappedValue = mapper.MapValue(outerType, value, MapValue);
+         object mappedValue = mapper.MapValue(typeof(OuterType), outerType, value, MapValue);
          Assert.IsTrue(mappedValue is ICompositeData);
          ICompositeData outerCompositeData = (ICompositeData)mappedValue;
          Assert.IsTrue(outerCompositeType.IsValue(outerCompositeData));

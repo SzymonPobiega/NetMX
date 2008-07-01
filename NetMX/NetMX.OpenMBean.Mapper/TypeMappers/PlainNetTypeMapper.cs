@@ -45,7 +45,7 @@ namespace NetMX.OpenMBean.Mapper
 
          return new CompositeType(AttributeUtils.GetOpenTypeName(plainNetType), AttributeUtils.GetOpenTypeDescription(plainNetType), names, descriptions, types);
       }
-      public object MapValue(OpenType mappedType, object value, MapValueDelegate mapNestedValueCallback)
+      public object MapValue(Type plainNetType, OpenType mappedType, object value, MapValueDelegate mapNestedValueCallback)
       {
          if (value == null)
          {
@@ -63,7 +63,7 @@ namespace NetMX.OpenMBean.Mapper
             PropertyInfo propertyInfo = valueType.GetProperty(itemName, BindingFlags.Public | BindingFlags.Instance);
             object propValue = propertyInfo.GetValue(value, new object[] {});
             OpenType mappedPropertyType = compositeType.GetOpenType(itemName);
-            values.Add(mapNestedValueCallback(mappedPropertyType, propValue));
+            values.Add(mapNestedValueCallback(propertyInfo.PropertyType, mappedPropertyType, propValue));
             names.Add(itemName);
          }
          return new CompositeDataSupport(compositeType, names, values);

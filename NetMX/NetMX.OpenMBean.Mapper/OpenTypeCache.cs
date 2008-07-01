@@ -11,13 +11,14 @@ namespace NetMX.OpenMBean.Mapper
 	/// true is used. The types nested in the provided one are handled using the same chain.	
 	/// </summary>
 	/// <remarks>
-	/// Caches generated <see cref="OpenTypes"/>s and maintains a dictionary mapping from CLR to Open types.
+	/// Caches generated <see cref="OpenType"/>s and maintains a dictionary mapping from CLR to Open types.
 	/// </remarks>
 	internal sealed class OpenTypeCache
 	{
 		#region Fields
 		private readonly SortedList<int, ITypeMapper> _mappers = new SortedList<int, ITypeMapper>();
 		private readonly Dictionary<Type, OpenType> _typeCache = new Dictionary<Type, OpenType>();
+      private readonly List<TypeMapperInfo> _mapperInfos = new List<TypeMapperInfo>();
 		#endregion
 
 		#region Interface
@@ -31,6 +32,21 @@ namespace NetMX.OpenMBean.Mapper
 		/// <exception cref="NonUniquePriorityException">Another mapper with privided priority is already registered.</exception>
 		public void AddTypeMapper(ITypeMapper mapper, ObjectName objectName, int priority)
 		{
+         TypeMapperInfo newMapperInfo = new TypeMapperInfo(priority, objectName == null ? mapper.GetType().AssemblyQualifiedName : null, objectName);         
+         if (_mappers.ContainsKey(priority))
+         {
+            TypeMapperInfo exisingMapperInfo = _mapperInfos.Find(delegate(TypeMapperInfo info)
+              {
+                 return info.Priority == priority;
+              });
+            throw new NonUniquePriorityException(
+               newMapperInfo.ObjectName != null ? newMapperInfo.ObjectName.ToString() : newMapperInfo.TypeName,
+               exisingMapperInfo.ObjectName != null ? exisingMapperInfo.ObjectName.ToString() : exisingMapperInfo.TypeName,
+               priority
+               ); 
+         }
+         _mappers.Add(priority, mapper);
+         _mapperInfos.Add(newMapperInfo);
 		}
 		/// <summary>
 		/// Removes a type mapper from the chain.
@@ -38,6 +54,11 @@ namespace NetMX.OpenMBean.Mapper
 		/// <param name="priority">Priority of mapper which should be removed.</param>
 		public void RemoveTypeMapper(int priority)
 		{
+         if (!_mappers.ContainsKey(priority))
+         {
+            throw new MapperNotFoundException(priority);
+         }
+		   _mappers.Remove(priority);
 		}
 		/// <summary>
 		/// Gets the collection of type mapper information objects.
@@ -45,6 +66,7 @@ namespace NetMX.OpenMBean.Mapper
 		/// <returns>A collection of type mapper information objects.</returns>
 		public IEnumerable<TypeMapperInfo> GetTypeMappers()
 		{
+		   return new List<TypeMapperInfo>(_mapperInfos).AsReadOnly();
 		}
 		/// <summary>
 		/// Flushes the mapped <see cref="OpenType"/> cache.
@@ -68,45 +90,65 @@ namespace NetMX.OpenMBean.Mapper
 				OpenType mappedType;
 				if (!_typeCache.TryGetValue(clrType, out mappedType))
 				{					
-					mappedType = DoTypeMapping(clrType);
+					mappedType = MapTypeImpl(clrType);
 					_typeCache[clrType] = mappedType;					
 				}
 				return mappedType;
 			}
 		}
+      /// <summary>
+      /// Maps value.
+      /// </summary>
+      /// <param name="clrType"></param>
+      /// <param name="mappedType"></param>
+      /// <param name="value"></param>
+      /// <returns></returns>
+      public object MapValue(Type clrType, OpenType mappedType, object value)
+      {
+         lock (_typeCache)
+         {
+            return MapValueImpl(clrType, mappedType, value);
+         }
+      }
 		#endregion
 
-		#region Utility
-		private OpenType DoTypeMapping(Type clrType)
-		{						
-		}
+		#region Utility		
 		private OpenType MapTypeImpl(Type plainNetType)
 		{
 			OpenTypeKind mapsTo;
-			foreach (ITypeMapper mapper in _mappers)
+			foreach (ITypeMapper mapper in _mappers.Values)
 			{
-				if (mapper.CanHandle(clrType, out mapsTo, CanHandleImpl))
+            if (mapper.CanHandle(plainNetType, out mapsTo, CanHandleImpl))
 				{
-					return mapper.MapType(clrType, MapTypeImpl);
+               return mapper.MapType(plainNetType, MapTypeImpl);
 				}
 			}
 			return null;
 		}
 		private bool CanHandleImpl(Type plainNetType, out OpenTypeKind mapsTo)
 		{
-			OpenTypeKind mapsTo;
-			foreach (ITypeMapper mapper in _mappers)
+		   mapsTo = OpenTypeKind.SimpleType;
+			foreach (ITypeMapper mapper in _mappers.Values)
 			{
-				if (mapper.CanHandle(clrType, out mapsTo, CanHandleImpl))
+            if (mapper.CanHandle(plainNetType, out mapsTo, CanHandleImpl))
 				{
 					return true;
 				}
 			}
 			return false;
 		}
-		private object MapValueImpl(OpenType mappedType, object value)
-		{			
+		private object MapValueImpl(Type plainNetType, OpenType mappedType, object value)
+		{
+		   OpenTypeKind mapsTo;
+		   foreach (ITypeMapper mapper in _mappers.Values)
+		   {
+		      if (mapper.CanHandle(plainNetType, out mapsTo, CanHandleImpl))
+		      {
+		         return mapper.MapValue(plainNetType, mappedType, value, MapValueImpl);
+		      }
+		   }
+		   return null;
 		}
-		#endregion
+	   #endregion
 	}	
 }

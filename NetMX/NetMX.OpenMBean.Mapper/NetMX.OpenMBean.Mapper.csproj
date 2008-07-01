@@ -44,6 +44,7 @@
     <Compile Include="Attributes\CompositeTypeItemAttribute.cs" />
     <Compile Include="Attributes\OpenTypeAttribute.cs" />
     <Compile Include="Attributes\AttributeUtils.cs" />
+    <Compile Include="Exceptions\MapperNotFoundException.cs" />
     <Compile Include="Exceptions\NonUniquePriorityException.cs" />
     <Compile Include="Exceptions\MissingResourceItemException.cs" />
     <Compile Include="ITypeMapper.cs" />
@@ -72,6 +73,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="OpenTypes\" />
     <Folder Include="Resources\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

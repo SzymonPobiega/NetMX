@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using NetMX;
+using NetMX.OpenMBean.Mapper;
 using NetMX.Remote;
 using NetMX.Relation;
 using NetMX.OpenMBean;
@@ -40,6 +41,20 @@ namespace RemotingServerDemo
          relationSerice.CreateRelation("Rel2", "Binding", new Role[] {
             new Role("Source", new ObjectName("Sample:type=Sample,id=1")),
             new Role("Destination", new ObjectName("Sample:type=Sample,id=3"))});
+
+         OpenMBeanMapperService mapperService = new OpenMBeanMapperService(new ObjectName[] {"Sample:type=SampleMappedMBean"});
+         server.RegisterMBean(mapperService,":type=OpenMBeanMapperService");
+
+         SampleMapped mappedMBean = new SampleMapped();
+         CollectionElement firstColEl = new CollectionElement();
+         firstColEl.Elements.Add(new NestedCollectionElement(1, "Name1"));
+         firstColEl.Elements.Add(new NestedCollectionElement(2, "Name2"));
+         CollectionElement secondColEl = new CollectionElement();
+         secondColEl.Elements.Add(new NestedCollectionElement(3, "Name3"));
+         secondColEl.Elements.Add(new NestedCollectionElement(4, "Name4"));
+         mappedMBean.Add(firstColEl);
+         mappedMBean.Add(secondColEl);
+         server.RegisterMBean(mappedMBean, "Sample:type=SampleMappedMBean");
 
 
          Uri serviceUrl = new Uri("tcp://localhost:1234/MBeanServer.tcp");

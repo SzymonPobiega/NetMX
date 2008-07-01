@@ -12,7 +12,7 @@ namespace NetMX.OpenMBean.Mapper
       private readonly int _priority;
 
       /// <summary>
-		/// Creates new <see cref="MissingResourceItemException"/> object.
+      /// Creates new <see cref="NonUniquePriorityException"/> object.
 		/// </summary>		
 		public NonUniquePriorityException(string failedMapper, string existingMapper, int priority)
 			: base(string.Format(CultureInfo.CurrentCulture, "Cannot register mapper {0} with priority {1} because another mapper ({2}) already uses this priority.", failedMapper, priority, existingMapper))
@@ -27,7 +27,7 @@ namespace NetMX.OpenMBean.Mapper
 		{
 			_failedMapper = info.GetString("newMapper");
 			_existingMapper = info.GetString("existingMapper");
-			_priority = info.GetString("priority");
+			_priority = info.GetInt32("priority");
 		}
       [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods"), System.Security.Permissions.SecurityPermission(System.Security.Permissions.SecurityAction.LinkDemand, Flags = System.Security.Permissions.SecurityPermissionFlag.SerializationFormatter)]
       public override void GetObjectData(SerializationInfo info, StreamingContext context)

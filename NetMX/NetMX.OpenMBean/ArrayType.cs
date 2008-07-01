@@ -7,7 +7,7 @@ namespace NetMX.OpenMBean
    /// are n-dimensional arrays of open data values.
    /// </summary>
    [Serializable]   
-   public sealed class ArrayType : OpenType
+   public class ArrayType : OpenType
    {
       #region Properties
       private readonly int _dimension;
@@ -54,20 +54,20 @@ namespace NetMX.OpenMBean
       #endregion
 
       #region Overridden
-      public override bool Equals(object obj)
+      public sealed override bool Equals(object obj)
       {
          ArrayType other = obj as ArrayType;
          return other != null && _dimension == other._dimension && _elementType.Equals(other._elementType);
       }
-      public override int GetHashCode()
+      public sealed override int GetHashCode()
       {
          return _dimension.GetHashCode() ^ _elementType.GetHashCode();
       }
-      public override void Visit(OpenTypeVisitor visitor)
+      public sealed override void Visit(OpenTypeVisitor visitor)
       {
          visitor.VisitArrayType(this);
       }
-      public override bool IsValue(object value)
+      public sealed override bool IsValue(object value)
       {
          Array array = value as Array;
          if (array != null)
@@ -102,7 +102,7 @@ namespace NetMX.OpenMBean
             return false;
          }
       }
-      public override OpenTypeKind Kind
+      public sealed override OpenTypeKind Kind
       {
          get { return OpenTypeKind.ArrayType; }
       }

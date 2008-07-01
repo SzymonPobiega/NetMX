@@ -36,7 +36,7 @@ namespace NetMX.OpenMBean.Mapper.Tests
          return base.MapType(plainNetType);
       }
 
-      protected override object MapValue(OpenType mappedType, object value)
+      protected override object MapValue(Type clrType, OpenType mappedType, object value)
       {
          if (mappedType.TypeName == "TestCollectionElement")
          {
@@ -44,7 +44,7 @@ namespace NetMX.OpenMBean.Mapper.Tests
                                             new object[] {((TestCollectionElement) value).IntValue,
                                             ((TestCollectionElement) value).StringValue});
          }
-         return base.MapValue(mappedType, value);
+         return base.MapValue(clrType, mappedType, value);
       }
 
       #region Test type
@@ -131,7 +131,7 @@ namespace NetMX.OpenMBean.Mapper.Tests
          value.Add(2);
          value.Add(3);
 
-         object mappedValue = mapper.MapValue(mappedType, value, MapValue);
+         object mappedValue = mapper.MapValue(typeof(IEnumerable<int>), mappedType, value, MapValue);
          Assert.IsTrue(mappedValue is int[]);
          int[] array = (int[]) mappedValue;
          Assert.AreEqual(3, array.Length);
@@ -157,7 +157,7 @@ namespace NetMX.OpenMBean.Mapper.Tests
 
          int[] value = new int[] {1, 2, 3};
          
-         object mappedValue = mapper.MapValue(mappedType, value, MapValue);
+         object mappedValue = mapper.MapValue(typeof(int[]), mappedType, value, MapValue);
          Assert.IsTrue(mappedValue is int[]);
          int[] array = (int[])mappedValue;
          Assert.AreEqual(3, array.Length);
@@ -231,7 +231,7 @@ namespace NetMX.OpenMBean.Mapper.Tests
          value.Add(new TestCollectionElement(2, "2"));
          value.Add(new TestCollectionElement(3, "3"));         
 
-         object mappedValue = mapper.MapValue(mappedType, value, MapValue);
+         object mappedValue = mapper.MapValue(typeof(IEnumerable<TestCollectionElement>), mappedType, value, MapValue);
          Assert.IsTrue(mappedValue is ITabularData);
          ITabularData table = (ITabularData)mappedValue;
          Assert.AreEqual(3, table.Count);

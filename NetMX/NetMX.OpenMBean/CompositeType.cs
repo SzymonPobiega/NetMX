@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace NetMX.OpenMBean
 {
    [Serializable]
-   public sealed class CompositeType : OpenType
+   public class CompositeType : OpenType
    {
       #region Members
       private readonly Dictionary<string, CompositeTypeMember> _members = new Dictionary<string, CompositeTypeMember>();
@@ -148,20 +148,20 @@ namespace NetMX.OpenMBean
       #endregion
 
       #region Overridden
-      public override void Visit(OpenTypeVisitor visitor)
+      public sealed override void Visit(OpenTypeVisitor visitor)
       {
          visitor.VisitCompositeType(this);
       }
-      public override bool IsValue(object value)
+      public sealed override bool IsValue(object value)
       {
          ICompositeData composite = value as ICompositeData;
          return composite != null && composite.CompositeType.Equals(this);
       }
-      public override OpenTypeKind Kind
+      public sealed override OpenTypeKind Kind
       {
          get { return OpenTypeKind.CompositeType; }
       }
-      public override bool Equals(object obj)
+      public sealed override bool Equals(object obj)
       {
          CompositeType other = obj as CompositeType;
          if (other != null && TypeName.Equals(other.TypeName) && other._members.Count == _members.Count)
@@ -186,7 +186,7 @@ namespace NetMX.OpenMBean
             return false;
          }
       }
-      public override int GetHashCode()
+      public sealed override int GetHashCode()
       {
          int code = TypeName.GetHashCode();
          foreach (string key in _members.Keys)
@@ -211,10 +211,7 @@ namespace NetMX.OpenMBean
          public OpenType Type
          {
             get { return _type; }
-         }
-         public CompositeTypeMember()
-         {
-         }
+         }         
          public CompositeTypeMember(string description, OpenType type)
          {
             _description = description;

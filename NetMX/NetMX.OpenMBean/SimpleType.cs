@@ -15,7 +15,7 @@ namespace NetMX.OpenMBean
    /// corresponding to the name of this SimpleType instance is set to this class full name (<see cref="Type.FullName"/>).   
    /// </summary>
    [Serializable]   
-   public sealed class SimpleType : OpenType
+   public class SimpleType : OpenType
    {
       #region MEMBERS
       /// <summary>
@@ -131,24 +131,24 @@ namespace NetMX.OpenMBean
       #endregion
 
       #region Overridden
-      public override void Visit(OpenTypeVisitor visitor)
+      public sealed override void Visit(OpenTypeVisitor visitor)
       {
          visitor.VisitSimpleType(this);
       }
-      public override bool IsValue(object value)
+      public sealed override bool IsValue(object value)
       {
          return (value != null) && (value.GetType() == Representation);
       }
-      public override OpenTypeKind Kind
+      public sealed override OpenTypeKind Kind
       {
          get { return OpenTypeKind.SimpleType; }
       }
-      public override bool Equals(object obj)
+      public sealed override bool Equals(object obj)
       {
          SimpleType other = obj as SimpleType;
          return other != null && Representation.Equals(other.Representation);
       }
-      public override int GetHashCode()
+      public sealed override int GetHashCode()
       {
          return Representation.GetHashCode();
       }      

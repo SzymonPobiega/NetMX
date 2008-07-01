@@ -51,15 +51,7 @@ namespace NetMX.OpenMBean.Mapper
       }      
       public OpenType MapType(Type plainNetType, MapTypeDelegate mapNestedTypeCallback)
       {
-         Type elementType;
-         if (plainNetType.IsArray)
-         {
-            elementType = plainNetType.GetElementType();            
-         }
-         else
-         {
-            elementType = plainNetType.GetGenericArguments()[0];
-         }
+         Type elementType = GetElementType(plainNetType);         
          OpenTypeKind kind = ResolveMappedTypeKind(elementType);
          if (kind == OpenTypeKind.ArrayType)
          {
@@ -75,12 +67,13 @@ namespace NetMX.OpenMBean.Mapper
                rowType, new string[] { CollectionIndexColumnName });
          }
       }      
-      public object MapValue(OpenType mappedType, object value, MapValueDelegate mapNestedValueCallback)
+      public object MapValue(Type plainNetType, OpenType mappedType, object value, MapValueDelegate mapNestedValueCallback)
       {
          if (value == null)
          {
             return null;
          }
+         Type elementType = GetElementType(plainNetType);
          if (mappedType.Kind == OpenTypeKind.ArrayType)
          {
             if (value.GetType().IsArray)
@@ -88,13 +81,12 @@ namespace NetMX.OpenMBean.Mapper
                return value;
             }
             else
-            {
-               Type elementType = value.GetType().GetGenericArguments()[0];
+            {               
                ArrayList result = new ArrayList();
                IEnumerable enumerableValue = (IEnumerable)value;
                foreach (object o in enumerableValue)
                {
-                  result.Add(o);                  
+                  result.Add(o);                   
                }
                return result.ToArray(elementType);
             }
@@ -103,11 +95,11 @@ namespace NetMX.OpenMBean.Mapper
          {
             TabularType tabularType = (TabularType) mappedType;
             ITabularData result = new TabularDataSupport(tabularType, 0);
-            IEnumerable enumerableValue = (IEnumerable) value;
+            IEnumerable enumerableValue = (IEnumerable) value;            
             int index = 0;
             foreach (object o in enumerableValue)
             {
-               ICompositeData element = (ICompositeData) mapNestedValueCallback(MakeElementType(tabularType.RowType), o);               
+               ICompositeData element = (ICompositeData) mapNestedValueCallback(elementType, MakeElementType(tabularType.RowType), o);               
                result.Put(MakeRowValue(element, index, tabularType.RowType));
                index++;
             }
@@ -117,6 +109,10 @@ namespace NetMX.OpenMBean.Mapper
       #endregion
 
       #region Utilities
+      private static Type GetElementType(Type collectionType)
+      {
+         return collectionType.IsArray ? collectionType.GetElementType() : collectionType.GetGenericArguments()[0];
+      }
       private static bool CanHandleElementType(Type elementType, out OpenTypeKind mapsTo, CanHandleDelegate canHandleNestedTypeCallback)
       {
          mapsTo = OpenTypeKind.ArrayType;

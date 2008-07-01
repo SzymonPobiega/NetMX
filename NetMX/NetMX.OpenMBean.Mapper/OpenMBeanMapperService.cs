@@ -13,32 +13,59 @@ namespace NetMX.OpenMBean.Mapper
 		private string _proxyIndicatorProperty = "OpenMBeanProxy";
 
 
-      private readonly SortedList<int, ITypeMapper> _mappers = new SortedList<int, ITypeMapper>();
+      private readonly OpenTypeCache _typeCache = new OpenTypeCache();
       private readonly Dictionary<ObjectName, int> _externalMappers = new Dictionary<ObjectName, int>();
       private readonly Dictionary<ObjectName, ObjectName> _mappedBeans = new Dictionary<ObjectName, ObjectName>();
       #endregion
 
       #region Constructors
       public OpenMBeanMapperService()
-      { 
-         _mappers.Add(int.MaxValue, new PlainNetTypeMapper());
-         _mappers.Add(int.MaxValue - 1, new SimpleTypeMapper());
-         _mappers.Add(int.MaxValue - 2, new CollectionTypeMapper());         
+      {
+         _typeCache.AddTypeMapper(new PlainNetTypeMapper(), null, int.MaxValue);
+         _typeCache.AddTypeMapper(new SimpleTypeMapper(), null, int.MaxValue - 1);
+         _typeCache.AddTypeMapper(new CollectionTypeMapper(), null, int.MaxValue - 2);         
       }
-      public OpenMBeanMapperService(IEnumerable<ObjectName> beansToMapPatterns)
+      public OpenMBeanMapperService(ObjectName[] beansToMapPatterns)
          : this()
       {
-         
+         _beansToMapPatterns = beansToMapPatterns;
       }
       #endregion
 
       #region Utility
-      //private OpenType CreateOpenType(Type plainNetType)
-      //{
+      private void UnregisterAllProxies()
+      {
+         foreach (ObjectName name in _mappedBeans.Values)
+         {
+            _server.UnregisterMBean(name);
+         }
+      }
+      private void MapBean(ObjectName originalBeanName)
+      {
+         Dictionary<string, string> props = new Dictionary<string, string>(originalBeanName.KeyPropertyList);
+         props.Add(_proxyIndicatorProperty, "true");
+         ObjectName proxyName = new ObjectName(originalBeanName.Domain, props);
 
-      //}
+         MBeanInfo originalInfo = _server.GetMBeanInfo(originalBeanName);
+         ProxyBean proxyBean = new ProxyBean(originalInfo, originalBeanName, _typeCache);
+         _server.RegisterMBean(proxyBean, proxyName);
+      }
+      private bool ShouldMapBean(ObjectName newBeanName)
+      {
+         if (_beansToMapPatterns != null)
+         {
+            foreach (ObjectName name in _beansToMapPatterns)
+            {
+               if (name.Apply(newBeanName))
+               {
+                  return true;
+               }
+            }
+         }
+         return false;
+      }
       #endregion
-
+      
       #region IMBeanRegistration Members
       public void PostDeregister()
       {         
@@ -57,7 +84,7 @@ namespace NetMX.OpenMBean.Mapper
          _server = server;
          return name;
       }
-      #endregion
+      #endregion      
 
       #region INotificationListener Members
       public void HandleNotification(Notification notification, object handback)
@@ -76,7 +103,7 @@ namespace NetMX.OpenMBean.Mapper
             {
                if (_externalMappers.ContainsKey(serverNotification.ObjectName))
                {
-                  _mappers.Remove(_externalMappers[serverNotification.ObjectName]);
+                  _typeCache.RemoveTypeMapper(_externalMappers[serverNotification.ObjectName]);
                   _externalMappers.Remove(serverNotification.ObjectName);
                }
                else if (_mappedBeans.ContainsKey(serverNotification.ObjectName))
@@ -86,25 +113,7 @@ namespace NetMX.OpenMBean.Mapper
                }
             }
          }
-      }
-		private void MapBean(ObjectName originalBeanName)
-		{
-			Dictionary<string, string> props = new Dictionary<string,string>(originalBeanName.KeyPropertyList);
-			props.Add(_proxyIndicatorProperty, "true");
-			ObjectName proxyName = new ObjectName(originalBeanName.Domain, props);
-
-		}
-      private bool ShouldMapBean(ObjectName newBeanName)
-      {         
-         foreach (ObjectName name in _beansToMapPatterns)
-         {
-            if (name.Apply(newBeanName))
-            {
-               return true;
-            }
-         }
-         return false;
-      }
+      }		
       #endregion
 
       #region OpenMBeanMapperServiceMBean Members
@@ -121,11 +130,21 @@ namespace NetMX.OpenMBean.Mapper
       }
       public void RefreshMappings()
       {
-         
+         UnregisterAllProxies();
+         if (_beansToMapPatterns != null)
+         {
+            foreach (ObjectName pattern in _beansToMapPatterns)
+            {
+               foreach (ObjectName name in _server.QueryNames(pattern, null))
+               {
+                  MapBean(name);
+               }
+            }
+         }
       }
       public void FlushMappedTypeCache()
       {
-         
+         _typeCache.FlushCache();
       }
       #endregion
    }

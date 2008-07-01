@@ -30,13 +30,13 @@ namespace NetMX.OpenMBean.Mapper.Tests
          }
          return Mapper.CanHandle(plainNetType, out mapsTo, CanHandle);
       }
-      protected virtual object MapValue(OpenType mappedType, object value)
+      protected virtual object MapValue(Type clrType, OpenType mappedType, object value)
       {
          if (mappedType.Kind == OpenTypeKind.SimpleType)
          {
             return value;
          }
-         return Mapper.MapValue(mappedType, value, MapValue);
+         return Mapper.MapValue(clrType, mappedType, value, MapValue);
       }
    }
 }

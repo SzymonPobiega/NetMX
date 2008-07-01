@@ -2,7 +2,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>8.0.50727</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{717E0E35-9A63-4A2B-B9AE-6C6139CC6861}</ProjectGuid>
     <OutputType>Exe</OutputType>
@@ -48,6 +48,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Sample.cs" />
     <Compile Include="SampleDynamicMBean.cs" />
+    <Compile Include="SampleMappedMBean.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -56,6 +57,10 @@
     <ProjectReference Include="..\..\NetMX.Default\NetMX.Default.csproj">
       <Project>{9B9279AA-5B62-4834-9949-F2CCE7318610}</Project>
       <Name>NetMX.Default</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\NetMX.OpenMBean.Mapper\NetMX.OpenMBean.Mapper.csproj">
+      <Project>{ADD61DDF-F142-4688-B8C3-93F378630252}</Project>
+      <Name>NetMX.OpenMBean.Mapper</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\NetMX.OpenMBean\NetMX.OpenMBean.csproj">
       <Project>{27AAB473-F263-4F24-A0DC-9B3CAFCE1E16}</Project>

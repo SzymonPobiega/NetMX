@@ -9,7 +9,7 @@ namespace NetMX.OpenMBean
    /// <see cref="ITabularData"/> values. 
    /// </summary>
 	[Serializable]   
-	public sealed class TabularType : OpenType
+	public class TabularType : OpenType
    {
       #region Properties
       private readonly ReadOnlyCollection<string> _indexNames;
@@ -57,20 +57,20 @@ namespace NetMX.OpenMBean
       #endregion
 
       #region Overridden
-      public override void Visit(OpenTypeVisitor visitor)
+      public sealed override void Visit(OpenTypeVisitor visitor)
       {
          visitor.VisitTabularType(this);
       }
-      public override bool IsValue(object value)
+      public sealed override bool IsValue(object value)
 		{
          ITabularData data = value as ITabularData;
          return data != null && data.TabularType.Equals(this);
       }
-      public override OpenTypeKind Kind
+      public sealed override OpenTypeKind Kind
       {
          get { return OpenTypeKind.TabularType; }
       }
-      public override bool Equals(object obj)
+      public sealed override bool Equals(object obj)
       {
          TabularType other = obj as TabularType;         
          if (other != null && TypeName.Equals(other.TypeName) && _rowType.Equals(other._rowType) &&
@@ -90,7 +90,7 @@ namespace NetMX.OpenMBean
             return false;  
          }         
       }
-      public override int GetHashCode()
+      public sealed override int GetHashCode()
       {
          int code = _rowType.GetHashCode() ^ TypeName.GetHashCode();
          foreach (string index in _indexNames)
