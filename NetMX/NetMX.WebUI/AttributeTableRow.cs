@@ -237,7 +237,11 @@ namespace NetMX.WebUI.WebControls
             if (_input != null)
             {
                _input.Visible = false;
-            }            
+            }
+            if (_editOpenType != null && _attrInfo.Writable)
+            {
+               _editOpenType.Visible = false;
+            }
             if (_updateButton != null && _cancelButton != null)
             {
                _updateButton.Visible = false;
@@ -271,6 +275,7 @@ namespace NetMX.WebUI.WebControls
       private void OnCancel(object sender, EventArgs e)
       {
          _editMode = false;
+         _openTypeValue = null;
          OnChangeUIState(true);
       }
       private void OnUpdate(object sender, EventArgs e)
@@ -298,11 +303,11 @@ namespace NetMX.WebUI.WebControls
          {
             _openTypeValue = _connection.GetAttribute(_name, _attrInfo.Name);
          }
-         ViewOrEditOpenType(false, _openTypeValue);
+         ViewOrEditOpenType(true, _openTypeValue);
       }
       private void OnViewOpenType(object sender, EventArgs e)
       {
-         ViewOrEditOpenType(true, _connection.GetAttribute(_name, _attrInfo.Name));
+         ViewOrEditOpenType(false, _connection.GetAttribute(_name, _attrInfo.Name));
       }
       private void ViewOrEditOpenType(bool edit, object value)
       {         

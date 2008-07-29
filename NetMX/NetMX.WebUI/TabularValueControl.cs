@@ -78,6 +78,7 @@ namespace NetMX.WebUI.WebControls
             field.HeaderStyle.CssClass = UIContext.TabularDataTableCssClass;
             _view.Columns.Add(field);
          }
+         renderEditButton = renderEditButton && EditMode;
          if (renderEditButton)
          {
             CommandField commandColumn = new CommandField();
@@ -165,13 +166,13 @@ namespace NetMX.WebUI.WebControls
          source.ObjectCreating += OnObjectCreating;
          return source;
       }      
-      private static DataControlField CreateField(string columnName, string columnDescription, OpenType columnType, bool keyColumn)
+      private DataControlField CreateField(string columnName, string columnDescription, OpenType columnType, bool keyColumn)
       {
          if (columnType.Kind != OpenTypeKind.SimpleType)
          {
             ButtonField result = new EditNestedValueButtonField();            
-            result.CommandName = "EditNested|"+columnName;
-            result.Text = "Edit";            
+            result.CommandName = "EditNested|"+columnName;            
+            result.Text = EditMode ? "Edit" : "View";            
             result.HeaderText = columnDescription;
             return result;               
          }

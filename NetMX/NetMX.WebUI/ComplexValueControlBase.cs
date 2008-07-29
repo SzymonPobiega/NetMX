@@ -286,7 +286,7 @@ namespace NetMX.WebUI.WebControls
          _footerPanel = new Panel();
 
          _cancelButton = new Button();
-         _cancelButton.Text = "Cancel";
+         _cancelButton.Text = EditMode ? "Cancel" : "Go back";
          _cancelButton.Click += OnCancel;
          _cancelButton.CssClass = UIContext.ButtonCssClass;
          _cancelButton.EnableViewState = false;
@@ -298,6 +298,7 @@ namespace NetMX.WebUI.WebControls
          _submitButton.Click += OnSubmit;
          _submitButton.CssClass = UIContext.ButtonCssClass;
          _submitButton.EnableViewState = false;
+         _submitButton.Visible = EditMode;
          //footerCell.Controls.Add(_submitButton);
          _footerPanel.Controls.Add(_submitButton);
 

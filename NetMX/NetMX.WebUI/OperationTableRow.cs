@@ -17,6 +17,7 @@ namespace NetMX.WebUI.WebControls
    internal sealed class OperationTableRow : TableRow, IMBeanFeatureControl, INamingContainer
    {
       #region Members
+      private object[] _argumentValues;
       private readonly IMBeanServerConnection _connection;
       private readonly ObjectName _name;
       private readonly MBeanOperationInfo _operInfo;
@@ -96,19 +97,33 @@ namespace NetMX.WebUI.WebControls
          {
 				MBeanParameterInfo paramInfo = _operInfo.Signature[i];
             IOpenMBeanParameterInfo openParamInfo = paramInfo as IOpenMBeanParameterInfo;
-				TableRow row = new TableRow();
+            
+            TableRow row = new TableRow();
 				TableCell nameCell = new TableCell();
 				nameCell.ControlStyle.Width = Unit.Percentage(30);
 				nameCell.Text = string.Format("{0}", paramInfo.Name);
 				row.Cells.Add(nameCell);
 
-				TableCell inputCell = new TableCell();
-            IValueEditControl argumentBox = ValueEditControlFactory.CreateValueEditControl(openParamInfo);
-				argumentBox.CssClass = CssClass;
-				argumentBox.ID = _operInfo.Name + "__" + paramInfo.Name;
-				argumentBox.EnableViewState = false;
-				_argumentInputs.Add(argumentBox);
-				inputCell.Controls.Add((Control)argumentBox);
+            TableCell inputCell = new TableCell();            
+            if (openParamInfo != null && openParamInfo.OpenType.Kind != OpenTypeKind.SimpleType)
+            {
+               Button editArgumentButton = new Button();
+               editArgumentButton.CssClass = UIContext.ButtonCssClass;
+               editArgumentButton.ID = _operInfo.Name + "__" + paramInfo.Name;
+               editArgumentButton.EnableViewState = false;
+               editArgumentButton.Click += OnArgumentEditButton;
+               _argumentInputs.Add(null);
+               inputCell.Controls.Add(editArgumentButton);
+            }
+            else
+            {
+               IValueEditControl argumentBox = ValueEditControlFactory.CreateValueEditControl(openParamInfo);
+               argumentBox.CssClass = CssClass;
+               argumentBox.ID = _operInfo.Name + "__" + paramInfo.Name;
+               argumentBox.EnableViewState = false;
+               _argumentInputs.Add(argumentBox);
+               inputCell.Controls.Add((Control)argumentBox);
+            }				            				
 				inputCell.ControlStyle.Width = Unit.Percentage(40);
 				row.Cells.Add(inputCell);
 
@@ -141,6 +156,9 @@ namespace NetMX.WebUI.WebControls
       }
       public void SetOpenTypeValue(object currentSelector, object value)
       {
+         MBeanOperationSelector typedSelector = (MBeanOperationSelector) currentSelector;
+         SetStoredArgumentValue(typedSelector.ArgumentName, value);
+         OnChangeUIState(true);
       }
       #endregion
 
@@ -182,11 +200,12 @@ namespace NetMX.WebUI.WebControls
 		{
 			object[] state = (object[])savedState;
 			_invokeMode = (bool)state[1];
+		   _argumentValues = (object[]) state[2];
 			base.LoadControlState(state[0]);
 		}
 		protected override object SaveControlState()
 		{
-			return new[] { base.SaveControlState(), _invokeMode };
+			return new[] { base.SaveControlState(), _invokeMode, _argumentValues };
 		}
       protected override void OnLoad(EventArgs e)
       {
@@ -207,6 +226,15 @@ namespace NetMX.WebUI.WebControls
       #endregion
 
       #region Event handlers
+      private void OnArgumentEditButton(object sender, EventArgs e)
+      {
+         string[] tmp = ((Control) sender).ID.Split(new[] {"__"}, StringSplitOptions.RemoveEmptyEntries);
+         OpenType valueOpenType;
+         object value = GetStoredArgumentValue(tmp[1], out valueOpenType);
+         OnViewEditOpenType(new ViewEditOpenTypeEventArgs(true, value, valueOpenType,
+                                                                   new MBeanOperationSelector(_operInfo.Name, tmp[1]),
+                                                                   _operInfo.Description));
+      }
       private void OnInvoke(object sender, EventArgs e)
       {
 			if (_invokeMode)
@@ -214,10 +242,18 @@ namespace NetMX.WebUI.WebControls
 				object[] arguments = new object[_argumentInputs.Count];
 				for (int i = 0; i < arguments.Length; i++)
 				{
-					TypeConverter converter = TypeDescriptor.GetConverter(Type.GetType(_operInfo.Signature[i].Type, true));
-					arguments[i] = converter.ConvertFromString(_argumentInputs[i].Value);
+               if (_argumentInputs[i] == null)
+               {
+                  arguments[i] = _argumentValues[i];
+               }
+               else
+               {
+                  TypeConverter converter = TypeDescriptor.GetConverter(Type.GetType(_operInfo.Signature[i].Type, true));
+                  arguments[i] = converter.ConvertFromString(_argumentInputs[i].Value);
+               }
 				}
-				object o = _connection.Invoke(_name, _operInfo.Name, arguments);            
+				object o = _connection.Invoke(_name, _operInfo.Name, arguments);
+			   _argumentValues = null;
             if (_openOperInfo != null && o != null)
             {
                if (_openOperInfo.ReturnOpenType != SimpleType.Void)
@@ -249,7 +285,37 @@ namespace NetMX.WebUI.WebControls
 		private void OnCancel(object sender, EventArgs e)
 		{
 			_invokeMode = false;
+		   _argumentValues = null;
 		}
+      #endregion
+
+      #region Utility
+      private object GetStoredArgumentValue(string name, out OpenType openType)
+      {         
+         for (int i = 0; i < _operInfo.Signature.Count; i++)
+         {
+            if (_operInfo.Signature[i].Name == name)
+            {
+               openType = ((IOpenMBeanParameterInfo) _openOperInfo.Signature[i]).OpenType;
+               return _argumentValues != null ? _argumentValues[i] : null;
+            }
+         }
+         throw new ArgumentException("No such parameter name.");
+      }
+      private void SetStoredArgumentValue(string name, object value)
+      {
+         if (_argumentValues == null)
+         {
+            _argumentValues = new object[_operInfo.Signature.Count];
+         }
+         for (int i = 0; i < _operInfo.Signature.Count; i++)
+         {
+            if (_operInfo.Signature[i].Name == name)
+            {
+               _argumentValues[i] = value;
+            }
+         }
+      }
       #endregion
 
       #region Selector class
