@@ -69,7 +69,7 @@ namespace NetMX.OpenMBean.Mapper
          }
 
          _info = new OpenMBeanInfoSupport(originalBeanInfo.ClassName, originalBeanInfo.Description,
-                                          attributes, constructors, operations, _info.Notifications);
+                                          attributes, constructors, operations, originalBeanInfo.Notifications);
       }
 
       #region IDynamicMBean Members

@@ -8,7 +8,7 @@ using NetMX.Default.InternalInfo;
 
 namespace NetMX.Default
 {
-	public sealed class StandardMBean : IDynamicMBean, IMBeanRegistration, INotficationEmitter, INotificationListener
+	public sealed class StandardMBean : IDynamicMBean, IMBeanRegistration, INotificationEmitter, INotificationListener
 	{
 		#region MEMBERS
 		private ObjectName _objectName;
@@ -16,9 +16,9 @@ namespace NetMX.Default
 		private readonly MBeanInternalInfo _internalInfo;
 		private readonly object _impl;
 		private readonly IMBeanRegistration _registration;
-      private readonly INotificationListener _notifListener;		
-		private readonly Type _intfType;
-		private NotificationEmitterSupport _notificationSupport;
+      private readonly INotificationListener _notifListener;
+	   private NotificationEmitterSupport _notificationSupport;
+	   private INotificationEmitter _notifEmitter;
 		#endregion
 
 		#region CONSTRUCTOR
@@ -26,10 +26,10 @@ namespace NetMX.Default
 		{
 			_internalInfo = MBeanInternalInfo.GetCached(intfType);
 			_info = _internalInfo.MBeanInfo;//CreateMBeanInfo(impl, intfType);
-			_impl = impl;			
-			_intfType = intfType;
-			_registration = impl as IMBeanRegistration;
+			_impl = impl;
+		   _registration = impl as IMBeanRegistration;
          _notifListener = impl as INotificationListener;
+		   _notifEmitter = impl as INotificationEmitter;
 		}
 		#endregion
 
@@ -77,24 +77,29 @@ namespace NetMX.Default
 			}			
 			throw new OperationNotFoundException(operationName, _objectName.ToString(), _info.ClassName);
 		}
-		private void AttachNotifications()
-		{
-			foreach (MBeanInternalNotificationInfo notifInfo in _internalInfo.Notifications)
-			{
-				if (typeof(Notification).IsAssignableFrom(notifInfo.HandlerGenericArgument))
-				{
-					Delegate del = Delegate.CreateDelegate(notifInfo.HandlerType, this, "HandleNotification");
-					notifInfo.EventInfo.AddEventHandler(_impl, del);
-				}
-				else if (typeof(NotificationEventArgs).IsAssignableFrom(notifInfo.HandlerGenericArgument))
-				{
-					SimpleNotificationHandler handler = new SimpleNotificationHandler(_notificationSupport, notifInfo.NotificationInfo.NotifTypes[0]);
-					Delegate del = Delegate.CreateDelegate(notifInfo.HandlerType, handler, "HandleSimpleNotification");
-					notifInfo.EventInfo.AddEventHandler(_impl, del);
-				}
-			}			
-		}		
-		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]//U¿ywane przez AttachNotifications
+      private void AttachNotifications()
+      {
+
+         foreach (MBeanInternalNotificationInfo notifInfo in _internalInfo.Notifications)
+         {
+            if (typeof (Notification).IsAssignableFrom(notifInfo.HandlerGenericArgument))
+            {
+               Delegate del = Delegate.CreateDelegate(notifInfo.HandlerType, this, "HandleNotification");
+               notifInfo.EventInfo.AddEventHandler(_impl, del);
+            }
+            else if (typeof (NotificationEventArgs).IsAssignableFrom(notifInfo.HandlerGenericArgument))
+            {
+               SimpleNotificationHandler handler = new SimpleNotificationHandler(_notificationSupport,
+                                                                                 notifInfo.NotificationInfo.
+                                                                                    NotifTypes[0]);
+               Delegate del = Delegate.CreateDelegate(notifInfo.HandlerType, handler, "HandleSimpleNotification");
+               notifInfo.EventInfo.AddEventHandler(_impl, del);
+            }
+         }
+
+      }
+
+	   [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]//U¿ywane przez AttachNotifications
 		private void HandleNotification(object sender, Notification args)
 		{
 			_notificationSupport.SendNotification(args);
@@ -131,29 +136,33 @@ namespace NetMX.Default
 				newName = _registration.PreRegister(server, name);
 			}
 			_objectName = newName;
-			_notificationSupport = new NotificationEmitterSupport();
-			_notificationSupport.Initialize(newName.ToString(), _info.Notifications);
-			AttachNotifications();
-			return newName;
+         if (_notifEmitter == null)
+         {
+            _notificationSupport = new NotificationEmitterSupport();
+            _notificationSupport.Initialize(newName.ToString(), _info.Notifications);
+            _notifEmitter = _notificationSupport;
+            AttachNotifications();
+         }
+		   return newName;
 		}
 		#endregion
 
 		#region INotficationEmitter Members
 		public void AddNotificationListener(NotificationCallback callback, NotificationFilterCallback filterCallback, object handback)
 		{
-			_notificationSupport.AddNotificationListener(callback, filterCallback, handback);
+			_notifEmitter.AddNotificationListener(callback, filterCallback, handback);
 		}
 		public void RemoveNotificationListener(NotificationCallback callback, NotificationFilterCallback filterCallback, object handback)
 		{
-			_notificationSupport.RemoveNotificationListener(callback, filterCallback, handback);
+         _notifEmitter.RemoveNotificationListener(callback, filterCallback, handback);
 		}
 		public void RemoveNotificationListener(NotificationCallback callback)
 		{
-			_notificationSupport.RemoveNotificationListener(callback);
+         _notifEmitter.RemoveNotificationListener(callback);
 		}
 		public IList<MBeanNotificationInfo> NotificationInfo
 		{
-			get { return _notificationSupport.NotificationInfo; }
+         get { return _notifEmitter.NotificationInfo; }
 		}
 		#endregion
 

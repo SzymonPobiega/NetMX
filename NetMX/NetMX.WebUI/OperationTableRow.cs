@@ -20,6 +20,7 @@ namespace NetMX.WebUI.WebControls
       private readonly IMBeanServerConnection _connection;
       private readonly ObjectName _name;
       private readonly MBeanOperationInfo _operInfo;
+      private readonly IOpenMBeanOperationInfo _openOperInfo;
 
 		private bool _invokeMode;
 		/// <summary>
@@ -56,7 +57,8 @@ namespace NetMX.WebUI.WebControls
 
          _name = name;
          _operInfo = operInfo;
-         _connection = connection;		         
+         _connection = connection;
+         _openOperInfo = operInfo as IOpenMBeanOperationInfo;
       }
 
       #region Subcontrol creation
@@ -184,7 +186,7 @@ namespace NetMX.WebUI.WebControls
 		}
 		protected override object SaveControlState()
 		{
-			return new object[] { base.SaveControlState(), _invokeMode };
+			return new[] { base.SaveControlState(), _invokeMode };
 		}
       protected override void OnLoad(EventArgs e)
       {
@@ -215,8 +217,27 @@ namespace NetMX.WebUI.WebControls
 					TypeConverter converter = TypeDescriptor.GetConverter(Type.GetType(_operInfo.Signature[i].Type, true));
 					arguments[i] = converter.ConvertFromString(_argumentInputs[i].Value);
 				}
-				_connection.Invoke(_name, _operInfo.Name, arguments);
-				_invokeMode = false;
+				object o = _connection.Invoke(_name, _operInfo.Name, arguments);            
+            if (_openOperInfo != null && o != null)
+            {
+               if (_openOperInfo.ReturnOpenType != SimpleType.Void)
+               {
+                  OnViewEditOpenType(new ViewEditOpenTypeEventArgs(false, o, _openOperInfo.ReturnOpenType,
+                                                                   new MBeanOperationSelector(_operInfo.Name, null),
+                                                                   _operInfo.Description));                  
+               }               
+            }            
+            else if (_openOperInfo == null || _openOperInfo.ReturnOpenType != SimpleType.Void)
+            {
+               string text = o != null ? o.ToString() : "null";
+               Page.ClientScript.RegisterStartupScript(typeof(OperationTableRow),"SHOW_RESULTS",string.Format(
+@"
+<script language=""javascript"">
+   alert('{0}: {1}');
+</script>
+", Resources.OperationTableRow.ResultsText, text));
+            }
+			   _invokeMode = false;
             OnChangeUIState(true);
 			}
 			else

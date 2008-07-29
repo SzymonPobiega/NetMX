@@ -237,11 +237,7 @@ namespace NetMX.WebUI.WebControls
             if (_input != null)
             {
                _input.Visible = false;
-            }
-            if (_editOpenType != null)
-            {
-               _editOpenType.Visible = false;
-            }
+            }            
             if (_updateButton != null && _cancelButton != null)
             {
                _updateButton.Visible = false;

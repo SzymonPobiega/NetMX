@@ -103,10 +103,10 @@ namespace NetMX.Default
 
          return new ObjectInstance(name, bean.GetMBeanInfo().ClassName);
 		}
-		private INotficationEmitter GetEmitterMBean(ObjectName name, out IDynamicMBean bean)
+		private INotificationEmitter GetEmitterMBean(ObjectName name, out IDynamicMBean bean)
 		{
 			bean = GetMBean(name);
-			INotficationEmitter emitter = bean as INotficationEmitter;
+			INotificationEmitter emitter = bean as INotificationEmitter;
 			if (emitter != null)
 			{
 				return emitter;
@@ -225,7 +225,7 @@ namespace NetMX.Default
 		{
          name = GetNameWithDomain(name);
 			IDynamicMBean bean;
-			INotficationEmitter emitter = GetEmitterMBean(name, out bean);
+			INotificationEmitter emitter = GetEmitterMBean(name, out bean);
 			TestPermissions(bean.GetMBeanInfo().ClassName, null, name, MBeanPermissionAction.AddNotificationListener);
 			emitter.AddNotificationListener(callback, filterCallback, handback);
 		}
@@ -234,7 +234,7 @@ namespace NetMX.Default
 		{
          name = GetNameWithDomain(name);
 			IDynamicMBean bean;
-			INotficationEmitter emitter = GetEmitterMBean(name, out bean);
+			INotificationEmitter emitter = GetEmitterMBean(name, out bean);
 			TestPermissions(bean.GetMBeanInfo().ClassName, null, name, MBeanPermissionAction.RemoveNotificationListener);
 			emitter.RemoveNotificationListener(callback, filterCallback, handback);
 		}
@@ -243,7 +243,7 @@ namespace NetMX.Default
 		{
          name = GetNameWithDomain(name);
 			IDynamicMBean bean;
-			INotficationEmitter emitter = GetEmitterMBean(name, out bean);
+			INotificationEmitter emitter = GetEmitterMBean(name, out bean);
 			TestPermissions(bean.GetMBeanInfo().ClassName, null, name, MBeanPermissionAction.RemoveNotificationListener);
 			emitter.RemoveNotificationListener(callback);
 		}		
@@ -289,7 +289,7 @@ namespace NetMX.Default
          name = GetNameWithDomain(name);
          listener = GetNameWithDomain(listener);
          IDynamicMBean bean;
-         INotficationEmitter emitter = GetEmitterMBean(name, out bean);
+         INotificationEmitter emitter = GetEmitterMBean(name, out bean);
          TestPermissions(bean.GetMBeanInfo().ClassName, null, name, MBeanPermissionAction.AddNotificationListener);
          INotificationListener listenerBean = GetListenerMBean(listener, out bean);
          NotificationCallback callback = new NotificationCallback(listenerBean.HandleNotification);
@@ -300,7 +300,7 @@ namespace NetMX.Default
          name = GetNameWithDomain(name);
          listener = GetNameWithDomain(listener);
          IDynamicMBean bean;
-         INotficationEmitter emitter = GetEmitterMBean(name, out bean);
+         INotificationEmitter emitter = GetEmitterMBean(name, out bean);
          TestPermissions(bean.GetMBeanInfo().ClassName, null, name, MBeanPermissionAction.RemoveNotificationListener);
          INotificationListener listenerBean = GetListenerMBean(name, out bean);
          NotificationCallback callback = new NotificationCallback(listenerBean.HandleNotification);
@@ -311,7 +311,7 @@ namespace NetMX.Default
          name = GetNameWithDomain(name);
          listener = GetNameWithDomain(listener);
          IDynamicMBean bean;
-         INotficationEmitter emitter = GetEmitterMBean(name, out bean);
+         INotificationEmitter emitter = GetEmitterMBean(name, out bean);
          TestPermissions(bean.GetMBeanInfo().ClassName, null, name, MBeanPermissionAction.RemoveNotificationListener);
          INotificationListener listenerBean = GetListenerMBean(listener, out bean);
          NotificationCallback callback = new NotificationCallback(listenerBean.HandleNotification);

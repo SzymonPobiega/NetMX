@@ -21,7 +21,7 @@ namespace NetMX
     /// <returns>true if the notification has to be sent to the listener, false otherwise.</returns>
     public delegate bool NotificationFilterCallback(Notification notification);
 
-    public interface INotficationEmitter
+    public interface INotificationEmitter
     {
         /// <summary>
         /// Adds a listener to this MBean. 

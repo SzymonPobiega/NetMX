@@ -5,7 +5,7 @@ using System.Collections.ObjectModel;
 
 namespace NetMX
 {
-	public class NotificationEmitterSupport : INotficationEmitter
+	public class NotificationEmitterSupport : INotificationEmitter
 	{
 		#region Members
 		private string _objectName;

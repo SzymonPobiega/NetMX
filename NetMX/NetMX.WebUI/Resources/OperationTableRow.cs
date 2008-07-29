@@ -77,5 +77,16 @@ namespace NetMX.WebUI.WebControls.Resources
 				return ResourceManager.GetString("CancelButton", CurrentCulture);
 			}
 		}
+
+      /// <summary>
+      ///   Looks up a localized string similar to Invocation results.
+      /// </summary>
+      internal static string ResultsText
+      {
+         get
+         {
+            return ResourceManager.GetString("ResultsText", CurrentCulture);
+         }
+      }
 	}
 }

@@ -123,4 +123,7 @@
   <data name="InvokeButton" xml:space="preserve">
     <value>Invoke</value>
   </data>
+  <data name="ResultsText" xml:space="preserve">
+    <value>Invocation results</value>
+  </data>
 </root>
