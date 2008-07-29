@@ -85,9 +85,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetMX.OpenMBean.Mapper", "N
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetMX.OpenMBean.Mapper.Tests", "NetMX.OpenMBean.Mapper.Tests\NetMX.OpenMBean.Mapper.Tests.csproj", "{0A703F9B-CA81-4E90-AB7F-356E1E810C59}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetMX.Timer", "NetMX.Timer\NetMX.Timer.csproj", "{5D56EAF4-F219-44CA-B6BD-55A31959CAE6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetMX.Monitor", "NetMX.Monitor\NetMX.Monitor.csproj", "{308E1A58-89D2-4943-84AF-3AC97568D9EE}"
+EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 24
+		SccNumberOfProjects = 26
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://tfs04.codeplex.com/
 		SccLocalPath0 = .
@@ -168,9 +172,12 @@ Global
 		SccProjectUniqueName23 = NetMX.OpenMBean.Mapper.Tests\\NetMX.OpenMBean.Mapper.Tests.csproj
 		SccProjectName23 = NetMX.OpenMBean.Mapper.Tests
 		SccLocalPath23 = NetMX.OpenMBean.Mapper.Tests
-	EndGlobalSection
-	GlobalSection(TestCaseManagementSettings) = postSolution
-		CategoryFile = NetMX6.vsmdi
+		SccProjectUniqueName24 = NetMX.Timer\\NetMX.Timer.csproj
+		SccProjectName24 = NetMX.Timer
+		SccLocalPath24 = NetMX.Timer
+		SccProjectUniqueName25 = NetMX.Monitor\\NetMX.Monitor.csproj
+		SccProjectName25 = NetMX.Monitor
+		SccLocalPath25 = NetMX.Monitor
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|.NET = Debug|.NET
@@ -411,6 +418,26 @@ Global
 		{0A703F9B-CA81-4E90-AB7F-356E1E810C59}.Release|Any CPU.Build.0 = Release|Any CPU
 		{0A703F9B-CA81-4E90-AB7F-356E1E810C59}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{0A703F9B-CA81-4E90-AB7F-356E1E810C59}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{5D56EAF4-F219-44CA-B6BD-55A31959CAE6}.Debug|.NET.ActiveCfg = Debug|Any CPU
+		{5D56EAF4-F219-44CA-B6BD-55A31959CAE6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5D56EAF4-F219-44CA-B6BD-55A31959CAE6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5D56EAF4-F219-44CA-B6BD-55A31959CAE6}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{5D56EAF4-F219-44CA-B6BD-55A31959CAE6}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{5D56EAF4-F219-44CA-B6BD-55A31959CAE6}.Release|.NET.ActiveCfg = Release|Any CPU
+		{5D56EAF4-F219-44CA-B6BD-55A31959CAE6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5D56EAF4-F219-44CA-B6BD-55A31959CAE6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5D56EAF4-F219-44CA-B6BD-55A31959CAE6}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{5D56EAF4-F219-44CA-B6BD-55A31959CAE6}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{308E1A58-89D2-4943-84AF-3AC97568D9EE}.Debug|.NET.ActiveCfg = Debug|Any CPU
+		{308E1A58-89D2-4943-84AF-3AC97568D9EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{308E1A58-89D2-4943-84AF-3AC97568D9EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{308E1A58-89D2-4943-84AF-3AC97568D9EE}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{308E1A58-89D2-4943-84AF-3AC97568D9EE}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{308E1A58-89D2-4943-84AF-3AC97568D9EE}.Release|.NET.ActiveCfg = Release|Any CPU
+		{308E1A58-89D2-4943-84AF-3AC97568D9EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{308E1A58-89D2-4943-84AF-3AC97568D9EE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{308E1A58-89D2-4943-84AF-3AC97568D9EE}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{308E1A58-89D2-4943-84AF-3AC97568D9EE}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
