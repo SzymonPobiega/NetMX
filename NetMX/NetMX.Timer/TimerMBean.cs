@@ -63,5 +63,93 @@ namespace NetMX.Timer
       /// is scheduled with a fixed-delay execution scheme. Ignored if the notification is not periodic.</param>
       /// <returns>The identifier of the new created timer notification.</returns>
       int AddNotification(string type, string message, object userData, DateTime date, TimeSpan period, long nbOccurences, bool fixedRate);
+      /// <summary>
+      /// Gets all timer notification identifiers registered into the list of notifications.
+      /// </summary>
+      /// <returns>A collection of noticiation ids. An empty collections it there are no registered notifiactions.</returns>
+      IEnumerable<int> GetAllNotificationIDs();
+      /// <summary>
+      /// Gets all the identifiers of timer notifications corresponding to the specified type.
+      /// </summary>
+      /// <param name="type">The timer notification type.</param>
+      /// <returns>A collection of noticiation ids. An empty collections it there are no registered notifiactions with provided type.</returns>
+      IEnumerable<int> GetNotificationIDs(string type);
+      /// <summary>
+      /// Gets the date associated to a timer notification.
+      /// </summary>
+      /// <param name="notifiactionId">The timer notification identifier.</param>
+      /// <returns>The date.</returns>
+      /// <exception cref="NotificationNotFoundException">The specified identifier does not correspond to any timer notification in the list of notifications of this timer MBean.</exception>
+      DateTime GetDate(int notifiactionId);
+      /// <summary>
+      /// Gets the flag indicating whether a periodic notification is executed at fixed-delay or at fixed-rate.
+      /// </summary>
+      /// <param name="notificationId">The timer notification identifier.</param>
+      /// <returns>The flag indicating whether a periodic notification is executed at fixed-delay or at fixed-rate.</returns>
+      /// <exception cref="NotificationNotFoundException">The specified identifier does not correspond to any timer notification in the list of notifications of this timer MBean.</exception>
+      bool GetFixedRate(int notificationId);
+      /// <summary>
+      /// Gets the number of timer notifications registered into the list of notifications.
+      /// </summary>      
+      int NotificationsCount { get; }
+      /// <summary>
+      /// Gets the remaining number of occurrences associated to a timer notification.
+      /// </summary>
+      /// <param name="notificationId">The timer notification identifier.</param>
+      /// <returns>The remaining number of occurrences.</returns>
+      /// <exception cref="NotificationNotFoundException">The specified identifier does not correspond to any timer notification in the list of notifications of this timer MBean.</exception>
+      long GetNbOccurences(int notificationId);
+      /// <summary>
+      /// Gets the timer notification detailed message corresponding to the specified identifier.
+      /// </summary>
+      /// <param name="notificationId">The timer notification identifier.</param>
+      /// <returns>The timer notification detailed message.</returns>
+      /// <exception cref="NotificationNotFoundException">The specified identifier does not correspond to any timer notification in the list of notifications of this timer MBean.</exception>
+      string GetNotificationMessage(int notificationId);
+      /// <summary>
+      /// Gets the timer notification type corresponding to the specified identifier.
+      /// </summary>
+      /// <param name="notificationId">The timer notification identifier.</param>
+      /// <returns>The timer notification type.</returns>
+      /// <exception cref="NotificationNotFoundException">The specified identifier does not correspond to any timer notification in the list of notifications of this timer MBean.</exception>
+      string GetNotificationType(int notificationId);
+      /// <summary>
+      /// Gets the timer notification user data object corresponding to the specified identifier.
+      /// </summary>
+      /// <param name="notificationId">The timer notification identifier.</param>
+      /// <returns>The timer notification user data object.</returns>
+      /// <exception cref="NotificationNotFoundException">The specified identifier does not correspond to any timer notification in the list of notifications of this timer MBean.</exception>
+      object GetNotificationUserData(int notificationId);
+      /// <summary>
+      /// Gets the period associated to a timer notification.
+      /// </summary>
+      /// <param name="notificationId">The timer notification identifier.</param>
+      /// <returns>The period.</returns>
+      /// <exception cref="NotificationNotFoundException">The specified identifier does not correspond to any timer notification in the list of notifications of this timer MBean.</exception>
+      TimeSpan GetPeriod(int notificationId);
+      /// <summary>
+      /// Gets or sets the flag indicating whether or not the timer sends past notifications.
+      /// </summary>
+      /// <exception cref="NotificationNotFoundException">The specified identifier does not correspond to any timer notification in the list of notifications of this timer MBean.</exception>
+      bool SendPastNotifications { get; set; }
+      /// <summary>
+      /// Tests whether the timer MBean is active.
+      /// </summary>
+      bool IsActive { get; }
+      /// <summary>
+      /// Tests whether the list of timer notifications is empty.
+      /// </summary>
+      bool IsEmpty { get; }
+      /// <summary>
+      /// Removes all the timer notifications from the list of notifications and resets the counter used to 
+      /// update the timer notification identifiers.
+      /// </summary>
+      void RemoveAllNotifications();
+      /// <summary>
+      /// Removes the timer notification corresponding to the specified identifier from the list of notifications.
+      /// </summary>
+      /// <param name="notificationId">The timer notification identifier.</param>
+      /// <exception cref="NotificationNotFoundException">The specified identifier does not correspond to any timer notification in the list of notifications of this timer MBean.</exception>
+      void RemoveNotification(int notificationId);
    }
 }
