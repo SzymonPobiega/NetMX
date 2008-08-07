@@ -35,9 +35,9 @@ namespace NetMX.Proxy
             {
                return _connection.GetAttribute(_name, targetMethod.Name.Replace("get_", ""));
             }
-            else if (targetMethod.Name.StartsWith("get_"))
+            else if (targetMethod.Name.StartsWith("set_"))
             {
-               _connection.SetAttribute(_name, targetMethod.Name, arguments[0]);
+               _connection.SetAttribute(_name, targetMethod.Name.Replace("set_", ""), arguments[0]);
                return null;
             }
             else

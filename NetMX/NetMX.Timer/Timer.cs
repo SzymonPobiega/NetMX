@@ -20,22 +20,22 @@ namespace NetMX.Timer
       private bool _sendPastNotifications;
       private bool _isActive;      
 
-      public int AddNotification(string type, string message, object userData, DateTime date)
+      public int AddNotification1(string type, string message, object userData, DateTime date)
       {
-         return AddNotification(type, message, userData, date, TimeSpan.FromMilliseconds(-1), 1, false);         
+         return AddNotification4(type, message, userData, date, TimeSpan.FromMilliseconds(-1), 1, false);         
       }
 
-      public int AddNotification(string type, string message, object userData, DateTime date, TimeSpan period)
+      public int AddNotification2(string type, string message, object userData, DateTime date, TimeSpan period)
       {
-         return AddNotification(type, message, userData, date, period, long.MaxValue, false);
+         return AddNotification4(type, message, userData, date, period, long.MaxValue, false);
       }
 
-      public int AddNotification(string type, string message, object userData, DateTime date, TimeSpan period, long nbOccurences)
+      public int AddNotification3(string type, string message, object userData, DateTime date, TimeSpan period, long nbOccurences)
       {
-         return AddNotification(type, message, userData, date, period, nbOccurences, false);
+         return AddNotification4(type, message, userData, date, period, nbOccurences, false);
       }
 
-      public int AddNotification(string type, string message, object userData, DateTime date, TimeSpan period, long nbOccurences, bool fixedRate)
+      public int AddNotification4(string type, string message, object userData, DateTime date, TimeSpan period, long nbOccurences, bool fixedRate)
       {
          int notifId;
          TimerNotificationInfo info;
@@ -163,7 +163,7 @@ namespace NetMX.Timer
 
       public void Stop()
       {
-         if (!_isActive)
+         if (_isActive)
          {
             _isActive = false;
             lock (_notifications)

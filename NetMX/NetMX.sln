@@ -89,9 +89,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetMX.Timer", "NetMX.Timer\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetMX.Monitor", "NetMX.Monitor\NetMX.Monitor.csproj", "{308E1A58-89D2-4943-84AF-3AC97568D9EE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimersConsoleDemo", "Samples\TimersConsoleDemo\TimersConsoleDemo.csproj", "{FD20227D-E09E-4AF0-B055-F959C09455CE}"
+EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 26
+		SccNumberOfProjects = 27
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://tfs04.codeplex.com/
 		SccLocalPath0 = .
@@ -178,6 +180,10 @@ Global
 		SccProjectUniqueName25 = NetMX.Monitor\\NetMX.Monitor.csproj
 		SccProjectName25 = NetMX.Monitor
 		SccLocalPath25 = NetMX.Monitor
+		SccProjectUniqueName26 = Samples\\TimersConsoleDemo\\TimersConsoleDemo.csproj
+		SccProjectTopLevelParentUniqueName26 = NetMX.sln
+		SccProjectName26 = Samples/TimersConsoleDemo
+		SccLocalPath26 = Samples\\TimersConsoleDemo
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|.NET = Debug|.NET
@@ -438,6 +444,16 @@ Global
 		{308E1A58-89D2-4943-84AF-3AC97568D9EE}.Release|Any CPU.Build.0 = Release|Any CPU
 		{308E1A58-89D2-4943-84AF-3AC97568D9EE}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{308E1A58-89D2-4943-84AF-3AC97568D9EE}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{FD20227D-E09E-4AF0-B055-F959C09455CE}.Debug|.NET.ActiveCfg = Debug|Any CPU
+		{FD20227D-E09E-4AF0-B055-F959C09455CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FD20227D-E09E-4AF0-B055-F959C09455CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FD20227D-E09E-4AF0-B055-F959C09455CE}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{FD20227D-E09E-4AF0-B055-F959C09455CE}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{FD20227D-E09E-4AF0-B055-F959C09455CE}.Release|.NET.ActiveCfg = Release|Any CPU
+		{FD20227D-E09E-4AF0-B055-F959C09455CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FD20227D-E09E-4AF0-B055-F959C09455CE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FD20227D-E09E-4AF0-B055-F959C09455CE}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{FD20227D-E09E-4AF0-B055-F959C09455CE}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -448,5 +464,6 @@ Global
 		{F6077349-28DF-454E-9F74-140821760C0E} = {95F701FD-2093-4520-AB90-D314864AE21F}
 		{717E0E35-9A63-4A2B-B9AE-6C6139CC6861} = {95F701FD-2093-4520-AB90-D314864AE21F}
 		{C20C2476-6811-4557-8DA1-389BCB5A4399} = {95F701FD-2093-4520-AB90-D314864AE21F}
+		{FD20227D-E09E-4AF0-B055-F959C09455CE} = {95F701FD-2093-4520-AB90-D314864AE21F}
 	EndGlobalSection
 EndGlobal

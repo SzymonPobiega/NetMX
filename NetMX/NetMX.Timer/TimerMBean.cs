@@ -20,7 +20,7 @@ namespace NetMX.Timer
       /// <param name="userData">The timer notification user data object.</param>
       /// <param name="date">The date when the notification occurs.</param>
       /// <returns>The identifier of the new created timer notification.</returns>
-      int AddNotification(string type, string message, object userData, DateTime date);
+      int AddNotification1(string type, string message, object userData, DateTime date);
       /// <summary>
       /// Creates a new timer notification with the specified type, message and userData and inserts it into 
       /// the list of notifications with a given date and period and a null number of occurrences.
@@ -39,7 +39,7 @@ namespace NetMX.Timer
       /// <param name="date">The date when the notification occurs.</param>
       /// <param name="period">The period of the timer notification.</param>
       /// <returns>The identifier of the new created timer notification.</returns>
-      int AddNotification(string type, string message, object userData, DateTime date, TimeSpan period);
+      int AddNotification2(string type, string message, object userData, DateTime date, TimeSpan period);
       /// <summary>
       /// </summary>
       /// <param name="type">The timer notification type.</param>
@@ -49,7 +49,7 @@ namespace NetMX.Timer
       /// <param name="period">The period of the timer notification.</param>
       /// <param name="nbOccurences">The total number the timer notification will be emitted.</param>
       /// <returns>The identifier of the new created timer notification.</returns>
-      int AddNotification(string type, string message, object userData, DateTime date, TimeSpan period, long nbOccurences);
+      int AddNotification3(string type, string message, object userData, DateTime date, TimeSpan period, long nbOccurences);
       /// <summary>
       /// </summary>
       /// <param name="type">The timer notification type.</param>
@@ -62,7 +62,7 @@ namespace NetMX.Timer
       /// with a fixed-rate execution scheme. If false and if the notification is periodic, the notification 
       /// is scheduled with a fixed-delay execution scheme. Ignored if the notification is not periodic.</param>
       /// <returns>The identifier of the new created timer notification.</returns>
-      int AddNotification(string type, string message, object userData, DateTime date, TimeSpan period, long nbOccurences, bool fixedRate);
+      int AddNotification4(string type, string message, object userData, DateTime date, TimeSpan period, long nbOccurences, bool fixedRate);
       /// <summary>
       /// Gets all timer notification identifiers registered into the list of notifications.
       /// </summary>
@@ -151,5 +151,17 @@ namespace NetMX.Timer
       /// <param name="notificationId">The timer notification identifier.</param>
       /// <exception cref="NotificationNotFoundException">The specified identifier does not correspond to any timer notification in the list of notifications of this timer MBean.</exception>
       void RemoveNotification(int notificationId);
+      /// <summary>
+      /// Starts the timer.
+      /// If there is one or more timer notifications before the time in the list of notifications, the 
+      /// notification is sent according to the <see cref="SendPastNotifications"/> flag and then, updated 
+      /// according to its period and remaining number of occurrences. If the timer notification date remains 
+      /// earlier than the current date, this notification is just removed from the list of notifications. 
+      /// </summary>
+      void Start();
+      /// <summary>
+      /// Stops the timer.
+      /// </summary>
+      void Stop();
    }
 }
