@@ -41,10 +41,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CounterMonitor.cs" />
+    <Compile Include="AttributeState.cs" />
+    <Compile Include="MonitorNotification.cs" />
+    <Compile Include="MonitorSettingException.cs" />
+    <Compile Include="CounterMonitorMBean.cs" />
     <Compile Include="Monitor.cs" />
+    <Compile Include="MonitorMBean.cs" />
+    <Compile Include="NotObservedObjectException.cs" />
+    <Compile Include="NumericUtils.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\NetMX.Proxy\NetMX.Proxy.csproj">
+      <Project>{DD2598EC-FF14-468C-AE00-EFC63D18693B}</Project>
+      <Name>NetMX.Proxy</Name>
+    </ProjectReference>
     <ProjectReference Include="..\NetMX.Timer\NetMX.Timer.csproj">
       <Project>{5D56EAF4-F219-44CA-B6BD-55A31959CAE6}</Project>
       <Name>NetMX.Timer</Name>
