@@ -98,15 +98,15 @@ namespace NetMX.WebUI.WebControls
       /// <returns></returns>
       public static ComplexValueControlBase Create(bool editMode, OpenType rootType, object rootValue, string title)
       {
-         return DelegatingOpenTypeVisitor<ComplexValueControlBase>.VisitOpenType(rootType, null, null,
-            delegate(TabularType type)
-            {
-               return new TabularValueControl(editMode, type, (ITabularData)rootValue, null, title);
-            },
-            delegate(CompositeType type)
-            {
-               return new CompositeValueControl(editMode, type, (ICompositeData) rootValue, null, title);
-            });
+         switch (rootType.Kind)
+         {
+            case OpenTypeKind.TabularType:
+               return new TabularValueControl(editMode, (TabularType)rootType, (ITabularData)rootValue, null, title);
+            case OpenTypeKind.CompositeType:
+               return new CompositeValueControl(editMode, (CompositeType)rootType, (ICompositeData)rootValue, null, title);
+            default:
+               throw new NotSupportedException("Not supported open type kind: "+rootType.Kind);
+         }         
       }
       /// <summary>
       /// A method compelementary to <see cref="Create"/>. Recreates the control based only on ist <see cref="openTypeKind"/>.
@@ -121,8 +121,10 @@ namespace NetMX.WebUI.WebControls
          {
             case OpenTypeKind.TabularType:
                return new TabularValueControl();
-            default:
+            case OpenTypeKind.CompositeType:
                return new CompositeValueControl();
+            default:
+               throw new NotSupportedException("Not supported open type kind: " + openTypeKind);
          }
       }
       /// <summary>

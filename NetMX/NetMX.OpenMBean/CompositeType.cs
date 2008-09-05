@@ -147,11 +147,7 @@ namespace NetMX.OpenMBean
       }
       #endregion
 
-      #region Overridden
-      public sealed override void Visit(OpenTypeVisitor visitor)
-      {
-         visitor.VisitCompositeType(this);
-      }
+      #region Overridden      
       public sealed override bool IsValue(object value)
       {
          ICompositeData composite = value as ICompositeData;
@@ -181,10 +177,7 @@ namespace NetMX.OpenMBean
             }
             return true;
          }
-         else
-         {
-            return false;
-         }
+         return false;         
       }
       public sealed override int GetHashCode()
       {

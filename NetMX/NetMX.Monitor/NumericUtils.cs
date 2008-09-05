@@ -17,6 +17,6 @@ namespace NetMX.Monitor
       internal static INumericUtil GetUtil(Type valueType)
       {
          return null;
-      }           
+      }      
    }
 }

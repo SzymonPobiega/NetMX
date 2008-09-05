@@ -10,6 +10,10 @@ namespace NetMX.OpenMBean.Mapper
 	/// </summary>
    public interface OpenMBeanMapperServiceMBean
    {
+      /// <summary>
+      /// Gets or sets the name of property which is set to "true" in names of mapped MBeans.
+      /// </summary>
+      string ProxyIndicatorProperty { get; set; }
 		/// <summary>
 		/// Gets or sets the ObjectName patterns that are applied to determine if an MBean should be proxied by
 		/// this Mapper Service.

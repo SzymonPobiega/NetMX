@@ -8,6 +8,7 @@ namespace RemotingServerDemo
    {
       List<CollectionElement> Elements { get;  }
       List<CollectionElement> GetElementsByName(string name);
+      BrainType TypeOfBrain { get; }
    }
 
    public class CollectionElement
@@ -17,6 +18,13 @@ namespace RemotingServerDemo
       {
          get { return _elements; }
       }
+   }
+
+   public enum BrainType
+   {
+      Normal = 1,
+      Cebernetic = 5,
+      Abnormal = 10,
    }
 
    public class NestedCollectionElement
@@ -72,6 +80,10 @@ namespace RemotingServerDemo
             }
          }
          return results;
+      }
+      public BrainType TypeOfBrain
+      {
+         get { return BrainType.Abnormal; }
       }
    }
 }

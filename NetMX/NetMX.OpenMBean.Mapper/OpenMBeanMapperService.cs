@@ -19,12 +19,21 @@ namespace NetMX.OpenMBean.Mapper
       #endregion
 
       #region Constructors
+      /// <summary>
+      /// Creates new <see cref="OpenMBeanMapperService"/> instance with default type mappers
+      /// (for collection types, simple types, enums and PONOs).
+      /// </summary>
       public OpenMBeanMapperService()
       {
          _typeCache.AddTypeMapper(new PlainNetTypeMapper(), null, int.MaxValue);
-         _typeCache.AddTypeMapper(new SimpleTypeMapper(), null, int.MaxValue - 1);
-         _typeCache.AddTypeMapper(new CollectionTypeMapper(), null, int.MaxValue - 2);         
+         _typeCache.AddTypeMapper(new EnumTypeMapper(), null, int.MaxValue - 10);
+         _typeCache.AddTypeMapper(new SimpleTypeMapper(), null, int.MaxValue - 20);
+         _typeCache.AddTypeMapper(new CollectionTypeMapper(), null, int.MaxValue - 30);         
       }
+      /// <summary>
+      /// Creates new <see cref="OpenMBeanMapperService"/> instance providing patterns for MBeans to map.
+      /// </summary>
+      /// <param name="beansToMapPatterns">Patterns of MBean names of objects to be mapped.</param>
       public OpenMBeanMapperService(ObjectName[] beansToMapPatterns)
          : this()
       {
@@ -54,6 +63,10 @@ namespace NetMX.OpenMBean.Mapper
       {
          if (_beansToMapPatterns != null)
          {
+            if (newBeanName.KeyPropertyList.ContainsKey(_proxyIndicatorProperty))
+            {
+               return false;
+            }
             foreach (ObjectName name in _beansToMapPatterns)
             {
                if (name.Apply(newBeanName))
@@ -117,6 +130,11 @@ namespace NetMX.OpenMBean.Mapper
       #endregion
 
       #region OpenMBeanMapperServiceMBean Members
+      public string ProxyIndicatorProperty
+      {
+         get { return _proxyIndicatorProperty;  }
+         set { _proxyIndicatorProperty = value; }
+      }
       public ObjectName[] BeansToMapPatterns
       {
          get

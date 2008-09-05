@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 
 namespace NetMX.OpenMBean
-{
+{   
 	/// <summary>
 	/// The OpenType class is the parent abstract class of all classes which describe the actual open type of open 
 	/// data values.
@@ -56,8 +56,7 @@ namespace NetMX.OpenMBean
 
 		#region Abstract
 		public abstract bool IsValue(object value);
-      public abstract OpenTypeKind Kind { get; }
-	   public abstract void Visit(OpenTypeVisitor visitor);
+      public abstract OpenTypeKind Kind { get; }	   
 		#endregion
 
       #region Operator

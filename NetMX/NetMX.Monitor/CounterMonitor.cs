@@ -143,12 +143,11 @@ namespace NetMX.Monitor
             {
                return util.Zero;
             }
-            IComparable diff = util.Sub(attributeState.FirstValue, attributeState.SecondValue);
-            if (diff.CompareTo(util.Zero) < 0 )
+            if (attributeState.FirstValue.CompareTo(attributeState.SecondValue) < 0)
             {
-               return util.Add(diff, _modulus);
+               return util.Sub(util.Add(attributeState.FirstValue, _modulus), attributeState.SecondValue);
             }
-            return diff;
+            return util.Sub(attributeState.FirstValue, attributeState.SecondValue);
          }
          return attributeState.FirstValue;
       }

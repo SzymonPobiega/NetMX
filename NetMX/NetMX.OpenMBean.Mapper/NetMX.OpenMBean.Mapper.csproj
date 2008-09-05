@@ -56,6 +56,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TypeMapperInfo.cs" />
     <Compile Include="TypeMappers\CollectionTypeMapper.cs" />
+    <Compile Include="TypeMappers\EnumTypeMapper.cs" />
     <Compile Include="TypeMappers\PlainNetTypeMapper.cs" />
     <Compile Include="TypeMappers\SimpleTypeMapper.cs" />
   </ItemGroup>

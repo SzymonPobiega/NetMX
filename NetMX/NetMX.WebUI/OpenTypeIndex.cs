@@ -20,15 +20,15 @@ namespace NetMX.WebUI.WebControls
          object nestedValue;
          ExtractNestedData(rootType, rootValue, out nestedType, out nestedValue);
 
-         return DelegatingOpenTypeVisitor<ComplexValueControlBase>.VisitOpenType(nestedType, null, null,
-         delegate(TabularType visited)
+         switch (nestedType.Kind)
          {
-            return new TabularValueControl(editMode, visited, (ITabularData)nestedValue, this, null);
-         },
-         delegate(CompositeType visited)
-         {
-            return new CompositeValueControl(editMode, visited, (ICompositeData)nestedValue, this, null);
-         });
+            case OpenTypeKind.TabularType :
+               return new TabularValueControl(editMode, (TabularType)nestedType, (ITabularData)nestedValue, this, null);
+            case OpenTypeKind.CompositeType:
+               return new CompositeValueControl(editMode, (CompositeType)nestedType, (ICompositeData)nestedValue, this, null);
+            default:
+               throw new NotSupportedException("Not supported open type kind: " + nestedType.Kind);
+         }         
       }
       protected abstract void ExtractNestedData(OpenType rootType, object rootValue, out OpenType nestedType,
                                              out object nestedValue);

@@ -62,11 +62,7 @@ namespace NetMX.OpenMBean
       public sealed override int GetHashCode()
       {
          return _dimension.GetHashCode() ^ _elementType.GetHashCode();
-      }
-      public sealed override void Visit(OpenTypeVisitor visitor)
-      {
-         visitor.VisitArrayType(this);
-      }
+      }      
       public sealed override bool IsValue(object value)
       {
          Array array = value as Array;
