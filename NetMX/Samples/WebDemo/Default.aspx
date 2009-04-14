@@ -11,6 +11,7 @@
 	<form id="form1" runat="server">
 		<%--<asp:ScriptManager ID="ScriptManager1" runat="server" />--%>
 		<nwc:MBeanServerProxy ID="proxy" runat="server" ServiceUrl="tcp://localhost:1234/MBeanServer.tcp" />
+		<asp:ValidationSummary ID="summary" runat="server" />
 		<asp:MultiView ID="view" runat="server" ActiveViewIndex="0">
 		    <asp:View ID="browse" runat="server">
 		        <asp:DropDownList ID="beanList" runat="server" EnableViewState="false"/>

@@ -12,8 +12,7 @@ namespace CLRMonitoringSample
    {
       static void Main(string[] args)
       {
-         IMBeanServer server = MBeanServerFactory.CreateMBeanServer("PlatformMBeanServer");
-         server.RegisterMBean(new RelationService(), RelationService.ObjectName);
+         IMBeanServer server = MBeanServerFactory.CreateMBeanServer("PlatformMBeanServer");         
          PerfCounterMBean processMBean = new PerfCounterMBean("Process", true, new string[] {"% Processor Time"});
          server.RegisterMBean(processMBean, "CLR:type=Process");
          

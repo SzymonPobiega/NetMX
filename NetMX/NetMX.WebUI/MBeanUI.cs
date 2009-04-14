@@ -309,7 +309,12 @@ namespace NetMX.WebUI.WebControls
          }
 
          MBeanInfo info = Proxy.ServerConnection.GetMBeanInfo(new ObjectName(ObjectName));
-         RelationServiceMBean relationService = NetMX.NewMBeanProxy<RelationServiceMBean>(Proxy.ServerConnection, RelationService.ObjectName);
+         RelationServiceMBean relationService = null;
+         if (Proxy.ServerConnection.IsRegistered(RelationService.ObjectName))
+         {
+            relationService = NetMX.NewMBeanProxy<RelationServiceMBean>(Proxy.ServerConnection,
+                                                                        RelationService.ObjectName);
+         }
 
          Label generalInfoTitle = new Label();
          generalInfoTitle.Text = Resources.MBeanUI.GeneralInformationSection + "&nbsp;&nbsp;";
@@ -378,32 +383,38 @@ namespace NetMX.WebUI.WebControls
          }
          _beanView.Controls.Add(operations);
 
-         Label relationsTitle = new Label();
-         relationsTitle.Text = Resources.MBeanUI.RelationsSection;
-         relationsTitle.CssClass = SectionTitleCssClass;
-         _beanView.Controls.Add(relationsTitle);
-
-         Table relations = new Table();
-         relations.CellPadding = TableCellPadding;
-         relations.CellSpacing = TableCellSpacing;
-         relations.CssClass = RelationTableCssClass;
-         relations.ControlStyle.Width = Unit.Percentage(100);
-         relations.Rows.Add(CreateRelationsHeader());
-         IDictionary<string, IList<string>> referencing = relationService.FindReferencingRelations(ObjectName, null, null);
-         foreach (string relationId in referencing.Keys)
+         if (relationService != null)
          {
-            string relationType = relationService.GetRelationTypeName(relationId);
-            IList<RoleInfo> roleInfos = relationService.GetRoleInfos(relationType);
-            foreach (RoleInfo roleInfo in roleInfos)
+            Label relationsTitle = new Label();
+            relationsTitle.Text = Resources.MBeanUI.RelationsSection;
+            relationsTitle.CssClass = SectionTitleCssClass;
+            _beanView.Controls.Add(relationsTitle);
+
+            Table relations = new Table();
+            relations.CellPadding = TableCellPadding;
+            relations.CellSpacing = TableCellSpacing;
+            relations.CssClass = RelationTableCssClass;
+            relations.ControlStyle.Width = Unit.Percentage(100);
+            relations.Rows.Add(CreateRelationsHeader());
+            IDictionary<string, IList<string>> referencing = relationService.FindReferencingRelations(ObjectName, null,
+                                                                                                      null);
+            foreach (string relationId in referencing.Keys)
             {
-               RelationRoleTableRow relationRow = new RelationRoleTableRow(ObjectName, relationId, roleInfo, relationService, RelationTableCssClass, NavigateCommand);
-               if (relationRow.HasValue)
+               string relationType = relationService.GetRelationTypeName(relationId);
+               IList<RoleInfo> roleInfos = relationService.GetRoleInfos(relationType);
+               foreach (RoleInfo roleInfo in roleInfos)
                {
-                  relations.Rows.Add(relationRow);
+                  RelationRoleTableRow relationRow = new RelationRoleTableRow(ObjectName, relationId, roleInfo,
+                                                                              relationService, RelationTableCssClass,
+                                                                              NavigateCommand);
+                  if (relationRow.HasValue)
+                  {
+                     relations.Rows.Add(relationRow);
+                  }
                }
             }
+            _beanView.Controls.Add(relations);
          }
-         _beanView.Controls.Add(relations);
       }
       
       private void AddGeneralInfoItem(Table table, string name, string value)

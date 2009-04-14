@@ -91,9 +91,25 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetMX.Monitor", "NetMX.Moni
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimersConsoleDemo", "Samples\TimersConsoleDemo\TimersConsoleDemo.csproj", "{FD20227D-E09E-4AF0-B055-F959C09455CE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetMX.Remote.ServiceModel", "NetMX.Remote.ServiceModel\NetMX.Remote.ServiceModel.csproj", "{ED2EA082-7271-4615-8B1F-B9C5BDA695B4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetMX.Spring.BeanExporter", "NetMX.Spring.BeanExporter\NetMX.Spring.BeanExporter.csproj", "{C19B42A6-0CDA-439C-B3E9-6E11FB057733}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libs", "Libs", "{996F2F65-9530-4421-8D3B-6F04D939852A}"
+	ProjectSection(SolutionItems) = preProject
+		Libs\Spring.Core.dll = Libs\Spring.Core.dll
+		Libs\Spring.Core.pdb = Libs\Spring.Core.pdb
+		Libs\Spring.Services.dll = Libs\Spring.Services.dll
+		Libs\Spring.Services.pdb = Libs\Spring.Services.pdb
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpringWcfConsoleManagementServer", "Samples\SpringWcfConsoleManagementServer\SpringWcfConsoleManagementServer.csproj", "{06975F6E-744C-4622-8B67-F6B520461308}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WcfConsoleManagementClient", "Samples\WcfConsoleManagementClient\WcfConsoleManagementClient.csproj", "{C40A1B09-76E9-477A-B8C9-B13085ABF633}"
+EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 27
+		SccNumberOfProjects = 31
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://tfs04.codeplex.com/
 		SccLocalPath0 = .
@@ -130,7 +146,6 @@ Global
 		SccWebProject10 = true
 		SccProjectUniqueName10 = Samples\\WebDemo
 		SccProjectTopLevelParentUniqueName10 = NetMX.sln
-		SccProjectName10 = Samples/WebDemo
 		SccLocalPath10 = .
 		SccProjectFilePathRelativizedFromConnection10 = Samples\\WebDemo\\
 		SccProjectEnlistmentChoice10 = 2
@@ -184,6 +199,20 @@ Global
 		SccProjectTopLevelParentUniqueName26 = NetMX.sln
 		SccProjectName26 = Samples/TimersConsoleDemo
 		SccLocalPath26 = Samples\\TimersConsoleDemo
+		SccProjectUniqueName27 = NetMX.Remote.ServiceModel\\NetMX.Remote.ServiceModel.csproj
+		SccProjectName27 = NetMX.Remote.ServiceModel
+		SccLocalPath27 = NetMX.Remote.ServiceModel
+		SccProjectUniqueName28 = NetMX.Spring.BeanExporter\\NetMX.Spring.BeanExporter.csproj
+		SccProjectName28 = NetMX.Spring.BeanExporter
+		SccLocalPath28 = NetMX.Spring.BeanExporter
+		SccProjectUniqueName29 = Samples\\SpringWcfConsoleManagementServer\\SpringWcfConsoleManagementServer.csproj
+		SccProjectTopLevelParentUniqueName29 = NetMX.sln
+		SccProjectName29 = Samples/SpringWcfConsoleManagementServer
+		SccLocalPath29 = Samples\\SpringWcfConsoleManagementServer
+		SccProjectUniqueName30 = Samples\\WcfConsoleManagementClient\\WcfConsoleManagementClient.csproj
+		SccProjectTopLevelParentUniqueName30 = NetMX.sln
+		SccProjectName30 = Samples/WcfConsoleManagementClient
+		SccLocalPath30 = Samples\\WcfConsoleManagementClient
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|.NET = Debug|.NET
@@ -454,6 +483,46 @@ Global
 		{FD20227D-E09E-4AF0-B055-F959C09455CE}.Release|Any CPU.Build.0 = Release|Any CPU
 		{FD20227D-E09E-4AF0-B055-F959C09455CE}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{FD20227D-E09E-4AF0-B055-F959C09455CE}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{ED2EA082-7271-4615-8B1F-B9C5BDA695B4}.Debug|.NET.ActiveCfg = Debug|Any CPU
+		{ED2EA082-7271-4615-8B1F-B9C5BDA695B4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ED2EA082-7271-4615-8B1F-B9C5BDA695B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ED2EA082-7271-4615-8B1F-B9C5BDA695B4}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{ED2EA082-7271-4615-8B1F-B9C5BDA695B4}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{ED2EA082-7271-4615-8B1F-B9C5BDA695B4}.Release|.NET.ActiveCfg = Release|Any CPU
+		{ED2EA082-7271-4615-8B1F-B9C5BDA695B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ED2EA082-7271-4615-8B1F-B9C5BDA695B4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ED2EA082-7271-4615-8B1F-B9C5BDA695B4}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{ED2EA082-7271-4615-8B1F-B9C5BDA695B4}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{C19B42A6-0CDA-439C-B3E9-6E11FB057733}.Debug|.NET.ActiveCfg = Debug|Any CPU
+		{C19B42A6-0CDA-439C-B3E9-6E11FB057733}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C19B42A6-0CDA-439C-B3E9-6E11FB057733}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C19B42A6-0CDA-439C-B3E9-6E11FB057733}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{C19B42A6-0CDA-439C-B3E9-6E11FB057733}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{C19B42A6-0CDA-439C-B3E9-6E11FB057733}.Release|.NET.ActiveCfg = Release|Any CPU
+		{C19B42A6-0CDA-439C-B3E9-6E11FB057733}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C19B42A6-0CDA-439C-B3E9-6E11FB057733}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C19B42A6-0CDA-439C-B3E9-6E11FB057733}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{C19B42A6-0CDA-439C-B3E9-6E11FB057733}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{06975F6E-744C-4622-8B67-F6B520461308}.Debug|.NET.ActiveCfg = Debug|Any CPU
+		{06975F6E-744C-4622-8B67-F6B520461308}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{06975F6E-744C-4622-8B67-F6B520461308}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{06975F6E-744C-4622-8B67-F6B520461308}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{06975F6E-744C-4622-8B67-F6B520461308}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{06975F6E-744C-4622-8B67-F6B520461308}.Release|.NET.ActiveCfg = Release|Any CPU
+		{06975F6E-744C-4622-8B67-F6B520461308}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{06975F6E-744C-4622-8B67-F6B520461308}.Release|Any CPU.Build.0 = Release|Any CPU
+		{06975F6E-744C-4622-8B67-F6B520461308}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{06975F6E-744C-4622-8B67-F6B520461308}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{C40A1B09-76E9-477A-B8C9-B13085ABF633}.Debug|.NET.ActiveCfg = Debug|Any CPU
+		{C40A1B09-76E9-477A-B8C9-B13085ABF633}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C40A1B09-76E9-477A-B8C9-B13085ABF633}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C40A1B09-76E9-477A-B8C9-B13085ABF633}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{C40A1B09-76E9-477A-B8C9-B13085ABF633}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{C40A1B09-76E9-477A-B8C9-B13085ABF633}.Release|.NET.ActiveCfg = Release|Any CPU
+		{C40A1B09-76E9-477A-B8C9-B13085ABF633}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C40A1B09-76E9-477A-B8C9-B13085ABF633}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C40A1B09-76E9-477A-B8C9-B13085ABF633}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{C40A1B09-76E9-477A-B8C9-B13085ABF633}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -465,5 +534,7 @@ Global
 		{717E0E35-9A63-4A2B-B9AE-6C6139CC6861} = {95F701FD-2093-4520-AB90-D314864AE21F}
 		{C20C2476-6811-4557-8DA1-389BCB5A4399} = {95F701FD-2093-4520-AB90-D314864AE21F}
 		{FD20227D-E09E-4AF0-B055-F959C09455CE} = {95F701FD-2093-4520-AB90-D314864AE21F}
+		{06975F6E-744C-4622-8B67-F6B520461308} = {95F701FD-2093-4520-AB90-D314864AE21F}
+		{C40A1B09-76E9-477A-B8C9-B13085ABF633} = {95F701FD-2093-4520-AB90-D314864AE21F}
 	EndGlobalSection
 EndGlobal

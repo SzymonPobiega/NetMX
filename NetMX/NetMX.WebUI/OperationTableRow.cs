@@ -254,14 +254,11 @@ namespace NetMX.WebUI.WebControls
 				}
 				object o = _connection.Invoke(_name, _operInfo.Name, arguments);
 			   _argumentValues = null;
-            if (_openOperInfo != null && o != null)
+            if (_openOperInfo != null && o != null && _openOperInfo.ReturnOpenType.Kind != OpenTypeKind.SimpleType)
             {
-               if (_openOperInfo.ReturnOpenType != SimpleType.Void)
-               {
-                  OnViewEditOpenType(new ViewEditOpenTypeEventArgs(false, o, _openOperInfo.ReturnOpenType,
+               OnViewEditOpenType(new ViewEditOpenTypeEventArgs(false, o, _openOperInfo.ReturnOpenType,
                                                                    new MBeanOperationSelector(_operInfo.Name, null),
-                                                                   _operInfo.Description));                  
-               }               
+                                                                   _operInfo.Description));                                 
             }            
             else if (_openOperInfo == null || _openOperInfo.ReturnOpenType != SimpleType.Void)
             {

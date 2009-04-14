@@ -92,7 +92,8 @@ namespace NetMX.WebUI.WebControls
             _cancelButton.Text = Resources.AttributeTableRow.CancelButton;
             _cancelButton.CssClass = UIContext.ButtonCssClass;
             _cancelButton.EnableViewState = false;                               
-            _cancelButton.Click += OnCancel;            
+            _cancelButton.Click += OnCancel;
+            _cancelButton.CausesValidation = false;
             actionsCell.Controls.Add(_cancelButton);
          }
          Cells.Add(actionsCell);
