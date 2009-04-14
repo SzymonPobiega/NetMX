@@ -86,6 +86,7 @@ namespace NetMX.OpenMBean.Mapper
       public void PostRegister(bool registrationDone)
       {
          _server.AddNotificationListener(MBeanServerDelegate.ObjectName, _ownName, null, null);
+         RefreshMappings();
       }
       public void PreDeregister()
       {

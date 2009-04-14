@@ -56,7 +56,7 @@
     <Compile Include="Assembler\IMBeanInfoAssembler.cs" />
     <Compile Include="ManagementBeanExporter.cs" />
     <Compile Include="Naming\IObjectNamingStrategy.cs" />
-    <Compile Include="Naming\SimpleNamingStrategy.cs" />
+    <Compile Include="Naming\KeyNamingStrategy.cs" />
     <Compile Include="NetMXUtils.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

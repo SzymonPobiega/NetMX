@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.ServiceModel;
 using System.Text;
+using NetMX;
+using NetMX.OpenMBean;
 using NetMX.Remote.ServiceModel;
 
 namespace ConsoleManagementClient
@@ -15,11 +17,14 @@ namespace ConsoleManagementClient
             new BasicHttpBinding(), "http://localhost:1010/MBeanServer");
          IMBeanServerContract proxy = factory.CreateChannel();
 
-         proxy.Invoke("Domain:name=SampleComponent", "Start", new object[] { });
+         MBeanInfo info = proxy.GetMBeanInfo("Sample:name=SampleComponent");
+         IOpenMBeanInfo openInfo = (IOpenMBeanInfo)proxy.GetMBeanInfo("Sample:name=SampleComponent,OpenMBeanProxy=true");
 
-         proxy.Invoke("Domain:name=SampleComponent", "IntOperation", new object[] { 7 });
+         proxy.Invoke("Sample:name=SampleComponent", "Start", new object[] { });
 
-         proxy.Invoke("Domain:name=SampleComponent", "StringAndIntOperation", new object[] { "Ala",  7 });
+         proxy.Invoke("Sample:name=SampleComponent", "IntOperation", new object[] { 7 });
+
+         proxy.Invoke("Sample:name=SampleComponent", "StringAndIntOperation", new object[] { "Ala", 7 });
       }
    }
 }

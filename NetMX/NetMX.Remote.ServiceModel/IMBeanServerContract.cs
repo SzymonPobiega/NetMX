@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.ServiceModel;
 using System.Text;
+using NetMX.OpenMBean;
 
 namespace NetMX.Remote.ServiceModel
 {
@@ -103,6 +104,17 @@ namespace NetMX.Remote.ServiceModel
       /// <param name="name">The name of the MBean to analyze</param>
       /// <returns>An instance of <see cref="NetMX.MBeanInfo"/> allowing the retrieval of all attributes and operations of this MBean.</returns>
       [OperationContract]
+      [ServiceKnownType(typeof(OpenMBeanInfoSupport))]
+      [ServiceKnownType(typeof(OpenMBeanAttributeInfoSupport))]
+      [ServiceKnownType(typeof(OpenMBeanOperationInfoSupport))]
+      [ServiceKnownType(typeof(OpenMBeanParameterInfoSupport))]
+      [ServiceKnownType(typeof(OpenMBeanConstructorInfoSupport))]
+      [ServiceKnownType(typeof(SimpleType))]
+      [ServiceKnownType(typeof(TabularType))]
+      [ServiceKnownType(typeof(CompositeType))]
+      [ServiceKnownType(typeof(ArrayType))]
+      [ServiceKnownType(typeof(TabularDataSupport))]
+      [ServiceKnownType(typeof(CompositeDataSupport))]
       MBeanInfo GetMBeanInfo(ObjectName name);
       /// <summary>
       /// Returns true if the MBean specified is an instance of the specified class, false otherwise.

@@ -61,6 +61,10 @@
     <Compile Include="ServiceModelMBeanServerConnection.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\NetMX.OpenMBean\NetMX.OpenMBean.csproj">
+      <Project>{27AAB473-F263-4F24-A0DC-9B3CAFCE1E16}</Project>
+      <Name>NetMX.OpenMBean</Name>
+    </ProjectReference>
     <ProjectReference Include="..\NetMX.Remote\NetMX.Remote.csproj">
       <Project>{E5D06BDE-F173-4175-BF94-F9DDCE4E347D}</Project>
       <Name>NetMX.Remote</Name>

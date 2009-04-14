@@ -11,6 +11,7 @@ namespace NetMX.OpenMBean
    /// <summary>
    /// Describes a constructor of an Open MBean.   
    /// </summary>
+   [Serializable]
    public class OpenMBeanConstructorInfoSupport : MBeanConstructorInfo, IOpenMBeanConstructorInfo
    {
       /// <summary>

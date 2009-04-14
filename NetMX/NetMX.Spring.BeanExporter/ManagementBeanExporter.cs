@@ -15,7 +15,7 @@ namespace NetMX.Spring.BeanExporter
    {
       private IListableObjectFactory _objectFactory;
       private IDictionary _beans = new Hashtable();
-      private IObjectNamingStrategy _namingStrategy = new SimpleNamingStrategy();
+      private IObjectNamingStrategy _namingStrategy;
 
       #region Dependency properties
       public bool Autodetect { private get; set; }
@@ -38,6 +38,10 @@ namespace NetMX.Spring.BeanExporter
       #region IInitializingObject Members
       public void AfterPropertiesSet()
       {
+         if (_namingStrategy == null)
+         {
+            _namingStrategy = new KeyNamingStrategy(BeanServer.GetDefaultDomain());
+         }
          RegisterBeans();
       }
       #endregion

@@ -35,6 +35,7 @@ namespace NetMX.OpenMBean
 		{
 			get { return _description; }
 		}
+      [NonSerialized]
 		private readonly Type _representation;
 		/// <summary>
 		/// Gets the value representation (physical) of this open type.
