@@ -34,22 +34,21 @@ namespace NetMX.OpenMBean
 		public string Description
 		{
 			get { return _description; }
-		}
-      [NonSerialized]
-		private readonly Type _representation;
+		}      
+		private readonly string _representationTypeName;
 		/// <summary>
 		/// Gets the value representation (physical) of this open type.
 		/// </summary>
 		public Type Representation
 		{
-			get { return _representation; }
+			get { return Type.GetType(_representationTypeName, true); }
 		}
 		#endregion
 
 		#region Constructor
 		protected OpenType(Type representation, string typeName, string description)
 		{
-			_representation = representation;
+			_representationTypeName = representation.AssemblyQualifiedName;
 			_name = typeName;
 			_description = description;
 		}
