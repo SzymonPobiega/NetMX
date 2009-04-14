@@ -12,7 +12,7 @@ namespace ConsoleManagementClient
       static void Main(string[] args)
       {
          ChannelFactory<IMBeanServerContract> factory = new ChannelFactory<IMBeanServerContract>(
-            new BasicHttpBinding(), "http://simon-laptop:1010/MBeanServer");
+            new BasicHttpBinding(), "http://localhost:1010/MBeanServer");
          IMBeanServerContract proxy = factory.CreateChannel();
 
          proxy.Invoke("Domain:name=SampleComponent", "Start", new object[] { });
