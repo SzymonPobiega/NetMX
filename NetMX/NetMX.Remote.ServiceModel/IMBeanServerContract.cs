@@ -55,6 +55,7 @@ namespace NetMX.Remote.ServiceModel
       /// <param name="arguments">An array containing the parameters to be set when the operation is invoked.</param>
       /// <returns>The object returned by the operation, which represents the result of invoking the operation on the MBean specified.</returns>
       [OperationContract]
+      [ServiceKnownType(typeof(ObjectName))]
       object Invoke(ObjectName name, string operationName, object[] arguments);
       /// <summary>
       /// Sets the value of a specific attribute of a named MBean. The MBean is identified by its object name.

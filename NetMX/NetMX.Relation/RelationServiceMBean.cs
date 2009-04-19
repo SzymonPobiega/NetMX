@@ -247,7 +247,7 @@ namespace NetMX.Relation
       /// <list type="bullet">
       /// <item>if removing one MBean reference in the role makes its number of references less than the minimum degree, the relation has to be removed.</item>
       /// <item>if the remaining number of references after removing the MBean reference is still in the cardinality 
-      /// range, keep the relation and update it calling its <see cref="NetMX.IRelation.HandleMBeanUnregistration"/>() callback.</item>
+      /// range, keep the relation and update it calling its <see cref="IRelation.HandleMBeanUnregistration"/>() callback.</item>
       /// </list>
       /// </remarks>
       /// <exception cref="NetMX.Relation.RelationServiceNotRegisteredException">If the Relation Service is not registered in the MBean Server</exception>

@@ -109,9 +109,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpringWcfConsoleManagementS
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WcfConsoleManagementClient", "Samples\WcfConsoleManagementClient\WcfConsoleManagementClient.csproj", "{C40A1B09-76E9-477A-B8C9-B13085ABF633}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebClientDemo", "WebClientDemo\WebClientDemo.csproj", "{04A97CF5-52F9-45C1-B114-CA21AF6A7F28}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebServicesSample", "Samples\WebServicesSample\WebServicesSample.csproj", "{41862DB9-0E5C-4010-A03A-B6DCF1E95105}"
+EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 31
+		SccNumberOfProjects = 33
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://tfs04.codeplex.com/
 		SccLocalPath0 = .
@@ -212,9 +216,18 @@ Global
 		SccWebProject30 = true
 		SccProjectUniqueName30 = Samples\\WebDemo
 		SccProjectTopLevelParentUniqueName30 = NetMX.sln
+		SccProjectName30 = Samples/WebDemo
 		SccLocalPath30 = .
 		SccProjectFilePathRelativizedFromConnection30 = Samples\\WebDemo\\
 		SccProjectEnlistmentChoice30 = 2
+		SccProjectUniqueName31 = WebClientDemo\\WebClientDemo.csproj
+		SccProjectTopLevelParentUniqueName31 = NetMX.sln
+		SccProjectName31 = WebClientDemo
+		SccLocalPath31 = WebClientDemo
+		SccProjectUniqueName32 = Samples\\WebServicesSample\\WebServicesSample.csproj
+		SccProjectTopLevelParentUniqueName32 = NetMX.sln
+		SccProjectName32 = Samples/WebServicesSample
+		SccLocalPath32 = Samples\\WebServicesSample
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|.NET = Debug|.NET
@@ -525,6 +538,26 @@ Global
 		{C40A1B09-76E9-477A-B8C9-B13085ABF633}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C40A1B09-76E9-477A-B8C9-B13085ABF633}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{C40A1B09-76E9-477A-B8C9-B13085ABF633}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{04A97CF5-52F9-45C1-B114-CA21AF6A7F28}.Debug|.NET.ActiveCfg = Debug|Any CPU
+		{04A97CF5-52F9-45C1-B114-CA21AF6A7F28}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{04A97CF5-52F9-45C1-B114-CA21AF6A7F28}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{04A97CF5-52F9-45C1-B114-CA21AF6A7F28}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{04A97CF5-52F9-45C1-B114-CA21AF6A7F28}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{04A97CF5-52F9-45C1-B114-CA21AF6A7F28}.Release|.NET.ActiveCfg = Release|Any CPU
+		{04A97CF5-52F9-45C1-B114-CA21AF6A7F28}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{04A97CF5-52F9-45C1-B114-CA21AF6A7F28}.Release|Any CPU.Build.0 = Release|Any CPU
+		{04A97CF5-52F9-45C1-B114-CA21AF6A7F28}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{04A97CF5-52F9-45C1-B114-CA21AF6A7F28}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{41862DB9-0E5C-4010-A03A-B6DCF1E95105}.Debug|.NET.ActiveCfg = Debug|Any CPU
+		{41862DB9-0E5C-4010-A03A-B6DCF1E95105}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{41862DB9-0E5C-4010-A03A-B6DCF1E95105}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{41862DB9-0E5C-4010-A03A-B6DCF1E95105}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{41862DB9-0E5C-4010-A03A-B6DCF1E95105}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{41862DB9-0E5C-4010-A03A-B6DCF1E95105}.Release|.NET.ActiveCfg = Release|Any CPU
+		{41862DB9-0E5C-4010-A03A-B6DCF1E95105}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{41862DB9-0E5C-4010-A03A-B6DCF1E95105}.Release|Any CPU.Build.0 = Release|Any CPU
+		{41862DB9-0E5C-4010-A03A-B6DCF1E95105}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{41862DB9-0E5C-4010-A03A-B6DCF1E95105}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -538,5 +571,7 @@ Global
 		{FD20227D-E09E-4AF0-B055-F959C09455CE} = {95F701FD-2093-4520-AB90-D314864AE21F}
 		{06975F6E-744C-4622-8B67-F6B520461308} = {95F701FD-2093-4520-AB90-D314864AE21F}
 		{C40A1B09-76E9-477A-B8C9-B13085ABF633} = {95F701FD-2093-4520-AB90-D314864AE21F}
+		{04A97CF5-52F9-45C1-B114-CA21AF6A7F28} = {95F701FD-2093-4520-AB90-D314864AE21F}
+		{41862DB9-0E5C-4010-A03A-B6DCF1E95105} = {95F701FD-2093-4520-AB90-D314864AE21F}
 	EndGlobalSection
 EndGlobal

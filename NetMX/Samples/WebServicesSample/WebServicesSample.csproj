@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{06975F6E-744C-4622-8B67-F6B520461308}</ProjectGuid>
+    <ProjectGuid>{41862DB9-0E5C-4010-A03A-B6DCF1E95105}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ConsoleSample</RootNamespace>
-    <AssemblyName>ConsoleSample</AssemblyName>
+    <RootNamespace>WebServicesSample</RootNamespace>
+    <AssemblyName>WebServicesSample</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SccProjectName>SAK</SccProjectName>
@@ -35,25 +35,16 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="antlr.runtime, Version=2.7.6.2, Culture=neutral, PublicKeyToken=65e474d141e25e07, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Libs\antlr.runtime.dll</HintPath>
-    </Reference>
-    <Reference Include="Common.Logging, Version=1.2.0.0, Culture=neutral, PublicKeyToken=af08829b84f0328e">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Libs\Common.Logging.dll</HintPath>
-    </Reference>
-    <Reference Include="Spring.Core, Version=1.2.0.20313, Culture=neutral, PublicKeyToken=65e474d141e25e07, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Libs\Spring.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="Spring.Services, Version=1.2.0.30313, Culture=neutral, PublicKeyToken=65e474d141e25e07, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Libs\Spring.Services.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.ServiceModel">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -67,41 +58,32 @@
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SampleComponent.cs" />
-    <Compile Include="SampleComponentMBean.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\NetMX.OpenMBean.Mapper\NetMX.OpenMBean.Mapper.csproj">
-      <Project>{ADD61DDF-F142-4688-B8C3-93F378630252}</Project>
-      <Name>NetMX.OpenMBean.Mapper</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\NetMX.OpenMBean\NetMX.OpenMBean.csproj">
-      <Project>{27AAB473-F263-4F24-A0DC-9B3CAFCE1E16}</Project>
-      <Name>NetMX.OpenMBean</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\NetMX.Relation\NetMX.Relation.csproj">
-      <Project>{777EBC51-1D14-4170-8ABA-9D78328641D7}</Project>
-      <Name>NetMX.Relation</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\NetMX.Spring.BeanExporter\NetMX.Spring.BeanExporter.csproj">
-      <Project>{C19B42A6-0CDA-439C-B3E9-6E11FB057733}</Project>
-      <Name>NetMX.Spring.BeanExporter</Name>
-    </ProjectReference>
-    <ProjectReference Include="P:\NetMX\NetMX\NetMX.Default\NetMX.Default.csproj">
-      <Project>{9B9279AA-5B62-4834-9949-F2CCE7318610}</Project>
-      <Name>NetMX.Default</Name>
-    </ProjectReference>
-    <ProjectReference Include="P:\NetMX\NetMX\NetMX\NetMX.csproj">
-      <Project>{619AD956-B7BC-492D-9722-25DA4891E144}</Project>
-      <Name>NetMX</Name>
-    </ProjectReference>
-    <ProjectReference Include="P:\NetMX\NetMX\Simon.Configuration\Simon.Configuration.csproj">
-      <Project>{E67606FD-77EF-4498-829C-CA24FFB03117}</Project>
-      <Name>Simon.Configuration</Name>
-    </ProjectReference>
+    <Compile Include="Sample.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\NetMX.Default\NetMX.Default.csproj">
+      <Project>{9B9279AA-5B62-4834-9949-F2CCE7318610}</Project>
+      <Name>NetMX.Default</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\NetMX.Remote.WebServices\NetMX.Remote.WebServices.csproj">
+      <Project>{FBBD9CCF-1755-4E9A-8371-46B1D938B1CA}</Project>
+      <Name>NetMX.Remote.WebServices</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\NetMX.Remote\NetMX.Remote.csproj">
+      <Project>{E5D06BDE-F173-4175-BF94-F9DDCE4E347D}</Project>
+      <Name>NetMX.Remote</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\NetMX\NetMX.csproj">
+      <Project>{619AD956-B7BC-492D-9722-25DA4891E144}</Project>
+      <Name>NetMX</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Simon.Configuration\Simon.Configuration.csproj">
+      <Project>{E67606FD-77EF-4498-829C-CA24FFB03117}</Project>
+      <Name>Simon.Configuration</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

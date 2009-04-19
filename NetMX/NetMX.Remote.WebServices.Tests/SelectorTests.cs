@@ -60,7 +60,7 @@ namespace NetMX.Remote.WebServices.Tests
         public void NestedAddressReferenceSerizalizationTest()
         {
             AddressHeader ah1 = AddressHeader.CreateAddressHeader("ResourceURI", WSMan.WSManagementNamespace, "http://resource.uri");
-            AddressHeader ah2 = new WsmanSelectorSetHeader(new Selector("NestedSelector", "NestedValue"));
+            AddressHeader ah2 = new SelectorSetHeader(new Selector("NestedSelector", "NestedValue"));
             
             EndpointAddress addr = new EndpointAddress(new Uri("http://netmx.eu"), new AddressHeader[] { ah1, ah2 });
             Selector s = new Selector("NameA", addr);
