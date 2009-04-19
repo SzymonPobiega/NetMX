@@ -1,14 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Security.Principal;
-using System.ServiceModel;
-using System.ServiceModel.Channels;
-using System.Text;
 using NetMX;
 using NetMX.Remote;
-using NetMX.Remote.WebServices.Jsr262;
-using NetMX.Remote.WebServices.WSManagement;
 
 namespace WebServicesSample
 {

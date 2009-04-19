@@ -1,17 +1,17 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{41862DB9-0E5C-4010-A03A-B6DCF1E95105}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <ProjectGuid>{884F4882-8916-42CD-99F6-A80DA650FD0C}</ProjectGuid>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>WebServicesSample</RootNamespace>
-    <AssemblyName>WebServicesSample</AssemblyName>
+    <RootNamespace>Simon.WsManagement.Tests</RootNamespace>
+    <AssemblyName>Simon.WsManagement.Tests</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <SccProjectName>SAK</SccProjectName>
     <SccLocalPath>SAK</SccLocalPath>
     <SccAuxPath>SAK</SccAuxPath>
@@ -35,8 +35,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="System" />
-    <Reference Include="System.configuration" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
@@ -46,46 +46,19 @@
     <Reference Include="System.ServiceModel">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
     </Reference>
-    <Reference Include="System.Xml.Linq">
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
-    </Reference>
-    <Reference Include="System.Data.DataSetExtensions">
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
-    </Reference>
-    <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Sample.cs" />
+    <Compile Include="SelectorTests.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\NetMX.Default\NetMX.Default.csproj">
-      <Project>{9B9279AA-5B62-4834-9949-F2CCE7318610}</Project>
-      <Name>NetMX.Default</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\NetMX.Remote.Jsr262\NetMX.Remote.Jsr262.csproj">
-      <Project>{BA2A4CF7-BE10-4CBC-899C-0976D9DBCC74}</Project>
-      <Name>NetMX.Remote.Jsr262</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\NetMX.Remote\NetMX.Remote.csproj">
-      <Project>{E5D06BDE-F173-4175-BF94-F9DDCE4E347D}</Project>
-      <Name>NetMX.Remote</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\NetMX\NetMX.csproj">
-      <Project>{619AD956-B7BC-492D-9722-25DA4891E144}</Project>
-      <Name>NetMX</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Simon.Configuration\Simon.Configuration.csproj">
-      <Project>{E67606FD-77EF-4498-829C-CA24FFB03117}</Project>
-      <Name>Simon.Configuration</Name>
+    <ProjectReference Include="..\Simon.WsManagement\Simon.WsManagement.csproj">
+      <Project>{39D41E1E-D5D1-4CC4-BCCD-D91DB58A04D2}</Project>
+      <Name>Simon.WsManagement</Name>
     </ProjectReference>
   </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
