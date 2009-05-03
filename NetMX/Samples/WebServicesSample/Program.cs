@@ -25,6 +25,9 @@ namespace WebServicesSample
                IMBeanServerConnection remoteServer = connector.MBeanServerConnection;               
                object counter = remoteServer.GetAttribute(name, "Counter");
                Console.WriteLine("Counter value is {0}", counter);
+               remoteServer.SetAttribute(name, "Counter", 1);
+               counter = remoteServer.GetAttribute(name, "Counter");
+               Console.WriteLine("Counter value is {0}", counter);
                Console.ReadKey();
             }
          }

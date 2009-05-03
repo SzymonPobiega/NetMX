@@ -509,7 +509,7 @@ namespace NetMX.Relation
                RelationNotification.RelationMBeanCreation,
                RelationNotification.RelationMBeanRemoval,
                RelationNotification.RelationMBeanUpdate
-            }, typeof(RelationNotification), "Relation notification");
+            }, typeof(RelationNotification).AssemblyQualifiedName, "Relation notification");
          this.Initialize(name, new MBeanNotificationInfo[] { info });
          return name;
       }

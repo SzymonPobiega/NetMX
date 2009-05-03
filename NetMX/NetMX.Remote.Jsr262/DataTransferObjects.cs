@@ -402,13 +402,13 @@ namespace NetMX.Remote.Jsr262
       [XmlElement("Integer", typeof (string), DataType = "integer")]
       [XmlElement("List", typeof (MultipleValueType))]
       [XmlElement("Long", typeof (long))]
-      //[XmlElement("ManagedResourceRelationType", typeof (ManagedResourceRelationType))]
-      //[XmlElement("ManagedResourceRole", typeof (ManagedResourceRole))]
-      //[XmlElement("ManagedResourceRoleInfo", typeof (ManagedResourceRoleInfo))]
-      //[XmlElement("ManagedResourceRoleList", typeof (ManagedResourceRoleList))]
-      //[XmlElement("ManagedResourceRoleResult", typeof (ManagedResourceRoleResult))]
-      //[XmlElement("ManagedResourceRoleUnresolved", typeof (ManagedResourceRoleUnresolved))]
-      //[XmlElement("ManagedResourceRoleUnresolvedList", typeof (ManagedResourceRoleUnresolvedList))]
+      [XmlElement("ManagedResourceRelationType", typeof(ManagedResourceRelationType))]
+      [XmlElement("ManagedResourceRole", typeof(ManagedResourceRole))]
+      [XmlElement("ManagedResourceRoleInfo", typeof(ManagedResourceRoleInfo))]
+      [XmlElement("ManagedResourceRoleList", typeof(ManagedResourceRoleList))]
+      [XmlElement("ManagedResourceRoleResult", typeof(ManagedResourceRoleResult))]
+      [XmlElement("ManagedResourceRoleUnresolved", typeof(ManagedResourceRoleUnresolved))]
+      [XmlElement("ManagedResourceRoleUnresolvedList", typeof(ManagedResourceRoleUnresolvedList))]
       [XmlElement("Map", typeof (MapType))]
       [XmlElement("NotificationFilter", typeof (XmlElement))]
       [XmlElement("NotificationResult", typeof (NotificationResult))]
@@ -945,21 +945,20 @@ namespace NetMX.Remote.Jsr262
    [XmlRoot(Namespace = "http://jsr262.dev.java.net/jmxconnector", IsNullable = false)]
    public partial class ManagedResourceRoleResult
    {
-      private ManagedResourceRole[] managedResourceRoleListField;
+      private ManagedResourceRoleList managedResourceRoleListField;
+      private ManagedResourceRoleUnresolvedList managedResourceRoleUnresolvedListField;
 
-      private ManagedResourceRoleUnresolved[] managedResourceRoleUnresolvedListField;
 
-
-      [XmlElement("ManagedResourceRoleList", typeof (ManagedResourceRoleList))]
-      public ManagedResourceRole[] ManagedResourceRoleList
+      [XmlElement("ManagedResourceRoleList", typeof (ManagedResourceRoleList))]            
+      public ManagedResourceRoleList ManagedResourceRoleList
       {
          get { return managedResourceRoleListField; }
          set { managedResourceRoleListField = value; }
       }
 
 
-      [XmlElement("ManagedResourceRoleUnresolvedList", typeof (ManagedResourceRoleUnresolvedList))]
-      public ManagedResourceRoleUnresolved[] ManagedResourceRoleUnresolvedList
+      [XmlElement("ManagedResourceRoleUnresolvedList", typeof (ManagedResourceRoleUnresolvedList))]      
+      public ManagedResourceRoleUnresolvedList ManagedResourceRoleUnresolvedList
       {
          get { return managedResourceRoleUnresolvedListField; }
          set { managedResourceRoleUnresolvedListField = value; }
@@ -1617,7 +1616,7 @@ namespace NetMX.Remote.Jsr262
    [DebuggerStepThrough]
    [DesignerCategory("code")]
    [XmlType(Namespace = "http://jsr262.dev.java.net/jmxconnector")]
-   public abstract class FeatureInfoType : FeatureDescriptorType
+   public abstract partial class FeatureInfoType : FeatureDescriptorType
    {
       private Description descriptionField;
 
@@ -1708,7 +1707,7 @@ namespace NetMX.Remote.Jsr262
    [DebuggerStepThrough]
    [DesignerCategory("code")]
    [XmlType(Namespace = "http://jsr262.dev.java.net/jmxconnector")]
-   public abstract class TypedFeatureInfoType : FeatureInfoType
+   public abstract partial class TypedFeatureInfoType : FeatureInfoType
    {
       private bool primitiveField;
 

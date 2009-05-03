@@ -24,7 +24,7 @@ namespace NetMX.Remote.Jsr262
       }
       public void Connect(object credentials)
       {
-         ChannelFactory<INetMXWSService> factory = new ChannelFactory<INetMXWSService>(
+         ChannelFactory<IJsr262ServiceContract> factory = new ChannelFactory<IJsr262ServiceContract>(
             new WSHttpBinding(SecurityMode.None));         
          _connectionId = Guid.NewGuid();         
          _connection = new Jsr262MBeanServerConnection(new ProxyFactory(factory, _serviceUrl));

@@ -59,18 +59,23 @@
     <Compile Include="Consts.cs" />
     <Compile Include="EndpointReference.cs" />
     <Compile Include="GetAttributesFragment.cs" />
-    <Compile Include="INetMXWSService.cs" />
+    <Compile Include="Jsr262ServiceContract.cs" />
     <Compile Include="Jsr262Connector.cs" />
     <Compile Include="Jsr262ConnectorProvider.cs" />
     <Compile Include="Jsr262ConnectorServer.cs" />
     <Compile Include="Jsr262ConnectorServerProvider.cs" />
     <Compile Include="Jsr262MBeanServerConnection.cs" />
-    <Compile Include="NetMXWSServiceImpl.cs" />
+    <Compile Include="Jsr262ServiceImplementation.cs" />
+    <Compile Include="ObjectNameSelector.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ProxyFactory.cs" />
     <Compile Include="SerializationLogic.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\NetMX.Relation\NetMX.Relation.csproj">
+      <Project>{777EBC51-1D14-4170-8ABA-9D78328641D7}</Project>
+      <Name>NetMX.Relation</Name>
+    </ProjectReference>
     <ProjectReference Include="..\NetMX.Remote\NetMX.Remote.csproj">
       <Project>{E5D06BDE-F173-4175-BF94-F9DDCE4E347D}</Project>
       <Name>NetMX.Remote</Name>

@@ -89,7 +89,7 @@ namespace Simon.WsManagement
          }
       }
 
-      public static Selector ReadFrom(XmlDictionaryReader reader)
+      public static Selector ReadFrom(XmlReader reader)
       {
          Selector result;
          reader.ReadStartElement(ElementName, Schema.Namespace);
@@ -101,7 +101,7 @@ namespace Simon.WsManagement
          }
          else
          {
-            EndpointAddress addr = EndpointAddress.ReadFrom(AddressingVersion.WSAddressingAugust2004, reader);
+            EndpointAddress addr = EndpointAddress.ReadFrom(AddressingVersion.WSAddressing10, reader);
             result = new Selector(name, addr);
          }
          reader.ReadEndElement();
@@ -118,7 +118,7 @@ namespace Simon.WsManagement
          }
          else if (_addressReferenceValue != null)
          {
-            _addressReferenceValue.WriteTo(AddressingVersion.WSAddressingAugust2004, writer);
+            _addressReferenceValue.WriteTo(AddressingVersion.WSAddressing10, writer);
          }
          writer.WriteEndElement();
       }

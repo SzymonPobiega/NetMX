@@ -39,9 +39,9 @@ namespace NetMX.Remote.Jsr262
          {
             throw new InvalidOperationException("Server is already started.");
          }
-         _serviceHost = new ServiceHost(new NetMXWSServiceImpl(_server) );
+         _serviceHost = new ServiceHost(new Jsr262ServiceImplementation(_server) );
          WSHttpBinding binding = new WSHttpBinding(SecurityMode.None);
-         ServiceEndpoint endpoint = _serviceHost.AddServiceEndpoint(typeof (INetMXWSService), binding, _serviceUrl);         
+         ServiceEndpoint endpoint = _serviceHost.AddServiceEndpoint(typeof (IJsr262ServiceContract), binding, _serviceUrl);         
          _serviceHost.Open();
       }
 

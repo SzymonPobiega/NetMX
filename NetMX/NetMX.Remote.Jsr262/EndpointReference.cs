@@ -6,34 +6,46 @@ using System.ServiceModel.Channels;
 using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
+using Simon.WsManagement;
 
 namespace NetMX.Remote.Jsr262
 {
-    [Serializable()]    
-    public class EndpointReferenceType : IXmlSerializable
-    {
-        private EndpointAddress _address;
+   [Serializable()]
+   public class EndpointReferenceType : IXmlSerializable
+   {
+      private ObjectName _objectName;
 
-        public EndpointAddress a
-        {
-            get { return _address; }
-            set { _address = value; }
-        }
+      public EndpointReferenceType()
+      {         
+      }
+      
+      public EndpointReferenceType(ObjectName objectName)
+      {
+         _objectName = objectName;
+      }
 
-        #region IXmlSerializable Members
-        public System.Xml.Schema.XmlSchema GetSchema()
-        {
-            return null;
-        }
-        public void ReadXml(XmlReader reader)
-        {
-            _address =
-                EndpointAddress.ReadFrom(AddressingVersion.WSAddressing10, XmlDictionaryReader.CreateDictionaryReader(reader));
-        }
-        public void WriteXml(XmlWriter writer)
-        {
-            _address.WriteContentsTo(AddressingVersion.WSAddressing10, XmlDictionaryWriter.CreateDictionaryWriter(writer));
-        }
-        #endregion
-    }
+      public ObjectName ObjectName
+      {
+         get { return _objectName; }
+      }
+
+      #region IXmlSerializable Members
+      public System.Xml.Schema.XmlSchema GetSchema()
+      {
+         return null;
+      }
+      public void ReadXml(XmlReader reader)
+      {         
+         SelectorSetHeader selectorSet = SelectorSetHeader.ReadFrom(reader);
+         _objectName = ObjectNameSelector.ExtractObjectName(selectorSet);
+      }
+      public void WriteXml(XmlWriter writer)
+      {
+         EndpointAddressBuilder builder = new EndpointAddressBuilder();
+         builder.Headers.Add(ObjectNameSelector.CreateSelectorSet(ObjectName));         
+         EndpointAddress address = builder.ToEndpointAddress();
+         address.WriteContentsTo(AddressingVersion.WSAddressing10, XmlDictionaryWriter.CreateDictionaryWriter(writer));
+      }
+      #endregion           
+   }
 }

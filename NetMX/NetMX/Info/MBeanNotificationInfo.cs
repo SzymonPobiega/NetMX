@@ -23,12 +23,12 @@ namespace NetMX
 		/// </summary>
 		/// <param name="notifTypes">The array of strings (in dot notation) containing the notification types that 
 		/// the MBean may emit.</param>
-		/// <param name="type">The CLR type of the described notifications.</param>
+      /// <param name="notificationTypeName">The CLR type name of the described notifications.</param>
 		/// <param name="description">A human readable description of the data.</param>
-		public MBeanNotificationInfo(string[] notifTypes, Type type, string description)
-			: base(type.AssemblyQualifiedName, description)
+		public MBeanNotificationInfo(string[] notifTypes, string notificationTypeName, string description)
+         : base(notificationTypeName, description)
 		{
-			_notifTypes = Array.AsReadOnly<string>(notifTypes);
+			_notifTypes = Array.AsReadOnly(notifTypes);
 		}
 		/// <summary>
 		/// Constructs <see cref="NetMX.MBeanNotificationInfo"/> object.

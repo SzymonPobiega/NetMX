@@ -8,17 +8,17 @@ using Simon.WsManagement;
 
 namespace NetMX.Remote.Jsr262
 {
-   public interface IDisposableProxy : INetMXWSService, IDisposable
+   public interface IDisposableProxy : IJsr262ServiceContract, IDisposable
    {      
    }
 
    internal sealed class ProxyFactory : IDisposable
    {
       private bool _disposed;
-      private readonly ChannelFactory<INetMXWSService> _channelFactory;
+      private readonly ChannelFactory<IJsr262ServiceContract> _channelFactory;
       private readonly Uri _endpointUri;
 
-      public ProxyFactory(ChannelFactory<INetMXWSService> channelFactory, Uri endpointUri)
+      public ProxyFactory(ChannelFactory<IJsr262ServiceContract> channelFactory, Uri endpointUri)
       {
          _channelFactory = channelFactory;
          _endpointUri = endpointUri;
@@ -29,7 +29,7 @@ namespace NetMX.Remote.Jsr262
          EndpointAddressBuilder builder = new EndpointAddressBuilder();
          if (objectName != null)
          {
-            builder.Headers.Add(new SelectorSetHeader(new Selector("ObjectName", objectName)));            
+            builder.Headers.Add(ObjectNameSelector.CreateSelectorSet(objectName));            
          }
          if (resourceUri != null)
          {
@@ -37,7 +37,7 @@ namespace NetMX.Remote.Jsr262
          }
          builder.Uri = _endpointUri;
 
-         INetMXWSService proxy = _channelFactory.CreateChannel(builder.ToEndpointAddress());
+         IJsr262ServiceContract proxy = _channelFactory.CreateChannel(builder.ToEndpointAddress());
          OperationContextScope scope = new OperationContextScope((IContextChannel)proxy);
          return new DisposableProxy(proxy, scope);
       }
@@ -45,10 +45,10 @@ namespace NetMX.Remote.Jsr262
       private sealed class DisposableProxy : IDisposableProxy
       {
          private bool _disposed;
-         private readonly INetMXWSService _realProxy;
+         private readonly IJsr262ServiceContract _realProxy;
          private readonly OperationContextScope _scope;
 
-         public DisposableProxy(INetMXWSService realProxy, OperationContextScope scope)
+         public DisposableProxy(IJsr262ServiceContract realProxy, OperationContextScope scope)
          {
             _realProxy = realProxy;
             _scope = scope;            
@@ -59,14 +59,24 @@ namespace NetMX.Remote.Jsr262
             return _realProxy.GetAttributes();
          }
 
-         public DynamicMBeanResource SetAttribute()
+         public DynamicMBeanResource SetAttributes(DynamicMBeanResource request)
          {
-            return _realProxy.SetAttribute();
+            return _realProxy.SetAttributes(request);
          }
 
-         public void Invoke()
+         public GenericValueType Invoke(OperationRequestType requst)
          {
-            _realProxy.Invoke();
+            return _realProxy.Invoke(requst);
+         }
+
+         public ResourceCreated CreateMBean(DynamicMBeanResourceConstructor request)
+         {
+            return _realProxy.CreateMBean(request);
+         }
+
+         public ResourceMetaDataType GetMBeanInfo()
+         {
+            return _realProxy.GetMBeanInfo();
          }
 
          public void Dispose()

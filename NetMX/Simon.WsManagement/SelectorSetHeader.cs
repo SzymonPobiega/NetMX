@@ -41,7 +41,7 @@ namespace Simon.WsManagement
          _selectors = new List<Selector>();
       }
       
-      public static SelectorSetHeader ReadFrom(XmlDictionaryReader reader)
+      public static SelectorSetHeader ReadFrom(XmlReader reader)
       {
          SelectorSetHeader result = new SelectorSetHeader();
          reader.ReadStartElement(ElementName, Schema.Namespace);

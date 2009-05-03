@@ -94,7 +94,7 @@ namespace NetMX
       {
          base.Initialize(name, new MBeanNotificationInfo[] {
             new MBeanNotificationInfo(new string[] { MBeanServerNotification.RegistrationNotification,
-               MBeanServerNotification.UnregistrationNotification }, typeof(MBeanServerNotification), null)});
+               MBeanServerNotification.UnregistrationNotification }, typeof(MBeanServerNotification).AssemblyQualifiedName, null)});
          return name;
       }
       #endregion

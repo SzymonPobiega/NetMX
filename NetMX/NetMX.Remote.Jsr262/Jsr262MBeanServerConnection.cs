@@ -36,7 +36,18 @@ namespace NetMX.Remote.Jsr262
 
       public ObjectInstance CreateMBean(string className, ObjectName name, object[] arguments)
       {
-         throw new NotImplementedException();
+         DynamicMBeanResourceConstructor request = new DynamicMBeanResourceConstructor
+                                                      {
+                                                         RegistrationParameters =
+                                                            arguments.Select(x => new ParameterType(null, x)).ToArray(),
+                                                         ResourceClass = className,
+                                                         ResourceEPR = new EndpointReferenceType(name)
+                                                      };
+         using (IDisposableProxy proxy = _proxyFactory.Create(null, Schema.MBeanServerResourceUri))
+         {
+            ResourceCreated response = proxy.CreateMBean(request);
+            return new ObjectInstance(response.EndpointAddress.ExtractObjectName(), null);
+         }
       }
 
       public void RemoveNotificationListener(ObjectName name, ObjectName listener, NotificationFilterCallback filterCallback, object handback)
@@ -56,29 +67,58 @@ namespace NetMX.Remote.Jsr262
 
       public object Invoke(ObjectName name, string operationName, object[] arguments)
       {
-         throw new NotImplementedException();
+         OperationRequestType request = new OperationRequestType
+                                           {
+                                              Input = arguments.Select(x => new ParameterType(null, x)).ToArray(),
+                                              name = operationName,
+                                              Signature = null
+                                           };
+         using (IDisposableProxy proxy = _proxyFactory.Create(name, Schema.DynamicMBeanResourceUri))
+         {
+            return proxy.Invoke(request).Deserialize();
+         }
       }
 
       public void SetAttribute(ObjectName name, string attributeName, object value)
       {
-         throw new NotImplementedException();
+         DynamicMBeanResource request = new DynamicMBeanResource
+                                           {
+                                              Property = new[]
+                                                            {
+                                                               new NamedGenericValueType(attributeName, value),
+                                                            }
+                                           };
+
+         using (IDisposableProxy proxy = _proxyFactory.Create(name, Schema.DynamicMBeanResourceUri))
+         {
+            proxy.SetAttributes(request);
+         }
       }
 
       public IList<AttributeValue> SetAttributes(ObjectName name, IEnumerable<AttributeValue> namesAndValues)
       {
-         throw new NotImplementedException();
+         DynamicMBeanResource request = new DynamicMBeanResource
+                                           {
+                                              Property = namesAndValues.Select(x => new NamedGenericValueType(x.Name, x.Value)).ToArray()
+                                           };
+
+         using (IDisposableProxy proxy = _proxyFactory.Create(name, Schema.DynamicMBeanResourceUri))
+         {
+            DynamicMBeanResource response = proxy.SetAttributes(request);
+            return response.Property.Select(x => new AttributeValue(x.name, x.Deserialize())).ToList();
+         }         
       }
 
       public object GetAttribute(ObjectName name, string attributeName)
-      {         
+      {
          FragmentTransferHeader fragmentTransferHeader = new FragmentTransferHeader(
-            new GetAttributesFragment(new [] {attributeName}).GetExpression());
+            new GetAttributesFragment(new[] { attributeName }).GetExpression());
 
          DynamicMBeanResource beanResource;
-         using (IDisposableProxy proxy = _proxyFactory.Create(name, @"http://jsr262.dev.java.net/DynamicMBeanResource"))
-         {            
+         using (IDisposableProxy proxy = _proxyFactory.Create(name, Schema.DynamicMBeanResourceUri))
+         {
             OperationContext.Current.OutgoingMessageHeaders.Add(fragmentTransferHeader);
-            beanResource = proxy.GetAttributes();            
+            beanResource = proxy.GetAttributes();
          }
 
          return beanResource.Property.First(x => x.name == attributeName).Deserialize();
@@ -86,7 +126,17 @@ namespace NetMX.Remote.Jsr262
 
       public IList<AttributeValue> GetAttributes(ObjectName name, string[] attributeNames)
       {
-         throw new NotImplementedException();
+         FragmentTransferHeader fragmentTransferHeader = new FragmentTransferHeader(
+            new GetAttributesFragment(attributeNames).GetExpression());
+
+         DynamicMBeanResource beanResource;
+         using (IDisposableProxy proxy = _proxyFactory.Create(name, Schema.DynamicMBeanResourceUri))
+         {
+            OperationContext.Current.OutgoingMessageHeaders.Add(fragmentTransferHeader);
+            beanResource = proxy.GetAttributes();
+         }
+
+         return beanResource.Property.Select(x => new AttributeValue(x.name, x.Deserialize())).ToList();
       }
 
       public int GetMBeanCount()
@@ -95,8 +145,11 @@ namespace NetMX.Remote.Jsr262
       }
 
       public MBeanInfo GetMBeanInfo(ObjectName name)
-      {
-         throw new NotImplementedException();
+      {         
+         using (IDisposableProxy proxy = _proxyFactory.Create(name, Schema.DynamicMBeanResourceUri))
+         {
+            return proxy.GetMBeanInfo().Deserialize();
+         }
       }
 
       public bool IsInstanceOf(ObjectName name, string className)
