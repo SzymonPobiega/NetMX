@@ -33,6 +33,6 @@ namespace NetMX.Remote.Jsr262
       /// <summary>
       /// URI of JSR-262 get MBean metadata action response.
       /// </summary>
-      public const string GetMBeanInfoResponseAction = " http://jsr262.dev.java.net/DynamicMBeanResource/MetadataResponse";
+      public const string GetMBeanInfoResponseAction = "http://jsr262.dev.java.net/DynamicMBeanResource/MetadataResponse";
    }
 }

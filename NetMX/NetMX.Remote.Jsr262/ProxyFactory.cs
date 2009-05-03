@@ -69,7 +69,7 @@ namespace NetMX.Remote.Jsr262
             return _realProxy.Invoke(requst);
          }
 
-         public ResourceCreated CreateMBean(DynamicMBeanResourceConstructor request)
+         public EndpointReferenceType CreateMBean(DynamicMBeanResourceConstructor request)
          {
             return _realProxy.CreateMBean(request);
          }

@@ -14,6 +14,18 @@ namespace NetMX.Remote.Jsr262
       object Deserialize();
    }
 
+   public static class SerializationEnumerableExtensions
+   {
+      public static IEnumerable<T> EmptyIfNull<T>(this IEnumerable<T> nullableCollection)
+      {
+         if (nullableCollection != null)
+         {
+            return nullableCollection;
+         }
+         return new T[] { };
+      }
+   }
+
    public partial class NamedGenericValueType
    {
       public NamedGenericValueType()
@@ -227,6 +239,9 @@ namespace NetMX.Remote.Jsr262
 
    public partial class ManagedResourceRole
    {
+      public ManagedResourceRole()
+      {         
+      }
       public ManagedResourceRole(Role role)
       {
          name = role.Name;
@@ -240,6 +255,9 @@ namespace NetMX.Remote.Jsr262
 
    public partial class ManagedResourceRoleUnresolved
    {
+      public ManagedResourceRoleUnresolved()
+      {         
+      }
       public ManagedResourceRoleUnresolved(RoleUnresolved role)
       {
          name = role.RoleName;
@@ -255,6 +273,9 @@ namespace NetMX.Remote.Jsr262
 
    public partial class ManagedResourceRoleResult : IDeserializable
    {
+      public ManagedResourceRoleResult()
+      {         
+      }
       public ManagedResourceRoleResult(RoleResult roleResult)
       {
          ManagedResourceRoleList = new ManagedResourceRoleList
@@ -280,6 +301,9 @@ namespace NetMX.Remote.Jsr262
 
    public partial class ResourceMetaDataType
    {
+      public ResourceMetaDataType()
+      {         
+      }
       public ResourceMetaDataType(MBeanInfo beanInfo)
       {
          Description = new Description {Value = beanInfo.Description};
@@ -292,10 +316,18 @@ namespace NetMX.Remote.Jsr262
       public MBeanInfo Deserialize()
       {
          return new MBeanInfo(dynamicMBeanResourceClassField, Description.Value,
-            propertyTypeField.Select(x => x.Deserialize()),
-            factoryTypeField.Select(x => x.Deserialize()),
-            operationTypeField.Select(x => x.Deserialize()),
-            notificationTypeField.Select(x => x.Deserialize()));
+            propertyTypeField.EmptyIfNull().Select(x => x.Deserialize()),
+            factoryTypeField.EmptyIfNull().Select(x => x.Deserialize()),
+            operationTypeField.EmptyIfNull().Select(x => x.Deserialize()),
+            notificationTypeField.EmptyIfNull().Select(x => x.Deserialize()));
+      }
+      private static IEnumerable<T> EmptyIfNull<T>(IEnumerable<T> nullableCollection)
+      {         
+         if (nullableCollection != null)
+         {
+            return nullableCollection;
+         }
+         return new T[] {};
       }
    }
 
@@ -332,11 +364,12 @@ namespace NetMX.Remote.Jsr262
          if (attributeInfo.Writable)
          {
             accessField += "w";
-         }         
+         }
+         type = new XmlQualifiedName(attributeInfo.Type);
       }
       public MBeanAttributeInfo Deserialize()
       {
-         return new MBeanAttributeInfo(name, Description.Value, null, accessField.IndexOf('r') != 1, accessField.IndexOf('w') != 1 );
+         return new MBeanAttributeInfo(name, Description.Value, type.Name, accessField.IndexOf('r') != 1, accessField.IndexOf('w') != 1 );
       }
    }
 
@@ -370,7 +403,7 @@ namespace NetMX.Remote.Jsr262
       public MBeanConstructorInfo Deserialize()
       {
          return new MBeanConstructorInfo(name, Description.Value, 
-                                       parameterField.Select(x => x.Deserialize()).ToArray());
+                                       parameterField.EmptyIfNull().Select(x => x.Deserialize()).ToArray());
       }
    }
 
@@ -410,9 +443,9 @@ namespace NetMX.Remote.Jsr262
             impactEnum |= OperationImpact.Info;
          }
          return new MBeanOperationInfo(name, Description.Value, outputField.type.Name,
-                                       inputField.Select(x => x.Deserialize()).ToArray(),
+                                       inputField.EmptyIfNull().Select(x => x.Deserialize()).ToArray(),
                                        impactEnum);
-      }
+      }      
    }
 
    public partial class ParameterModelInfoType

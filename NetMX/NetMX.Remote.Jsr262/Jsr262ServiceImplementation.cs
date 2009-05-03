@@ -62,7 +62,7 @@ namespace NetMX.Remote.Jsr262
          return new GenericValueType(result);
       }
 
-      public ResourceCreated CreateMBean(DynamicMBeanResourceConstructor request)
+      public EndpointReferenceType CreateMBean(DynamicMBeanResourceConstructor request)
       {
          CheckResourceUri(Schema.MBeanServerResourceUri);
 
@@ -71,9 +71,9 @@ namespace NetMX.Remote.Jsr262
 
          ObjectInstance instance = _server.CreateMBean(request.ResourceClass, objectName, arguments);
 
-         EndpointAddressBuilder builder = new EndpointAddressBuilder();
-         builder.Headers.Add(ObjectNameSelector.CreateSelectorSet(instance.ObjectName));         
-         return new ResourceCreated(builder.ToEndpointAddress());
+         //EndpointAddressBuilder builder = new EndpointAddressBuilder();
+         //builder.Headers.Add(ObjectNameSelector.CreateSelectorSet(instance.ObjectName));
+         return new EndpointReferenceType(instance.ObjectName);
       }
 
       public ResourceMetaDataType GetMBeanInfo()

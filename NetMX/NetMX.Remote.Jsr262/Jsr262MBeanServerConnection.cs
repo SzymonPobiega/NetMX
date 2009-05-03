@@ -45,8 +45,8 @@ namespace NetMX.Remote.Jsr262
                                                       };
          using (IDisposableProxy proxy = _proxyFactory.Create(null, Schema.MBeanServerResourceUri))
          {
-            ResourceCreated response = proxy.CreateMBean(request);
-            return new ObjectInstance(response.EndpointAddress.ExtractObjectName(), null);
+            EndpointReferenceType response = proxy.CreateMBean(request);
+            return new ObjectInstance(response.ObjectName, null);
          }
       }
 

@@ -3,15 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.ServiceModel;
 using System.Text;
+using System.Xml.Serialization;
 
 namespace Simon.WsManagement
 {
-   [MessageContract]
+   [XmlRoot("ResourceCreated", Namespace = WsTransfer.Namespace)]
    public sealed class ResourceCreated
    {
       private EndpointAddress _epa;
 
-      [MessageBodyMember(Name = WsTransfer.CreateAction, Namespace = WsTransfer.Namespace, Order = 0)]
+      [XmlElement(ElementName = "" )]
       public EndpointAddress10 EndpointAddress10
       {
          get { return EndpointAddress10.FromEndpointAddress(_epa); }

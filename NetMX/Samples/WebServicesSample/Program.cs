@@ -22,7 +22,8 @@ namespace WebServicesSample
 
             using (INetMXConnector connector = NetMXConnectorFactory.Connect(serviceUrl, null))
             {
-               IMBeanServerConnection remoteServer = connector.MBeanServerConnection;               
+               IMBeanServerConnection remoteServer = connector.MBeanServerConnection;
+               MBeanInfo metadata = remoteServer.GetMBeanInfo(name);
                object counter = remoteServer.GetAttribute(name, "Counter");
                Console.WriteLine("Counter value is {0}", counter);
                remoteServer.SetAttribute(name, "Counter", 1);

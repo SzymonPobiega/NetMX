@@ -22,7 +22,7 @@ namespace NetMX.Remote.Jsr262
 
       [OperationContract(Action = WsTransfer.CreateAction,
          ReplyAction = WsTransfer.CreateResponseAction)]
-      ResourceCreated CreateMBean(DynamicMBeanResourceConstructor request);
+      EndpointReferenceType CreateMBean(DynamicMBeanResourceConstructor request);
 
       [OperationContract(Action = Schema.GetMBeanInfoAction,
          ReplyAction = Schema.GetMBeanInfoResponseAction)]

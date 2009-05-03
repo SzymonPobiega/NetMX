@@ -20,7 +20,7 @@ namespace Simon.WsManagement
          {
             throw new ArgumentNullException("value");
          }
-         _simpleValue = value;
+         _simpleValue = value;         
       }
 
       public Selector(string name, EndpointAddress value)
@@ -92,8 +92,8 @@ namespace Simon.WsManagement
       public static Selector ReadFrom(XmlReader reader)
       {
          Selector result;
-         reader.ReadStartElement(ElementName, Schema.Namespace);
          string name = reader.GetAttribute("Name");
+         reader.ReadStartElement(ElementName, Schema.Namespace);         
          if (reader.NodeType == XmlNodeType.Text)
          {
             result = new Selector(name, reader.Value);
