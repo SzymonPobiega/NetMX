@@ -9,7 +9,7 @@ namespace Simon.WsManagement
    public static class WsAddressing
    {
       private const string FaultAction = "http://schemas.xmlsoap.org/ws/2004/08/addressing/fault";
-      private const string Namespace = "http://schemas.xmlsoap.org/ws/2004/08/addressing";
+      internal const string Namespace = "http://schemas.xmlsoap.org/ws/2004/08/addressing";
 
       public static FaultException CreateDestinationUnreachable()
       {

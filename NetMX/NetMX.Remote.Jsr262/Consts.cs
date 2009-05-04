@@ -3,6 +3,10 @@ namespace NetMX.Remote.Jsr262
    internal static class Schema
    {
       /// <summary>
+      /// URI of namespece for the connector.
+      /// </summary>
+      public const string ConnectorNamespace = "http://jsr262.dev.java.net/jmxconnector";
+      /// <summary>
       /// URI of resource representing MBean.
       /// </summary>
       public const string DynamicMBeanResourceUri = "http://jsr262.dev.java.net/DynamicMBeanResource";

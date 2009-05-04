@@ -365,11 +365,11 @@ namespace NetMX.Remote.Jsr262
          {
             accessField += "w";
          }
-         type = new XmlQualifiedName(attributeInfo.Type);
+         type = JmxTypeMapping.GetJmxXmlType(attributeInfo.Type);
       }
       public MBeanAttributeInfo Deserialize()
       {
-         return new MBeanAttributeInfo(name, Description.Value, type.Name, accessField.IndexOf('r') != 1, accessField.IndexOf('w') != 1 );
+         return new MBeanAttributeInfo(name, Description.Value, JmxTypeMapping.GetCLRTypeName(type), accessField.IndexOf('r') != 1, accessField.IndexOf('w') != 1);
       }
    }
 
@@ -442,7 +442,7 @@ namespace NetMX.Remote.Jsr262
          {
             impactEnum |= OperationImpact.Info;
          }
-         return new MBeanOperationInfo(name, Description.Value, outputField.type.Name,
+         return new MBeanOperationInfo(name, Description.Value, JmxTypeMapping.GetCLRTypeName(outputField.type),
                                        inputField.EmptyIfNull().Select(x => x.Deserialize()).ToArray(),
                                        impactEnum);
       }      
@@ -456,18 +456,18 @@ namespace NetMX.Remote.Jsr262
 
       public ParameterModelInfoType(string typeName)         
       {
-         type = new XmlQualifiedName(typeName);
+         type = JmxTypeMapping.GetJmxXmlType(typeName);
       }
 
       public ParameterModelInfoType(MBeanParameterInfo parameterInfo)
          : base(parameterInfo)
       {
-         type = new XmlQualifiedName(parameterInfo.Type);
+         type = JmxTypeMapping.GetJmxXmlType(parameterInfo.Type);
       }
 
       public MBeanParameterInfo Deserialize()
       {
-         return new MBeanParameterInfo(name, Description.Value, type.Name);
+         return new MBeanParameterInfo(name, Description.Value, JmxTypeMapping.GetCLRTypeName(type));
       }
    }
 }

@@ -59,6 +59,7 @@
     <Compile Include="Consts.cs" />
     <Compile Include="EndpointReference.cs" />
     <Compile Include="GetAttributesFragment.cs" />
+    <Compile Include="JmxTypeMapping.cs" />
     <Compile Include="Jsr262ServiceContract.cs" />
     <Compile Include="Jsr262Connector.cs" />
     <Compile Include="Jsr262ConnectorProvider.cs" />
