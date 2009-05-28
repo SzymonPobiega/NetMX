@@ -54,14 +54,19 @@ namespace NetMX.Remote.Jsr262
             _scope = scope;            
          }
 
-         public DynamicMBeanResource GetAttributes()
+         public object Get()
          {
-            return _realProxy.GetAttributes();
+            return _realProxy.Get();
          }
 
          public DynamicMBeanResource SetAttributes(DynamicMBeanResource request)
          {
             return _realProxy.SetAttributes(request);
+         }
+
+         public void UnregisterMBean()
+         {
+            _realProxy.UnregisterMBean();
          }
 
          public GenericValueType Invoke(OperationRequestType requst)
@@ -77,6 +82,11 @@ namespace NetMX.Remote.Jsr262
          public ResourceMetaDataType GetMBeanInfo()
          {
             return _realProxy.GetMBeanInfo();
+         }
+
+         public EnumerateResponse Enumerate(Enumerate request)
+         {
+            return _realProxy.Enumerate(request);
          }
 
          public void Dispose()

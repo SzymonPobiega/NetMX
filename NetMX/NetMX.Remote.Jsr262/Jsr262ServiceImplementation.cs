@@ -18,24 +18,51 @@ namespace NetMX.Remote.Jsr262
       }
 
       #region INetMXWSService Members      
-      public DynamicMBeanResource GetAttributes()
+      public object Get()
+      {
+         object result;
+         FragmentTransferHeader fragmentTransfer = FragmentTransferHeader.ReadFrom(OperationContext.Current.IncomingMessageHeaders);         
+         if (fragmentTransfer.Expression == IJsr262ServiceContractConstants.GetDefaultDomainFragmentTransferPath)
+         {
+            result = GetDefaultDomain();
+         }
+         else if (fragmentTransfer.Expression == IJsr262ServiceContractConstants.GetDomainsFragmentTransferPath)
+         {
+            result = GetDomains();
+         }
+         else
+         {
+            result = GetAttributes(fragmentTransfer.Expression);  
+         }         
+         OperationContext.Current.OutgoingMessageHeaders.Add(fragmentTransfer);
+         return result;
+      }
+
+      private object GetDomains()
+      {
+         return new GetDomainsResponse {DomainNames = _server.GetDomains().ToArray()};
+      }
+
+      private object GetDefaultDomain()
+      {
+         return new GetDefaultDomainResponse {DomainName = _server.GetDefaultDomain()};
+      }
+
+      private object GetAttributes(string fragmentTransferExpression)
       {
          CheckResourceUri(Schema.DynamicMBeanResourceUri);
-
-         FragmentTransferHeader fragmentTransfer = FragmentTransferHeader.ReadFrom(OperationContext.Current.IncomingMessageHeaders);         
+         
          SelectorSetHeader selectorSet = SelectorSetHeader.ReadFrom(OperationContext.Current.IncomingMessageHeaders);
-         GetAttributesFragment typedFragment = GetAttributesFragment.Parse(fragmentTransfer.Expression);
+         GetAttributesFragment typedFragment = GetAttributesFragment.Parse(fragmentTransferExpression);
          
          DynamicMBeanResource response = new DynamicMBeanResource();
          ObjectName objectName = selectorSet.ExtractObjectName();
 
          IList<AttributeValue> values = _server.GetAttributes(objectName, typedFragment.Names);
 
-         response.Property = values.Select(x => new NamedGenericValueType(x.Name, x.Value)).ToArray();
-
-         OperationContext.Current.OutgoingMessageHeaders.Add(fragmentTransfer);         
+         response.Property = values.Select(x => new NamedGenericValueType(x.Name, x.Value)).ToArray();                  
          return response;
-      }      
+      }
 
       public DynamicMBeanResource SetAttributes(DynamicMBeanResource request)
       {
@@ -51,6 +78,24 @@ namespace NetMX.Remote.Jsr262
          response.Property = values.Select(x => new NamedGenericValueType(x.Name, x.Value)).ToArray();         
          return response;
       }
+
+      public void UnregisterMBean()
+      {
+         CheckResourceUri(Schema.DynamicMBeanResourceUri);
+
+         SelectorSetHeader selectorSet = SelectorSetHeader.ReadFrom(OperationContext.Current.IncomingMessageHeaders);
+         ObjectName objectName = selectorSet.ExtractObjectName();
+
+         try
+         {
+            _server.UnregisterMBean(objectName);
+         }
+         catch (InstanceNotFoundException)
+         {
+            throw WsAddressing.CreateEndpointUnavailable();
+         }         
+      }
+
       public GenericValueType Invoke(OperationRequestType request)
       {
          CheckResourceUri(Schema.DynamicMBeanResourceUri);
@@ -86,6 +131,31 @@ namespace NetMX.Remote.Jsr262
          MBeanInfo info = _server.GetMBeanInfo(objectName);
 
          return new ResourceMetaDataType(info);
+      }
+
+      public EnumerateResponse Enumerate(Enumerate request)
+      {
+         CheckResourceUri(Schema.DynamicMBeanResourceUri);
+
+         bool countRequest =
+            RequestTotalItemsTotalCountEstimate.IsPresent(OperationContext.Current.IncomingMessageHeaders);
+         if (countRequest)
+         {
+            int mbeanCount = _server.GetMBeanCount();
+            TotalItemsTotalCountEstimate responseHeader = new TotalItemsTotalCountEstimate(mbeanCount);
+            OperationContext.Current.OutgoingMessageHeaders.Add(responseHeader);
+            return new EnumerateResponse();
+         }
+         SelectorSetHeader selectorSet = SelectorSetHeader.ReadFrom(OperationContext.Current.IncomingMessageHeaders);
+         ObjectName objectName = selectorSet.ExtractObjectName();
+
+         string dialect = request.Filter.Dialect;
+         if (dialect == Schema.QueryNamesDialect)
+         {
+            _server.QueryNames(objectName, null);
+            return new EnumerateResponse();
+         }
+         throw new NotSupportedException();
       }
 
       #endregion

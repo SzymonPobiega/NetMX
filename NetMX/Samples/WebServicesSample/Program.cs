@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Security.Principal;
 using NetMX;
 using NetMX.Remote;
+using System.Linq;
 
 namespace WebServicesSample
 {
@@ -29,6 +31,12 @@ namespace WebServicesSample
                remoteServer.SetAttribute(name, "Counter", 1);
                counter = remoteServer.GetAttribute(name, "Counter");
                Console.WriteLine("Counter value is {0}", counter);
+               int beanCount = remoteServer.GetMBeanCount();
+               Console.WriteLine("MBean count is {0}", beanCount);
+               string defaultDomain = remoteServer.GetDefaultDomain();
+               Console.WriteLine("Default domain is {0}", defaultDomain);
+               string domains = string.Join(", ", remoteServer.GetDomains().ToArray());
+               Console.WriteLine("Registered domains: {0}", domains);
                Console.ReadKey();
             }
          }

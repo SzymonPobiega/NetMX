@@ -55,7 +55,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DataTransferObjects.cs" />
+    <Compile Include="Jsr262GeneratedTypes.cs" />
     <Compile Include="Consts.cs" />
     <Compile Include="EndpointReference.cs" />
     <Compile Include="GetAttributesFragment.cs" />
@@ -67,10 +67,13 @@
     <Compile Include="Jsr262ConnectorServerProvider.cs" />
     <Compile Include="Jsr262MBeanServerConnection.cs" />
     <Compile Include="Jsr262ServiceImplementation.cs" />
+    <Compile Include="Jsr262Types.cs" />
     <Compile Include="ObjectNameSelector.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ProxyFactory.cs" />
-    <Compile Include="SerializationLogic.cs" />
+    <Compile Include="Jsr262GeneratedTypesLogic.cs" />
+    <Compile Include="WsEnumerationTypes.cs" />
+    <Compile Include="WsEnumerationTypesLogic.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NetMX.Relation\NetMX.Relation.csproj">

@@ -55,12 +55,17 @@ namespace Simon.WsManagement
 
       public override string Namespace
       {
-         get { return WsTransfer.Namespace; }
+         get { return Schema.Namespace; }
+      }
+
+      public int Value
+      {
+         get { return _value; }
       }
 
       protected override void OnWriteHeaderContents(XmlDictionaryWriter writer, MessageVersion messageVersion)
       {
-         writer.WriteValue(_value);
+         writer.WriteValue(Value);
       }
    }
 }

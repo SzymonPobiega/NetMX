@@ -3,9 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.ServiceModel;
 using System.Text;
 using System.Xml;
+using System.Xml.Serialization;
 using NetMX.Relation;
+using Simon.WsManagement;
 
 namespace NetMX.Remote.Jsr262
 {
@@ -470,4 +473,20 @@ namespace NetMX.Remote.Jsr262
          return new MBeanParameterInfo(name, Description.Value, JmxTypeMapping.GetCLRTypeName(type));
       }
    }
+      
+   [Serializable]      
+   [XmlRoot("XmlFragment", Namespace = Simon.WsManagement.Schema.Namespace)]
+   public class DynamicMBeanResourceFragment
+   {
+      private NamedGenericValueType[] propertyField;
+
+      /// <remarks/>
+      [XmlElement("Property")]
+      public NamedGenericValueType[] Property
+      {
+         get { return propertyField; }
+         set { propertyField = value; }
+      }
+   }
+   
 }

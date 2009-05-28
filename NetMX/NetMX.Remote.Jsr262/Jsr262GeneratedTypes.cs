@@ -1873,7 +1873,7 @@ namespace NetMX.Remote.Jsr262
          get { return propertyField; }
          set { propertyField = value; }
       }
-   }
+   }     
 
 
    [GeneratedCode("xsd", "2.0.50727.1432")]

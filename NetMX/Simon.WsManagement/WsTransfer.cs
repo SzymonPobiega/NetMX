@@ -35,5 +35,9 @@ namespace Simon.WsManagement
       /// URI of WS-Transfer CREATE action response.
       /// </summary>
       public const string CreateResponseAction = "http://schemas.xmlsoap.org/ws/2004/09/transfer/CreateResponse";
+      /// <summary>
+      /// URI of WS-Transfer DELETE action.
+      /// </summary>
+      public const string DeleteAction = "http://schemas.xmlsoap.org/ws/2004/09/transfer/Delete";      
    }
 }

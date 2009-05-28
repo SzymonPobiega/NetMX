@@ -118,7 +118,7 @@ namespace NetMX.Remote.Jsr262
          using (IDisposableProxy proxy = _proxyFactory.Create(name, Schema.DynamicMBeanResourceUri))
          {
             OperationContext.Current.OutgoingMessageHeaders.Add(fragmentTransferHeader);
-            beanResource = proxy.GetAttributes();
+            beanResource = (DynamicMBeanResource)proxy.Get();
          }
 
          return beanResource.Property.First(x => x.name == attributeName).Deserialize();
@@ -133,7 +133,7 @@ namespace NetMX.Remote.Jsr262
          using (IDisposableProxy proxy = _proxyFactory.Create(name, Schema.DynamicMBeanResourceUri))
          {
             OperationContext.Current.OutgoingMessageHeaders.Add(fragmentTransferHeader);
-            beanResource = proxy.GetAttributes();
+            beanResource = (DynamicMBeanResource)proxy.Get();
          }
 
          return beanResource.Property.Select(x => new AttributeValue(x.name, x.Deserialize())).ToList();
@@ -141,7 +141,14 @@ namespace NetMX.Remote.Jsr262
 
       public int GetMBeanCount()
       {
-         throw new NotImplementedException();
+         using (IDisposableProxy proxy = _proxyFactory.Create(null, Schema.DynamicMBeanResourceUri))
+         {
+            OperationContext.Current.OutgoingMessageHeaders.Add(new RequestTotalItemsTotalCountEstimate());
+            proxy.Enumerate(new Enumerate());
+            TotalItemsTotalCountEstimate countEstimate =
+               TotalItemsTotalCountEstimate.ReadFrom(OperationContext.Current.IncomingMessageHeaders);
+            return countEstimate.Value;
+         }
       }
 
       public MBeanInfo GetMBeanInfo(ObjectName name)
@@ -169,17 +176,43 @@ namespace NetMX.Remote.Jsr262
 
       public void UnregisterMBean(ObjectName name)
       {
-         throw new NotImplementedException();
+         try
+         {
+            using (IDisposableProxy proxy = _proxyFactory.Create(name, Schema.DynamicMBeanResourceUri))
+            {
+               proxy.UnregisterMBean();
+            }
+         }
+         catch (FaultException ex)
+         {
+            if (WsAddressing.IsEndpointUnavailable(ex))
+            {
+               throw new InstanceNotFoundException(name);
+            }
+            throw;
+         }         
       }
 
       public string GetDefaultDomain()
       {
-         throw new NotImplementedException();
+         FragmentTransferHeader fragmentTransferHeader = new FragmentTransferHeader(IJsr262ServiceContractConstants.GetDefaultDomainFragmentTransferPath);         
+         using (IDisposableProxy proxy = _proxyFactory.Create(null, Schema.DynamicMBeanResourceUri))
+         {
+            OperationContext.Current.OutgoingMessageHeaders.Add(fragmentTransferHeader);
+            GetDefaultDomainResponse response = (GetDefaultDomainResponse)proxy.Get();
+            return response.DomainName;
+         }         
       }
 
       public IList<string> GetDomains()
       {
-         throw new NotImplementedException();
+         FragmentTransferHeader fragmentTransferHeader = new FragmentTransferHeader(IJsr262ServiceContractConstants.GetDomainsFragmentTransferPath);
+         using (IDisposableProxy proxy = _proxyFactory.Create(null, Schema.DynamicMBeanResourceUri))
+         {
+            OperationContext.Current.OutgoingMessageHeaders.Add(fragmentTransferHeader);
+            GetDomainsResponse response = (GetDomainsResponse)proxy.Get();
+            return new List<string>(response.DomainNames);
+         }         
       }
       #endregion
 

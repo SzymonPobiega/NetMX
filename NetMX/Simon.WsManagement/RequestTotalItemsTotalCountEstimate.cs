@@ -35,7 +35,7 @@ namespace Simon.WsManagement
 
       public override string Namespace
       {
-         get { return WsTransfer.Namespace; }
+         get { return Schema.Namespace; }
       }
 
       protected override void OnWriteHeaderContents(XmlDictionaryWriter writer, MessageVersion messageVersion)

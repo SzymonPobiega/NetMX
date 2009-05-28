@@ -55,7 +55,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DataTransferObjects.cs" />
     <Compile Include="FragmentTransferHeader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RequestTotalItemsTotalCountEstimate.cs" />
@@ -67,6 +66,7 @@
     <Compile Include="SerializationLogic.cs" />
     <Compile Include="TotalItemsTotalCountEstimate.cs" />
     <Compile Include="WsAddressing.cs" />
+    <Compile Include="WsEnumeration.cs" />
     <Compile Include="WsTransfer.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
