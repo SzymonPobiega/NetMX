@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Text;
 using NetMX.Proxy;
 
-namespace NetMX
+namespace NetMX.Proxy
 {
-   public static partial class NetMX
+   public static class NetMXProxyExtensions
    {
       /// <summary>
       /// Creates new proxy for a MBean in local or remote server.

@@ -6,6 +6,7 @@ using System.ComponentModel;
 using NetMX.OpenMBean;
 using NetMX.Relation;
 using System.Collections.Generic;
+using NetMX.Proxy;
 
 namespace NetMX.WebUI.WebControls
 {
@@ -312,7 +313,7 @@ namespace NetMX.WebUI.WebControls
          RelationServiceMBean relationService = null;
          if (Proxy.ServerConnection.IsRegistered(RelationService.ObjectName))
          {
-            relationService = NetMX.NewMBeanProxy<RelationServiceMBean>(Proxy.ServerConnection,
+            relationService = NetMXProxyExtensions.NewMBeanProxy<RelationServiceMBean>(Proxy.ServerConnection,
                                                                         RelationService.ObjectName);
          }
 

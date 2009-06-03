@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using NetMX.Proxy;
 #endregion
 
 namespace NetMX.Relation
@@ -48,7 +49,7 @@ namespace NetMX.Relation
          AssertNotNull(relationObjectName, "relationObjectName");
          AssertRegistered();
 
-         IRelation relation = NetMX.NewMBeanProxy<IRelation>(_server, relationObjectName);         
+         IRelation relation = NetMXProxyExtensions.NewMBeanProxy<IRelation>(_server, relationObjectName);         
          ValidateRelation(relation);
 
          _relations[relation.Id] = new RelationWrapper(relation, relationObjectName);

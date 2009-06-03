@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using NetMX.Timer;
+using NetMX.Proxy;
 
 namespace NetMX.Monitor
 {
@@ -178,7 +179,7 @@ namespace NetMX.Monitor
          props.Add("EmbeddedTimer", "true");
          ObjectName timerName = new ObjectName(name.Domain, props);
          server.RegisterMBean(timer, timerName);
-         _timer = NetMX.NewMBeanProxy<TimerMBean>(_server, timerName);
+         _timer = NetMXProxyExtensions.NewMBeanProxy<TimerMBean>(_server, timerName);
          _server.AddNotificationListener(timerName, OnTimerEvent, null, null);
          return name;
       }

@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using NetMX.Proxy;
 #endregion
 
 namespace NetMX.Relation
@@ -63,7 +64,7 @@ namespace NetMX.Relation
             _relationServiceName = new ObjectName(relationServiceMBeanServer.GetDefaultDomain(), relationServiceName.KeyPropertyList);
          }
          _relationServiceMBeanServer = relationServiceMBeanServer;
-         _relationService = NetMX.NewMBeanProxy<RelationServiceMBean>(_relationServiceMBeanServer, _relationServiceName);
+         _relationService = NetMXProxyExtensions.NewMBeanProxy<RelationServiceMBean>(_relationServiceMBeanServer, _relationServiceName);
          _relationTypeName = relationType;
          _roles = new Dictionary<string, Role>();
          if (roles != null)
@@ -362,7 +363,7 @@ namespace NetMX.Relation
          {
             _relationServiceName = new ObjectName(server.GetDefaultDomain(), _relationServiceName.KeyPropertyList);
          }
-         _relationService = NetMX.NewMBeanProxy<RelationServiceMBean>(_relationServiceMBeanServer, _relationServiceName);
+         _relationService = NetMXProxyExtensions.NewMBeanProxy<RelationServiceMBean>(_relationServiceMBeanServer, _relationServiceName);
          return name;
       }
       #endregion

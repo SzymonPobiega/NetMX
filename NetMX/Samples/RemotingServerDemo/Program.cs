@@ -6,6 +6,7 @@ using NetMX.OpenMBean.Mapper;
 using NetMX.Remote;
 using NetMX.Relation;
 using NetMX.OpenMBean;
+using NetMX.Proxy;
 
 namespace RemotingServerDemo
 {
@@ -29,7 +30,7 @@ namespace RemotingServerDemo
          dynSample.AddNestedRow(2, 4, "Second nested row");
          server.RegisterMBean(dynSample, "Sample:type=SampleDynamicMBean");
 
-         RelationServiceMBean relationSerice = NetMX.NetMX.NewMBeanProxy<RelationServiceMBean>(server, RelationService.ObjectName);
+         RelationServiceMBean relationSerice = NetMXProxyExtensions.NewMBeanProxy<RelationServiceMBean>(server, RelationService.ObjectName);
          relationSerice.CreateRelationType("Binding", new RoleInfo[] {
             new RoleInfo("Source", typeof(SampleMBean), true, false, 1, 1, "Source"),
             new RoleInfo("Destination", typeof(SampleMBean), true, false, 1, 1, "Destination")});

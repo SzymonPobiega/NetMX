@@ -56,8 +56,11 @@ namespace NetMX.OpenMBean.Mapper
          ObjectName proxyName = new ObjectName(originalBeanName.Domain, props);
 
          MBeanInfo originalInfo = _server.GetMBeanInfo(originalBeanName);
-         ProxyBean proxyBean = new ProxyBean(originalInfo, originalBeanName, _typeCache);
-         _server.RegisterMBean(proxyBean, proxyName);
+         if (!(originalInfo is NetMX.OpenMBean.IOpenMBeanInfo))
+         {
+            ProxyBean proxyBean = new ProxyBean(originalInfo, originalBeanName, _typeCache);
+            _server.RegisterMBean(proxyBean, proxyName);
+         }
       }
       private bool ShouldMapBean(ObjectName newBeanName)
       {
