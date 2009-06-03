@@ -1775,8 +1775,7 @@ namespace NetMX.Remote.Jsr262
 
 
    [GeneratedCode("xsd", "2.0.50727.1432")]
-   [Serializable]
-   [DebuggerStepThrough]
+   [Serializable]   
    [DesignerCategory("code")]
    [XmlType(Namespace = "http://jsr262.dev.java.net/jmxconnector")]
    public partial class PropertyModelInfoType : TypedFeatureInfoType

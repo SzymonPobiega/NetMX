@@ -158,7 +158,7 @@ namespace NetMX.Remote.Jsr262
             {
                Item = value;
                ItemElementName = ItemChoiceType.QName;
-            }
+            }            
          }
       }
       public object Deserialize()
@@ -372,7 +372,7 @@ namespace NetMX.Remote.Jsr262
       }
       public MBeanAttributeInfo Deserialize()
       {
-         return new MBeanAttributeInfo(name, Description.Value, JmxTypeMapping.GetCLRTypeName(type), accessField.IndexOf('r') != 1, accessField.IndexOf('w') != 1);
+         return new MBeanAttributeInfo(name, Description.Value, JmxTypeMapping.GetCLRTypeName(type), accessField.IndexOf('r') != -1, accessField.IndexOf('w') != -1);
       }
    }
 
