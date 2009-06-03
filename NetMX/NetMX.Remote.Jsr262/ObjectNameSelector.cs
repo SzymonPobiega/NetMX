@@ -15,9 +15,10 @@ namespace NetMX.Remote.Jsr262
       {
          return new SelectorSetHeader(new Selector(ObjectName, objectName));
       }
+
       internal static ObjectName ExtractObjectName(this EndpointAddress address)
       {
-         return null;
+         return SelectorSetHeader.ReadFrom(address).ExtractObjectName();
       }
 
       internal static ObjectName ExtractObjectName(this SelectorSetHeader header)

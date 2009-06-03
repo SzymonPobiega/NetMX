@@ -161,17 +161,28 @@ namespace NetMX.Remote.Jsr262
 
       public bool IsInstanceOf(ObjectName name, string className)
       {
-         throw new NotImplementedException();
+         using (IDisposableProxy proxy = _proxyFactory.Create(name, Schema.DynamicMBeanResourceUri))
+         {
+            return (bool)proxy.IsInstanceOf(new GenericValueType(className)).Deserialize();
+         }
       }
 
       public bool IsRegistered(ObjectName name)
       {
-         throw new NotImplementedException();
+         using (IDisposableProxy proxy = _proxyFactory.Create(name, Schema.DynamicMBeanResourceUri))
+         {            
+            EnumerateResponse response = proxy.Enumerate(new Enumerate(true, EnumerationMode.EnumerateEPR, null, null));
+            return response.DeserializeAsEPRs().Count() > 0;
+         }
       }
 
       public IEnumerable<ObjectName> QueryNames(ObjectName name, QueryExp query)
       {
-         throw new NotImplementedException();
+         using (IDisposableProxy proxy = _proxyFactory.Create(name, Schema.DynamicMBeanResourceUri))
+         {
+            EnumerateResponse response = proxy.Enumerate(new Enumerate(true, EnumerationMode.EnumerateEPR, Schema.QueryNamesDialect, null));
+            return response.DeserializeAsEPRs().Select(x => x.ExtractObjectName());
+         }
       }
 
       public void UnregisterMBean(ObjectName name)

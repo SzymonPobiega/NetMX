@@ -19,6 +19,7 @@ namespace NetMX.Remote.Jsr262
          ReplyAction = WsTransfer.GetResponseAction)]
       [ServiceKnownType(typeof(DynamicMBeanResource))]
       [ServiceKnownType(typeof(GetDefaultDomainResponse))]
+      [ServiceKnownType(typeof(GetDomainsResponse))]
       object Get();
 
       [OperationContract(Action = WsTransfer.PutAction,
@@ -43,5 +44,9 @@ namespace NetMX.Remote.Jsr262
       [OperationContract(Action = WsEnumeration.EnumerateAction,
          ReplyAction = WsEnumeration.EnumerateResponseAction)]
       EnumerateResponse Enumerate(Enumerate request);
+
+      [OperationContract(Action = Schema.InstanceOfAction,
+         ReplyAction = Schema.InstanceOfResponseAction)]
+      GenericValueType IsInstanceOf(GenericValueType className);
    }
 }

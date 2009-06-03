@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.ServiceModel;
 using System.Text;
 using System.ServiceModel.Channels;
 using System.Xml;
@@ -56,6 +57,19 @@ namespace Simon.WsManagement
       public static SelectorSetHeader ReadFrom(Message message)
       {
          return ReadFrom(message.Headers);
+      }
+
+      public static SelectorSetHeader ReadFrom(EndpointAddress address)
+      {
+         AddressHeader header = address.Headers.FindHeader(ElementName, Schema.Namespace);
+         if (header == null)
+         {
+            return null;
+         }
+         using (XmlDictionaryReader readerAtHeader = header.GetAddressHeaderReader())
+         {
+            return ReadFrom(readerAtHeader);
+         }
       }
 
       public static SelectorSetHeader ReadFrom(MessageHeaders messageHeaders)

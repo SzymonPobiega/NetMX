@@ -37,6 +37,10 @@ namespace WebServicesSample
                Console.WriteLine("Default domain is {0}", defaultDomain);
                string domains = string.Join(", ", remoteServer.GetDomains().ToArray());
                Console.WriteLine("Registered domains: {0}", domains);
+               Console.WriteLine("Is {0} instance of {1}: {2}", name, typeof(SampleMBean).FullName, remoteServer.IsInstanceOf(name,typeof(SampleMBean).AssemblyQualifiedName));
+               Console.WriteLine("Is {0} registered: {1}", name, remoteServer.IsRegistered(name));
+               string beans = string.Join(", ", remoteServer.QueryNames(null, null).Select(x => x.ToString()).ToArray());
+               Console.WriteLine("Registered MBeans: {0}", beans);
                Console.ReadKey();
             }
          }

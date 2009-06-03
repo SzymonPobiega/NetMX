@@ -147,15 +147,51 @@ namespace NetMX.Remote.Jsr262
             return new EnumerateResponse();
          }
          SelectorSetHeader selectorSet = SelectorSetHeader.ReadFrom(OperationContext.Current.IncomingMessageHeaders);
-         ObjectName objectName = selectorSet.ExtractObjectName();
+         ObjectName objectName = null;
+         if (selectorSet != null)
+         {
+            objectName = selectorSet.ExtractObjectName();
+         }
 
+         if (request.Filter == null)
+         {
+            List<EndpointAddress> result = new List<EndpointAddress>();
+            if (_server.IsRegistered(objectName))
+            {
+               result.Add(CreateObjectNameEPR(objectName));
+            }
+            return new EnumerateResponse(result);
+         }
          string dialect = request.Filter.Dialect;
          if (dialect == Schema.QueryNamesDialect)
-         {
-            _server.QueryNames(objectName, null);
-            return new EnumerateResponse();
+         {            
+            return new EnumerateResponse(_server.QueryNames(objectName, null).Select(x => CreateObjectNameEPR(x)));
          }
          throw new NotSupportedException();
+      }
+
+      private static EndpointAddress CreateObjectNameEPR(ObjectName objectName)
+      {
+         EndpointAddressBuilder builder = new EndpointAddressBuilder();
+         builder.Headers.Add(ObjectNameSelector.CreateSelectorSet(objectName));
+         builder.Uri = OperationContext.Current.EndpointDispatcher.EndpointAddress.Uri;
+         builder.Headers.Add(new ResourceUriHeader(Schema.DynamicMBeanResourceUri));
+         return builder.ToEndpointAddress();
+      }
+
+      public GenericValueType IsInstanceOf(GenericValueType className)
+      {
+         CheckResourceUri(Schema.DynamicMBeanResourceUri);
+
+         SelectorSetHeader selectorSet = SelectorSetHeader.ReadFrom(OperationContext.Current.IncomingMessageHeaders);
+         ObjectName objectName = selectorSet.ExtractObjectName();
+
+         if (className.ItemElementName != ItemChoiceType.String)
+         {
+            throw new InvalidOperationException();
+         }
+         string name = (string)className.Deserialize();
+         return new GenericValueType(_server.IsInstanceOf(objectName, name));
       }
 
       #endregion

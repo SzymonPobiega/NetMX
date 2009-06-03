@@ -89,6 +89,11 @@ namespace NetMX.Remote.Jsr262
             return _realProxy.Enumerate(request);
          }
 
+         public GenericValueType IsInstanceOf(GenericValueType className)
+         {
+            return _realProxy.IsInstanceOf(className);
+         }
+
          public void Dispose()
          {
             if (!_disposed)
