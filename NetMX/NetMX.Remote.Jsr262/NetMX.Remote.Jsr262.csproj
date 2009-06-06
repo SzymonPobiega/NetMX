@@ -72,6 +72,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ProxyFactory.cs" />
     <Compile Include="Jsr262GeneratedTypesLogic.cs" />
+    <Compile Include="ServerAddressExtension.cs" />
     <Compile Include="WsEnumerationTypes.cs" />
     <Compile Include="WsEnumerationTypesLogic.cs" />
   </ItemGroup>

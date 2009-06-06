@@ -23,7 +23,7 @@ namespace NetMX.Remote.Jsr262
 
 
    [Serializable]
-   [DebuggerStepThrough]
+   
    [DesignerCategory("code")]
    [XmlType(Namespace = "http://jsr262.dev.java.net/jmxconnector")]
    public partial class TwoQueries
@@ -42,7 +42,7 @@ namespace NetMX.Remote.Jsr262
 
    [GeneratedCode("xsd", "2.0.50727.1432")]
    [Serializable]
-   [DebuggerStepThrough]
+   
    [DesignerCategory("code")]
    [XmlType(Namespace = "http://jsr262.dev.java.net/jmxconnector")]
    [XmlRoot("Query", Namespace = "http://jsr262.dev.java.net/jmxconnector", IsNullable = false)]
@@ -80,7 +80,7 @@ namespace NetMX.Remote.Jsr262
 
    [GeneratedCode("xsd", "2.0.50727.1432")]
    [Serializable]
-   [DebuggerStepThrough]
+   
    [DesignerCategory("code")]
    [XmlType(AnonymousType = true, Namespace = "http://jsr262.dev.java.net/jmxconnector")]
    public partial class QueryExprBetween
@@ -99,7 +99,7 @@ namespace NetMX.Remote.Jsr262
 
    [GeneratedCode("xsd", "2.0.50727.1432")]
    [Serializable]
-   [DebuggerStepThrough]
+   
    [DesignerCategory("code")]
    [XmlType(Namespace = "http://jsr262.dev.java.net/jmxconnector")]
    [XmlRoot("Value", Namespace = "http://jsr262.dev.java.net/jmxconnector", IsNullable = false)]
@@ -125,7 +125,7 @@ namespace NetMX.Remote.Jsr262
 
    [GeneratedCode("xsd", "2.0.50727.1432")]
    [Serializable]
-   [DebuggerStepThrough]
+   
    [DesignerCategory("code")]
    [XmlType(AnonymousType = true, Namespace = "http://jsr262.dev.java.net/jmxconnector")]
    public partial class ValueExprAttr
@@ -153,7 +153,7 @@ namespace NetMX.Remote.Jsr262
 
    [GeneratedCode("xsd", "2.0.50727.1432")]
    [Serializable]
-   [DebuggerStepThrough]
+   
    [DesignerCategory("code")]
    [XmlType(AnonymousType = true, Namespace = "http://jsr262.dev.java.net/jmxconnector")]
    public partial class ValueExprClass
@@ -163,7 +163,7 @@ namespace NetMX.Remote.Jsr262
 
    [GeneratedCode("xsd", "2.0.50727.1432")]
    [Serializable]
-   [DebuggerStepThrough]
+   
    [DesignerCategory("code")]
    [XmlType(AnonymousType = true, Namespace = "http://jsr262.dev.java.net/jmxconnector")]
    public partial class ValueExprOP
@@ -209,7 +209,7 @@ namespace NetMX.Remote.Jsr262
 
    [GeneratedCode("xsd", "2.0.50727.1432")]
    [Serializable]
-   [DebuggerStepThrough]
+   
    [DesignerCategory("code")]
    [XmlType(AnonymousType = true, Namespace = "http://jsr262.dev.java.net/jmxconnector")]
    public partial class QueryExprIN
@@ -228,7 +228,7 @@ namespace NetMX.Remote.Jsr262
 
    [GeneratedCode("xsd", "2.0.50727.1432")]
    [Serializable]
-   [DebuggerStepThrough]
+   
    [DesignerCategory("code")]
    [XmlType(Namespace = "http://jsr262.dev.java.net/jmxconnector")]
    public partial class TwoValues
@@ -247,7 +247,7 @@ namespace NetMX.Remote.Jsr262
 
    [GeneratedCode("xsd", "2.0.50727.1432")]
    [Serializable]
-   [DebuggerStepThrough]
+   
    [DesignerCategory("code")]
    [XmlType(AnonymousType = true, Namespace = "http://jsr262.dev.java.net/jmxconnector")]
    public partial class QueryExprNot
@@ -265,7 +265,7 @@ namespace NetMX.Remote.Jsr262
 
    [GeneratedCode("xsd", "2.0.50727.1432")]
    [Serializable]
-   [DebuggerStepThrough]
+   
    [DesignerCategory("code")]
    [XmlType(AnonymousType = true, Namespace = "http://jsr262.dev.java.net/jmxconnector")]
    public partial class QueryExprRel
@@ -350,7 +350,7 @@ namespace NetMX.Remote.Jsr262
 
    [GeneratedCode("xsd", "2.0.50727.1432")]
    [Serializable]
-   [DebuggerStepThrough]
+   
    [DesignerCategory("code")]
    [XmlType(Namespace = "http://jsr262.dev.java.net/jmxconnector")]
    public partial class OperationResultType
@@ -370,7 +370,7 @@ namespace NetMX.Remote.Jsr262
    [XmlInclude(typeof (NamedGenericValueType))]
    [GeneratedCode("xsd", "2.0.50727.1432")]
    [Serializable]
-   [DebuggerStepThrough]
+   
    [DesignerCategory("code")]
    [XmlType(Namespace = "http://jsr262.dev.java.net/jmxconnector")]
    [XmlRoot("ManagedResourceOperationResult", Namespace = "http://jsr262.dev.java.net/jmxconnector", IsNullable = false
@@ -445,7 +445,7 @@ namespace NetMX.Remote.Jsr262
 
    [GeneratedCode("xsd", "2.0.50727.1432")]
    [Serializable]
-   [DebuggerStepThrough]
+   
    [DesignerCategory("code")]
    [XmlType(Namespace = "http://jsr262.dev.java.net/jmxconnector")]
    [XmlRoot("ArrayDataType", Namespace = "http://jsr262.dev.java.net/jmxconnector", IsNullable = false)]
@@ -502,7 +502,7 @@ namespace NetMX.Remote.Jsr262
    [XmlInclude(typeof (CompositeDataType_Type))]
    [GeneratedCode("xsd", "2.0.50727.1432")]
    [Serializable]
-   [DebuggerStepThrough]
+   
    [DesignerCategory("code")]
    [XmlType(Namespace = "http://jsr262.dev.java.net/jmxconnector")]
    [XmlRoot("SimpleDataType", Namespace = "http://jsr262.dev.java.net/jmxconnector", IsNullable = false)]
@@ -538,7 +538,7 @@ namespace NetMX.Remote.Jsr262
 
    [GeneratedCode("xsd", "2.0.50727.1432")]
    [Serializable]
-   [DebuggerStepThrough]
+   
    [DesignerCategory("code")]
    [XmlType(Namespace = "http://jsr262.dev.java.net/jmxconnector")]
    [XmlRoot("CompositeDataType", Namespace = "http://jsr262.dev.java.net/jmxconnector", IsNullable = false)]
@@ -558,7 +558,7 @@ namespace NetMX.Remote.Jsr262
 
    [GeneratedCode("xsd", "2.0.50727.1432")]
    [Serializable]
-   [DebuggerStepThrough]
+   
    [DesignerCategory("code")]
    [XmlType(AnonymousType = true, Namespace = "http://jsr262.dev.java.net/jmxconnector")]
    [XmlRoot(Namespace = "http://jsr262.dev.java.net/jmxconnector", IsNullable = false)]
@@ -594,7 +594,7 @@ namespace NetMX.Remote.Jsr262
 
    [GeneratedCode("xsd", "2.0.50727.1432")]
    [Serializable]
-   [DebuggerStepThrough]
+   
    [DesignerCategory("code")]
    [XmlType(Namespace = "http://jsr262.dev.java.net/jmxconnector")]
    [XmlRoot("CompositeDataValue", Namespace = "http://jsr262.dev.java.net/jmxconnector", IsNullable = false)]
@@ -622,7 +622,7 @@ namespace NetMX.Remote.Jsr262
 
    [GeneratedCode("xsd", "2.0.50727.1432")]
    [Serializable]
-   [DebuggerStepThrough]
+   
    [DesignerCategory("code")]
    [XmlType(AnonymousType = true, Namespace = "http://jsr262.dev.java.net/jmxconnector")]
    [XmlRoot(Namespace = "http://jsr262.dev.java.net/jmxconnector", IsNullable = false)]
@@ -652,7 +652,7 @@ namespace NetMX.Remote.Jsr262
 
    [GeneratedCode("xsd", "2.0.50727.1432")]
    [Serializable]
-   [DebuggerStepThrough]
+   
    [DesignerCategory("code")]
    [XmlType(Namespace = "http://jsr262.dev.java.net/jmxconnector")]
    [XmlRoot("Fault", Namespace = "http://jsr262.dev.java.net/jmxconnector", IsNullable = false)]
@@ -698,7 +698,7 @@ namespace NetMX.Remote.Jsr262
 
    [GeneratedCode("xsd", "2.0.50727.1432")]
    [Serializable]
-   [DebuggerStepThrough]
+   
    [DesignerCategory("code")]
    [XmlType(Namespace = "http://jsr262.dev.java.net/jmxconnector")]
    public partial class StackTraceElementType
@@ -756,7 +756,7 @@ namespace NetMX.Remote.Jsr262
 
    [GeneratedCode("xsd", "2.0.50727.1432")]
    [Serializable]
-   [DebuggerStepThrough]
+   
    [DesignerCategory("code")]
    [XmlType(Namespace = "http://jsr262.dev.java.net/jmxconnector")]
    [XmlRoot("Values", Namespace = "http://jsr262.dev.java.net/jmxconnector", IsNullable = false)]
@@ -776,7 +776,7 @@ namespace NetMX.Remote.Jsr262
 
    [GeneratedCode("xsd", "2.0.50727.1432")]
    [Serializable]
-   [DebuggerStepThrough]
+   
    [DesignerCategory("code")]
    [XmlType(AnonymousType = true, Namespace = "http://jsr262.dev.java.net/jmxconnector")]
    [XmlRoot(Namespace = "http://jsr262.dev.java.net/jmxconnector", IsNullable = false)]
@@ -806,7 +806,7 @@ namespace NetMX.Remote.Jsr262
 
    [GeneratedCode("xsd", "2.0.50727.1432")]
    [Serializable]
-   [DebuggerStepThrough]
+   
    [DesignerCategory("code")]
    [XmlType(AnonymousType = true, Namespace = "http://jsr262.dev.java.net/jmxconnector")]
    [XmlRoot(Namespace = "http://jsr262.dev.java.net/jmxconnector", IsNullable = false)]
@@ -890,7 +890,7 @@ namespace NetMX.Remote.Jsr262
 
    [GeneratedCode("xsd", "2.0.50727.1432")]
    [Serializable]
-   [DebuggerStepThrough]
+   
    [DesignerCategory("code")]
    [XmlType(AnonymousType = true, Namespace = "http://jsr262.dev.java.net/jmxconnector")]
    [XmlRoot(Namespace = "http://jsr262.dev.java.net/jmxconnector", IsNullable = false)]
@@ -919,7 +919,7 @@ namespace NetMX.Remote.Jsr262
 
    [GeneratedCode("xsd", "2.0.50727.1432")]
    [Serializable]
-   [DebuggerStepThrough]
+   
    [DesignerCategory("code")]
    [XmlType(AnonymousType = true, Namespace = "http://jsr262.dev.java.net/jmxconnector")]
    [XmlRoot(Namespace = "http://jsr262.dev.java.net/jmxconnector", IsNullable = false)]
@@ -939,7 +939,7 @@ namespace NetMX.Remote.Jsr262
 
    [GeneratedCode("xsd", "2.0.50727.1432")]
    [Serializable]
-   [DebuggerStepThrough]
+   
    [DesignerCategory("code")]
    [XmlType(AnonymousType = true, Namespace = "http://jsr262.dev.java.net/jmxconnector")]
    [XmlRoot(Namespace = "http://jsr262.dev.java.net/jmxconnector", IsNullable = false)]
@@ -968,7 +968,7 @@ namespace NetMX.Remote.Jsr262
 
    [GeneratedCode("xsd", "2.0.50727.1432")]
    [Serializable]
-   [DebuggerStepThrough]
+   
    [DesignerCategory("code")]
    [XmlType(AnonymousType = true, Namespace = "http://jsr262.dev.java.net/jmxconnector")]
    [XmlRoot(Namespace = "http://jsr262.dev.java.net/jmxconnector", IsNullable = false)]
@@ -988,7 +988,7 @@ namespace NetMX.Remote.Jsr262
 
    [GeneratedCode("xsd", "2.0.50727.1432")]
    [Serializable]
-   [DebuggerStepThrough]
+   
    [DesignerCategory("code")]
    [XmlType(AnonymousType = true, Namespace = "http://jsr262.dev.java.net/jmxconnector")]
    [XmlRoot(Namespace = "http://jsr262.dev.java.net/jmxconnector", IsNullable = false)]
@@ -1037,7 +1037,7 @@ namespace NetMX.Remote.Jsr262
 
    [GeneratedCode("xsd", "2.0.50727.1432")]
    [Serializable]
-   [DebuggerStepThrough]
+   
    [DesignerCategory("code")]
    [XmlType(Namespace = "http://jsr262.dev.java.net/jmxconnector")]
    [XmlRoot("Map", Namespace = "http://jsr262.dev.java.net/jmxconnector", IsNullable = false)]
@@ -1057,7 +1057,7 @@ namespace NetMX.Remote.Jsr262
 
    [GeneratedCode("xsd", "2.0.50727.1432")]
    [Serializable]
-   [DebuggerStepThrough]
+   
    [DesignerCategory("code")]
    [XmlType(AnonymousType = true, Namespace = "http://jsr262.dev.java.net/jmxconnector")]
    public partial class MapTypeEntry
@@ -1084,7 +1084,7 @@ namespace NetMX.Remote.Jsr262
 
    [GeneratedCode("xsd", "2.0.50727.1432")]
    [Serializable]
-   [DebuggerStepThrough]
+   
    [DesignerCategory("code")]
    [XmlType(AnonymousType = true, Namespace = "http://jsr262.dev.java.net/jmxconnector")]
    [XmlRoot(Namespace = "http://jsr262.dev.java.net/jmxconnector", IsNullable = false)]
@@ -1143,7 +1143,7 @@ namespace NetMX.Remote.Jsr262
 
    [GeneratedCode("xsd", "2.0.50727.1432")]
    [Serializable]
-   [DebuggerStepThrough]
+   
    [DesignerCategory("code")]
    [XmlType(Namespace = "http://jsr262.dev.java.net/jmxconnector")]
    [XmlRoot("TargetedNotification", Namespace = "http://jsr262.dev.java.net/jmxconnector", IsNullable = false)]
@@ -1275,7 +1275,7 @@ namespace NetMX.Remote.Jsr262
 
    [GeneratedCode("xsd", "2.0.50727.1432")]
    [Serializable]
-   [DebuggerStepThrough]
+   
    [DesignerCategory("code")]
    [XmlType(Namespace = "http://jsr262.dev.java.net/jmxconnector")]
    [XmlRoot("Null", Namespace = "http://jsr262.dev.java.net/jmxconnector", IsNullable = false)]
@@ -1286,7 +1286,7 @@ namespace NetMX.Remote.Jsr262
 
    [GeneratedCode("xsd", "2.0.50727.1432")]
    [Serializable]
-   [DebuggerStepThrough]
+   
    [DesignerCategory("code")]
    [XmlType(Namespace = "http://jsr262.dev.java.net/jmxconnector")]
    [XmlRoot("Table", Namespace = "http://jsr262.dev.java.net/jmxconnector", IsNullable = false)]
@@ -1353,7 +1353,7 @@ namespace NetMX.Remote.Jsr262
 
    [GeneratedCode("xsd", "2.0.50727.1432")]
    [Serializable]
-   [DebuggerStepThrough]
+   
    [DesignerCategory("code")]
    [XmlType(Namespace = "http://jsr262.dev.java.net/jmxconnector")]
    [XmlRoot("TabularDataType", Namespace = "http://jsr262.dev.java.net/jmxconnector", IsNullable = false)]
@@ -1382,7 +1382,7 @@ namespace NetMX.Remote.Jsr262
 
    [GeneratedCode("xsd", "2.0.50727.1432")]
    [Serializable]
-   [DebuggerStepThrough]
+   
    [DesignerCategory("code")]
    [XmlType(Namespace = "http://jsr262.dev.java.net/jmxconnector")]
    [XmlRoot("TabularDataValue", Namespace = "http://jsr262.dev.java.net/jmxconnector", IsNullable = false)]
@@ -1560,7 +1560,7 @@ namespace NetMX.Remote.Jsr262
    [XmlInclude(typeof (PropertyType))]
    [GeneratedCode("xsd", "2.0.50727.1432")]
    [Serializable]
-   [DebuggerStepThrough]
+   
    [DesignerCategory("code")]
    [XmlType(Namespace = "http://jsr262.dev.java.net/jmxconnector")]
    public abstract class FeatureDescriptorType
@@ -1579,7 +1579,7 @@ namespace NetMX.Remote.Jsr262
 
    [GeneratedCode("xsd", "2.0.50727.1432")]
    [Serializable]
-   [DebuggerStepThrough]
+   
    [DesignerCategory("code")]
    [XmlType(AnonymousType = true, Namespace = "http://jsr262.dev.java.net/jmxconnector")]
    public partial class FeatureDescriptorTypeField
@@ -1613,7 +1613,7 @@ namespace NetMX.Remote.Jsr262
    [XmlInclude(typeof (PropertyType))]
    [GeneratedCode("xsd", "2.0.50727.1432")]
    [Serializable]
-   [DebuggerStepThrough]
+   
    [DesignerCategory("code")]
    [XmlType(Namespace = "http://jsr262.dev.java.net/jmxconnector")]
    public abstract partial class FeatureInfoType : FeatureDescriptorType
@@ -1641,7 +1641,7 @@ namespace NetMX.Remote.Jsr262
 
    [GeneratedCode("xsd", "2.0.50727.1432")]
    [Serializable]
-   [DebuggerStepThrough]
+   
    [DesignerCategory("code")]
    [XmlType(AnonymousType = true, Namespace = "http://jsr262.dev.java.net/jmxconnector")]
    [XmlRoot(Namespace = "http://jsr262.dev.java.net/jmxconnector", IsNullable = false)]
@@ -1671,7 +1671,7 @@ namespace NetMX.Remote.Jsr262
 
    [GeneratedCode("xsd", "2.0.50727.1432")]
    [Serializable]
-   [DebuggerStepThrough]
+   
    [DesignerCategory("code")]
    [XmlType(Namespace = "http://jsr262.dev.java.net/jmxconnector")]
    public partial class FactoryModelInfoType : FeatureInfoType
@@ -1690,7 +1690,7 @@ namespace NetMX.Remote.Jsr262
 
    [GeneratedCode("xsd", "2.0.50727.1432")]
    [Serializable]
-   [DebuggerStepThrough]
+   
    [DesignerCategory("code")]
    [XmlType(Namespace = "http://jsr262.dev.java.net/jmxconnector")]
    public partial class ParameterModelInfoType : TypedFeatureInfoType
@@ -1704,7 +1704,7 @@ namespace NetMX.Remote.Jsr262
    [XmlInclude(typeof (PropertyType))]
    [GeneratedCode("xsd", "2.0.50727.1432")]
    [Serializable]
-   [DebuggerStepThrough]
+   
    [DesignerCategory("code")]
    [XmlType(Namespace = "http://jsr262.dev.java.net/jmxconnector")]
    public abstract partial class TypedFeatureInfoType : FeatureInfoType
@@ -1757,7 +1757,7 @@ namespace NetMX.Remote.Jsr262
 
    [GeneratedCode("xsd", "2.0.50727.1432")]
    [Serializable]
-   [DebuggerStepThrough]
+   
    [DesignerCategory("code")]
    [XmlType(Namespace = "http://jsr262.dev.java.net/jmxconnector")]
    public partial class NotificationModelInfoType : TypedFeatureInfoType
@@ -1810,7 +1810,7 @@ namespace NetMX.Remote.Jsr262
 
    [GeneratedCode("xsd", "2.0.50727.1432")]
    [Serializable]
-   [DebuggerStepThrough]
+   
    [DesignerCategory("code")]
    [XmlType(Namespace = "http://jsr262.dev.java.net/jmxconnector")]
    public partial class PropertyType : TypedFeatureInfoType
@@ -1820,7 +1820,7 @@ namespace NetMX.Remote.Jsr262
 
    [GeneratedCode("xsd", "2.0.50727.1432")]
    [Serializable]
-   [DebuggerStepThrough]
+   
    [DesignerCategory("code")]
    [XmlType(Namespace = "http://jsr262.dev.java.net/jmxconnector")]
    public partial class OperationModelInfoType : FeatureInfoType
@@ -1857,7 +1857,7 @@ namespace NetMX.Remote.Jsr262
    /// <remarks/>
    [GeneratedCode("xsd", "2.0.50727.1432")]
    [Serializable]
-   [DebuggerStepThrough]
+   
    [DesignerCategory("code")]
    [XmlType(AnonymousType = true, Namespace = "http://jsr262.dev.java.net/jmxconnector")]
    [XmlRoot(Namespace = "http://jsr262.dev.java.net/jmxconnector", IsNullable = false)]
@@ -1877,7 +1877,7 @@ namespace NetMX.Remote.Jsr262
 
    [GeneratedCode("xsd", "2.0.50727.1432")]
    [Serializable]
-   [DebuggerStepThrough]
+   
    [DesignerCategory("code")]
    [XmlType(Namespace = "http://jsr262.dev.java.net/jmxconnector")]
    [XmlRoot("Property", Namespace = "http://jsr262.dev.java.net/jmxconnector", IsNullable = false)]
@@ -1897,7 +1897,7 @@ namespace NetMX.Remote.Jsr262
 
    [GeneratedCode("xsd", "2.0.50727.1432")]
    [Serializable]
-   [DebuggerStepThrough]
+   
    [DesignerCategory("code")]
    [XmlType(AnonymousType = true, Namespace = "http://jsr262.dev.java.net/jmxconnector")]
    [XmlRoot(Namespace = "http://jsr262.dev.java.net/jmxconnector", IsNullable = false)]
@@ -1954,7 +1954,7 @@ namespace NetMX.Remote.Jsr262
 
    [GeneratedCode("xsd", "2.0.50727.1432")]
    [Serializable]
-   [DebuggerStepThrough]
+   
    [DesignerCategory("code")]
    [XmlType(Namespace = "http://jsr262.dev.java.net/jmxconnector")]
    [XmlRoot("Param", Namespace = "http://jsr262.dev.java.net/jmxconnector", IsNullable = false)]
@@ -1974,7 +1974,7 @@ namespace NetMX.Remote.Jsr262
 
    [GeneratedCode("xsd", "2.0.50727.1432")]
    [Serializable]
-   [DebuggerStepThrough]
+   
    [DesignerCategory("code")]
    [XmlType(Namespace = "http://jsr262.dev.java.net/jmxconnector")]
    [XmlRoot("ParameterSignature", Namespace = "http://jsr262.dev.java.net/jmxconnector", IsNullable = false)]
@@ -2033,7 +2033,7 @@ namespace NetMX.Remote.Jsr262
 
    [GeneratedCode("xsd", "2.0.50727.1432")]
    [Serializable]
-   [DebuggerStepThrough]
+   
    [DesignerCategory("code")]
    [XmlType(AnonymousType = true, Namespace = "http://jsr262.dev.java.net/jmxconnector")]
    [XmlRoot(Namespace = "http://jsr262.dev.java.net/jmxconnector", IsNullable = false)]
@@ -2062,7 +2062,7 @@ namespace NetMX.Remote.Jsr262
 
    [GeneratedCode("xsd", "2.0.50727.1432")]
    [Serializable]
-   [DebuggerStepThrough]
+   
    [DesignerCategory("code")]
    [XmlType(AnonymousType = true, Namespace = "http://jsr262.dev.java.net/jmxconnector")]
    [XmlRoot(Namespace = "http://jsr262.dev.java.net/jmxconnector", IsNullable = false)]
@@ -2091,7 +2091,7 @@ namespace NetMX.Remote.Jsr262
 
    [GeneratedCode("xsd", "2.0.50727.1432")]
    [Serializable]
-   [DebuggerStepThrough]
+   
    [DesignerCategory("code")]
    [XmlType(AnonymousType = true, Namespace = "http://jsr262.dev.java.net/jmxconnector")]
    [XmlRoot(Namespace = "http://jsr262.dev.java.net/jmxconnector", IsNullable = false)]
@@ -2127,7 +2127,7 @@ namespace NetMX.Remote.Jsr262
 
    [GeneratedCode("xsd", "2.0.50727.1432")]
    [Serializable]
-   [DebuggerStepThrough]
+   
    [DesignerCategory("code")]
    [XmlType(AnonymousType = true, Namespace = "http://jsr262.dev.java.net/jmxconnector")]
    [XmlRoot(Namespace = "http://jsr262.dev.java.net/jmxconnector", IsNullable = false)]
@@ -2147,7 +2147,7 @@ namespace NetMX.Remote.Jsr262
 
    [GeneratedCode("xsd", "2.0.50727.1432")]
    [Serializable]
-   [DebuggerStepThrough]
+   
    [DesignerCategory("code")]
    [XmlType(AnonymousType = true, Namespace = "http://jsr262.dev.java.net/jmxconnector")]
    [XmlRoot(Namespace = "http://jsr262.dev.java.net/jmxconnector", IsNullable = false)]
@@ -2174,7 +2174,7 @@ namespace NetMX.Remote.Jsr262
 
    [GeneratedCode("xsd", "2.0.50727.1432")]
    [Serializable]
-   [DebuggerStepThrough]
+   
    [DesignerCategory("code")]
    [XmlType(AnonymousType = true, Namespace = "http://jsr262.dev.java.net/jmxconnector")]
    [XmlRoot(Namespace = "http://jsr262.dev.java.net/jmxconnector", IsNullable = false)]
@@ -2201,7 +2201,7 @@ namespace NetMX.Remote.Jsr262
 
    [GeneratedCode("xsd", "2.0.50727.1432")]
    [Serializable]
-   [DebuggerStepThrough]
+   
    [DesignerCategory("code")]
    [XmlType(AnonymousType = true, Namespace = "http://jsr262.dev.java.net/jmxconnector")]
    [XmlRoot(Namespace = "http://jsr262.dev.java.net/jmxconnector", IsNullable = false)]
@@ -2221,7 +2221,7 @@ namespace NetMX.Remote.Jsr262
 
    [GeneratedCode("xsd", "2.0.50727.1432")]
    [Serializable]
-   [DebuggerStepThrough]
+   
    [DesignerCategory("code")]
    [XmlType(AnonymousType = true, Namespace = "http://jsr262.dev.java.net/jmxconnector")]
    [XmlRoot(Namespace = "http://jsr262.dev.java.net/jmxconnector", IsNullable = false)]
@@ -2266,7 +2266,7 @@ namespace NetMX.Remote.Jsr262
 
    [GeneratedCode("xsd", "2.0.50727.1432")]
    [Serializable]
-   [DebuggerStepThrough]
+   
    [DesignerCategory("code")]
    [XmlType(AnonymousType = true, Namespace = "http://jsr262.dev.java.net/jmxconnector")]
    [XmlRoot(Namespace = "http://jsr262.dev.java.net/jmxconnector", IsNullable = false)]
@@ -2285,7 +2285,7 @@ namespace NetMX.Remote.Jsr262
 
    [GeneratedCode("xsd", "2.0.50727.1432")]
    [Serializable]
-   [DebuggerStepThrough]
+   
    [DesignerCategory("code")]
    [XmlType(AnonymousType = true, Namespace = "http://jsr262.dev.java.net/jmxconnector")]
    [XmlRoot(Namespace = "http://jsr262.dev.java.net/jmxconnector", IsNullable = false)]
@@ -2331,7 +2331,7 @@ namespace NetMX.Remote.Jsr262
 
    [GeneratedCode("xsd", "2.0.50727.1432")]
    [Serializable]
-   [DebuggerStepThrough]
+   
    [DesignerCategory("code")]
    [XmlType(AnonymousType = true, Namespace = "http://jsr262.dev.java.net/jmxconnector")]
    [XmlRoot(Namespace = "http://jsr262.dev.java.net/jmxconnector", IsNullable = false)]
@@ -2351,7 +2351,7 @@ namespace NetMX.Remote.Jsr262
 
    [GeneratedCode("xsd", "2.0.50727.1432")]
    [Serializable]
-   [DebuggerStepThrough]
+   
    [DesignerCategory("code")]
    [XmlType(AnonymousType = true, Namespace = "http://jsr262.dev.java.net/jmxconnector")]
    [XmlRoot(Namespace = "http://jsr262.dev.java.net/jmxconnector", IsNullable = false)]
@@ -2381,7 +2381,7 @@ namespace NetMX.Remote.Jsr262
 
    [GeneratedCode("xsd", "2.0.50727.1432")]
    [Serializable]
-   [DebuggerStepThrough]
+   
    [DesignerCategory("code")]
    [XmlType(AnonymousType = true, Namespace = "http://jsr262.dev.java.net/jmxconnector")]
    [XmlRoot(Namespace = "http://jsr262.dev.java.net/jmxconnector", IsNullable = false)]
@@ -2401,7 +2401,7 @@ namespace NetMX.Remote.Jsr262
 
    [GeneratedCode("xsd", "2.0.50727.1432")]
    [Serializable]
-   [DebuggerStepThrough]
+   
    [DesignerCategory("code")]
    [XmlType(AnonymousType = true, Namespace = "http://jsr262.dev.java.net/jmxconnector")]
    [XmlRoot(Namespace = "http://jsr262.dev.java.net/jmxconnector", IsNullable = false)]
@@ -2420,7 +2420,7 @@ namespace NetMX.Remote.Jsr262
 
    [GeneratedCode("xsd", "2.0.50727.1432")]
    [Serializable]
-   [DebuggerStepThrough]
+   
    [DesignerCategory("code")]
    [XmlType(Namespace = "http://jsr262.dev.java.net/jmxconnector")]
    [XmlRoot("DynamicMBeanResourceMetaData", Namespace = "http://jsr262.dev.java.net/jmxconnector", IsNullable = false)]
@@ -2485,7 +2485,7 @@ namespace NetMX.Remote.Jsr262
 
    [GeneratedCode("xsd", "2.0.50727.1432")]
    [Serializable]
-   [DebuggerStepThrough]
+   
    [DesignerCategory("code")]
    [XmlType(Namespace = "http://jsr262.dev.java.net/jmxconnector")]
    [XmlRoot("Input", Namespace = "http://jsr262.dev.java.net/jmxconnector", IsNullable = false)]
@@ -2505,7 +2505,7 @@ namespace NetMX.Remote.Jsr262
 
    [GeneratedCode("xsd", "2.0.50727.1432")]
    [Serializable]
-   [DebuggerStepThrough]
+   
    [DesignerCategory("code")]
    [XmlType(Namespace = "http://jsr262.dev.java.net/jmxconnector")]
    [XmlRoot("Signature", Namespace = "http://jsr262.dev.java.net/jmxconnector", IsNullable = false)]
@@ -2525,7 +2525,7 @@ namespace NetMX.Remote.Jsr262
 
    [GeneratedCode("xsd", "2.0.50727.1432")]
    [Serializable]
-   [DebuggerStepThrough]
+   
    [DesignerCategory("code")]
    [XmlType(Namespace = "http://jsr262.dev.java.net/jmxconnector")]
    [XmlRoot("ManagedResourceOperation", Namespace = "http://jsr262.dev.java.net/jmxconnector", IsNullable = false)]
@@ -2564,7 +2564,7 @@ namespace NetMX.Remote.Jsr262
 
    [GeneratedCode("xsd", "2.0.50727.1432")]
    [Serializable]
-   [DebuggerStepThrough]
+   
    [DesignerCategory("code")]
    [XmlType(AnonymousType = true, Namespace = "http://jsr262.dev.java.net/jmxconnector")]
    [XmlRoot(Namespace = "http://jsr262.dev.java.net/jmxconnector", IsNullable = false)]
@@ -2604,7 +2604,7 @@ namespace NetMX.Remote.Jsr262
 
    [GeneratedCode("xsd", "2.0.50727.1432")]
    [Serializable]
-   [DebuggerStepThrough]
+   
    [DesignerCategory("code")]
    [XmlType(AnonymousType = true, Namespace = "http://jsr262.dev.java.net/jmxconnector")]
    [XmlRoot(Namespace = "http://jsr262.dev.java.net/jmxconnector", IsNullable = false)]
@@ -2624,7 +2624,7 @@ namespace NetMX.Remote.Jsr262
 
    [GeneratedCode("xsd", "2.0.50727.1432")]
    [Serializable]
-   [DebuggerStepThrough]
+   
    [DesignerCategory("code")]
    [XmlType(AnonymousType = true, Namespace = "http://jsr262.dev.java.net/jmxconnector")]
    [XmlRoot(Namespace = "http://jsr262.dev.java.net/jmxconnector", IsNullable = false)]

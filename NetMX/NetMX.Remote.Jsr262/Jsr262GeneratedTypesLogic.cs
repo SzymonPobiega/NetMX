@@ -144,21 +144,26 @@ namespace NetMX.Remote.Jsr262
                Item = value.ToString();
                ItemElementName = ItemChoiceType.Duration;
             }
-            else if (valueType == typeof(ICollection))
+            else if (typeof(IDictionary).IsAssignableFrom(valueType))
             {
-               Item = new MultipleValueType((ICollection)valueType);
-               ItemElementName = ItemChoiceType.List;
-            }
-            else if (valueType == typeof(IDictionary))
-            {
-               Item = new MapType((IDictionary)valueType);
+               Item = new MapType((IDictionary)value);
                ItemElementName = ItemChoiceType.Map;
             }
+            else if (typeof(ICollection).IsAssignableFrom(valueType))
+            {
+               Item = new MultipleValueType((ICollection)value);
+               ItemElementName = ItemChoiceType.List;
+            }            
             else if (valueType == typeof(XmlQualifiedName))
             {
                Item = value;
                ItemElementName = ItemChoiceType.QName;
             }            
+            else if (valueType == typeof(ObjectName))
+            {
+               Item = new EndpointReferenceType((ObjectName)value);
+               ItemElementName = ItemChoiceType.EndpointReference;
+            }
          }
       }
       public object Deserialize()
@@ -472,21 +477,5 @@ namespace NetMX.Remote.Jsr262
       {
          return new MBeanParameterInfo(name, Description.Value, JmxTypeMapping.GetCLRTypeName(type));
       }
-   }
-      
-   [Serializable]      
-   [XmlRoot("XmlFragment", Namespace = Simon.WsManagement.Schema.Namespace)]
-   public class DynamicMBeanResourceFragment
-   {
-      private NamedGenericValueType[] propertyField;
-
-      /// <remarks/>
-      [XmlElement("Property")]
-      public NamedGenericValueType[] Property
-      {
-         get { return propertyField; }
-         set { propertyField = value; }
-      }
-   }
-   
+   }           
 }

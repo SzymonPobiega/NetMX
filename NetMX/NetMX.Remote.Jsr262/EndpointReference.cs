@@ -11,7 +11,7 @@ using Simon.WsManagement;
 namespace NetMX.Remote.Jsr262
 {
    [Serializable()]
-   public class EndpointReferenceType : IXmlSerializable
+   public class EndpointReferenceType : IXmlSerializable, IDeserializable
    {
       private ObjectName _objectName;
 
@@ -35,17 +35,24 @@ namespace NetMX.Remote.Jsr262
          return null;
       }
       public void ReadXml(XmlReader reader)
-      {         
-         SelectorSetHeader selectorSet = SelectorSetHeader.ReadFrom(reader);
-         _objectName = ObjectNameSelector.ExtractObjectName(selectorSet);
+      {
+         EndpointAddress ea = EndpointAddress.ReadFrom(AddressingVersion.WSAddressing10, reader);
+         SelectorSetHeader selectorSet = SelectorSetHeader.ReadFrom(ea);         
+         _objectName = selectorSet.ExtractObjectName();
       }
       public void WriteXml(XmlWriter writer)
       {
          EndpointAddressBuilder builder = new EndpointAddressBuilder();
+         builder.Uri = OperationContext.Current.Extensions.Find<ServerAddressExtension>().Address;
          builder.Headers.Add(ObjectNameSelector.CreateSelectorSet(ObjectName));         
          EndpointAddress address = builder.ToEndpointAddress();
          address.WriteContentsTo(AddressingVersion.WSAddressing10, XmlDictionaryWriter.CreateDictionaryWriter(writer));
       }
-      #endregion           
+      #endregion
+
+      public object Deserialize()
+      {
+         return _objectName;
+      }
    }
 }

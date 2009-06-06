@@ -39,6 +39,7 @@ namespace NetMX.Remote.Jsr262
 
          IJsr262ServiceContract proxy = _channelFactory.CreateChannel(builder.ToEndpointAddress());
          OperationContextScope scope = new OperationContextScope((IContextChannel)proxy);
+         OperationContext.Current.Extensions.Add(new ServerAddressExtension(_endpointUri));
          return new DisposableProxy(proxy, scope);
       }
 
@@ -75,7 +76,7 @@ namespace NetMX.Remote.Jsr262
          }
 
          public EndpointReferenceType CreateMBean(DynamicMBeanResourceConstructor request)
-         {
+         {            
             return _realProxy.CreateMBean(request);
          }
 

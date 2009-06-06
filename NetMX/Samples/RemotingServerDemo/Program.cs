@@ -15,7 +15,9 @@ namespace RemotingServerDemo
       static void Main(string[] args)
       {
          IMBeanServer server = MBeanServerFactory.CreateMBeanServer();
-         //server.RegisterMBean(new RelationService(), RelationService.ObjectName);
+         
+         server.RegisterMBean(new RelationService(), RelationService.ObjectName);
+         
          Sample sample1 = new Sample();
          Sample sample2 = new Sample();
          Sample sample3 = new Sample();
@@ -30,18 +32,18 @@ namespace RemotingServerDemo
          dynSample.AddNestedRow(2, 4, "Second nested row");
          server.RegisterMBean(dynSample, "Sample:type=SampleDynamicMBean");
 
-         //RelationServiceMBean relationSerice = NetMXProxyExtensions.NewMBeanProxy<RelationServiceMBean>(server, RelationService.ObjectName);
-         //relationSerice.CreateRelationType("Binding", new RoleInfo[] {
-         //   new RoleInfo("Source", typeof(SampleMBean), true, false, 1, 1, "Source"),
-         //   new RoleInfo("Destination", typeof(SampleMBean), true, false, 1, 1, "Destination")});
+         RelationServiceMBean relationSerice = NetMXProxyExtensions.NewMBeanProxy<RelationServiceMBean>(server, RelationService.ObjectName);
+         relationSerice.CreateRelationType("Binding", new RoleInfo[] {
+            new RoleInfo("Source", typeof(SampleMBean), true, false, 1, 1, "Source"),
+            new RoleInfo("Destination", typeof(SampleMBean), true, false, 1, 1, "Destination")});
 
-         //relationSerice.CreateRelation("Rel1", "Binding", new Role[] {
-         //   new Role("Source", new ObjectName("Sample:type=Sample,id=1")),
-         //   new Role("Destination", new ObjectName("Sample:type=Sample,id=2"))});
+         relationSerice.CreateRelation("Rel1", "Binding", new Role[] {
+            new Role("Source", new ObjectName("Sample:type=Sample,id=1")),
+            new Role("Destination", new ObjectName("Sample:type=Sample,id=2"))});
 
-         //relationSerice.CreateRelation("Rel2", "Binding", new Role[] {
-         //   new Role("Source", new ObjectName("Sample:type=Sample,id=1")),
-         //   new Role("Destination", new ObjectName("Sample:type=Sample,id=3"))});
+         relationSerice.CreateRelation("Rel2", "Binding", new Role[] {
+            new Role("Source", new ObjectName("Sample:type=Sample,id=1")),
+            new Role("Destination", new ObjectName("Sample:type=Sample,id=3"))});
 
          OpenMBeanMapperService mapperService = new OpenMBeanMapperService(new ObjectName[] {"Sample:type=SampleMappedMBean"});
          server.RegisterMBean(mapperService,":type=OpenMBeanMapperService");
