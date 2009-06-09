@@ -43,7 +43,14 @@ namespace NetMX.Remote.Jsr262
       public void WriteXml(XmlWriter writer)
       {
          EndpointAddressBuilder builder = new EndpointAddressBuilder();
-         builder.Uri = OperationContext.Current.Extensions.Find<ServerAddressExtension>().Address;
+         if (OperationContext.Current.Channel != null)
+         {
+            builder.Uri = OperationContext.Current.Channel.LocalAddress.Uri;
+         }
+         else
+         {
+            builder.Uri = OperationContext.Current.Extensions.Find<ServerAddressExtension>().Address;  
+         }         
          builder.Headers.Add(ObjectNameSelector.CreateSelectorSet(ObjectName));         
          EndpointAddress address = builder.ToEndpointAddress();
          address.WriteContentsTo(AddressingVersion.WSAddressing10, XmlDictionaryWriter.CreateDictionaryWriter(writer));

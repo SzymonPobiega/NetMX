@@ -401,6 +401,7 @@ namespace NetMX.Remote.Jsr262
       [XmlElement("Int", typeof (int))]
       [XmlElement("Integer", typeof (string), DataType = "integer")]
       [XmlElement("List", typeof (MultipleValueType))]
+      [XmlElement("TypedList", typeof(TypedMultipleValueType))]
       [XmlElement("Long", typeof (long))]
       [XmlElement("ManagedResourceRelationType", typeof(ManagedResourceRelationType))]
       [XmlElement("ManagedResourceRole", typeof(ManagedResourceRole))]
@@ -410,6 +411,7 @@ namespace NetMX.Remote.Jsr262
       [XmlElement("ManagedResourceRoleUnresolved", typeof(ManagedResourceRoleUnresolved))]
       [XmlElement("ManagedResourceRoleUnresolvedList", typeof(ManagedResourceRoleUnresolvedList))]
       [XmlElement("Map", typeof (MapType))]
+      [XmlElement("TypedMap", typeof(TypedMapType))]
       [XmlElement("NotificationFilter", typeof (XmlElement))]
       [XmlElement("NotificationResult", typeof (NotificationResult))]
       [XmlElement("Null", typeof (NullType))]
@@ -1473,6 +1475,9 @@ namespace NetMX.Remote.Jsr262
       List,
 
 
+      TypedList,
+
+
       Long,
 
 
@@ -1498,6 +1503,8 @@ namespace NetMX.Remote.Jsr262
 
 
       Map,
+
+      TypedMap,
 
 
       NotificationFilter,

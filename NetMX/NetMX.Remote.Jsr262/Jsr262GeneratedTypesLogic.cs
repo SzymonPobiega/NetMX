@@ -144,11 +144,21 @@ namespace NetMX.Remote.Jsr262
                Item = value.ToString();
                ItemElementName = ItemChoiceType.Duration;
             }
+            else if (valueType.GetInterface("IDictionary`2") != null)
+            {
+               Item = new TypedMapType((IDictionary)value);
+               ItemElementName = ItemChoiceType.TypedMap;
+            }   
             else if (typeof(IDictionary).IsAssignableFrom(valueType))
             {
                Item = new MapType((IDictionary)value);
                ItemElementName = ItemChoiceType.Map;
             }
+            else if (valueType.GetInterface("ICollection`1") != null)
+            {
+               Item = new TypedMultipleValueType((ICollection)value);
+               ItemElementName = ItemChoiceType.TypedList;
+            }                           
             else if (typeof(ICollection).IsAssignableFrom(valueType))
             {
                Item = new MultipleValueType((ICollection)value);
@@ -163,6 +173,16 @@ namespace NetMX.Remote.Jsr262
             {
                Item = new EndpointReferenceType((ObjectName)value);
                ItemElementName = ItemChoiceType.EndpointReference;
+            }
+            else if (valueType == typeof(RoleInfo))
+            {
+               Item = new ManagedResourceRoleInfo((RoleInfo) value);
+               ItemElementName = ItemChoiceType.ManagedResourceRoleInfo;
+            }
+            else if (valueType == typeof(RoleResult))
+            {
+               Item = new ManagedResourceRoleResult((RoleResult) value);
+               ItemElementName = ItemChoiceType.ManagedResourceRoleResult;
             }
          }
       }
@@ -242,6 +262,41 @@ namespace NetMX.Remote.Jsr262
             results.Add(valueType.Deserialize());
          }
          return results;
+      }
+   }   
+
+   public partial class ManagedResourceRoleInfo : IDeserializable
+   {
+      public ManagedResourceRoleInfo()
+      {
+         
+      }
+      public ManagedResourceRoleInfo(RoleInfo roleInfo)
+      {
+         accessField = "";
+         if (roleInfo.Readable)
+         {
+            accessField += "r";
+         }
+         if (roleInfo.Writable)
+         {
+            accessField += "w";
+         }
+         minDegreeField = roleInfo.MinDegree;
+         maxDegreeField = roleInfo.MaxDegree;
+         nameField = roleInfo.Name;
+         descriptionField = roleInfo.Description;
+         managedResourceClassNameField = roleInfo.RefMBeanClassName;
+      }
+
+      public object Deserialize()
+      {
+         return new RoleInfo(nameField, managedResourceClassNameField,
+                             accessField.IndexOf('r') != -1,
+                             accessField.IndexOf('w') != -1,
+                             minDegreeField,
+                             maxDegreeField,
+                             descriptionField);
       }
    }
 
