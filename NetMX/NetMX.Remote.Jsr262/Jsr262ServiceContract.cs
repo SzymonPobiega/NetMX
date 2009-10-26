@@ -11,8 +11,8 @@ namespace NetMX.Remote.Jsr262
       public const string GetDomainsFragmentTransferPath = @"//Domain";
    }
 
-   [ServiceContract]
-   [XmlSerializerFormat(Style = OperationFormatStyle.Document)]
+   [ServiceContract]   
+   //[XmlSerializerFormat(Style = OperationFormatStyle.Document, Use = OperationFormatUse.Literal)]
    public interface IJsr262ServiceContract
    {
       [OperationContract(Action = WsTransfer.GetAction,

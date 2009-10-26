@@ -6,7 +6,7 @@ using System.Text;
 using NetMX.OpenMBean;
 
 namespace NetMX.Remote.ServiceModel
-{
+{   
    [ServiceContract]
    public interface IMBeanServerContract
    {      
@@ -23,6 +23,7 @@ namespace NetMX.Remote.ServiceModel
       /// <param name="name">The name of the MBean on which the listener should be added.</param>
       /// <param name="listener">The object name of the listener which will handle the notifications emitted by the registered MBean.</param>      
       [OperationContract]
+      [NetDataContractFormat]
       void AddNotificationListener(ObjectName name, ObjectName listener);      
       /// <summary>
       /// Instantiates and registers an MBean in the MBean server. An object name is associated to the MBean. 
@@ -36,6 +37,7 @@ namespace NetMX.Remote.ServiceModel
       /// instantiated MBean. If the contained ObjectName is n, the contained CLR class name is 
       /// <see cref="IMBeanServer.GetMBeanInfo"/>(n).ClassName.</returns>
       [OperationContract]
+      [NetDataContractFormat]
       ObjectInstance CreateMBean(String className, ObjectName name, object[] arguments);            
       /// <summary>
       /// Removes a listener from a registered MBean. If the listener is registered more than once, perhaps with different filters or callbacks, 
@@ -46,6 +48,7 @@ namespace NetMX.Remote.ServiceModel
       /// <exception cref="NetMX.InstanceNotFoundException">The MBean name provided does not match any of the registered MBeans. </exception>
       /// <exception cref="NetMX.ListenerNotFoundException">The listener is not registered in the MBean.</exception>
       [OperationContract]
+      [NetDataContractFormat]
       void RemoveNotificationListener(ObjectName name, ObjectName listener);
       /// <summary>
       /// Invokes an operation on an MBean.
@@ -55,7 +58,7 @@ namespace NetMX.Remote.ServiceModel
       /// <param name="arguments">An array containing the parameters to be set when the operation is invoked.</param>
       /// <returns>The object returned by the operation, which represents the result of invoking the operation on the MBean specified.</returns>
       [OperationContract]
-      [ServiceKnownType(typeof(ObjectName))]
+      [NetDataContractFormat]      
       object Invoke(ObjectName name, string operationName, object[] arguments);
       /// <summary>
       /// Sets the value of a specific attribute of a named MBean. The MBean is identified by its object name.
@@ -64,6 +67,7 @@ namespace NetMX.Remote.ServiceModel
       /// <param name="attributeName">The identification of the attribute to be set and the value it is to be set to</param>
       /// <param name="value">Value to set.</param>
       [OperationContract]
+      [NetDataContractFormat]
       void SetAttribute(ObjectName name, string attributeName, object value);
       /// <summary>
       /// Sets the values of several attributes of a named MBean. The MBean is identified by its object name.
@@ -72,6 +76,7 @@ namespace NetMX.Remote.ServiceModel
       /// <param name="namesAndValues">A list of attributes: The identification of the attributes to be set and the values they are to be set to.</param>
       /// <exception cref="NetMX.InstanceNotFoundException">The MBean specified is not registered in the MBean server.</exception>
       [OperationContract]
+      [NetDataContractFormat]
       IList<AttributeValue> SetAttributes(ObjectName name, IEnumerable<AttributeValue> namesAndValues);
       /// <summary>
       /// Gets the value of a specific attribute of a named MBean. The MBean is identified by its object name.
@@ -80,6 +85,7 @@ namespace NetMX.Remote.ServiceModel
       /// <param name="attributeName">A String specifying the name of the attribute to be retrieved.</param>
       /// <returns>The value of the retrieved attribute.</returns>
       [OperationContract]
+      [NetDataContractFormat]
       object GetAttribute(ObjectName name, string attributeName);
       /// <summary>
       /// Enables the values of several attributes of a named MBean. The MBean is identified by its object name.
@@ -91,6 +97,7 @@ namespace NetMX.Remote.ServiceModel
       /// <returns>The list of the retrieved attributes.</returns>
       /// <exception cref="NetMX.InstanceNotFoundException">The MBean specified is not registered in the MBean server.</exception>
       [OperationContract]
+      [NetDataContractFormat]
       IList<AttributeValue> GetAttributes(ObjectName name, string[] attributeNames);
       /// <summary>
       /// Returns the number of MBeans registered in the MBean server.
@@ -98,6 +105,7 @@ namespace NetMX.Remote.ServiceModel
       /// <returns>The number of MBeans registered.</returns>
       [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1024:UsePropertiesWhereAppropriate")]
       [OperationContract]
+      [NetDataContractFormat]
       int GetMBeanCount();
       /// <summary>
       /// This method discovers the attributes and operations that an MBean exposes for management.
@@ -105,17 +113,18 @@ namespace NetMX.Remote.ServiceModel
       /// <param name="name">The name of the MBean to analyze</param>
       /// <returns>An instance of <see cref="NetMX.MBeanInfo"/> allowing the retrieval of all attributes and operations of this MBean.</returns>
       [OperationContract]
-      [ServiceKnownType(typeof(OpenMBeanInfoSupport))]
-      [ServiceKnownType(typeof(OpenMBeanAttributeInfoSupport))]
-      [ServiceKnownType(typeof(OpenMBeanOperationInfoSupport))]
-      [ServiceKnownType(typeof(OpenMBeanParameterInfoSupport))]
-      [ServiceKnownType(typeof(OpenMBeanConstructorInfoSupport))]
-      [ServiceKnownType(typeof(SimpleType))]
-      [ServiceKnownType(typeof(TabularType))]
-      [ServiceKnownType(typeof(CompositeType))]
-      [ServiceKnownType(typeof(ArrayType))]
-      [ServiceKnownType(typeof(TabularDataSupport))]
-      [ServiceKnownType(typeof(CompositeDataSupport))]
+      //[ServiceKnownType(typeof(OpenMBeanInfoSupport))]
+      //[ServiceKnownType(typeof(OpenMBeanAttributeInfoSupport))]
+      //[ServiceKnownType(typeof(OpenMBeanOperationInfoSupport))]
+      //[ServiceKnownType(typeof(OpenMBeanParameterInfoSupport))]
+      //[ServiceKnownType(typeof(OpenMBeanConstructorInfoSupport))]
+      //[ServiceKnownType(typeof(SimpleType))]
+      //[ServiceKnownType(typeof(TabularType))]
+      //[ServiceKnownType(typeof(CompositeType))]
+      //[ServiceKnownType(typeof(ArrayType))]
+      //[ServiceKnownType(typeof(TabularDataSupport))]
+      //[ServiceKnownType(typeof(CompositeDataSupport))]
+      [NetDataContractFormat]
       MBeanInfo GetMBeanInfo(ObjectName name);
       /// <summary>
       /// Returns true if the MBean specified is an instance of the specified class, false otherwise.
@@ -125,6 +134,7 @@ namespace NetMX.Remote.ServiceModel
       /// <returns>true if the MBean specified is an instance of the specified class, false otherwise.</returns>
       /// <exception cref="InstanceNotFoundException">The MBean specified is not registered in the MBean server.</exception>
       [OperationContract]
+      [NetDataContractFormat]
       bool IsInstanceOf(ObjectName name, string className);
       /// <summary>
       /// Checks whether an MBean, identified by its object name, is already registered with the MBean server.
@@ -132,6 +142,7 @@ namespace NetMX.Remote.ServiceModel
       /// <param name="name">The object name of the MBean to be checked.</param>
       /// <returns>True if the MBean is already registered in the MBean server, false otherwise.</returns>
       [OperationContract]
+      [NetDataContractFormat]
       bool IsRegistered(ObjectName name);
       /// <summary>
       /// Gets the names of MBeans controlled by the MBean server. This method enables any of the following to be 
@@ -148,6 +159,7 @@ namespace NetMX.Remote.ServiceModel
       /// <returns>A set containing the ObjectNames for the MBeans selected. If no MBean satisfies the query, an empty 
       /// list is returned.</returns>
       [OperationContract]
+      [NetDataContractFormat]
       IEnumerable<ObjectName> QueryNames(ObjectName name, QueryExp query);
       /// <summary>
       /// Unregisters an MBean from the MBean server. The MBean is identified by its object name. 
@@ -157,6 +169,7 @@ namespace NetMX.Remote.ServiceModel
       /// <exception cref="NetMX.InstanceNotFoundException">The MBean specified is not registered in the MBean server.</exception>
       /// <exception cref="NetMX.MBeanRegistrationException">The preDeregister method of the MBean has thrown an exception.</exception>
       [OperationContract]
+      [NetDataContractFormat]
       void UnregisterMBean(ObjectName name);
       /// <summary>
       /// Returns the default domain used for naming the MBean. The default domain name is used as the domain 
@@ -165,6 +178,7 @@ namespace NetMX.Remote.ServiceModel
       /// <returns>The default domain.</returns>
       [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1024:UsePropertiesWhereAppropriate")]
       [OperationContract]
+      [NetDataContractFormat]
       string GetDefaultDomain();
       /// <summary>
       /// Returns the list of domains in which any MBean is currently registered. A string is in the returned 
@@ -174,6 +188,7 @@ namespace NetMX.Remote.ServiceModel
       /// <returns>The list of domains.</returns>
       [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1024:UsePropertiesWhereAppropriate")]
       [OperationContract]
+      [NetDataContractFormat]
       IList<string> GetDomains();
    }
 }

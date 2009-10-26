@@ -59,7 +59,7 @@ namespace NetMX.Remote.ServiceModel
       {
          ChannelFactory<IMBeanServerContract> factory = new ChannelFactory<IMBeanServerContract>(
             _configurationName,
-            new EndpointAddress(_serviceUrl));
+            new EndpointAddress(_serviceUrl));         
          _proxy = factory.CreateChannel();
          _connectionId = Guid.NewGuid();
          _connection = new ServiceModelMBeanServerConnection(_proxy);

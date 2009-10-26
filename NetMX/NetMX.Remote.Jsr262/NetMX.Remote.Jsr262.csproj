@@ -77,6 +77,10 @@
     <Compile Include="WsEnumerationTypesLogic.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\NetMX.OpenMBean\NetMX.OpenMBean.csproj">
+      <Project>{27AAB473-F263-4F24-A0DC-9B3CAFCE1E16}</Project>
+      <Name>NetMX.OpenMBean</Name>
+    </ProjectReference>
     <ProjectReference Include="..\NetMX.Relation\NetMX.Relation.csproj">
       <Project>{777EBC51-1D14-4170-8ABA-9D78328641D7}</Project>
       <Name>NetMX.Relation</Name>

@@ -61,7 +61,8 @@ namespace RemotingServerDemo
 
 
          //Uri serviceUrl = new Uri("tcp://localhost:1234/MBeanServer.tcp");
-         Uri serviceUrl = new Uri("http://localhost:1010/MBeanServer");
+         //Uri serviceUrl = new Uri("http://localhost:1010/MBeanServer");
+         Uri serviceUrl = new Uri("net.pipe://localhost/MBeanServer");
 
          using (INetMXConnectorServer connectorServer = NetMXConnectorServerFactory.NewNetMXConnectorServer(serviceUrl, server))
          {

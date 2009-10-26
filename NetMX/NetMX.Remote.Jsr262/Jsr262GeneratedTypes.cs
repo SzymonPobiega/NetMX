@@ -2,6 +2,7 @@
 using System.CodeDom.Compiler;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.ServiceModel;
 using System.Xml;
 using System.Xml.Serialization;
 
@@ -1862,18 +1863,19 @@ namespace NetMX.Remote.Jsr262
    }
 
    /// <remarks/>
-   [GeneratedCode("xsd", "2.0.50727.1432")]
-   [Serializable]
-   
-   [DesignerCategory("code")]
-   [XmlType(AnonymousType = true, Namespace = "http://jsr262.dev.java.net/jmxconnector")]
-   [XmlRoot(Namespace = "http://jsr262.dev.java.net/jmxconnector", IsNullable = false)]
+   //[GeneratedCode("xsd", "2.0.50727.1432")]
+   //[Serializable]
+   [MessageContract]   
+   //[DesignerCategory("code")]
+   //[XmlType(AnonymousType = true, Namespace = "http://jsr262.dev.java.net/jmxconnector")]
+   //[XmlRoot(Namespace = "http://jsr262.dev.java.net/jmxconnector", IsNullable = false)]
    public partial class DynamicMBeanResource
    {
       private NamedGenericValueType[] propertyField;
 
       /// <remarks/>
       [XmlElement("Property")]
+      [MessageBodyMember]
       public NamedGenericValueType[] Property
       {
          get { return propertyField; }

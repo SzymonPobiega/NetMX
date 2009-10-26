@@ -7,6 +7,7 @@ using System.ServiceModel;
 using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
+using NetMX.OpenMBean;
 using NetMX.Relation;
 using Simon.WsManagement;
 
@@ -183,7 +184,7 @@ namespace NetMX.Remote.Jsr262
             {
                Item = new ManagedResourceRoleResult((RoleResult) value);
                ItemElementName = ItemChoiceType.ManagedResourceRoleResult;
-            }
+            }            
          }
       }
       public object Deserialize()
@@ -427,12 +428,40 @@ namespace NetMX.Remote.Jsr262
          if (attributeInfo.Writable)
          {
             accessField += "w";
-         }
+         }         
          type = JmxTypeMapping.GetJmxXmlType(attributeInfo.Type);
       }
       public MBeanAttributeInfo Deserialize()
       {
-         return new MBeanAttributeInfo(name, Description.Value, JmxTypeMapping.GetCLRTypeName(type), accessField.IndexOf('r') != -1, accessField.IndexOf('w') != -1);
+         FeatureDescriptorTypeField openTypeField = Field.FirstOrDefault(x => x.Name == "openType");
+         bool readable = accessField.IndexOf('r') != -1;
+         bool writable = accessField.IndexOf('w') != -1;
+         if (openTypeField == null)
+         {
+            return new MBeanAttributeInfo(name, Description.Value, JmxTypeMapping.GetCLRTypeName(type), readable, writable);
+         }
+         OpenType openType = (OpenType)openTypeField.Value.Deserialize();
+         FeatureDescriptorTypeField defaultValueField = Field.FirstOrDefault(x => x.Name == "defaultValue");
+         FeatureDescriptorTypeField minValueField = Field.FirstOrDefault(x => x.Name == "minValue");
+         FeatureDescriptorTypeField maxValueField = Field.FirstOrDefault(x => x.Name == "maxValue");
+         FeatureDescriptorTypeField legalValuesField = Field.FirstOrDefault(x => x.Name == "legalValues");
+
+         object defaultValue = defaultValueField != null ? defaultValueField.Value.Deserialize() : null;
+
+         if (defaultValueField == null && minValueField == null && maxValueField == null && legalValuesField == null)
+         {
+            return new OpenMBeanAttributeInfoSupport(name, Description.Value, openType, readable, writable);
+         }
+         if (legalValuesField != null)
+         {
+            object[] legalValues = (object[]) legalValuesField.Value.Deserialize();
+            return new OpenMBeanAttributeInfoSupport(name, Description.Value, openType, readable, writable,
+                                                     (IComparable) defaultValue, legalValues);
+         }
+         IComparable minValue = minValueField != null ? (IComparable)minValueField.Value.Deserialize() : null;
+         IComparable maxValue = maxValueField != null ? (IComparable)maxValueField.Value.Deserialize() : null;
+
+         return new OpenMBeanAttributeInfoSupport(name, Description.Value, openType, readable, writable, (IComparable)defaultValue, minValue, maxValue);
       }
    }
 

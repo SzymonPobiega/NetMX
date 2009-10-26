@@ -90,6 +90,10 @@
       <Project>{FF650A14-16B7-4CB3-BBC0-592FAE591D3D}</Project>
       <Name>NetMX.Remote.Remoting</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\NetMX.Remote.ServiceModel\NetMX.Remote.ServiceModel.csproj">
+      <Project>{ED2EA082-7271-4615-8B1F-B9C5BDA695B4}</Project>
+      <Name>NetMX.Remote.ServiceModel</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\NetMX.Remote\NetMX.Remote.csproj">
       <Project>{E5D06BDE-F173-4175-BF94-F9DDCE4E347D}</Project>
       <Name>NetMX.Remote</Name>

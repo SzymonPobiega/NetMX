@@ -10,6 +10,7 @@ namespace NetMX.Remote.ServiceModel
    /// <summary>
    /// WCF service implementation for exposing <see cref="IMBeanServerConnection"/> instance as a service.
    /// </summary>
+   [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single)]
 	public class MBeanServerService : IMBeanServerContract
 	{
       private readonly IMBeanServerConnection _exportedServer;
