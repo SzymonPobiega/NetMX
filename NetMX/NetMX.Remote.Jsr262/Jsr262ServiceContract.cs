@@ -12,15 +12,13 @@ namespace NetMX.Remote.Jsr262
    }
 
    [ServiceContract]   
-   //[XmlSerializerFormat(Style = OperationFormatStyle.Document, Use = OperationFormatUse.Literal)]
+   [XmlSerializerFormat(Style = OperationFormatStyle.Document, Use = OperationFormatUse.Literal)]
    public interface IJsr262ServiceContract
    {
       [OperationContract(Action = WsTransfer.GetAction,
-         ReplyAction = WsTransfer.GetResponseAction)]
-      [ServiceKnownType(typeof(DynamicMBeanResource))]
-      [ServiceKnownType(typeof(GetDefaultDomainResponse))]
-      [ServiceKnownType(typeof(GetDomainsResponse))]
-      object Get();
+         ReplyAction = WsTransfer.GetResponseAction)]      
+      [ServiceKnownType(typeof(GetDefaultDomainResponse))]      
+      GetResponse Get();
 
       [OperationContract(Action = WsTransfer.PutAction,
          ReplyAction = WsTransfer.PutResponseAction)]

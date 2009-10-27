@@ -55,7 +55,7 @@ namespace NetMX.Remote.Jsr262
             _scope = scope;            
          }
 
-         public object Get()
+         public GetResponse Get()
          {
             return _realProxy.Get();
          }

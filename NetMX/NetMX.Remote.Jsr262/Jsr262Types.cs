@@ -2,12 +2,27 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.ServiceModel;
 using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
 
 namespace NetMX.Remote.Jsr262
 {
+   [MessageContract(IsWrapped = false)]
+   public class GetResponse
+   {
+      [MessageBodyMember]
+      [XmlElement]
+      public DynamicMBeanResource DynamicMBeanResource { get; set; }
+      [MessageBodyMember]
+      [XmlElement]
+      public GetDefaultDomainResponse GetDefaultDomainResponse { get; set; }
+      [MessageBodyMember]
+      [XmlElement]
+      public GetDomainsResponse GetDomainsResponse { get; set; }
+   }
+
    [Serializable]
    [XmlRoot("XmlFragment", Namespace = Simon.WsManagement.Schema.Namespace)]
    public class DynamicMBeanResourceFragment

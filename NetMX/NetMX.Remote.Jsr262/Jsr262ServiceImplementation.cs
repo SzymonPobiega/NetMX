@@ -18,37 +18,37 @@ namespace NetMX.Remote.Jsr262
       }
 
       #region INetMXWSService Members      
-      public object Get()
+      public GetResponse Get()
       {
-         object result;
+         GetResponse result = new GetResponse();
          FragmentTransferHeader fragmentTransfer = FragmentTransferHeader.ReadFrom(OperationContext.Current.IncomingMessageHeaders);         
          if (fragmentTransfer.Expression == IJsr262ServiceContractConstants.GetDefaultDomainFragmentTransferPath)
          {
-            result = GetDefaultDomain();
+            result.GetDefaultDomainResponse = GetDefaultDomain();
          }
          else if (fragmentTransfer.Expression == IJsr262ServiceContractConstants.GetDomainsFragmentTransferPath)
          {
-            result = GetDomains();
+            result.GetDomainsResponse = GetDomains();
          }
          else
          {
-            result = GetAttributes(fragmentTransfer.Expression);  
+            result.DynamicMBeanResource = GetAttributes(fragmentTransfer.Expression);  
          }         
          OperationContext.Current.OutgoingMessageHeaders.Add(fragmentTransfer);
          return result;
       }
 
-      private object GetDomains()
+      private GetDomainsResponse GetDomains()
       {
          return new GetDomainsResponse {DomainNames = _server.GetDomains().ToArray()};
       }
 
-      private object GetDefaultDomain()
+      private GetDefaultDomainResponse GetDefaultDomain()
       {
          return new GetDefaultDomainResponse {DomainName = _server.GetDefaultDomain()};
       }
 
-      private object GetAttributes(string fragmentTransferExpression)
+      private DynamicMBeanResource GetAttributes(string fragmentTransferExpression)
       {
          CheckResourceUri(Schema.DynamicMBeanResourceUri);
          

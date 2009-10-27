@@ -1860,12 +1860,12 @@ namespace NetMX.Remote.Jsr262
          get { return impactField; }
          set { impactField = value; }
       }
-   }
+   }   
 
    /// <remarks/>
    //[GeneratedCode("xsd", "2.0.50727.1432")]
    //[Serializable]
-   [MessageContract]   
+   [MessageContract(IsWrapped = false)]   
    //[DesignerCategory("code")]
    //[XmlType(AnonymousType = true, Namespace = "http://jsr262.dev.java.net/jmxconnector")]
    //[XmlRoot(Namespace = "http://jsr262.dev.java.net/jmxconnector", IsNullable = false)]
@@ -1875,7 +1875,7 @@ namespace NetMX.Remote.Jsr262
 
       /// <remarks/>
       [XmlElement("Property")]
-      [MessageBodyMember]
+      [MessageBodyMember(Name="GetResult")]
       public NamedGenericValueType[] Property
       {
          get { return propertyField; }
