@@ -40,7 +40,8 @@ namespace NetMX.Remote.Jsr262
             throw new InvalidOperationException("Server is already started.");
          }
          _serviceHost = new ServiceHost(new Jsr262ServiceImplementation(_server) );
-         WSHttpBinding binding = new WSHttpBinding(SecurityMode.None);
+         Soap12Addressing200408WSHttpBinding binding = new Soap12Addressing200408WSHttpBinding(SecurityMode.None);
+//         BasicHttpBinding binding = new BasicHttpBinding(BasicHttpSecurityMode.None);
          ServiceEndpoint endpoint = _serviceHost.AddServiceEndpoint(typeof (IJsr262ServiceContract), binding, _serviceUrl);         
          _serviceHost.Open();
       }
@@ -54,5 +55,20 @@ namespace NetMX.Remote.Jsr262
          _serviceHost.Close();
          _serviceHost = null;
       }
+
+       private class Soap12Addressing200408WSHttpBinding : WSHttpBinding
+       {
+           public Soap12Addressing200408WSHttpBinding(SecurityMode securityMode) : base(securityMode)
+           {}
+
+           public override BindingElementCollection CreateBindingElements()
+           {
+               BindingElementCollection elements = base.CreateBindingElements();
+               TextMessageEncodingBindingElement txtenc = elements.Find<TextMessageEncodingBindingElement>();
+               txtenc.MessageVersion = MessageVersion.Soap12WSAddressingAugust2004;
+               return elements;
+           }
+       }
+        
    }
 }

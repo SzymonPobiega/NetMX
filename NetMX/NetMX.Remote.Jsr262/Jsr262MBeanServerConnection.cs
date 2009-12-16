@@ -75,7 +75,7 @@ namespace NetMX.Remote.Jsr262
                                            };
          using (IDisposableProxy proxy = _proxyFactory.Create(name, Schema.DynamicMBeanResourceUri))
          {
-            return proxy.Invoke(request).Deserialize();
+            return proxy.Invoke(new InvokeMessage(request)).ManagedResourceOperationResult.Deserialize();
          }
       }
 
@@ -91,7 +91,8 @@ namespace NetMX.Remote.Jsr262
 
          using (IDisposableProxy proxy = _proxyFactory.Create(name, Schema.DynamicMBeanResourceUri))
          {
-            proxy.SetAttributes(request);
+            //throw new NotImplementedException();
+            proxy.SetAttributes(new SetAttributesMessage(request));
          }
       }
 
@@ -104,8 +105,9 @@ namespace NetMX.Remote.Jsr262
 
          using (IDisposableProxy proxy = _proxyFactory.Create(name, Schema.DynamicMBeanResourceUri))
          {
-            DynamicMBeanResource response = proxy.SetAttributes(request);
-            return response.Property.Select(x => new AttributeValue(x.name, x.Deserialize())).ToList();
+            //throw new NotImplementedException();
+            SetAttributesResponseMessage response = proxy.SetAttributes(new SetAttributesMessage(request));
+            return response.Response.Property.Select(x => new AttributeValue(x.name, x.Deserialize())).ToList();
          }         
       }
 
@@ -118,7 +120,7 @@ namespace NetMX.Remote.Jsr262
          using (IDisposableProxy proxy = _proxyFactory.Create(name, Schema.DynamicMBeanResourceUri))
          {
             OperationContext.Current.OutgoingMessageHeaders.Add(fragmentTransferHeader);
-            beanResource = proxy.Get().DynamicMBeanResource;
+            beanResource = (DynamicMBeanResource) proxy.Get().Response;
          }
 
          return beanResource.Property.First(x => x.name == attributeName).Deserialize();
@@ -133,7 +135,7 @@ namespace NetMX.Remote.Jsr262
          using (IDisposableProxy proxy = _proxyFactory.Create(name, Schema.DynamicMBeanResourceUri))
          {
             OperationContext.Current.OutgoingMessageHeaders.Add(fragmentTransferHeader);
-            beanResource = proxy.Get().DynamicMBeanResource;
+            beanResource = (DynamicMBeanResource) proxy.Get().Response;
          }
 
          return beanResource.Property.Select(x => new AttributeValue(x.name, x.Deserialize())).ToList();
@@ -144,7 +146,7 @@ namespace NetMX.Remote.Jsr262
          using (IDisposableProxy proxy = _proxyFactory.Create(null, Schema.DynamicMBeanResourceUri))
          {
             OperationContext.Current.OutgoingMessageHeaders.Add(new RequestTotalItemsTotalCountEstimate());
-            proxy.Enumerate(new Enumerate());
+            proxy.Enumerate(null);
             TotalItemsTotalCountEstimate countEstimate =
                TotalItemsTotalCountEstimate.ReadFrom(OperationContext.Current.IncomingMessageHeaders);
             return countEstimate.Value;
@@ -155,7 +157,7 @@ namespace NetMX.Remote.Jsr262
       {         
          using (IDisposableProxy proxy = _proxyFactory.Create(name, Schema.DynamicMBeanResourceUri))
          {
-            return proxy.GetMBeanInfo().Deserialize();
+            return proxy.GetMBeanInfo().DynamicMBeanResourceMetaData.Deserialize();
          }
       }
 
@@ -163,7 +165,7 @@ namespace NetMX.Remote.Jsr262
       {
          using (IDisposableProxy proxy = _proxyFactory.Create(name, Schema.DynamicMBeanResourceUri))
          {
-            return (bool)proxy.IsInstanceOf(new GenericValueType(className)).Deserialize();
+            return proxy.IsInstanceOf(new IsInstanceOfMessage(className)).Value;
          }
       }
 
@@ -171,8 +173,9 @@ namespace NetMX.Remote.Jsr262
       {
          using (IDisposableProxy proxy = _proxyFactory.Create(name, Schema.DynamicMBeanResourceUri))
          {            
-            EnumerateResponse response = proxy.Enumerate(new Enumerate(true, EnumerationMode.EnumerateEPR, null, null));
-            return response.DeserializeAsEPRs().Count() > 0;
+//            XmlEnumerateResponse response = proxy.Enumerate(new Enumerate(true, EnumerationMode.EnumerateEPR, null, null));
+            EnumerateResponseMessage response = proxy.Enumerate(null);
+            return response.EnumerateResponse.DeserializeAsEPRs().Count() > 0;
          }
       }
 
@@ -180,8 +183,9 @@ namespace NetMX.Remote.Jsr262
       {
          using (IDisposableProxy proxy = _proxyFactory.Create(name, Schema.DynamicMBeanResourceUri))
          {
-            EnumerateResponse response = proxy.Enumerate(new Enumerate(true, EnumerationMode.EnumerateEPR, Schema.QueryNamesDialect, null));
-            return response.DeserializeAsEPRs().Select(x => x.ExtractObjectName());
+//            XmlEnumerateResponse response = proxy.Enumerate(new Enumerate(true, EnumerationMode.EnumerateEPR, Schema.QueryNamesDialect, null));
+            EnumerateResponseMessage response = proxy.Enumerate(null);
+            return response.EnumerateResponse.DeserializeAsEPRs().Select(x => x.ExtractObjectName());
          }
       }
 
@@ -210,7 +214,7 @@ namespace NetMX.Remote.Jsr262
          using (IDisposableProxy proxy = _proxyFactory.Create(null, Schema.DynamicMBeanResourceUri))
          {
             OperationContext.Current.OutgoingMessageHeaders.Add(fragmentTransferHeader);
-            GetDefaultDomainResponse response = proxy.Get().GetDefaultDomainResponse;
+            GetDefaultDomainResponse response = (GetDefaultDomainResponse)proxy.Get().Response;
             return response.DomainName;
          }         
       }
@@ -221,7 +225,7 @@ namespace NetMX.Remote.Jsr262
          using (IDisposableProxy proxy = _proxyFactory.Create(null, Schema.DynamicMBeanResourceUri))
          {
             OperationContext.Current.OutgoingMessageHeaders.Add(fragmentTransferHeader);
-            GetDomainsResponse response = proxy.Get().GetDomainsResponse;
+            GetDomainsResponse response = (GetDomainsResponse)proxy.Get().Response;
             return new List<string>(response.DomainNames);
          }         
       }

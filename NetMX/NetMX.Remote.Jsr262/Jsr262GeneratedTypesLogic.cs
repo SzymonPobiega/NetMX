@@ -521,7 +521,10 @@ namespace NetMX.Remote.Jsr262
          {
             impact = "unknown";
          }
-         outputField = new ParameterModelInfoType(operationInfo.ReturnType);
+         if (operationInfo.ReturnType != typeof(void).AssemblyQualifiedName)
+         {
+            outputField = new ParameterModelInfoType(operationInfo.ReturnType);  
+         }         
       }
       public MBeanOperationInfo Deserialize()
       {

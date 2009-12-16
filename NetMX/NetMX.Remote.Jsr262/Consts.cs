@@ -46,5 +46,10 @@ namespace NetMX.Remote.Jsr262
       /// WS-Enumeration filter dialect for QueryNames method.
       /// </summary>
       public const string QueryNamesDialect = @"http://jsr262.dev.java.net/DynamicMBeanResource/Filter/Query/Name";
+
+       public const string SubscribeAction = @"http://schemas.xmlsoap.org/ws/2004/08/eventing/Subscribe";
+       public const string SubscribeResponseAction = @"http://schemas.xmlsoap.org/ws/2004/08/eventing/SubscribeResponse";
+       public const string UnsubscribeAction = @"http://schemas.xmlsoap.org/ws/2004/08/eventing/Unsubscribe";
+       public const string UnsubscribeResponseAction = @"http://schemas.xmlsoap.org/ws/2004/08/eventing/UnsubscribeResponse";
    }
 }

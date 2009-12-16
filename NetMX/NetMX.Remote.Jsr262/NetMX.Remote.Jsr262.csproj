@@ -55,6 +55,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ConnectionIdHeader.cs" />
+    <Compile Include="FragmentHeaderAttribute.cs" />
     <Compile Include="Jsr262GeneratedTypes.cs" />
     <Compile Include="Consts.cs" />
     <Compile Include="EndpointReference.cs" />
@@ -101,6 +103,9 @@
       <Project>{39D41E1E-D5D1-4CC4-BCCD-D91DB58A04D2}</Project>
       <Name>Simon.WsManagement</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

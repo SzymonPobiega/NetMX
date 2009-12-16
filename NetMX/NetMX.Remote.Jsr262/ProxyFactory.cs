@@ -55,13 +55,14 @@ namespace NetMX.Remote.Jsr262
             _scope = scope;            
          }
 
-         public GetResponse Get()
+         public GetResponseMessage Get()
          {
             return _realProxy.Get();
          }
 
-         public DynamicMBeanResource SetAttributes(DynamicMBeanResource request)
+         public SetAttributesResponseMessage SetAttributes(SetAttributesMessage request)
          {
+            //throw  new NotImplementedException();
             return _realProxy.SetAttributes(request);
          }
 
@@ -70,7 +71,7 @@ namespace NetMX.Remote.Jsr262
             _realProxy.UnregisterMBean();
          }
 
-         public GenericValueType Invoke(OperationRequestType requst)
+         public InvokeResponseMessage Invoke(InvokeMessage requst)
          {
             return _realProxy.Invoke(requst);
          }
@@ -80,21 +81,36 @@ namespace NetMX.Remote.Jsr262
             return _realProxy.CreateMBean(request);
          }
 
-         public ResourceMetaDataType GetMBeanInfo()
+         public ResourceMetaDataTypeMessage GetMBeanInfo()
          {
             return _realProxy.GetMBeanInfo();
          }
 
-         public EnumerateResponse Enumerate(Enumerate request)
+         public PullResponseMessage Pull(Message request)
+         {
+            return _realProxy.Pull(request);
+         }
+
+         public EnumerateResponseMessage Enumerate(Message request)
          {
             return _realProxy.Enumerate(request);
          }
 
-         public GenericValueType IsInstanceOf(GenericValueType className)
+         public IsInstanceOfResponseMessage IsInstanceOf(IsInstanceOfMessage className)
          {
             return _realProxy.IsInstanceOf(className);
          }
 
+         public Message Subscribe(Message msg)
+         {
+             return _realProxy.Subscribe(msg);
+         }
+          
+         public void Unsubscribe(Message msg)
+         {
+             _realProxy.Unsubscribe(msg);
+         }
+          
          public void Dispose()
          {
             if (!_disposed)

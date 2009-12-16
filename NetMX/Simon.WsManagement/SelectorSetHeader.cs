@@ -46,7 +46,7 @@ namespace Simon.WsManagement
       {
          SelectorSetHeader result = new SelectorSetHeader();
          reader.ReadStartElement(ElementName, Schema.Namespace);
-         while (reader.Name == Selector.ElementName)
+         while (reader.LocalName == Selector.ElementName)
          {
             Selector newSelector = Selector.ReadFrom(reader);
             result.Selectors.Add(newSelector);

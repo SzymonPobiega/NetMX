@@ -10,12 +10,12 @@ namespace NetMX.Remote.Jsr262
    public sealed class GetAttributesFragment
    {
       private static readonly Regex _validatorExpr =
-         new Regex("(//jmx:Property\\[@name=\"([^\"]+)\"\\]|)*//jmx:Property\\[@name=\"([^\"]+)\"\\]", RegexOptions.Compiled);
+         new Regex("(//:Property\\[@name=\"([^\"]+)\"\\]|)*//:Property\\[@name=\"([^\"]+)\"\\]", RegexOptions.Compiled);
 
       private static readonly Regex _parserExpr =
-         new Regex("//jmx:Property\\[@name=\"(?<name>[^\"]+)\"\\]", RegexOptions.Compiled);
+         new Regex("//:Property\\[@name=\"(?<name>[^\"]+)\"\\]", RegexOptions.Compiled);
 
-      private const string _expressionPattern = "//jmx:Property[@name=\"{0}\"]|";         
+      private const string _expressionPattern = "//:Property[@name=\"{0}\"]|";         
 
       private readonly string[] _names;
 

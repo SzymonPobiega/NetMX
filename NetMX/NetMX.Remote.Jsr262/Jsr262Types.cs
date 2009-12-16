@@ -2,51 +2,197 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.Text;
 using System.Xml;
+using System.Xml.Schema;
 using System.Xml.Serialization;
 
 namespace NetMX.Remote.Jsr262
 {
    [MessageContract(IsWrapped = false)]
-   public class GetResponse
+   public class IsInstanceOfMessage
    {
       [MessageBodyMember]
-      [XmlElement]
-      public DynamicMBeanResource DynamicMBeanResource { get; set; }
-      [MessageBodyMember]
-      [XmlElement]
-      public GetDefaultDomainResponse GetDefaultDomainResponse { get; set; }
-      [MessageBodyMember]
-      [XmlElement]
-      public GetDomainsResponse GetDomainsResponse { get; set; }
-   }
+      [XmlElement("String", Namespace = Schema.ConnectorNamespace)]
+      public string Value { get; set; }
 
-   [Serializable]
-   [XmlRoot("XmlFragment", Namespace = Simon.WsManagement.Schema.Namespace)]
-   public class DynamicMBeanResourceFragment
-   {
-      private NamedGenericValueType[] propertyField;
-
-      /// <remarks/>
-      [XmlElement("Property")]
-      public NamedGenericValueType[] Property
+      public IsInstanceOfMessage()
       {
-         get { return propertyField; }
-         set { propertyField = value; }
+      }
+
+      public IsInstanceOfMessage(string value)
+      {
+         Value = value;
       }
    }
 
+   [MessageContract(IsWrapped = false)]
+   public class IsInstanceOfResponseMessage
+   {
+      [MessageBodyMember]
+      [XmlElement("Boolean", Namespace = Schema.ConnectorNamespace)]
+      public bool Value { get; set; }
+      
+      public IsInstanceOfResponseMessage()
+      {
+      }
+
+      public IsInstanceOfResponseMessage(bool value)
+      {
+         Value = value;
+      }
+   }
+
+   [MessageContract(IsWrapped = false)]
+   public class ResourceMetaDataTypeMessage
+   {
+      [MessageBodyMember]
+      [XmlElement(Namespace = Schema.ConnectorNamespace)]
+      public ResourceMetaDataType DynamicMBeanResourceMetaData { get; set; }
+
+      public ResourceMetaDataTypeMessage(ResourceMetaDataType dynamicMBeanResourceMetaData)
+      {
+         DynamicMBeanResourceMetaData = dynamicMBeanResourceMetaData;
+      }
+   }
+
+   [MessageContract(IsWrapped = false)]
+   public class EnumerateResponseMessage
+   {
+      [MessageBodyMember]
+      [XmlElement(Namespace = Simon.WsManagement.Schema.EnumerationNamespace)]
+      public EnumerateResponse EnumerateResponse { get; set; }
+
+      public EnumerateResponseMessage()
+      {
+      }
+
+      public EnumerateResponseMessage(EnumerateResponse enumerateResponse)
+      {
+         EnumerateResponse = enumerateResponse;
+      }
+   }
+
+   [MessageContract(IsWrapped = false)]
+   public class PullResponseMessage
+   {
+      [MessageBodyMember]
+      [XmlElement(Namespace = Simon.WsManagement.Schema.EnumerationNamespace)]
+      public PullResponse PullResponse { get; set; }
+
+      public PullResponseMessage()
+      {
+      }
+
+      public PullResponseMessage(PullResponse pullResponse)
+      {
+         PullResponse = pullResponse;
+      }
+   }
+
+   [MessageContract(IsWrapped = false)]
+   [KnownType(typeof(GetDefaultDomainResponse))]
+   [KnownType(typeof(DynamicMBeanResource))]
+   [KnownType(typeof(GetDomainsResponse))]
+   public class GetResponseMessage
+   {
+      [MessageBodyMember]
+      [XmlElement(ElementName = "XmlFragment", Namespace = Simon.WsManagement.Schema.Namespace)]      
+      public object Response { get; set; }
+   }
+
+   [MessageContract(IsWrapped = false)]
+   public class SetAttributesResponseMessage
+   {
+      [MessageBodyMember]
+      [XmlElement(ElementName = "XmlFragment", Namespace = Simon.WsManagement.Schema.Namespace)]
+      public object Body;
+
+      public DynamicMBeanResource Response
+      {
+         get { return (DynamicMBeanResource) Body; }
+      }
+
+      public SetAttributesResponseMessage()
+      {         
+      }
+
+      public SetAttributesResponseMessage(DynamicMBeanResource request)
+      {
+         Body = request;
+      }
+   }
+
+   [MessageContract(IsWrapped = false)]
+   //[KnownType(typeof(DynamicMBeanResource))]
+   public class SetAttributesMessage
+   {
+      [MessageBodyMember]
+      [XmlElement(ElementName = "XmlFragment", Namespace = Simon.WsManagement.Schema.Namespace)]
+      public object Body;
+
+      [XmlIgnore]
+      public DynamicMBeanResource Request
+      {
+         get { return (DynamicMBeanResource) Body; }
+      }
+
+      public SetAttributesMessage()
+      {         
+      }
+      
+      public SetAttributesMessage(DynamicMBeanResource request)
+      {
+         Body = request;
+      }
+   }
+
+   [MessageContract(IsWrapped = false)]
+   public class InvokeMessage
+   {
+      [MessageBodyMember]
+      [XmlElement(Namespace = Schema.ConnectorNamespace)]
+      public OperationRequestType ManagedResourceOperation { get; set; }
+
+      public InvokeMessage()
+      {         
+      }
+
+      public InvokeMessage(OperationRequestType managedResourceOperation)
+      {
+         ManagedResourceOperation = managedResourceOperation;
+      }
+   }
+
+   [MessageContract(IsWrapped = false)]
+   public class InvokeResponseMessage
+   {
+      [MessageBodyMember]
+      [XmlElement(Namespace = Schema.ConnectorNamespace)]
+      public GenericValueType ManagedResourceOperationResult { get; set; }
+
+      public InvokeResponseMessage()
+      {         
+      }
+
+      public InvokeResponseMessage(GenericValueType managedResourceOperationResult)
+      {
+         ManagedResourceOperationResult = managedResourceOperationResult;
+      }
+   } 
+
    [Serializable]
-   [XmlType(AnonymousType = true, Namespace = "http://jsr262.dev.java.net/jmxconnector")]
-   [XmlRoot(Namespace = "http://jsr262.dev.java.net/jmxconnector", IsNullable = false)]
+   [XmlType(AnonymousType = true, Namespace = Schema.ConnectorNamespace)]
+   [XmlRoot(Namespace = Schema.ConnectorNamespace, IsNullable = false)]
    public class GetDefaultDomainResponse
-   {      
+   {
       [XmlText]
       public string DomainName
       {
-         get; set;
+         get;
+         set;
       }
    }
 
@@ -64,7 +210,7 @@ namespace NetMX.Remote.Jsr262
    }
 
 
-   [Serializable]   
+   [Serializable]
    [XmlType(Namespace = "http://jsr262.dev.java.net/jmxconnector")]
    [XmlRoot("Values", Namespace = "http://jsr262.dev.java.net/jmxconnector", IsNullable = false)]
    public class TypedMultipleValueType : IDeserializable
@@ -92,16 +238,16 @@ namespace NetMX.Remote.Jsr262
       }
       public object Deserialize()
       {
-         Type listType = typeof (List<>).MakeGenericType(Type.GetType(JmxTypeMapping.GetCLRTypeName(leafType)));
+         Type listType = typeof(List<>).MakeGenericType(Type.GetType(JmxTypeMapping.GetCLRTypeName(leafType)));
          object results = Activator.CreateInstance(listType);
          foreach (GenericValueType valueType in Value)
          {
-            listType.GetMethod("Add").Invoke(results, new[] {valueType.Deserialize()});            
+            listType.GetMethod("Add").Invoke(results, new[] { valueType.Deserialize() });
          }
          return results;
       }
    }
-   
+
    [XmlType(Namespace = "http://jsr262.dev.java.net/jmxconnector")]
    [XmlRoot("Map", Namespace = "http://jsr262.dev.java.net/jmxconnector", IsNullable = false)]
    public class TypedMapType : IDeserializable
@@ -119,7 +265,7 @@ namespace NetMX.Remote.Jsr262
       {
       }
       public TypedMapType(IDictionary value)
-      {         
+      {
          Type[] argumentTypes = value.GetType().GetInterface("IDictionary`2").GetGenericArguments();
          keyType = JmxTypeMapping.GetJmxXmlType(argumentTypes[0].AssemblyQualifiedName);
          valueType = JmxTypeMapping.GetJmxXmlType(argumentTypes[1].AssemblyQualifiedName);
@@ -142,14 +288,18 @@ namespace NetMX.Remote.Jsr262
             Type.GetType(JmxTypeMapping.GetCLRTypeName(keyType)),
             Type.GetType(JmxTypeMapping.GetCLRTypeName(valueType)));
          object results = Activator.CreateInstance(dictType);
-         
+
          foreach (MapTypeEntry entry in Entry)
          {
-            dictType.GetMethod("Add").Invoke(results, new[] { entry.Key.Deserialize(), entry.Value.Deserialize() });                        
+            dictType.GetMethod("Add").Invoke(results, new[] { entry.Key.Deserialize(), entry.Value.Deserialize() });
          }
          return results;
       }
    }
 
+   [MessageContract(IsWrapped = true, WrapperNamespace = Simon.WsManagement.Schema.EventsNamespace)]
+   public class SubscribeResponse
+   {
 
+   }
 }

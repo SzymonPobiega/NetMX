@@ -7,7 +7,7 @@ using System.Xml;
 
 namespace Simon.WsManagement
 {
-   public sealed class FragmentTransferHeader : MessageHeader
+    public sealed class FragmentTransferHeader : MessageHeader
    {
       internal const string ElementName = "FragmentTransfer";      
       private readonly string _expression;

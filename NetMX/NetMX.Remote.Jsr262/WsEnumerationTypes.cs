@@ -132,7 +132,7 @@ namespace NetMX.Remote.Jsr262
    [System.SerializableAttribute()]
    [System.Diagnostics.DebuggerStepThroughAttribute()]
    [System.ComponentModel.DesignerCategoryAttribute("code")]
-   [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.xmlsoap.org/ws/2004/09/enumeration")]
+//   [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://schemas.xmlsoap.org/ws/2004/09/enumeration")]
    public partial class FilterType
    {
 
@@ -171,7 +171,7 @@ namespace NetMX.Remote.Jsr262
    [System.SerializableAttribute()]
    [System.Diagnostics.DebuggerStepThroughAttribute()]
    [System.ComponentModel.DesignerCategoryAttribute("code")]
-   [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true, Namespace = "http://schemas.xmlsoap.org/ws/2004/09/enumeration")]
+//   [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true, Namespace = "http://schemas.xmlsoap.org/ws/2004/09/enumeration")]
    [System.Xml.Serialization.XmlRootAttribute(Namespace = "http://schemas.xmlsoap.org/ws/2004/09/enumeration", IsNullable = false)]
    public partial class Enumerate
    {
@@ -213,6 +213,7 @@ namespace NetMX.Remote.Jsr262
       }
 
       /// <uwagi/>
+      [XmlElement(Namespace=Simon.WsManagement.Schema.Namespace)]
       public FilterType Filter
       {
          get
@@ -258,20 +259,19 @@ namespace NetMX.Remote.Jsr262
    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
    [System.SerializableAttribute()]
    [System.ComponentModel.DesignerCategoryAttribute("code")]
-   [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true, Namespace = "http://schemas.xmlsoap.org/ws/2004/09/enumeration")]
-   [System.Xml.Serialization.XmlRootAttribute(Namespace = "http://schemas.xmlsoap.org/ws/2004/09/enumeration", IsNullable = false)]
+//   [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true, Namespace = "http://schemas.xmlsoap.org/ws/2004/09/enumeration")]
+   [System.Xml.Serialization.XmlRootAttribute(Namespace = "http://schemas.xmlsoap.org/ws/2004/09/enumeration", IsNullable = false)]   
    public partial class EnumerateResponse
    {
 
       private string expiresField;
 
-      private EnumerationContextType enumerationContextField;
+//      private EnumerationContextType enumerationContextField;
 
       private System.Xml.XmlNode[] anyField;
 
       private System.Xml.XmlAttribute[] anyAttrField;
-
-      /// <uwagi/>
+      
       public string Expires
       {
          get
@@ -284,18 +284,18 @@ namespace NetMX.Remote.Jsr262
          }
       }
 
-      /// <uwagi/>
-      public EnumerationContextType EnumerationContext
-      {
-         get
-         {
-            return this.enumerationContextField;
-         }
-         set
-         {
-            this.enumerationContextField = value;
-         }
-      }
+//      /// <uwagi/>
+//      public EnumerationContextType EnumerationContext
+//      {
+//         get
+//         {
+//            return this.enumerationContextField;
+//         }
+//         set
+//         {
+//            this.enumerationContextField = value;
+//         }
+//      }
 
       /// <uwagi/>
       [System.Xml.Serialization.XmlAnyElementAttribute()]
@@ -442,52 +442,52 @@ namespace NetMX.Remote.Jsr262
    public partial class PullResponse
    {
 
-      private EnumerationContextType enumerationContextField;
+      //private EnumerationContextType enumerationContextField;
 
-      private ItemListType itemsField;
+      //private ItemListType itemsField;
 
-      private object endOfSequenceField;
+      //private object endOfSequenceField;
 
       private System.Xml.XmlAttribute[] anyAttrField;
 
-      /// <uwagi/>
-      public EnumerationContextType EnumerationContext
-      {
-         get
-         {
-            return this.enumerationContextField;
-         }
-         set
-         {
-            this.enumerationContextField = value;
-         }
-      }
+      ///// <uwagi/>
+      //public EnumerationContextType EnumerationContext
+      //{
+      //   get
+      //   {
+      //      return this.enumerationContextField;
+      //   }
+      //   set
+      //   {
+      //      this.enumerationContextField = value;
+      //   }
+      //}
 
-      /// <uwagi/>
-      public ItemListType Items
-      {
-         get
-         {
-            return this.itemsField;
-         }
-         set
-         {
-            this.itemsField = value;
-         }
-      }
+      ///// <uwagi/>
+      //public ItemListType Items
+      //{
+      //   get
+      //   {
+      //      return this.itemsField;
+      //   }
+      //   set
+      //   {
+      //      this.itemsField = value;
+      //   }
+      //}
 
-      /// <uwagi/>
-      public object EndOfSequence
-      {
-         get
-         {
-            return this.endOfSequenceField;
-         }
-         set
-         {
-            this.endOfSequenceField = value;
-         }
-      }
+      ///// <uwagi/>
+      //public object EndOfSequence
+      //{
+      //   get
+      //   {
+      //      return this.endOfSequenceField;
+      //   }
+      //   set
+      //   {
+      //      this.endOfSequenceField = value;
+      //   }
+      //}
 
       /// <uwagi/>
       [System.Xml.Serialization.XmlAnyAttributeAttribute()]

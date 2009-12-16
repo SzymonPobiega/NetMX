@@ -14,10 +14,10 @@ namespace RemotingDemo
 			AppDomain.CurrentDomain.SetPrincipalPolicy(PrincipalPolicy.WindowsPrincipal);
 			IMBeanServer server = MBeanServerFactory.CreateMBeanServer();
 			Sample o = new Sample();
-			ObjectName name = new ObjectName("Sample:");
+			ObjectName name = new ObjectName("Sample:a=b");
 			server.RegisterMBean(o, name);
 			//Uri serviceUrl = new Uri("tcp://localhost:1234/MBeanServer.tcp");
-         Uri serviceUrl = new Uri("http://localhost:1010/MBeanServer");      
+         Uri serviceUrl = new Uri("http://simon-hp:80/MBeanServer");      
 
 			using (INetMXConnectorServer connectorServer = NetMXConnectorServerFactory.NewNetMXConnectorServer(serviceUrl, server))
 			{
@@ -41,13 +41,13 @@ namespace RemotingDemo
                //foreach (MBeanOperationInfo operationInfo in info.Operations)
                //{
                //   Console.WriteLine("Operation {0} ({1}) [{2}]", operationInfo.Name, operationInfo.Description,
-               //      operationInfo.Impact);
+               //     operationInfo.Impact);
                //}
                //Console.WriteLine("******");
 
-					object counter = remoteServer.GetAttribute(name, "Counter");
+					//object counter = remoteServer.GetAttribute(name, "Counter");
 
-					Console.WriteLine("Counter value is {0}", counter);
+					///Console.WriteLine("Counter value is {0}", counter);
 
                //remoteServer.SetAttribute(name, "Counter", 5);
                //counter = remoteServer.GetAttribute(name, "Counter");

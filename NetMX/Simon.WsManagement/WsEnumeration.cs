@@ -16,5 +16,16 @@ namespace Simon.WsManagement
       /// </summary>
       public const string EnumerateResponseAction =
          @"http://schemas.xmlsoap.org/ws/2004/09/enumeration/EnumerateResponse";
+
+      /// <summary>
+      /// WS-Enumeration enumerate action.
+      /// </summary>
+      public const string PullAction = @"http://schemas.xmlsoap.org/ws/2004/09/enumeration/Pull";
+
+       /// <summary>
+       /// WS-Enumeration enumerate response action.
+       /// </summary>
+       public const string PullResponseAction = @"http://schemas.xmlsoap.org/ws/2004/09/enumeration/PullResponse";
+
    }
 }
