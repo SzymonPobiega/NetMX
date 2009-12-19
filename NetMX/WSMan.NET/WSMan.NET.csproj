@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{39D41E1E-D5D1-4CC4-BCCD-D91DB58A04D2}</ProjectGuid>
+    <ProjectGuid>{B649731C-C299-45AE-A0AC-9AFC2B8B0072}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Simon.WsManagement</RootNamespace>
-    <AssemblyName>Simon.WsManagement</AssemblyName>
+    <RootNamespace>WSMan.NET</RootNamespace>
+    <AssemblyName>WSMan.NET</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SccProjectName>SAK</SccProjectName>
@@ -55,17 +55,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FragmentTransferHeader.cs" />
+    <Compile Include="Management\Const.cs" />
+    <Compile Include="Management\FragmentTransferHeader.cs" />
+    <Compile Include="Management\IManagementRequestHandler.cs" />
+    <Compile Include="Management\ManagementClient.cs" />
+    <Compile Include="Management\ResourceUriHeader.cs" />
+    <Compile Include="Management\ManagementServer.cs" />
+    <Compile Include="Management\XmlFragment.cs" />
+    <Compile Include="Transfer\Const.cs" />
+    <Compile Include="Transfer\CreateRsponseBodyWriter.cs" />
+    <Compile Include="Transfer\ITransferRequestHandler.cs" />
+    <Compile Include="Transfer\ITransferContract.cs" />
+    <Compile Include="Transfer\MessageFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RequestTotalItemsTotalCountEstimate.cs" />
-    <Compile Include="ResourceUriHeader.cs" />
-    <Compile Include="Selector.cs" />
-    <Compile Include="SelectorSetHeader.cs" />
-    <Compile Include="Schema.cs" />
-    <Compile Include="TotalItemsTotalCountEstimate.cs" />
-    <Compile Include="WsAddressing.cs" />
-    <Compile Include="WsEnumeration.cs" />
-    <Compile Include="WsTransfer.cs" />
+    <Compile Include="Management\Selector.cs" />
+    <Compile Include="Management\SelectorSetHeader.cs" />
+    <Compile Include="Transfer\SerializerBodyWriter.cs" />
+    <Compile Include="Transfer\TransferClient.cs" />
+    <Compile Include="Transfer\TransferServer.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -116,9 +116,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simon.WsManagement", "Simon
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simon.WsManagement.Tests", "Simon.WsManagement.Tests\Simon.WsManagement.Tests.csproj", "{884F4882-8916-42CD-99F6-A80DA650FD0C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WSMan.NET", "WSMan.NET\WSMan.NET.csproj", "{B649731C-C299-45AE-A0AC-9AFC2B8B0072}"
+EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 34
+		SccNumberOfProjects = 35
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://tfs04.codeplex.com/
 		SccLocalPath0 = .
@@ -234,6 +236,9 @@ Global
 		SccProjectUniqueName33 = Simon.WsManagement.Tests\\Simon.WsManagement.Tests.csproj
 		SccProjectName33 = Simon.WsManagement.Tests
 		SccLocalPath33 = Simon.WsManagement.Tests
+		SccProjectUniqueName34 = WSMan.NET\\WSMan.NET.csproj
+		SccProjectName34 = WSMan.NET
+		SccLocalPath34 = WSMan.NET
 	EndGlobalSection
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = NetMX7.vsmdi
@@ -577,6 +582,16 @@ Global
 		{884F4882-8916-42CD-99F6-A80DA650FD0C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{884F4882-8916-42CD-99F6-A80DA650FD0C}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{884F4882-8916-42CD-99F6-A80DA650FD0C}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{B649731C-C299-45AE-A0AC-9AFC2B8B0072}.Debug|.NET.ActiveCfg = Debug|Any CPU
+		{B649731C-C299-45AE-A0AC-9AFC2B8B0072}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B649731C-C299-45AE-A0AC-9AFC2B8B0072}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B649731C-C299-45AE-A0AC-9AFC2B8B0072}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{B649731C-C299-45AE-A0AC-9AFC2B8B0072}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{B649731C-C299-45AE-A0AC-9AFC2B8B0072}.Release|.NET.ActiveCfg = Release|Any CPU
+		{B649731C-C299-45AE-A0AC-9AFC2B8B0072}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B649731C-C299-45AE-A0AC-9AFC2B8B0072}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B649731C-C299-45AE-A0AC-9AFC2B8B0072}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{B649731C-C299-45AE-A0AC-9AFC2B8B0072}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

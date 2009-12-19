@@ -6,103 +6,34 @@ using System.Threading;
 using System.Xml;
 using Simon.WsManagement;
 using System;
+using WSMan.NET.Management;
+using WSMan.NET.Transfer;
 
 namespace NetMX.Remote.Jsr262
 {
-   [ServiceBehavior(ValidateMustUnderstand = false, AutomaticSessionShutdown = false, ConcurrencyMode = ConcurrencyMode.Multiple, InstanceContextMode = InstanceContextMode.Single, IncludeExceptionDetailInFaults = true, AddressFilterMode = AddressFilterMode.Any)]
+   [ServiceBehavior(
+      ValidateMustUnderstand = false, 
+      AutomaticSessionShutdown = false, 
+      ConcurrencyMode = ConcurrencyMode.Multiple, 
+      InstanceContextMode = InstanceContextMode.Single, 
+      IncludeExceptionDetailInFaults = true, 
+      AddressFilterMode = AddressFilterMode.Any)]
    [FragmentHeader]
-   public class Jsr262ServiceImplementation : IJsr262ServiceContract
+   public class Jsr262ServiceImplementation : IJsr262ServiceContract, ITransferContract
    {
       private readonly IMBeanServer _server;
+      private readonly TransferServer _transferServer;
 
       public Jsr262ServiceImplementation(IMBeanServer server)
-      {
+      {         
          _server = server;
+         _transferServer = new TransferServer(new ManagementServer(new Jsr262ManagementRequestHandler(server)), MessageVersion.Soap12WSAddressingAugust2004);
       }
 
       public void Dispose()
       { }
 
-      #region INetMXWSService Members
-      public GetResponseMessage Get()
-      {
-         GetResponseMessage result = new GetResponseMessage();
-         FragmentTransferHeader fragmentTransfer = FragmentTransferHeader.ReadFrom(OperationContext.Current.IncomingMessageHeaders);
-         if (fragmentTransfer.Expression.EndsWith(IJsr262ServiceContractConstants.GetDefaultDomainFragmentTransferPath))
-         {
-            result.Response = GetDefaultDomain();
-         }
-         else if (fragmentTransfer.Expression == IJsr262ServiceContractConstants.GetDomainsFragmentTransferPath)
-         {
-            result.Response = GetDomains();
-         }
-         else
-         {
-            result.Response = GetAttributes(fragmentTransfer.Expression);
-         }
-         OperationContext.Current.OutgoingMessageHeaders.Add(fragmentTransfer);
-         OperationContext.Current.OutgoingMessageHeaders.Add(new ConnectionIdHeader());
-         return result;
-      }
-
-      private GetDomainsResponse GetDomains()
-      {
-         return new GetDomainsResponse { DomainNames = _server.GetDomains().ToArray() };
-      }
-
-      private GetDefaultDomainResponse GetDefaultDomain()
-      {
-         return new GetDefaultDomainResponse { DomainName = _server.GetDefaultDomain() };
-      }
-
-      private DynamicMBeanResource GetAttributes(string fragmentTransferExpression)
-      {
-         CheckResourceUri(Schema.DynamicMBeanResourceUri);
-
-         SelectorSetHeader selectorSet = SelectorSetHeader.ReadFrom(OperationContext.Current.IncomingMessageHeaders);
-         GetAttributesFragment typedFragment = GetAttributesFragment.Parse(fragmentTransferExpression);
-
-         DynamicMBeanResource response = new DynamicMBeanResource();
-         ObjectName objectName = selectorSet.ExtractObjectName();
-
-         IList<AttributeValue> values = _server.GetAttributes(objectName, typedFragment.Names);
-
-         response.Property = values.Select(x => new NamedGenericValueType(x.Name, x.Value)).ToArray();
-         return response;
-      }
-
-      public SetAttributesResponseMessage SetAttributes(SetAttributesMessage request)
-      {
-         CheckResourceUri(Schema.DynamicMBeanResourceUri);
-
-         SelectorSetHeader selectorSet = SelectorSetHeader.ReadFrom(OperationContext.Current.IncomingMessageHeaders);
-
-         DynamicMBeanResource response = new DynamicMBeanResource();
-         ObjectName objectName = selectorSet.ExtractObjectName();
-
-         IList<AttributeValue> values = _server.SetAttributes(objectName, request.Request.Property.Select(x => new AttributeValue(x.name, x.Deserialize())));
-
-         response.Property = values.Select(x => new NamedGenericValueType(x.Name, x.Value)).ToArray();
-         return new SetAttributesResponseMessage(response);
-      }
-
-      public void UnregisterMBean()
-      {
-         CheckResourceUri(Schema.DynamicMBeanResourceUri);
-
-         SelectorSetHeader selectorSet = SelectorSetHeader.ReadFrom(OperationContext.Current.IncomingMessageHeaders);
-         ObjectName objectName = selectorSet.ExtractObjectName();
-
-         try
-         {
-            _server.UnregisterMBean(objectName);
-         }
-         catch (InstanceNotFoundException)
-         {
-            throw WsAddressing.CreateEndpointUnavailable();
-         }
-      }
-
+      #region INetMXWSService Members                 
       public InvokeResponseMessage Invoke(InvokeMessage request)
       {
          CheckResourceUri(Schema.DynamicMBeanResourceUri);
@@ -112,20 +43,6 @@ namespace NetMX.Remote.Jsr262
          object[] arguments = request.ManagedResourceOperation.Input.Select(x => x.Deserialize()).ToArray();
          object result = _server.Invoke(objectName, request.ManagedResourceOperation.name, arguments);
          return new InvokeResponseMessage(new GenericValueType(result));
-      }
-
-      public EndpointReferenceType CreateMBean(DynamicMBeanResourceConstructor request)
-      {
-         CheckResourceUri(Schema.MBeanServerResourceUri);
-
-         ObjectName objectName = request.ResourceEPR.ObjectName;
-         object[] arguments = request.RegistrationParameters.Select(x => x.Deserialize()).ToArray();
-
-         ObjectInstance instance = _server.CreateMBean(request.ResourceClass, objectName, arguments);
-
-         //EndpointAddressBuilder builder = new EndpointAddressBuilder();
-         //builder.Headers.Add(ObjectNameSelector.CreateSelectorSet(instance.ObjectName));
-         return new EndpointReferenceType(instance.ObjectName);
       }
 
       public ResourceMetaDataTypeMessage GetMBeanInfo()
@@ -196,7 +113,7 @@ namespace NetMX.Remote.Jsr262
          doc.Load(reader);
          //            reader.ReadInnerXml();
          XmlNamespaceManager ns = new XmlNamespaceManager(doc.NameTable);
-         ns.AddNamespace("wsman", Simon.WsManagement.Schema.Namespace);
+         ns.AddNamespace("wsman", Schema.ManagementNamespace);
          XmlNode node = doc.SelectSingleNode("//wsman:Filter/@Dialect", ns);
 
          string dialect = null; // request.Filter.Dialect;
@@ -214,7 +131,7 @@ namespace NetMX.Remote.Jsr262
       private static EndpointAddress CreateObjectNameEPR(ObjectName objectName)
       {
          EndpointAddressBuilder builder = new EndpointAddressBuilder();
-         builder.Headers.Add(ObjectNameSelector.CreateSelectorSet(objectName));
+         builder.Headers.Add(ObjectNameSelector.CreateSelectorSetHeader(objectName));
          builder.Uri = OperationContext.Current.EndpointDispatcher.EndpointAddress.Uri;
          builder.Headers.Add(new ResourceUriHeader(Schema.DynamicMBeanResourceUri));
          return builder.ToEndpointAddress();
@@ -271,6 +188,26 @@ namespace NetMX.Remote.Jsr262
          {
             throw WsAddressing.CreateDestinationUnreachable();
          }
+      }
+
+      public Message Get(Message getRequest)
+      {
+         return _transferServer.Get(getRequest);
+      }
+
+      public Message Put(Message putRequest)
+      {
+         return _transferServer.Put(putRequest);
+      }
+
+      public Message Create(Message createRequest)
+      {
+         return _transferServer.Create(createRequest);
+      }
+
+      public Message Delete(Message deleteRequest)
+      {
+         return _transferServer.Delete(deleteRequest);
       }
    }
 }

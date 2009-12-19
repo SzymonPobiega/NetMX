@@ -213,7 +213,7 @@ namespace NetMX.Remote.Jsr262
       }
 
       /// <uwagi/>
-      [XmlElement(Namespace=Simon.WsManagement.Schema.Namespace)]
+      [XmlElement(Namespace=Schema.ManagementNamespace)]
       public FilterType Filter
       {
          get

@@ -16,21 +16,21 @@ namespace NetMX.Remote.Jsr262
    [XmlSerializerFormat(Style = OperationFormatStyle.Document, Use = OperationFormatUse.Literal)]
    public interface IJsr262ServiceContract : IDisposable
    {
-      [OperationContract(Action = WsTransfer.GetAction, ReplyAction = WsTransfer.GetResponseAction)]
-      [ServiceKnownType(typeof(GetDefaultDomainResponse))]
-      [ServiceKnownType(typeof(DynamicMBeanResource))]
-      [ServiceKnownType(typeof(GetDomainsResponse))]      
-      GetResponseMessage Get();
+      //[OperationContract(Action = WsTransfer.GetAction, ReplyAction = WsTransfer.GetResponseAction)]
+      //[ServiceKnownType(typeof(GetDefaultDomainResponse))]
+      //[ServiceKnownType(typeof(DynamicMBeanResource))]
+      //[ServiceKnownType(typeof(GetDomainsResponse))]      
+      //Message Get();
 
-      [OperationContract(Action = WsTransfer.PutAction, ReplyAction = WsTransfer.PutResponseAction)]
-      [ServiceKnownType(typeof(DynamicMBeanResource))]
-      SetAttributesResponseMessage SetAttributes(SetAttributesMessage request);
+      //[OperationContract(Action = WsTransfer.PutAction, ReplyAction = WsTransfer.PutResponseAction)]
+      //[ServiceKnownType(typeof(DynamicMBeanResource))]
+      //XmlFragmentMessage SetAttributes(XmlFragmentMessage request);
 
-      [OperationContract(Action = WsTransfer.CreateAction, ReplyAction = WsTransfer.CreateResponseAction)]
-      EndpointReferenceType CreateMBean(DynamicMBeanResourceConstructor request);
+      //[OperationContract(Action = WsTransfer.CreateAction, ReplyAction = WsTransfer.CreateResponseAction)]
+      //EndpointReferenceType CreateMBean(DynamicMBeanResourceConstructor request);
 
-      [OperationContract(Action = WsTransfer.DeleteAction)]
-      void UnregisterMBean();
+      //[OperationContract(Action = WsTransfer.DeleteAction)]
+      //void UnregisterMBean();
 
       [OperationContract(Action = Schema.InvokeAction, ReplyAction = Schema.InvokeResponseAction)]
       InvokeResponseMessage Invoke(InvokeMessage request);

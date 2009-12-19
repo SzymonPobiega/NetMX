@@ -4,7 +4,7 @@ using System.Linq;
 using System.ServiceModel;
 using System.ServiceModel.Channels;
 using System.Text;
-using Simon.WsManagement;
+using WSMan.NET.Management;
 
 namespace NetMX.Remote.Jsr262
 {
@@ -22,6 +22,11 @@ namespace NetMX.Remote.Jsr262
       {
          _channelFactory = channelFactory;
          _endpointUri = endpointUri;
+      }      
+
+      public Uri EndpointUri
+      {
+         get { return _endpointUri; }
       }
 
       public IDisposableProxy Create(string objectName, string resourceUri)
@@ -29,17 +34,17 @@ namespace NetMX.Remote.Jsr262
          EndpointAddressBuilder builder = new EndpointAddressBuilder();
          if (objectName != null)
          {
-            builder.Headers.Add(ObjectNameSelector.CreateSelectorSet(objectName));            
+            builder.Headers.Add(ObjectNameSelector.CreateSelectorSetHeader(objectName));            
          }
          if (resourceUri != null)
          {
             builder.Headers.Add(new ResourceUriHeader(resourceUri));
          }
-         builder.Uri = _endpointUri;
+         builder.Uri = EndpointUri;
 
          IJsr262ServiceContract proxy = _channelFactory.CreateChannel(builder.ToEndpointAddress());
          OperationContextScope scope = new OperationContextScope((IContextChannel)proxy);
-         OperationContext.Current.Extensions.Add(new ServerAddressExtension(_endpointUri));
+         OperationContext.Current.Extensions.Add(new ServerAddressExtension(EndpointUri));
          return new DisposableProxy(proxy, scope);
       }
 
@@ -54,31 +59,10 @@ namespace NetMX.Remote.Jsr262
             _realProxy = realProxy;
             _scope = scope;            
          }
-
-         public GetResponseMessage Get()
-         {
-            return _realProxy.Get();
-         }
-
-         public SetAttributesResponseMessage SetAttributes(SetAttributesMessage request)
-         {
-            //throw  new NotImplementedException();
-            return _realProxy.SetAttributes(request);
-         }
-
-         public void UnregisterMBean()
-         {
-            _realProxy.UnregisterMBean();
-         }
-
+         
          public InvokeResponseMessage Invoke(InvokeMessage requst)
          {
             return _realProxy.Invoke(requst);
-         }
-
-         public EndpointReferenceType CreateMBean(DynamicMBeanResourceConstructor request)
-         {            
-            return _realProxy.CreateMBean(request);
          }
 
          public ResourceMetaDataTypeMessage GetMBeanInfo()

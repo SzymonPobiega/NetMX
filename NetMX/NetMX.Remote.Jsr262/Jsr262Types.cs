@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.ServiceModel;
+using System.ServiceModel.Channels;
 using System.Text;
 using System.Xml;
 using System.Xml.Schema;
@@ -62,7 +64,7 @@ namespace NetMX.Remote.Jsr262
    public class EnumerateResponseMessage
    {
       [MessageBodyMember]
-      [XmlElement(Namespace = Simon.WsManagement.Schema.EnumerationNamespace)]
+      [XmlElement(Namespace = Schema.EnumerationNamespace)]
       public EnumerateResponse EnumerateResponse { get; set; }
 
       public EnumerateResponseMessage()
@@ -79,7 +81,7 @@ namespace NetMX.Remote.Jsr262
    public class PullResponseMessage
    {
       [MessageBodyMember]
-      [XmlElement(Namespace = Simon.WsManagement.Schema.EnumerationNamespace)]
+      [XmlElement(Namespace = Schema.EnumerationNamespace)]
       public PullResponse PullResponse { get; set; }
 
       public PullResponseMessage()
@@ -92,63 +94,66 @@ namespace NetMX.Remote.Jsr262
       }
    }
 
-   [MessageContract(IsWrapped = false)]
-   [KnownType(typeof(GetDefaultDomainResponse))]
-   [KnownType(typeof(DynamicMBeanResource))]
-   [KnownType(typeof(GetDomainsResponse))]
-   public class GetResponseMessage
-   {
-      [MessageBodyMember]
-      [XmlElement(ElementName = "XmlFragment", Namespace = Simon.WsManagement.Schema.Namespace)]      
-      public object Response { get; set; }
-   }
+   //public class Ws
 
-   [MessageContract(IsWrapped = false)]
-   public class SetAttributesResponseMessage
-   {
-      [MessageBodyMember]
-      [XmlElement(ElementName = "XmlFragment", Namespace = Simon.WsManagement.Schema.Namespace)]
-      public object Body;
 
-      public DynamicMBeanResource Response
+   [MessageContract]
+   public class WsTransferGetRequestBody : IXmlSerializable
+   {
+      public XmlSchema GetSchema()
       {
-         get { return (DynamicMBeanResource) Body; }
+         throw new NotImplementedException();
       }
 
-      public SetAttributesResponseMessage()
-      {         
+      public void ReadXml(XmlReader reader)
+      {
+         throw new NotImplementedException();
       }
 
-      public SetAttributesResponseMessage(DynamicMBeanResource request)
+      public void WriteXml(XmlWriter writer)
       {
-         Body = request;
+         throw new NotImplementedException();
       }
    }
 
    [MessageContract(IsWrapped = false)]
+   //[KnownType(typeof(GetDefaultDomainResponse))]
    //[KnownType(typeof(DynamicMBeanResource))]
-   public class SetAttributesMessage
+   //[KnownType(typeof(GetDomainsResponse))]
+   public class XmlFragmentMessage
    {
       [MessageBodyMember]
-      [XmlElement(ElementName = "XmlFragment", Namespace = Simon.WsManagement.Schema.Namespace)]
-      public object Body;
+      [XmlElement(ElementName = "XmlFragment", Namespace = Schema.ManagementNamespace)]      
+      public object Body { get; set; }
 
       [XmlIgnore]
-      public DynamicMBeanResource Request
+      public GetDefaultDomainResponse GetDefaultDomainResponse
       {
-         get { return (DynamicMBeanResource) Body; }
+         get { return (GetDefaultDomainResponse) Body; }
       }
 
-      public SetAttributesMessage()
+      [XmlIgnore]
+      public DynamicMBeanResource DynamicMBeanResource
+      {
+         get { return (DynamicMBeanResource)Body; }
+      }
+
+      [XmlIgnore]
+      public GetDomainsResponse GetDomainsResponse
+      {
+         get { return (GetDomainsResponse)Body; }
+      }
+
+      public XmlFragmentMessage()
       {         
       }
-      
-      public SetAttributesMessage(DynamicMBeanResource request)
+
+      public XmlFragmentMessage(object body)
       {
-         Body = request;
+         Body = body;
       }
    }
-
+   
    [MessageContract(IsWrapped = false)]
    public class InvokeMessage
    {
@@ -297,7 +302,7 @@ namespace NetMX.Remote.Jsr262
       }
    }
 
-   [MessageContract(IsWrapped = true, WrapperNamespace = Simon.WsManagement.Schema.EventsNamespace)]
+   [MessageContract(IsWrapped = true, WrapperNamespace = Schema.EventsNamespace)]
    public class SubscribeResponse
    {
 

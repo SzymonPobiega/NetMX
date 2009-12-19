@@ -5,17 +5,20 @@ using System.ServiceModel;
 using System.ServiceModel.Channels;
 using System.Text;
 using Simon.WsManagement;
+using WSMan.NET.Management;
 
 namespace NetMX.Remote.Jsr262
 {
    internal sealed class Jsr262MBeanServerConnection : IMBeanServerConnection, IDisposable
    {
       private readonly ProxyFactory _proxyFactory;
+      private readonly ManagementClient _manClient;
       private bool _disposed;
 
-      public Jsr262MBeanServerConnection(ProxyFactory proxyFactory)
+      public Jsr262MBeanServerConnection(ProxyFactory proxyFactory, ManagementClient managementClient)
       {
          _proxyFactory = proxyFactory;
+         _manClient = managementClient;
       }
 
       #region IMBeanServerConnection Members
@@ -35,7 +38,7 @@ namespace NetMX.Remote.Jsr262
       }
 
       public ObjectInstance CreateMBean(string className, ObjectName name, object[] arguments)
-      {
+      {         
          DynamicMBeanResourceConstructor request = new DynamicMBeanResourceConstructor
                                                       {
                                                          RegistrationParameters =
@@ -43,11 +46,8 @@ namespace NetMX.Remote.Jsr262
                                                          ResourceClass = className,
                                                          ResourceEPR = new EndpointReferenceType(name)
                                                       };
-         using (IDisposableProxy proxy = _proxyFactory.Create(null, Schema.MBeanServerResourceUri))
-         {
-            EndpointReferenceType response = proxy.CreateMBean(request);
-            return new ObjectInstance(response.ObjectName, null);
-         }
+         ObjectName objectName = _manClient.Create(Schema.MBeanServerResourceUri, request).ExtractObjectName();
+         return new ObjectInstance(objectName, null);         
       }
 
       public void RemoveNotificationListener(ObjectName name, ObjectName listener, NotificationFilterCallback filterCallback, object handback)
@@ -89,11 +89,7 @@ namespace NetMX.Remote.Jsr262
                                                             }
                                            };
 
-         using (IDisposableProxy proxy = _proxyFactory.Create(name, Schema.DynamicMBeanResourceUri))
-         {
-            //throw new NotImplementedException();
-            proxy.SetAttributes(new SetAttributesMessage(request));
-         }
+         _manClient.Put<DynamicMBeanResource>(Schema.DynamicMBeanResourceUri, null, request, ObjectNameSelector.CreateSelectorSet(name));
       }
 
       public IList<AttributeValue> SetAttributes(ObjectName name, IEnumerable<AttributeValue> namesAndValues)
@@ -103,42 +99,22 @@ namespace NetMX.Remote.Jsr262
                                               Property = namesAndValues.Select(x => new NamedGenericValueType(x.Name, x.Value)).ToArray()
                                            };
 
-         using (IDisposableProxy proxy = _proxyFactory.Create(name, Schema.DynamicMBeanResourceUri))
-         {
-            //throw new NotImplementedException();
-            SetAttributesResponseMessage response = proxy.SetAttributes(new SetAttributesMessage(request));
-            return response.Response.Property.Select(x => new AttributeValue(x.name, x.Deserialize())).ToList();
-         }         
+         return _manClient.Put<DynamicMBeanResource>(Schema.DynamicMBeanResourceUri, null, request, ObjectNameSelector.CreateSelectorSet(name))
+            .Property.Select(x => new AttributeValue(x.name, x.Deserialize())).ToList();         
       }
 
       public object GetAttribute(ObjectName name, string attributeName)
       {
-         FragmentTransferHeader fragmentTransferHeader = new FragmentTransferHeader(
-            new GetAttributesFragment(new[] { attributeName }).GetExpression());
-
-         DynamicMBeanResource beanResource;
-         using (IDisposableProxy proxy = _proxyFactory.Create(name, Schema.DynamicMBeanResourceUri))
-         {
-            OperationContext.Current.OutgoingMessageHeaders.Add(fragmentTransferHeader);
-            beanResource = (DynamicMBeanResource) proxy.Get().Response;
-         }
-
-         return beanResource.Property.First(x => x.name == attributeName).Deserialize();
+         return _manClient.Get<DynamicMBeanResource>(Schema.DynamicMBeanResourceUri,
+            new GetAttributesFragment(new[] { attributeName }).GetExpression(), null)
+            .Property.First(x => x.name == attributeName).Deserialize();         
       }
 
       public IList<AttributeValue> GetAttributes(ObjectName name, string[] attributeNames)
       {
-         FragmentTransferHeader fragmentTransferHeader = new FragmentTransferHeader(
-            new GetAttributesFragment(attributeNames).GetExpression());
-
-         DynamicMBeanResource beanResource;
-         using (IDisposableProxy proxy = _proxyFactory.Create(name, Schema.DynamicMBeanResourceUri))
-         {
-            OperationContext.Current.OutgoingMessageHeaders.Add(fragmentTransferHeader);
-            beanResource = (DynamicMBeanResource) proxy.Get().Response;
-         }
-
-         return beanResource.Property.Select(x => new AttributeValue(x.name, x.Deserialize())).ToList();
+         return _manClient.Get<DynamicMBeanResource>(Schema.DynamicMBeanResourceUri,
+            new GetAttributesFragment(attributeNames).GetExpression(), null)
+            .Property.Select(x => new AttributeValue(x.name, x.Deserialize())).ToList();         
       }
 
       public int GetMBeanCount()
@@ -191,43 +167,21 @@ namespace NetMX.Remote.Jsr262
 
       public void UnregisterMBean(ObjectName name)
       {
-         try
-         {
-            using (IDisposableProxy proxy = _proxyFactory.Create(name, Schema.DynamicMBeanResourceUri))
-            {
-               proxy.UnregisterMBean();
-            }
-         }
-         catch (FaultException ex)
-         {
-            if (WsAddressing.IsEndpointUnavailable(ex))
-            {
-               throw new InstanceNotFoundException(name);
-            }
-            throw;
-         }         
+         _manClient.Delete(Schema.DynamicMBeanResourceUri, ObjectNameSelector.CreateSelectorSet(name));         
       }
 
       public string GetDefaultDomain()
       {
-         FragmentTransferHeader fragmentTransferHeader = new FragmentTransferHeader(IJsr262ServiceContractConstants.GetDefaultDomainFragmentTransferPath);         
-         using (IDisposableProxy proxy = _proxyFactory.Create(null, Schema.DynamicMBeanResourceUri))
-         {
-            OperationContext.Current.OutgoingMessageHeaders.Add(fragmentTransferHeader);
-            GetDefaultDomainResponse response = (GetDefaultDomainResponse)proxy.Get().Response;
-            return response.DomainName;
-         }         
+         return _manClient.Get<GetDefaultDomainResponse>(Schema.DynamicMBeanResourceUri,
+                                                         IJsr262ServiceContractConstants.
+                                                            GetDefaultDomainFragmentTransferPath).DomainName;         
       }
 
       public IList<string> GetDomains()
       {
-         FragmentTransferHeader fragmentTransferHeader = new FragmentTransferHeader(IJsr262ServiceContractConstants.GetDomainsFragmentTransferPath);
-         using (IDisposableProxy proxy = _proxyFactory.Create(null, Schema.DynamicMBeanResourceUri))
-         {
-            OperationContext.Current.OutgoingMessageHeaders.Add(fragmentTransferHeader);
-            GetDomainsResponse response = (GetDomainsResponse)proxy.Get().Response;
-            return new List<string>(response.DomainNames);
-         }         
+         return _manClient.Get<GetDomainsResponse>(Schema.DynamicMBeanResourceUri,
+                                                         IJsr262ServiceContractConstants.
+                                                            GetDefaultDomainFragmentTransferPath).DomainNames.ToList();                  
       }
       #endregion
 
@@ -236,6 +190,7 @@ namespace NetMX.Remote.Jsr262
          if (!_disposed)
          {
             _proxyFactory.Dispose();
+            //_manClient.Di
             _disposed = true;
          }
       }

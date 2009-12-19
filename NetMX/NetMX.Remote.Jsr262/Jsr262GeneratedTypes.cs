@@ -1892,6 +1892,26 @@ namespace NetMX.Remote.Jsr262
       }
    }
 
+   /// <remarks/>
+   [GeneratedCode("xsd", "2.0.50727.1432")]
+   [Serializable]
+   [DesignerCategory("code")]
+   [XmlType(AnonymousType = true, Namespace = "http://jsr262.dev.java.net/jmxconnector")]
+   [XmlRoot(Namespace = "http://jsr262.dev.java.net/jmxconnector", IsNullable = false)]
+   public partial class DynamicMBeanResource2
+   {
+      private NamedGenericValueType[] propertyField;
+
+      /// <remarks/>
+      [XmlElement("Property")]
+      [MessageBodyMember(Name = "GetResult")]
+      public NamedGenericValueType[] Property
+      {
+         get { return propertyField; }
+         set { propertyField = value; }
+      }
+   }
+
 
    [GeneratedCode("xsd", "2.0.50727.1432")]
    [Serializable]

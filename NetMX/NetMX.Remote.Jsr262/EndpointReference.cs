@@ -7,9 +7,10 @@ using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
 using Simon.WsManagement;
+using WSMan.NET.Management;
 
 namespace NetMX.Remote.Jsr262
-{
+{   
    [Serializable()]
    public class EndpointReferenceType : IXmlSerializable, IDeserializable
    {
@@ -41,18 +42,8 @@ namespace NetMX.Remote.Jsr262
          _objectName = selectorSet.ExtractObjectName();
       }
       public void WriteXml(XmlWriter writer)
-      {
-         EndpointAddressBuilder builder = new EndpointAddressBuilder();
-         if (OperationContext.Current.Channel != null)
-         {
-            builder.Uri = OperationContext.Current.Channel.LocalAddress.Uri;
-         }
-         else
-         {
-            builder.Uri = OperationContext.Current.Extensions.Find<ServerAddressExtension>().Address;  
-         }         
-         builder.Headers.Add(ObjectNameSelector.CreateSelectorSet(ObjectName));         
-         EndpointAddress address = builder.ToEndpointAddress();
+      {         
+         EndpointAddress address = ObjectNameSelector.CreateEndpointAddress(ObjectName);
          address.WriteContentsTo(AddressingVersion.WSAddressing10, XmlDictionaryWriter.CreateDictionaryWriter(writer));
       }
       #endregion

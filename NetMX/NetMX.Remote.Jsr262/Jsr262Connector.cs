@@ -1,5 +1,8 @@
 ﻿using System;
 using System.ServiceModel;
+using System.ServiceModel.Channels;
+using WSMan.NET.Management;
+using WSMan.NET.Transfer;
 
 
 namespace NetMX.Remote.Jsr262
@@ -24,10 +27,15 @@ namespace NetMX.Remote.Jsr262
       }
       public void Connect(object credentials)
       {
-         ChannelFactory<IJsr262ServiceContract> factory = new ChannelFactory<IJsr262ServiceContract>(
-            new WSHttpBinding(SecurityMode.None));         
+         Binding b = new Soap12Addressing200408WSHttpBinding(SecurityMode.None);
+
+         ChannelFactory<IJsr262ServiceContract> factory = new ChannelFactory<IJsr262ServiceContract>(b);         
+         ChannelFactory<ITransferContract> transferFactory = new ChannelFactory<ITransferContract>(b);
+
          _connectionId = Guid.NewGuid();         
-         _connection = new Jsr262MBeanServerConnection(new ProxyFactory(factory, _serviceUrl));
+         _connection = new Jsr262MBeanServerConnection(
+            new ProxyFactory(factory, _serviceUrl),
+            new ManagementClient(_serviceUrl, transferFactory, MessageVersion.Soap12WSAddressingAugust2004));
       }
       public string ConnectionId
       {

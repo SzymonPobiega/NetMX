@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.ServiceModel;
+using System.ServiceModel.Channels;
 using System.Text;
 using Simon.WsManagement;
+using WSMan.NET.Management;
 
 namespace NetMX.Remote.Jsr262
 {
@@ -11,9 +13,9 @@ namespace NetMX.Remote.Jsr262
    {
       private const string ObjectName = "ObjectName";
 
-      internal static SelectorSetHeader CreateSelectorSet(ObjectName objectName)
+      internal static IEnumerable<Selector> CreateSelectorSet(ObjectName objectName)
       {
-         return new SelectorSetHeader(new Selector(ObjectName, objectName));
+         return new [] {new Selector(ObjectName, objectName)};
       }
 
       internal static ObjectName ExtractObjectName(this EndpointAddress address)
@@ -21,9 +23,9 @@ namespace NetMX.Remote.Jsr262
          return SelectorSetHeader.ReadFrom(address).ExtractObjectName();
       }
 
-      internal static ObjectName ExtractObjectName(this SelectorSetHeader header)
+      internal static ObjectName ExtractObjectName(this SelectorSetHeader selectors)
       {
-         foreach (Selector selector in header.Selectors)
+         foreach (Selector selector in selectors.Selectors)
          {
             if (selector.Name == ObjectName)
             {
@@ -31,6 +33,37 @@ namespace NetMX.Remote.Jsr262
             }
          }
          throw new InvalidOperationException();
+      }
+
+      internal static EndpointAddress CreateEndpointAddress(ObjectName name)
+      {
+         EndpointAddressBuilder builder = new EndpointAddressBuilder
+         {
+            Uri =
+               OperationContext.Current.Channel != null
+                  ? OperationContext.Current.Channel.LocalAddress.Uri
+                  : OperationContext.Current.Extensions.Find<ServerAddressExtension>
+                       ().Address
+         };
+         builder.Headers.Add(CreateSelectorSetHeader(ObjectName));
+         return builder.ToEndpointAddress();
+      }      
+
+      internal static ObjectName ExtractObjectName(this IEnumerable<Selector> selectors)
+      {
+         foreach (Selector selector in selectors)
+         {
+            if (selector.Name == ObjectName)
+            {
+               return selector.SimpleValue;
+            }
+         }
+         throw new InvalidOperationException();
+      }
+
+      public static SelectorSetHeader CreateSelectorSetHeader(ObjectName name)
+      {
+         return new SelectorSetHeader(CreateSelectorSet(name));
       }
    }
 }

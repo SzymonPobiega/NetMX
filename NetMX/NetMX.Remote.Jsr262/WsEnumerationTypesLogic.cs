@@ -20,13 +20,13 @@ namespace NetMX.Remote.Jsr262
       EnumerateEPR
    }
 
-   [MessageContract(IsWrapped = true, WrapperNamespace = Simon.WsManagement.Schema.EnumerationNamespace)]
+   [MessageContract(IsWrapped = true, WrapperNamespace = Schema.EnumerationNamespace)]
    public partial class Enumerate
    {
-      [XmlElement(Namespace = Simon.WsManagement.Schema.EnumerationNamespace)]
+      [XmlElement(Namespace = Schema.EnumerationNamespace)]
       public OptimizeEnumerationType OptimizeEnumeration { get; set; }
 
-      [XmlElement(Namespace = Simon.WsManagement.Schema.EnumerationNamespace)]
+      [XmlElement(Namespace = Schema.EnumerationNamespace)]
       public string EnumerationMode { get; set; }
 
       public Enumerate()
@@ -56,10 +56,10 @@ namespace NetMX.Remote.Jsr262
       [XmlArrayItem(ElementName = "EndpointReference", Type = typeof(EndpointAddress10), Namespace = WsAddressing.Namespace)]
       public List<EndpointAddress10> EnumerateEPRItems { get; set; }
 
-      [XmlElement(Namespace = Simon.WsManagement.Schema.EnumerationNamespace)]
+      [XmlElement(Namespace = Schema.EnumerationNamespace)]
       public string EnumerationContext { get; set; }
 
-      [XmlElement(Namespace = Simon.WsManagement.Schema.EnumerationNamespace)]
+      [XmlElement(Namespace = Schema.EnumerationNamespace)]
       public string EndOfSequence { get; set; }
 
       public PullResponse()
@@ -72,14 +72,14 @@ namespace NetMX.Remote.Jsr262
 
    public partial class EnumerateResponse // : IXmlSerializable
    {
-      [XmlArray(ElementName = "Items", Namespace = Simon.WsManagement.Schema.Namespace)]
+      [XmlArray(ElementName = "Items", Namespace = Schema.ManagementNamespace)]
       [XmlArrayItem(ElementName = "EndpointReference", Type = typeof(EndpointAddressAugust2004), Namespace = WsAddressing.Namespace)]
       public List<EndpointAddressAugust2004> EnumerateEPRItems { get; set; }
 
-      [XmlElement(Namespace = Simon.WsManagement.Schema.EnumerationNamespace)]
+      [XmlElement(Namespace = Schema.EnumerationNamespace)]
       public string EnumerationContext { get; set; }
 
-      [XmlElement(Namespace = Simon.WsManagement.Schema.Namespace)]
+      [XmlElement(Namespace = Schema.ManagementNamespace)]
       public string EndOfSequence { get; set; }
 
       public EnumerateResponse()
@@ -114,9 +114,9 @@ namespace NetMX.Remote.Jsr262
          //           if (EnumerateEPRItems.Count > 0)
          {
             //               writer.WriteElementString("Expires", Simon.WsManagement.Schema.EnumerationNamespace, "P0Y0M0DT0H10M0.000S");
-            writer.WriteElementString("Expires", Simon.WsManagement.Schema.EnumerationNamespace, "PT10M");
-            writer.WriteElementString("EnumerationContext", Simon.WsManagement.Schema.EnumerationNamespace, EnumerationContext);
-            writer.WriteStartElement("Items", Simon.WsManagement.Schema.Namespace);
+            writer.WriteElementString("Expires", Schema.EnumerationNamespace, "PT10M");
+            writer.WriteElementString("EnumerationContext", Schema.EnumerationNamespace, EnumerationContext);
+            writer.WriteStartElement("Items", Schema.ManagementNamespace);
             foreach (var epa in EnumerateEPRItems)
             {
                //                   writer.WriteStartElement("EndpointReference", Simon.WsManagement.Schema.AddressingNamespace);
@@ -125,7 +125,7 @@ namespace NetMX.Remote.Jsr262
             }
             writer.WriteEndElement();
          }
-         writer.WriteStartElement("EndOfSequence", Simon.WsManagement.Schema.Namespace);
+         writer.WriteStartElement("EndOfSequence", Schema.ManagementNamespace);
          writer.WriteEndElement();
       }
    }
