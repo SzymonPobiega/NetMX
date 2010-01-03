@@ -41,7 +41,7 @@ namespace NetMX.Tests
 			int a = 2;
 		}		
 	}
-	[MBeanResource("NetMX.Tests.Resources.NetMX.Tests.TestMBean")]
+	[MBeanResource("NetMX.Tests.TestMBeanResource")]
 	public interface TestMBean
 	{
 		[System.ComponentModel.Description("Counter value")]

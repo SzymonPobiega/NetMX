@@ -13,7 +13,7 @@ namespace CLRMonitoringSample
       static void Main(string[] args)
       {
          IMBeanServer server = MBeanServerFactory.CreateMBeanServer("PlatformMBeanServer");         
-         PerfCounterMBean processMBean = new PerfCounterMBean("Process", true, new string[] {"% Processor Time"});
+         PerfCounterMBean processMBean = new PerfCounterMBean("Process", true, new[] {"% Processor Time"});
          server.RegisterMBean(processMBean, "CLR:type=Process");
          
          Uri serviceUrl = new Uri("tcp://localhost:1234/MBeanServer.tcp");
