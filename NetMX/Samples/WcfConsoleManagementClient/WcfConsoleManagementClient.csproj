@@ -65,17 +65,9 @@
     <None Include="app.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\NetMX.OpenMBean\NetMX.OpenMBean.csproj">
-      <Project>{27AAB473-F263-4F24-A0DC-9B3CAFCE1E16}</Project>
-      <Name>NetMX.OpenMBean</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\NetMX.Relation\NetMX.Relation.csproj">
-      <Project>{777EBC51-1D14-4170-8ABA-9D78328641D7}</Project>
-      <Name>NetMX.Relation</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\NetMX.Remote.ServiceModel\NetMX.Remote.ServiceModel.csproj">
       <Project>{ED2EA082-7271-4615-8B1F-B9C5BDA695B4}</Project>
-      <Name>NetMX.Remote.WCF</Name>
+      <Name>NetMX.Remote.ServiceModel</Name>
     </ProjectReference>
     <ProjectReference Include="P:\NetMX\NetMX\NetMX\NetMX.csproj">
       <Project>{619AD956-B7BC-492D-9722-25DA4891E144}</Project>

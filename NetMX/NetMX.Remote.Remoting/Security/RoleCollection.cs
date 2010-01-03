@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Configuration;
-using Simon.Configuration.Provider;
+using NetMX.Configuration.Provider;
 
 namespace NetMX.Remote.Remoting.Security
 {

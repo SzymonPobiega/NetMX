@@ -3,8 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Configuration;
+using NetMX.Configuration;
 using NetMX.Default.Configuration;
-using Simon.Configuration;
 using System.ComponentModel;
 #endregion
 

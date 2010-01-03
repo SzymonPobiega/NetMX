@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.21022</ProductVersion>
+    <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{ADD61DDF-F142-4688-B8C3-93F378630252}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -61,10 +61,6 @@
     <Compile Include="TypeMappers\SimpleTypeMapper.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\NetMX.OpenMBean\NetMX.OpenMBean.csproj">
-      <Project>{27AAB473-F263-4F24-A0DC-9B3CAFCE1E16}</Project>
-      <Name>NetMX.OpenMBean</Name>
-    </ProjectReference>
     <ProjectReference Include="..\NetMX\NetMX.csproj">
       <Project>{619AD956-B7BC-492D-9722-25DA4891E144}</Project>
       <Name>NetMX</Name>

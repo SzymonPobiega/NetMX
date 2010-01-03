@@ -2,7 +2,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.21022</ProductVersion>
+    <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{0A703F9B-CA81-4E90-AB7F-356E1E810C59}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -53,21 +53,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\NetMX.OpenMBean.Mapper\NetMX.OpenMBean.Mapper.csproj">
-      <Project>{ADD61DDF-F142-4688-B8C3-93F378630252}</Project>
-      <Name>NetMX.OpenMBean.Mapper</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\NetMX.OpenMBean\NetMX.OpenMBean.csproj">
-      <Project>{27AAB473-F263-4F24-A0DC-9B3CAFCE1E16}</Project>
-      <Name>NetMX.OpenMBean</Name>
-    </ProjectReference>
     <ProjectReference Include="..\NetMX\NetMX.csproj">
       <Project>{619AD956-B7BC-492D-9722-25DA4891E144}</Project>
       <Name>NetMX</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Simon.Configuration\Simon.Configuration.csproj">
-      <Project>{E67606FD-77EF-4498-829C-CA24FFB03117}</Project>
-      <Name>Simon.Configuration</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

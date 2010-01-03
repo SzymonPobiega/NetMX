@@ -4,8 +4,9 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Configuration.Provider;
 using System.Text;
+using NetMX.Configuration.Provider;
 using Simon.Configuration;
-using Simon.Configuration.Provider;
+
 #endregion
 
 namespace NetMX

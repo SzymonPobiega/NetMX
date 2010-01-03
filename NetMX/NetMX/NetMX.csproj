@@ -2,7 +2,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>8.0.50727</ProductVersion>
+    <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{619AD956-B7BC-492D-9722-25DA4891E144}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -51,6 +51,16 @@
   <ItemGroup>
     <Compile Include="Attributes\MBeanResourceAttribute.cs" />
     <Compile Include="AttributeValue.cs" />
+    <Compile Include="Configuration\Provider\ConfigurationSectionAttribute.cs" />
+    <Compile Include="Configuration\Provider\INestedConfigurationElement.cs" />
+    <Compile Include="Configuration\Provider\ProviderBaseEx.cs" />
+    <Compile Include="Configuration\Provider\ProviderConfigurationSection.cs" />
+    <Compile Include="Configuration\Provider\ProviderConfigurationSectionWithDefault.cs" />
+    <Compile Include="Configuration\Provider\ProviderSettingsCollectionEx.cs" />
+    <Compile Include="Configuration\Provider\ProviderSettingsEx.cs" />
+    <Compile Include="Configuration\Provider\ProvidersHelper.cs" />
+    <Compile Include="Configuration\Provider\ServiceBase.cs" />
+    <Compile Include="Configuration\TypedConfigurationManager.cs" />
     <Compile Include="Exceptions\ListenerNotFoundException.cs" />
     <Compile Include="Exceptions\MBeanRegistrationException.cs" />
     <Compile Include="Exceptions\InstanceAlreadyExistsException.cs" />
@@ -95,19 +105,101 @@
     <Compile Include="NotificationSubscription.cs" />
     <Compile Include="ObjectInstance.cs" />
     <Compile Include="ObjectName.cs" />
+    <Compile Include="OpenMBean\ArrayType.cs" />
+    <Compile Include="OpenMBean\Attributes\OpenMBeanAttribute.cs" />
+    <Compile Include="OpenMBean\Attributes\OpenMBeanAttributeAttribute.cs" />
+    <Compile Include="OpenMBean\Attributes\OpenMBeanAttrParamBase.cs" />
+    <Compile Include="OpenMBean\Attributes\OpenMBeanOperationAttribute.cs" />
+    <Compile Include="OpenMBean\Attributes\OpenMBeanParameterAttribute.cs" />
+    <Compile Include="OpenMBean\CompositeDataSupport.cs" />
+    <Compile Include="OpenMBean\CompositeType.cs" />
+    <Compile Include="OpenMBean\EnumerationType.cs" />
+    <Compile Include="OpenMBean\Exceptions\InvalidKeyException .cs" />
+    <Compile Include="OpenMBean\Exceptions\InvalidOpenTypeException .cs" />
+    <Compile Include="OpenMBean\Exceptions\KeyAlreadyExistsException .cs" />
+    <Compile Include="OpenMBean\Exceptions\OpenDataException .cs" />
+    <Compile Include="OpenMBean\ICompositeData.cs" />
+    <Compile Include="OpenMBean\IEnumerationData.cs" />
+    <Compile Include="OpenMBean\Info\IOpenMBeanAttributeInfo.cs" />
+    <Compile Include="OpenMBean\Info\IOpenMBeanConstructorInfo.cs" />
+    <Compile Include="OpenMBean\Info\IOpenMBeanInfo.cs" />
+    <Compile Include="OpenMBean\Info\IOpenMBeanOperationInfo.cs" />
+    <Compile Include="OpenMBean\Info\IOpenMBeanParameterInfo.cs" />
+    <Compile Include="OpenMBean\Info\OpenInfoUtils.cs" />
+    <Compile Include="OpenMBean\Info\OpenMBeanAttributeInfoSupport.cs" />
+    <Compile Include="OpenMBean\Info\OpenMBeanConstructorInfoSupport.cs" />
+    <Compile Include="OpenMBean\Info\OpenMBeanInfoSupport.cs" />
+    <Compile Include="OpenMBean\Info\OpenMBeanOperationInfoSupport.cs" />
+    <Compile Include="OpenMBean\Info\OpenMBeanParameterInfoSupport.cs" />
+    <Compile Include="OpenMBean\ITabularData.cs" />
+    <Compile Include="OpenMBean\Mapper\Attributes\AttributeUtils.cs" />
+    <Compile Include="OpenMBean\Mapper\Attributes\CompositeTypeItemAttribute.cs" />
+    <Compile Include="OpenMBean\Mapper\Attributes\OpenTypeAttribute.cs" />
+    <Compile Include="OpenMBean\Mapper\Exceptions\MapperNotFoundException.cs" />
+    <Compile Include="OpenMBean\Mapper\Exceptions\MissingResourceItemException.cs" />
+    <Compile Include="OpenMBean\Mapper\Exceptions\NonUniquePriorityException.cs" />
+    <Compile Include="OpenMBean\Mapper\ITypeMapper.cs" />
+    <Compile Include="OpenMBean\Mapper\OpenMBeanMapperService.cs" />
+    <Compile Include="OpenMBean\Mapper\OpenMBeanMapperServiceMBean.cs" />
+    <Compile Include="OpenMBean\Mapper\OpenTypeCache.cs" />
+    <Compile Include="OpenMBean\Mapper\ProxyBean.cs" />
+    <Compile Include="OpenMBean\Mapper\TypeMapperInfo.cs" />
+    <Compile Include="OpenMBean\Mapper\TypeMappers\CollectionTypeMapper.cs" />
+    <Compile Include="OpenMBean\Mapper\TypeMappers\EnumTypeMapper.cs" />
+    <Compile Include="OpenMBean\Mapper\TypeMappers\PlainNetTypeMapper.cs" />
+    <Compile Include="OpenMBean\Mapper\TypeMappers\SimpleTypeMapper.cs" />
+    <Compile Include="OpenMBean\OpenType.cs" />
+    <Compile Include="OpenMBean\OpenTypeVisitor.cs" />
+    <Compile Include="OpenMBean\SimpleType.cs" />
+    <Compile Include="OpenMBean\TabularDataSupport.cs" />
+    <Compile Include="OpenMBean\TabularType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Proxy\NetMXProxyExtensions.cs" />
+    <Compile Include="Proxy\ProxyFactory.cs" />
+    <Compile Include="Proxy\ProxyInvocationHandler.cs" />
+    <Compile Include="Proxy\ProxyProvider.cs" />
     <Compile Include="QueryExp.cs" />
+    <Compile Include="Relation\Exceptions\InvalidRelationIdException.cs" />
+    <Compile Include="Relation\Exceptions\InvalidRelationServiceException.cs" />
+    <Compile Include="Relation\Exceptions\InvalidRelationTypeException.cs" />
+    <Compile Include="Relation\Exceptions\InvalidRoleInfoException.cs" />
+    <Compile Include="Relation\Exceptions\InvalidRoleValueException.cs" />
+    <Compile Include="Relation\Exceptions\RelationException.cs" />
+    <Compile Include="Relation\Exceptions\RelationNotFoundException.cs" />
+    <Compile Include="Relation\Exceptions\RelationServiceNotRegisteredException.cs" />
+    <Compile Include="Relation\Exceptions\RelationTypeNotFoundException.cs" />
+    <Compile Include="Relation\Exceptions\RoleInfoNotFoundException.cs" />
+    <Compile Include="Relation\Exceptions\RoleNotFoundException.cs" />
+    <Compile Include="Relation\IRelation.cs" />
+    <Compile Include="Relation\IRelationType.cs" />
+    <Compile Include="Relation\RelationNotification.cs" />
+    <Compile Include="Relation\RelationService.cs" />
+    <Compile Include="Relation\RelationServiceMBean.cs" />
+    <Compile Include="Relation\RelationSupport.cs" />
+    <Compile Include="Relation\RelationSupportMBean.cs" />
+    <Compile Include="Relation\RelationTypeSupport.cs" />
+    <Compile Include="Relation\Role.cs" />
+    <Compile Include="Relation\RoleInfo.cs" />
+    <Compile Include="Relation\RoleResult.cs" />
+    <Compile Include="Relation\RoleStatus.cs" />
+    <Compile Include="Relation\RoleUnresolved.cs" />
+    <Compile Include="Remote\INetMXConnector.cs" />
+    <Compile Include="Remote\INetMXConnectorServer.cs" />
+    <Compile Include="Remote\NetMXConnectorFactory.cs" />
+    <Compile Include="Remote\NetMXConnectorProvider.cs" />
+    <Compile Include="Remote\NetMXConnectorServerFactory.cs" />
+    <Compile Include="Remote\NetMXConnectorServerProvider.cs" />
+    <Compile Include="Remote\NetMXSecurityProvider.cs" />
+    <Compile Include="Remote\NetMXSecurityService..cs" />
+    <Compile Include="Remote\NotificationBuffer.cs" />
+    <Compile Include="Remote\NotificationResult.cs" />
+    <Compile Include="Remote\NullSecurityProvider.cs" />
+    <Compile Include="Remote\TargetedNotification.cs" />
     <Compile Include="Resources\MBeanServerDelegate.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>MBeanServerDelegate.resx</DependentUpon>
     </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Simon.Configuration\Simon.Configuration.csproj">
-      <Project>{E67606FD-77EF-4498-829C-CA24FFB03117}</Project>
-      <Name>Simon.Configuration</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\MBeanServerDelegate.resx">

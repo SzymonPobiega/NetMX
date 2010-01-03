@@ -3,11 +3,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.21022</ProductVersion>
+    <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{02C0718F-E261-41BE-BB30-5978AE2E1CC7}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>NetMX.Tests</RootNamespace>
+    <RootNamespace>NetMX</RootNamespace>
     <AssemblyName>NetMX.Tests</AssemblyName>
     <WarningLevel>4</WarningLevel>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -61,18 +61,32 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MBeanInternalInfoTests.cs" />
-    <Compile Include="MBeanPermissionTest.cs" />
-    <Compile Include="ObjectNameTest.cs" />
+    <Compile Include="Tests\CASPermissionsTests.cs" />
+    <Compile Include="Tests\MBeanInternalInfoTests.cs" />
+    <Compile Include="Tests\MBeanPermissionTest.cs" />
+    <Compile Include="Tests\ObjectNameTest.cs" />
+    <Compile Include="OpenMBean.Mapper.Tests\CollectionTypeMapperTest.cs" />
+    <Compile Include="OpenMBean.Mapper.Tests\MapperTestBase.cs" />
+    <Compile Include="OpenMBean.Mapper.Tests\PlainNetTypeMapperTest.cs" />
+    <Compile Include="OpenMBean.Mapper.Tests\ResourceUsageTest.Designer.cs">
+      <DependentUpon>ResourceUsageTest.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="OpenMBean.Tests\ArrayTypeTests.cs" />
+    <Compile Include="OpenMBean.Tests\CompositeDataSupportTests.cs" />
+    <Compile Include="OpenMBean.Tests\CompositeTypeTests.cs" />
+    <Compile Include="OpenMBean.Tests\SimpleTypeTests.cs" />
+    <Compile Include="OpenMBean.Tests\TabularDataSupportTests.cs" />
+    <Compile Include="OpenMBean.Tests\TabularTypeTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Relation.Test\RelationServiceTests.cs" />
+    <Compile Include="Relation.Test\RoleTests.cs" />
     <Compile Include="Resources\NetMX.Tests.TestMBean.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>NetMX.Tests.TestMBean.resx</DependentUpon>
     </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="AuthoringTests.txt" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NetMX.Default\NetMX.Default.csproj">
@@ -83,12 +97,13 @@
       <Project>{619AD956-B7BC-492D-9722-25DA4891E144}</Project>
       <Name>NetMX</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Simon.Configuration\Simon.Configuration.csproj">
-      <Project>{E67606FD-77EF-4498-829C-CA24FFB03117}</Project>
-      <Name>Simon.Configuration</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="OpenMBean.Mapper.Tests\ResourceUsageTest.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ResourceUsageTest.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Resources\NetMX.Tests.TestMBean.resx">
       <SubType>Designer</SubType>
       <Generator>ResXFileCodeGenerator</Generator>
