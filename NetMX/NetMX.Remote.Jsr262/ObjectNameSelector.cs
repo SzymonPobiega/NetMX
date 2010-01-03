@@ -4,7 +4,6 @@ using System.Linq;
 using System.ServiceModel;
 using System.ServiceModel.Channels;
 using System.Text;
-using Simon.WsManagement;
 using WSMan.NET.Management;
 
 namespace NetMX.Remote.Jsr262
@@ -13,8 +12,12 @@ namespace NetMX.Remote.Jsr262
    {
       private const string ObjectName = "ObjectName";
 
-      internal static IEnumerable<Selector> CreateSelectorSet(ObjectName objectName)
+      internal static IEnumerable<Selector> CreateSelectorSet(this ObjectName objectName)
       {
+         if (objectName == null)
+         {
+            return new Selector[] {};
+         }
          return new [] {new Selector(ObjectName, objectName)};
       }
 
@@ -45,7 +48,7 @@ namespace NetMX.Remote.Jsr262
                   : OperationContext.Current.Extensions.Find<ServerAddressExtension>
                        ().Address
          };
-         builder.Headers.Add(CreateSelectorSetHeader(ObjectName));
+         builder.Headers.Add(CreateSelectorSetHeader(name));
          return builder.ToEndpointAddress();
       }      
 
@@ -58,7 +61,7 @@ namespace NetMX.Remote.Jsr262
                return selector.SimpleValue;
             }
          }
-         throw new InvalidOperationException();
+         return null;
       }
 
       public static SelectorSetHeader CreateSelectorSetHeader(ObjectName name)

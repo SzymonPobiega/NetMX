@@ -4,21 +4,24 @@ using System.Linq;
 using System.ServiceModel;
 using System.ServiceModel.Channels;
 using System.Text;
-using Simon.WsManagement;
+using WSMan.NET;
+using WSMan.NET.Enumeration;
 using WSMan.NET.Management;
 
-namespace NetMX.Remote.Jsr262
+namespace NetMX.Remote.Jsr262.Client
 {
    internal sealed class Jsr262MBeanServerConnection : IMBeanServerConnection, IDisposable
    {
       private readonly ProxyFactory _proxyFactory;
       private readonly ManagementClient _manClient;
+      private readonly EnumerationClient _enumClient;
       private bool _disposed;
 
-      public Jsr262MBeanServerConnection(ProxyFactory proxyFactory, ManagementClient managementClient)
+      public Jsr262MBeanServerConnection(ProxyFactory proxyFactory, ManagementClient managementClient, EnumerationClient enumerationClient)
       {
          _proxyFactory = proxyFactory;
          _manClient = managementClient;
+         _enumClient = enumerationClient;
       }
 
       #region IMBeanServerConnection Members
@@ -38,16 +41,16 @@ namespace NetMX.Remote.Jsr262
       }
 
       public ObjectInstance CreateMBean(string className, ObjectName name, object[] arguments)
-      {         
+      {
          DynamicMBeanResourceConstructor request = new DynamicMBeanResourceConstructor
                                                       {
                                                          RegistrationParameters =
                                                             arguments.Select(x => new ParameterType(null, x)).ToArray(),
                                                          ResourceClass = className,
-                                                         ResourceEPR = new EndpointReferenceType(name)
+                                                         ResourceEPR = new EndpointReference(ObjectNameSelector.CreateEndpointAddress(name))
                                                       };
          ObjectName objectName = _manClient.Create(Schema.MBeanServerResourceUri, request).ExtractObjectName();
-         return new ObjectInstance(objectName, null);         
+         return new ObjectInstance(objectName, null);
       }
 
       public void RemoveNotificationListener(ObjectName name, ObjectName listener, NotificationFilterCallback filterCallback, object handback)
@@ -89,7 +92,7 @@ namespace NetMX.Remote.Jsr262
                                                             }
                                            };
 
-         _manClient.Put<DynamicMBeanResource>(Schema.DynamicMBeanResourceUri, null, request, ObjectNameSelector.CreateSelectorSet(name));
+         _manClient.Put<XmlFragment<DynamicMBeanResource>>(Schema.DynamicMBeanResourceUri, new GetAttributesFragment(attributeName).GetExpression(), new XmlFragment<DynamicMBeanResource>(request), name.CreateSelectorSet());
       }
 
       public IList<AttributeValue> SetAttributes(ObjectName name, IEnumerable<AttributeValue> namesAndValues)
@@ -98,39 +101,33 @@ namespace NetMX.Remote.Jsr262
                                            {
                                               Property = namesAndValues.Select(x => new NamedGenericValueType(x.Name, x.Value)).ToArray()
                                            };
+         IEnumerable<string> names = namesAndValues.Select(x => x.Name);
 
-         return _manClient.Put<DynamicMBeanResource>(Schema.DynamicMBeanResourceUri, null, request, ObjectNameSelector.CreateSelectorSet(name))
-            .Property.Select(x => new AttributeValue(x.name, x.Deserialize())).ToList();         
+         return _manClient.Put<XmlFragment<DynamicMBeanResource>>(Schema.DynamicMBeanResourceUri, new GetAttributesFragment(names).GetExpression(), new XmlFragment<DynamicMBeanResource>(request), name.CreateSelectorSet())
+            .Value.Property.Select(x => new AttributeValue(x.name, x.Deserialize())).ToList();
       }
 
       public object GetAttribute(ObjectName name, string attributeName)
       {
-         return _manClient.Get<DynamicMBeanResource>(Schema.DynamicMBeanResourceUri,
-            new GetAttributesFragment(new[] { attributeName }).GetExpression(), null)
-            .Property.First(x => x.name == attributeName).Deserialize();         
+         return _manClient.Get<XmlFragment<DynamicMBeanResource>>(Schema.DynamicMBeanResourceUri,
+                                                                  new GetAttributesFragment(attributeName).GetExpression(), name.CreateSelectorSet())
+            .Value.Property.First(x => x.name == attributeName).Deserialize();
       }
 
       public IList<AttributeValue> GetAttributes(ObjectName name, string[] attributeNames)
       {
-         return _manClient.Get<DynamicMBeanResource>(Schema.DynamicMBeanResourceUri,
-            new GetAttributesFragment(attributeNames).GetExpression(), null)
-            .Property.Select(x => new AttributeValue(x.name, x.Deserialize())).ToList();         
+         return _manClient.Get<XmlFragment<DynamicMBeanResource>>(Schema.DynamicMBeanResourceUri,
+                                                                  new GetAttributesFragment(attributeNames).GetExpression(), null)
+            .Value.Property.Select(x => new AttributeValue(x.name, x.Deserialize())).ToList();
       }
 
       public int GetMBeanCount()
       {
-         using (IDisposableProxy proxy = _proxyFactory.Create(null, Schema.DynamicMBeanResourceUri))
-         {
-            OperationContext.Current.OutgoingMessageHeaders.Add(new RequestTotalItemsTotalCountEstimate());
-            proxy.Enumerate(null);
-            TotalItemsTotalCountEstimate countEstimate =
-               TotalItemsTotalCountEstimate.ReadFrom(OperationContext.Current.IncomingMessageHeaders);
-            return countEstimate.Value;
-         }
+         return _enumClient.EstimateCount(new Uri(Schema.DynamicMBeanResourceUri), null);         
       }
 
       public MBeanInfo GetMBeanInfo(ObjectName name)
-      {         
+      {
          using (IDisposableProxy proxy = _proxyFactory.Create(name, Schema.DynamicMBeanResourceUri))
          {
             return proxy.GetMBeanInfo().DynamicMBeanResourceMetaData.Deserialize();
@@ -147,41 +144,35 @@ namespace NetMX.Remote.Jsr262
 
       public bool IsRegistered(ObjectName name)
       {
-         using (IDisposableProxy proxy = _proxyFactory.Create(name, Schema.DynamicMBeanResourceUri))
-         {            
-//            XmlEnumerateResponse response = proxy.Enumerate(new Enumerate(true, EnumerationMode.EnumerateEPR, null, null));
-            EnumerateResponseMessage response = proxy.Enumerate(null);
-            return response.EnumerateResponse.DeserializeAsEPRs().Count() > 0;
-         }
+         return _enumClient.EnumerateEPR(new Uri(Schema.DynamicMBeanResourceUri), null, 1,
+                                         ObjectNameSelector.CreateSelectorSet(name)).Count() > 0;
       }
 
       public IEnumerable<ObjectName> QueryNames(ObjectName name, QueryExp query)
       {
-         using (IDisposableProxy proxy = _proxyFactory.Create(name, Schema.DynamicMBeanResourceUri))
-         {
-//            XmlEnumerateResponse response = proxy.Enumerate(new Enumerate(true, EnumerationMode.EnumerateEPR, Schema.QueryNamesDialect, null));
-            EnumerateResponseMessage response = proxy.Enumerate(null);
-            return response.EnumerateResponse.DeserializeAsEPRs().Select(x => x.ExtractObjectName());
-         }
+         Filter filter = query != null ? new Filter(Schema.QueryNamesDialect, query) : null;
+         return _enumClient.EnumerateEPR(new Uri(Schema.DynamicMBeanResourceUri), filter, 1500,
+                                         ObjectNameSelector.CreateSelectorSet(name))
+            .Select(x => x.ExtractObjectName());
       }
 
       public void UnregisterMBean(ObjectName name)
       {
-         _manClient.Delete(Schema.DynamicMBeanResourceUri, ObjectNameSelector.CreateSelectorSet(name));         
+         _manClient.Delete(Schema.DynamicMBeanResourceUri, ObjectNameSelector.CreateSelectorSet(name));
       }
 
       public string GetDefaultDomain()
       {
          return _manClient.Get<GetDefaultDomainResponse>(Schema.DynamicMBeanResourceUri,
                                                          IJsr262ServiceContractConstants.
-                                                            GetDefaultDomainFragmentTransferPath).DomainName;         
+                                                            GetDefaultDomainFragmentTransferPath).DomainName;
       }
 
       public IList<string> GetDomains()
       {
          return _manClient.Get<GetDomainsResponse>(Schema.DynamicMBeanResourceUri,
-                                                         IJsr262ServiceContractConstants.
-                                                            GetDefaultDomainFragmentTransferPath).DomainNames.ToList();                  
+                                                   IJsr262ServiceContractConstants.
+                                                      GetDefaultDomainFragmentTransferPath).DomainNames.ToList();
       }
       #endregion
 
@@ -190,7 +181,8 @@ namespace NetMX.Remote.Jsr262
          if (!_disposed)
          {
             _proxyFactory.Dispose();
-            //_manClient.Di
+            //_manClient.
+            _enumClient.Dispose();
             _disposed = true;
          }
       }

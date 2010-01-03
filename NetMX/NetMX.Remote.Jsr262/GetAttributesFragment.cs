@@ -27,6 +27,11 @@ namespace NetMX.Remote.Jsr262
          get { return _names; }
       }
 
+      public GetAttributesFragment(params string[] names)         
+      {
+         _names = names;
+      }
+
       public GetAttributesFragment(IEnumerable<string> names)
       {
          _names = names.ToArray();

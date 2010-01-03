@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.ServiceModel;
 using System.Xml;
 using System.Xml.Serialization;
+using WSMan.NET;
 
 namespace NetMX.Remote.Jsr262
 {
@@ -405,7 +406,7 @@ namespace NetMX.Remote.Jsr262
       [XmlElement("Decimal", typeof(decimal))]
       [XmlElement("Double", typeof(double))]
       [XmlElement("Duration", typeof(string), DataType = "duration")]
-      [XmlElement("EndpointReference", typeof(EndpointReferenceType))]
+      [XmlElement("EndpointReference", typeof(EndpointReference))]
       [XmlElement("Enumeration", typeof(Enumeration))]
       [XmlElement("Fault", typeof(ManagementFaultType))]
       [XmlElement("Float", typeof(float))]
@@ -910,11 +911,11 @@ namespace NetMX.Remote.Jsr262
    public partial class ManagedResourceRole
    {
       private string nameField;
-      private EndpointReferenceType[] valueField;
+      private EndpointReference[] valueField;
 
 
       [XmlElement("Value")]
-      public EndpointReferenceType[] Value
+      public EndpointReference[] Value
       {
          get { return valueField; }
          set { valueField = value; }
@@ -1012,11 +1013,11 @@ namespace NetMX.Remote.Jsr262
       private int problemField;
 
       private bool problemFieldSpecified;
-      private EndpointReferenceType[] valueField;
+      private EndpointReference[] valueField;
 
 
       [XmlElement("Value")]
-      public EndpointReferenceType[] Value
+      public EndpointReference[] Value
       {
          get { return valueField; }
          set { valueField = value; }
@@ -1164,7 +1165,7 @@ namespace NetMX.Remote.Jsr262
    {
       private XmlAttribute[] anyAttrField;
       private XmlElement[] anyField;
-      private EndpointReferenceType emitterField;
+      private EndpointReference emitterField;
       private string eventTypeField;
 
       private int listenerIdField;
@@ -1184,7 +1185,7 @@ namespace NetMX.Remote.Jsr262
       private GenericValueType userDataField;
 
 
-      public EndpointReferenceType Emitter
+      public EndpointReference Emitter
       {
          get { return emitterField; }
          set { emitterField = value; }
@@ -1947,10 +1948,10 @@ namespace NetMX.Remote.Jsr262
 
       private ParameterSignatureType[] registrationSignatureField;
       private string resourceClassField;
-      private EndpointReferenceType resourceEPRField;
+      private EndpointReference resourceEPRField;
 
 
-      public EndpointReferenceType ResourceEPR
+      public EndpointReference ResourceEPR
       {
          get { return resourceEPRField; }
          set { resourceEPRField = value; }
@@ -1964,7 +1965,7 @@ namespace NetMX.Remote.Jsr262
       }
 
 
-      [XmlElement("ResourceLoaderEPR", typeof(EndpointReferenceType))]
+      [XmlElement("ResourceLoaderEPR", typeof(EndpointReference))]
       [XmlElement("UseDefaultFactory", typeof(bool))]
       public object Item
       {
@@ -2138,7 +2139,7 @@ namespace NetMX.Remote.Jsr262
       private GenericValueType handbackField;
 
       private XmlElement notificationFilterField;
-      private EndpointReferenceType subscriberField;
+      private EndpointReference subscriberField;
 
 
       public GenericValueType Handback
@@ -2148,7 +2149,7 @@ namespace NetMX.Remote.Jsr262
       }
 
 
-      public EndpointReferenceType Subscriber
+      public EndpointReference Subscriber
       {
          get { return subscriberField; }
          set { subscriberField = value; }
@@ -2192,10 +2193,10 @@ namespace NetMX.Remote.Jsr262
    public partial class NotificationSource
    {
       private XmlElement notificationFilterField;
-      private EndpointReferenceType sourceField;
+      private EndpointReference sourceField;
 
 
-      public EndpointReferenceType Source
+      public EndpointReference Source
       {
          get { return sourceField; }
          set { sourceField = value; }
@@ -2219,10 +2220,10 @@ namespace NetMX.Remote.Jsr262
    public partial class NotificationUnsubscription
    {
       private string notificationListenerListField;
-      private EndpointReferenceType sourceField;
+      private EndpointReference sourceField;
 
 
-      public EndpointReferenceType Source
+      public EndpointReference Source
       {
          get { return sourceField; }
          set { sourceField = value; }
@@ -2310,10 +2311,10 @@ namespace NetMX.Remote.Jsr262
    [XmlRoot(Namespace = "http://jsr262.dev.java.net/jmxconnector", IsNullable = false)]
    public partial class ManagedResourceChange
    {
-      private EndpointReferenceType resourceNameField;
+      private EndpointReference resourceNameField;
 
 
-      public EndpointReferenceType ResourceName
+      public EndpointReference ResourceName
       {
          get { return resourceNameField; }
          set { resourceNameField = value; }
@@ -2333,7 +2334,7 @@ namespace NetMX.Remote.Jsr262
 
       private string observedAttributeField;
 
-      private EndpointReferenceType observedManagedResourceField;
+      private EndpointReference observedManagedResourceField;
 
       private GenericValueType triggerField;
 
@@ -2352,7 +2353,7 @@ namespace NetMX.Remote.Jsr262
       }
 
 
-      public EndpointReferenceType ObservedManagedResource
+      public EndpointReference ObservedManagedResource
       {
          get { return observedManagedResourceField; }
          set { observedManagedResourceField = value; }
@@ -2397,7 +2398,7 @@ namespace NetMX.Remote.Jsr262
    {
       private string[] notificationTypeField;
 
-      private EndpointReferenceType[] resourceNameField;
+      private EndpointReference[] resourceNameField;
 
 
       [XmlElement("NotificationType")]
@@ -2409,7 +2410,7 @@ namespace NetMX.Remote.Jsr262
 
 
       [XmlElement("ResourceName", IsNullable = true)]
-      public EndpointReferenceType[] ResourceName
+      public EndpointReference[] ResourceName
       {
          get { return resourceNameField; }
          set { resourceNameField = value; }
@@ -2609,15 +2610,15 @@ namespace NetMX.Remote.Jsr262
    [XmlRoot(Namespace = "http://jsr262.dev.java.net/jmxconnector", IsNullable = false)]
    public partial class RoleUpdate
    {
-      private EndpointReferenceType[] newRoleField;
+      private EndpointReference[] newRoleField;
 
-      private EndpointReferenceType[] oldRoleField;
+      private EndpointReference[] oldRoleField;
 
       private string roleNameField;
 
 
       [XmlElement("NewRole")]
-      public EndpointReferenceType[] NewRole
+      public EndpointReference[] NewRole
       {
          get { return newRoleField; }
          set { newRoleField = value; }
@@ -2625,7 +2626,7 @@ namespace NetMX.Remote.Jsr262
 
 
       [XmlElement("OldRole")]
-      public EndpointReferenceType[] OldRole
+      public EndpointReference[] OldRole
       {
          get { return oldRoleField; }
          set { oldRoleField = value; }
@@ -2649,11 +2650,11 @@ namespace NetMX.Remote.Jsr262
    [XmlRoot(Namespace = "http://jsr262.dev.java.net/jmxconnector", IsNullable = false)]
    public partial class ResourceNameToUnregisterList
    {
-      private EndpointReferenceType[] resourceNameField;
+      private EndpointReference[] resourceNameField;
 
 
       [XmlElement("ResourceName")]
-      public EndpointReferenceType[] ResourceName
+      public EndpointReference[] ResourceName
       {
          get { return resourceNameField; }
          set { resourceNameField = value; }
@@ -2671,12 +2672,12 @@ namespace NetMX.Remote.Jsr262
    {
       private string idField;
       private object itemField;
-      private EndpointReferenceType relationNameField;
+      private EndpointReference relationNameField;
 
       private string typeField;
 
 
-      public EndpointReferenceType RelationName
+      public EndpointReference RelationName
       {
          get { return relationNameField; }
          set { relationNameField = value; }

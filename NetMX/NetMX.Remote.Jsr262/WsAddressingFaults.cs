@@ -4,9 +4,9 @@ using System.Linq;
 using System.ServiceModel;
 using System.Text;
 
-namespace Simon.WsManagement
+namespace NetMX.Remote.Jsr262
 {
-   public static class WsAddressing
+   public static class WsAddressingFaults
    {
       private const string FaultAction = "http://schemas.xmlsoap.org/ws/2004/08/addressing/fault";
       public const string Namespace = "http://schemas.xmlsoap.org/ws/2004/08/addressing";

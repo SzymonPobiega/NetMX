@@ -27,42 +27,42 @@ namespace RemotingDemo
 				{
 					IMBeanServerConnection remoteServer = connector.MBeanServerConnection;
 
-					//remoteServer.AddNotificationListener(name, CounterChanged, null, null);
+               //remoteServer.AddNotificationListener(name, CounterChanged, null, null);
 
-               //Console.WriteLine("******");
-               //MBeanInfo info = remoteServer.GetMBeanInfo(name);
-               //Console.WriteLine("MBean description: {0}", info.Description);
-               //Console.WriteLine("MBean class name: {0}", info.ClassName);
-               //foreach (MBeanAttributeInfo attributeInfo in info.Attributes)
-               //{
-               //   Console.WriteLine("Attribute {0} ({1}) [{2}{3}]: {4}", attributeInfo.Name, attributeInfo.Description,
-               //      attributeInfo.Readable ? "r" : "", attributeInfo.Writable ? "w" : "", attributeInfo.Type);
-               //}
-               //foreach (MBeanOperationInfo operationInfo in info.Operations)
-               //{
-               //   Console.WriteLine("Operation {0} ({1}) [{2}]", operationInfo.Name, operationInfo.Description,
-               //     operationInfo.Impact);
-               //}
-               //Console.WriteLine("******");
+               Console.WriteLine("******");
+               MBeanInfo info = remoteServer.GetMBeanInfo(name);
+               Console.WriteLine("MBean description: {0}", info.Description);
+               Console.WriteLine("MBean class name: {0}", info.ClassName);
+               foreach (MBeanAttributeInfo attributeInfo in info.Attributes)
+               {
+                  Console.WriteLine("Attribute {0} ({1}) [{2}{3}]: {4}", attributeInfo.Name, attributeInfo.Description,
+                     attributeInfo.Readable ? "r" : "", attributeInfo.Writable ? "w" : "", attributeInfo.Type);
+               }
+               foreach (MBeanOperationInfo operationInfo in info.Operations)
+               {
+                  Console.WriteLine("Operation {0} ({1}) [{2}]", operationInfo.Name, operationInfo.Description,
+                    operationInfo.Impact);
+               }
+               Console.WriteLine("******");
 
-					//object counter = remoteServer.GetAttribute(name, "Counter");
+               object counter = remoteServer.GetAttribute(name, "Counter");
 
-					///Console.WriteLine("Counter value is {0}", counter);
+               Console.WriteLine("Counter value is {0}", counter);
 
-               //remoteServer.SetAttribute(name, "Counter", 5);
-               //counter = remoteServer.GetAttribute(name, "Counter");
+               remoteServer.SetAttribute(name, "Counter", 5);
+               counter = remoteServer.GetAttribute(name, "Counter");
 
-               //Console.WriteLine("Now, counter value is {0}", counter);
+               Console.WriteLine("Now, counter value is {0}", counter);
 
-               //counter = remoteServer.Invoke(name, "AddAmount", new object[] { 5 });
-               //counter = remoteServer.GetAttribute(name, "Counter");
+               counter = remoteServer.Invoke(name, "AddAmount", new object[] { 5 });
+               counter = remoteServer.GetAttribute(name, "Counter");
 
-               //Console.WriteLine("Now, counter value is {0}", counter);
+               Console.WriteLine("Now, counter value is {0}", counter);
 
-               //counter = remoteServer.Invoke(name, "ResetCounter", new object[] { });
-               //counter = remoteServer.GetAttribute(name, "Counter");
+               counter = remoteServer.Invoke(name, "ResetCounter", new object[] { });
+               counter = remoteServer.GetAttribute(name, "Counter");
 
-               //Console.WriteLine("Now, counter value is {0}", counter);
+               Console.WriteLine("Now, counter value is {0}", counter);
 
 					Console.ReadKey();
 				}

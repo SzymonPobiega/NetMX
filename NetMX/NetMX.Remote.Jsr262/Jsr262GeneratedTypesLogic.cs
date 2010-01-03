@@ -9,7 +9,7 @@ using System.Xml;
 using System.Xml.Serialization;
 using NetMX.OpenMBean;
 using NetMX.Relation;
-using Simon.WsManagement;
+using WSMan.NET;
 
 namespace NetMX.Remote.Jsr262
 {
@@ -172,7 +172,7 @@ namespace NetMX.Remote.Jsr262
             }            
             else if (valueType == typeof(ObjectName))
             {
-               Item = new EndpointReferenceType((ObjectName)value);
+               Item = ObjectNameSelector.CreateEndpointAddress((ObjectName)value);
                ItemElementName = ItemChoiceType.EndpointReference;
             }
             else if (valueType == typeof(RoleInfo))
@@ -309,11 +309,11 @@ namespace NetMX.Remote.Jsr262
       public ManagedResourceRole(Role role)
       {
          name = role.Name;
-         Value = role.Value.Select(x => new EndpointReferenceType(x)).ToArray();
+         Value = role.Value.Select(x => new EndpointReference(ObjectNameSelector.CreateEndpointAddress(x))).ToArray();
       }
       public Role Deserialize()
       {
-         return new Role(name, Value.Select(x => x.ObjectName));
+         return new Role(name, Value.Select(x => x.Address.ExtractObjectName()));
       }
    }
 
@@ -325,13 +325,13 @@ namespace NetMX.Remote.Jsr262
       public ManagedResourceRoleUnresolved(RoleUnresolved role)
       {
          name = role.RoleName;
-         Value = role.RoleValue.Select(x => new EndpointReferenceType(x)).ToArray();
+         Value = role.RoleValue.Select(x => new EndpointReference(ObjectNameSelector.CreateEndpointAddress(x))).ToArray();
          problemSpecified = true;
          problem = (int)role.ProblemType;
       }
       public RoleUnresolved Deserialize()
       {
-         return new RoleUnresolved(name, Value.Select(x => x.ObjectName), (RoleStatus)problem);
+         return new RoleUnresolved(name, Value.Select(x => x.Address.ExtractObjectName()), (RoleStatus)problem);
       }
    }
 
@@ -433,7 +433,11 @@ namespace NetMX.Remote.Jsr262
       }
       public MBeanAttributeInfo Deserialize()
       {
-         FeatureDescriptorTypeField openTypeField = Field.FirstOrDefault(x => x.Name == "openType");
+         FeatureDescriptorTypeField openTypeField = null;
+         if (Field != null)
+         {
+            openTypeField = Field.FirstOrDefault(x => x.Name == "openType");
+         }
          bool readable = accessField.IndexOf('r') != -1;
          bool writable = accessField.IndexOf('w') != -1;
          if (openTypeField == null)
@@ -537,7 +541,12 @@ namespace NetMX.Remote.Jsr262
          {
             impactEnum |= OperationImpact.Info;
          }
-         return new MBeanOperationInfo(name, Description.Value, JmxTypeMapping.GetCLRTypeName(outputField.type),
+         XmlQualifiedName typeQualifiedName = null;
+         if (outputField != null)
+         {
+            typeQualifiedName = outputField.type;
+         }
+         return new MBeanOperationInfo(name, Description.Value, JmxTypeMapping.GetCLRTypeName(typeQualifiedName),
                                        inputField.EmptyIfNull().Select(x => x.Deserialize()).ToArray(),
                                        impactEnum);
       }      

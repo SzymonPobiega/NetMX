@@ -6,9 +6,9 @@ using System.ServiceModel.Channels;
 using System.Text;
 using WSMan.NET.Management;
 
-namespace NetMX.Remote.Jsr262
+namespace NetMX.Remote.Jsr262.Client
 {
-   public interface IDisposableProxy : IJsr262ServiceContract, IDisposable
+   public interface IDisposableProxy : IJsr262ServiceContract
    {      
    }
 
@@ -69,31 +69,11 @@ namespace NetMX.Remote.Jsr262
          {
             return _realProxy.GetMBeanInfo();
          }
-
-         public PullResponseMessage Pull(Message request)
-         {
-            return _realProxy.Pull(request);
-         }
-
-         public EnumerateResponseMessage Enumerate(Message request)
-         {
-            return _realProxy.Enumerate(request);
-         }
-
+         
          public IsInstanceOfResponseMessage IsInstanceOf(IsInstanceOfMessage className)
          {
             return _realProxy.IsInstanceOf(className);
-         }
-
-         public Message Subscribe(Message msg)
-         {
-             return _realProxy.Subscribe(msg);
-         }
-          
-         public void Unsubscribe(Message msg)
-         {
-             _realProxy.Unsubscribe(msg);
-         }
+         }        
           
          public void Dispose()
          {
@@ -142,5 +122,4 @@ namespace NetMX.Remote.Jsr262
          }
       }
    }
-
 }

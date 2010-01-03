@@ -31,12 +31,16 @@ namespace NetMX.Remote.Jsr262
 
             public void BeforeSendReply(ref Message reply, object correlationState)
             {
-                ConnectionIdHeader header = new ConnectionIdHeader();
-                int i = reply.Headers.FindHeader(header.Name, header.Namespace);
-                if (-1 >= i)
-                {
-                    reply.Headers.Add(header);
-                }
+               if (reply == null)
+               {
+                  return;
+               }
+               ConnectionIdHeader header = new ConnectionIdHeader();
+               int i = reply.Headers.FindHeader(header.Name, header.Namespace);
+               if (-1 >= i)
+               {
+                  reply.Headers.Add(header);
+               }
             }
         }
 

@@ -53,104 +53,14 @@ namespace NetMX.Remote.Jsr262
       [MessageBodyMember]
       [XmlElement(Namespace = Schema.ConnectorNamespace)]
       public ResourceMetaDataType DynamicMBeanResourceMetaData { get; set; }
+      
+      public ResourceMetaDataTypeMessage()
+      {         
+      }
 
       public ResourceMetaDataTypeMessage(ResourceMetaDataType dynamicMBeanResourceMetaData)
       {
          DynamicMBeanResourceMetaData = dynamicMBeanResourceMetaData;
-      }
-   }
-
-   [MessageContract(IsWrapped = false)]
-   public class EnumerateResponseMessage
-   {
-      [MessageBodyMember]
-      [XmlElement(Namespace = Schema.EnumerationNamespace)]
-      public EnumerateResponse EnumerateResponse { get; set; }
-
-      public EnumerateResponseMessage()
-      {
-      }
-
-      public EnumerateResponseMessage(EnumerateResponse enumerateResponse)
-      {
-         EnumerateResponse = enumerateResponse;
-      }
-   }
-
-   [MessageContract(IsWrapped = false)]
-   public class PullResponseMessage
-   {
-      [MessageBodyMember]
-      [XmlElement(Namespace = Schema.EnumerationNamespace)]
-      public PullResponse PullResponse { get; set; }
-
-      public PullResponseMessage()
-      {
-      }
-
-      public PullResponseMessage(PullResponse pullResponse)
-      {
-         PullResponse = pullResponse;
-      }
-   }
-
-   //public class Ws
-
-
-   [MessageContract]
-   public class WsTransferGetRequestBody : IXmlSerializable
-   {
-      public XmlSchema GetSchema()
-      {
-         throw new NotImplementedException();
-      }
-
-      public void ReadXml(XmlReader reader)
-      {
-         throw new NotImplementedException();
-      }
-
-      public void WriteXml(XmlWriter writer)
-      {
-         throw new NotImplementedException();
-      }
-   }
-
-   [MessageContract(IsWrapped = false)]
-   //[KnownType(typeof(GetDefaultDomainResponse))]
-   //[KnownType(typeof(DynamicMBeanResource))]
-   //[KnownType(typeof(GetDomainsResponse))]
-   public class XmlFragmentMessage
-   {
-      [MessageBodyMember]
-      [XmlElement(ElementName = "XmlFragment", Namespace = Schema.ManagementNamespace)]      
-      public object Body { get; set; }
-
-      [XmlIgnore]
-      public GetDefaultDomainResponse GetDefaultDomainResponse
-      {
-         get { return (GetDefaultDomainResponse) Body; }
-      }
-
-      [XmlIgnore]
-      public DynamicMBeanResource DynamicMBeanResource
-      {
-         get { return (DynamicMBeanResource)Body; }
-      }
-
-      [XmlIgnore]
-      public GetDomainsResponse GetDomainsResponse
-      {
-         get { return (GetDomainsResponse)Body; }
-      }
-
-      public XmlFragmentMessage()
-      {         
-      }
-
-      public XmlFragmentMessage(object body)
-      {
-         Body = body;
       }
    }
    
@@ -300,11 +210,5 @@ namespace NetMX.Remote.Jsr262
          }
          return results;
       }
-   }
-
-   [MessageContract(IsWrapped = true, WrapperNamespace = Schema.EventsNamespace)]
-   public class SubscribeResponse
-   {
-
-   }
+   }   
 }

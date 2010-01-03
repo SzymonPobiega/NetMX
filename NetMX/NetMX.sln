@@ -100,6 +100,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libs", "Libs", "{996F2F65-9
 		Libs\Spring.Core.pdb = Libs\Spring.Core.pdb
 		Libs\Spring.Services.dll = Libs\Spring.Services.dll
 		Libs\Spring.Services.pdb = Libs\Spring.Services.pdb
+		Libs\WSMan.NET.dll = Libs\WSMan.NET.dll
+		Libs\WSMan.NET.pdb = Libs\WSMan.NET.pdb
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpringWcfConsoleManagementServer", "Samples\SpringWcfConsoleManagementServer\SpringWcfConsoleManagementServer.csproj", "{06975F6E-744C-4622-8B67-F6B520461308}"
@@ -111,8 +113,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebServicesSample", "Samples\WebServicesSample\WebServicesSample.csproj", "{41862DB9-0E5C-4010-A03A-B6DCF1E95105}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetMX.Remote.Jsr262", "NetMX.Remote.Jsr262\NetMX.Remote.Jsr262.csproj", "{BA2A4CF7-BE10-4CBC-899C-0976D9DBCC74}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WSMan.NET", "WSMan.NET\WSMan.NET.csproj", "{B649731C-C299-45AE-A0AC-9AFC2B8B0072}"
 EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
@@ -552,16 +552,6 @@ Global
 		{BA2A4CF7-BE10-4CBC-899C-0976D9DBCC74}.Release|Any CPU.Build.0 = Release|Any CPU
 		{BA2A4CF7-BE10-4CBC-899C-0976D9DBCC74}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{BA2A4CF7-BE10-4CBC-899C-0976D9DBCC74}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{B649731C-C299-45AE-A0AC-9AFC2B8B0072}.Debug|.NET.ActiveCfg = Debug|Any CPU
-		{B649731C-C299-45AE-A0AC-9AFC2B8B0072}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B649731C-C299-45AE-A0AC-9AFC2B8B0072}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B649731C-C299-45AE-A0AC-9AFC2B8B0072}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{B649731C-C299-45AE-A0AC-9AFC2B8B0072}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{B649731C-C299-45AE-A0AC-9AFC2B8B0072}.Release|.NET.ActiveCfg = Release|Any CPU
-		{B649731C-C299-45AE-A0AC-9AFC2B8B0072}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B649731C-C299-45AE-A0AC-9AFC2B8B0072}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B649731C-C299-45AE-A0AC-9AFC2B8B0072}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{B649731C-C299-45AE-A0AC-9AFC2B8B0072}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

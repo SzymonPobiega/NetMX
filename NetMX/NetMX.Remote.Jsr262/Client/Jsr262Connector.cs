@@ -1,6 +1,8 @@
 ﻿using System;
 using System.ServiceModel;
 using System.ServiceModel.Channels;
+using NetMX.Remote.Jsr262.Client;
+using WSMan.NET.Enumeration;
 using WSMan.NET.Management;
 using WSMan.NET.Transfer;
 
@@ -30,12 +32,13 @@ namespace NetMX.Remote.Jsr262
          Binding b = new Soap12Addressing200408WSHttpBinding(SecurityMode.None);
 
          ChannelFactory<IJsr262ServiceContract> factory = new ChannelFactory<IJsr262ServiceContract>(b);         
-         ChannelFactory<ITransferContract> transferFactory = new ChannelFactory<ITransferContract>(b);
+         ChannelFactory<IWSTransferContract> transferFactory = new ChannelFactory<IWSTransferContract>(b);
 
-         _connectionId = Guid.NewGuid();         
+         _connectionId = Guid.NewGuid();
          _connection = new Jsr262MBeanServerConnection(
             new ProxyFactory(factory, _serviceUrl),
-            new ManagementClient(_serviceUrl, transferFactory, MessageVersion.Soap12WSAddressingAugust2004));
+            new ManagementClient(_serviceUrl, transferFactory, MessageVersion.Soap12WSAddressingAugust2004),
+            new EnumerationClient(true, _serviceUrl, b));
       }
       public string ConnectionId
       {
@@ -43,7 +46,8 @@ namespace NetMX.Remote.Jsr262
       }
       public IMBeanServerConnection MBeanServerConnection
       {
-         get { return _connection; }
+         get {
+            return _connection; }
       }
       #endregion
 

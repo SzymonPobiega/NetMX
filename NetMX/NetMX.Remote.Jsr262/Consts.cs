@@ -1,11 +1,7 @@
 namespace NetMX.Remote.Jsr262
 {
    internal static class Schema
-   {
-      public const string AddressingNamespace = "http://schemas.xmlsoap.org/ws/2004/08/addressing";
-      public const string ManagementNamespace = "http://schemas.dmtf.org/wbem/wsman/1/wsman.xsd";
-      public const string EnumerationNamespace = "http://schemas.xmlsoap.org/ws/2004/09/enumeration";
-      public const string EventsNamespace = "http://schemas.xmlsoap.org/ws/2004/08/eventing";
+   {      
       /// <summary>
       /// URI of namespece for the connector.
       /// </summary>
@@ -18,6 +14,10 @@ namespace NetMX.Remote.Jsr262
       /// URI of resource representing MBean server.
       /// </summary>
       public const string MBeanServerResourceUri = "http://jsr262.dev.java.net/MBeanServerResource";
+      /// <summary>
+      /// URI of resource representing MBean server notification manager.
+      /// </summary>
+      public const string MBeanNotificationSubscriptionManagerUri = "http://jsr262.dev.java.net/MBeanNotificationSubscriptionManager";
       /// <summary>
       /// URI of JSR-262 invoke action.
       /// </summary>
@@ -50,10 +50,9 @@ namespace NetMX.Remote.Jsr262
       /// WS-Enumeration filter dialect for QueryNames method.
       /// </summary>
       public const string QueryNamesDialect = @"http://jsr262.dev.java.net/DynamicMBeanResource/Filter/Query/Name";
-
-       public const string SubscribeAction = @"http://schemas.xmlsoap.org/ws/2004/08/eventing/Subscribe";
-       public const string SubscribeResponseAction = @"http://schemas.xmlsoap.org/ws/2004/08/eventing/SubscribeResponse";
-       public const string UnsubscribeAction = @"http://schemas.xmlsoap.org/ws/2004/08/eventing/Unsubscribe";
-       public const string UnsubscribeResponseAction = @"http://schemas.xmlsoap.org/ws/2004/08/eventing/UnsubscribeResponse";
+      /// <summary>
+      /// WS-Enumeration filter dialect for WS-Eventing.
+      /// </summary>
+      public const string NotificationDialect = @"http://jsr262.dev.java.net/ResourceEvent/Filter/Notification";       
    }
 }

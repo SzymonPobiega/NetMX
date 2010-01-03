@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.ServiceModel;
-using System.ServiceModel.Channels;
 using System.ServiceModel.Description;
 using System.Text;
+using NetMX.Remote.Jsr262.Server;
+using WSMan.NET.Enumeration;
+using WSMan.NET.Eventing;
 using WSMan.NET.Transfer;
 
 namespace NetMX.Remote.Jsr262
@@ -50,8 +52,10 @@ namespace NetMX.Remote.Jsr262
          behavior.IncludeExceptionDetailInFaults = true;
          behavior.ValidateMustUnderstand = false;
 
-         _serviceHost.AddServiceEndpoint(typeof (IJsr262ServiceContract), binding, _serviceUrl);
-         _serviceHost.AddServiceEndpoint(typeof (ITransferContract), binding, _serviceUrl);
+         _serviceHost.AddServiceEndpoint(typeof(IJsr262ServiceContract), binding, _serviceUrl);
+         _serviceHost.AddServiceEndpoint(typeof(IWSTransferContract), binding, _serviceUrl);
+         _serviceHost.AddServiceEndpoint(typeof(IWSEventingContract), binding, _serviceUrl);
+         _serviceHost.AddServiceEndpoint(typeof(IWSEnumerationContract), binding, _serviceUrl);
          _serviceHost.Open();
       }
 
@@ -65,20 +69,5 @@ namespace NetMX.Remote.Jsr262
          _serviceHost = null;
       }       
         
-   }
-
-   public class Soap12Addressing200408WSHttpBinding : WSHttpBinding
-   {
-      public Soap12Addressing200408WSHttpBinding(SecurityMode securityMode)
-         : base(securityMode)
-      { }
-
-      public override BindingElementCollection CreateBindingElements()
-      {
-         BindingElementCollection elements = base.CreateBindingElements();
-         TextMessageEncodingBindingElement txtenc = elements.Find<TextMessageEncodingBindingElement>();
-         txtenc.MessageVersion = MessageVersion.Soap12WSAddressingAugust2004;
-         return elements;
-      }
    }
 }
