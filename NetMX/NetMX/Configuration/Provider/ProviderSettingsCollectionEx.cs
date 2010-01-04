@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Configuration;
-using Simon.Configuration.Provider;
 
 namespace NetMX.Configuration.Provider
 {

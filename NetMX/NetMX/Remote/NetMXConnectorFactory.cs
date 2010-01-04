@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using NetMX.Configuration.Provider;
-using Simon.Configuration;
 using System.Configuration.Provider;
 #endregion
 

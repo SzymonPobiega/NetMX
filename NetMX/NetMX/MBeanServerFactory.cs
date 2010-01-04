@@ -5,7 +5,6 @@ using System.Configuration;
 using System.Configuration.Provider;
 using System.Text;
 using NetMX.Configuration.Provider;
-using Simon.Configuration;
 
 #endregion
 

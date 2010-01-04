@@ -5,7 +5,6 @@ using System.Text;
 using System.Configuration;
 using System.Configuration.Provider;
 using System.Collections.Specialized;
-using Simon.Configuration.Provider;
 
 #endregion
 

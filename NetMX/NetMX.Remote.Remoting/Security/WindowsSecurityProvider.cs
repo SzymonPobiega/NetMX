@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading;
 using System.Security.Principal;
 using System.Configuration.Provider;
-using Simon.Configuration;
 using System.Configuration;
 
 namespace NetMX.Remote.Remoting.Security
