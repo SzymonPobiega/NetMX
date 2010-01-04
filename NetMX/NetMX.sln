@@ -60,15 +60,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libs", "Libs", "{996F2F65-9
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WcfSpringConsoleDemo", "Samples\SpringWcfConsoleManagementServer\WcfSpringConsoleDemo.csproj", "{06975F6E-744C-4622-8B67-F6B520461308}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebClientDemo", "WebClientDemo\WebClientDemo.csproj", "{04A97CF5-52F9-45C1-B114-CA21AF6A7F28}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetMX.Remote.Jsr262", "NetMX.Remote.Jsr262\NetMX.Remote.Jsr262.csproj", "{BA2A4CF7-BE10-4CBC-899C-0976D9DBCC74}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Connectors", "Connectors", "{A0329667-EB28-48C0-A4CF-FA1CF01C5FEA}"
 EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 19
+		SccNumberOfProjects = 18
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://tfs04.codeplex.com/
 		SccLocalPath0 = .
@@ -117,25 +115,21 @@ Global
 		SccProjectUniqueName13 = NetMX.Spring.BeanExporter\\NetMX.Spring.BeanExporter.csproj
 		SccProjectName13 = NetMX.Spring.BeanExporter
 		SccLocalPath13 = NetMX.Spring.BeanExporter
-		SccProjectUniqueName14 = WebClientDemo\\WebClientDemo.csproj
+		SccProjectUniqueName14 = NetMX.Remote.Jsr262\\NetMX.Remote.Jsr262.csproj
 		SccProjectTopLevelParentUniqueName14 = NetMX.sln
-		SccProjectName14 = WebClientDemo
-		SccLocalPath14 = WebClientDemo
-		SccProjectUniqueName15 = NetMX.Remote.Jsr262\\NetMX.Remote.Jsr262.csproj
+		SccProjectName14 = NetMX.Remote.Jsr262
+		SccLocalPath14 = NetMX.Remote.Jsr262
+		SccProjectUniqueName15 = Samples\\SpringWcfConsoleManagementServer\\WcfSpringConsoleDemo.csproj
 		SccProjectTopLevelParentUniqueName15 = NetMX.sln
-		SccProjectName15 = NetMX.Remote.Jsr262
-		SccLocalPath15 = NetMX.Remote.Jsr262
-		SccProjectUniqueName16 = Samples\\SpringWcfConsoleManagementServer\\WcfSpringConsoleDemo.csproj
+		SccProjectName15 = Samples/SpringWcfConsoleManagementServer
+		SccLocalPath15 = Samples\\SpringWcfConsoleManagementServer
+		SccProjectUniqueName16 = Samples\\CLRMonitoringSample\\CLRMonitoringDemo.csproj
 		SccProjectTopLevelParentUniqueName16 = NetMX.sln
-		SccProjectName16 = Samples/SpringWcfConsoleManagementServer
-		SccLocalPath16 = Samples\\SpringWcfConsoleManagementServer
-		SccProjectUniqueName17 = Samples\\CLRMonitoringSample\\CLRMonitoringDemo.csproj
-		SccProjectTopLevelParentUniqueName17 = NetMX.sln
-		SccProjectName17 = Samples/CLRMonitoringSample
-		SccLocalPath17 = Samples\\CLRMonitoringSample
-		SccProjectUniqueName18 = NetMX.Default\\NetMX.Server.csproj
-		SccProjectName18 = NetMX.Default
-		SccLocalPath18 = NetMX.Default
+		SccProjectName16 = Samples/CLRMonitoringSample
+		SccLocalPath16 = Samples\\CLRMonitoringSample
+		SccProjectUniqueName17 = NetMX.Default\\NetMX.Server.csproj
+		SccProjectName17 = NetMX.Default
+		SccLocalPath17 = NetMX.Default
 	EndGlobalSection
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = NetMX7.vsmdi
@@ -309,16 +303,6 @@ Global
 		{06975F6E-744C-4622-8B67-F6B520461308}.Release|Any CPU.Build.0 = Release|Any CPU
 		{06975F6E-744C-4622-8B67-F6B520461308}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{06975F6E-744C-4622-8B67-F6B520461308}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{04A97CF5-52F9-45C1-B114-CA21AF6A7F28}.Debug|.NET.ActiveCfg = Debug|Any CPU
-		{04A97CF5-52F9-45C1-B114-CA21AF6A7F28}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{04A97CF5-52F9-45C1-B114-CA21AF6A7F28}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{04A97CF5-52F9-45C1-B114-CA21AF6A7F28}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{04A97CF5-52F9-45C1-B114-CA21AF6A7F28}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{04A97CF5-52F9-45C1-B114-CA21AF6A7F28}.Release|.NET.ActiveCfg = Release|Any CPU
-		{04A97CF5-52F9-45C1-B114-CA21AF6A7F28}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{04A97CF5-52F9-45C1-B114-CA21AF6A7F28}.Release|Any CPU.Build.0 = Release|Any CPU
-		{04A97CF5-52F9-45C1-B114-CA21AF6A7F28}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{04A97CF5-52F9-45C1-B114-CA21AF6A7F28}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{BA2A4CF7-BE10-4CBC-899C-0976D9DBCC74}.Debug|.NET.ActiveCfg = Debug|Any CPU
 		{BA2A4CF7-BE10-4CBC-899C-0976D9DBCC74}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{BA2A4CF7-BE10-4CBC-899C-0976D9DBCC74}.Debug|Any CPU.Build.0 = Debug|Any CPU
@@ -340,7 +324,6 @@ Global
 		{C20C2476-6811-4557-8DA1-389BCB5A4399} = {95F701FD-2093-4520-AB90-D314864AE21F}
 		{FD20227D-E09E-4AF0-B055-F959C09455CE} = {95F701FD-2093-4520-AB90-D314864AE21F}
 		{06975F6E-744C-4622-8B67-F6B520461308} = {95F701FD-2093-4520-AB90-D314864AE21F}
-		{04A97CF5-52F9-45C1-B114-CA21AF6A7F28} = {95F701FD-2093-4520-AB90-D314864AE21F}
 		{ED2EA082-7271-4615-8B1F-B9C5BDA695B4} = {A0329667-EB28-48C0-A4CF-FA1CF01C5FEA}
 		{BA2A4CF7-BE10-4CBC-899C-0976D9DBCC74} = {A0329667-EB28-48C0-A4CF-FA1CF01C5FEA}
 		{FF650A14-16B7-4CB3-BBC0-592FAE591D3D} = {A0329667-EB28-48C0-A4CF-FA1CF01C5FEA}
