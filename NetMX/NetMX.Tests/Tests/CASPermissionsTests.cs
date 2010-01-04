@@ -4,8 +4,8 @@ using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Threading;
 using System.Security.Permissions;
-using NetMX.Default;
 using System.Security;
+using NetMX.Server;
 
 namespace NetMX.Tests
 {

@@ -8,60 +8,60 @@ using NetMX.OpenMBean;
 
 #endregion
 
-namespace NetMX.Default.InternalInfo
+namespace NetMX.Server.InternalInfo
 {
-	internal sealed class MBeanInternalInfo
-	{
-		#region MEMBERS		
-		private static readonly Dictionary<Type, MBeanInternalInfo> _cache = new Dictionary<Type, MBeanInternalInfo>();
-		private static readonly object _synchRoot = new object();
-		#endregion
+   internal sealed class MBeanInternalInfo
+   {
+      #region MEMBERS		
+      private static readonly Dictionary<Type, MBeanInternalInfo> _cache = new Dictionary<Type, MBeanInternalInfo>();
+      private static readonly object _synchRoot = new object();
+      #endregion
 
-		#region PROPERTIES
-		private readonly MBeanInfo _info;
-		public MBeanInfo MBeanInfo
-		{
-			get { return _info; }
-		}
-		private readonly Dictionary<string,MBeanInternalAttributeInfo> _attributes;
-		internal Dictionary<string,MBeanInternalAttributeInfo> Attributes
-		{
-			get { return _attributes; }
-		}
+      #region PROPERTIES
+      private readonly MBeanInfo _info;
+      public MBeanInfo MBeanInfo
+      {
+         get { return _info; }
+      }
+      private readonly Dictionary<string,MBeanInternalAttributeInfo> _attributes;
+      internal Dictionary<string,MBeanInternalAttributeInfo> Attributes
+      {
+         get { return _attributes; }
+      }
       private readonly Dictionary<string, MBeanInternalConstructorInfo> _constructors;
       internal Dictionary<string, MBeanInternalConstructorInfo> Constructors
       {
          get { return _constructors; }
       }
-		private readonly Dictionary<string,MBeanInternalOperationInfo> _operations;
-		internal Dictionary<string,MBeanInternalOperationInfo> Operations
-		{
-			get { return _operations; }
-		}
-		private readonly List<MBeanInternalNotificationInfo> _notifications;
-		internal List<MBeanInternalNotificationInfo> Notifications
-		{
-			get { return _notifications; }
-		}
-		#endregion
+      private readonly Dictionary<string,MBeanInternalOperationInfo> _operations;
+      internal Dictionary<string,MBeanInternalOperationInfo> Operations
+      {
+         get { return _operations; }
+      }
+      private readonly List<MBeanInternalNotificationInfo> _notifications;
+      internal List<MBeanInternalNotificationInfo> Notifications
+      {
+         get { return _notifications; }
+      }
+      #endregion
 
-		#region CONSTRUCTOR
-		private MBeanInternalInfo(Type intfType)
-		{
-			List<MBeanOperationInfo> operations = new List<MBeanOperationInfo>();
+      #region CONSTRUCTOR
+      private MBeanInternalInfo(Type intfType)
+      {
+         List<MBeanOperationInfo> operations = new List<MBeanOperationInfo>();
          List<MBeanConstructorInfo> constructors = new List<MBeanConstructorInfo>();
-			List<MBeanAttributeInfo> attributes = new List<MBeanAttributeInfo>();
-			List<MBeanNotificationInfo> notifications = new List<MBeanNotificationInfo>();
+         List<MBeanAttributeInfo> attributes = new List<MBeanAttributeInfo>();
+         List<MBeanNotificationInfo> notifications = new List<MBeanNotificationInfo>();
 
-			Dictionary<string, MBeanInternalOperationInfo> internalOperations = new Dictionary<string, MBeanInternalOperationInfo>();
+         Dictionary<string, MBeanInternalOperationInfo> internalOperations = new Dictionary<string, MBeanInternalOperationInfo>();
          Dictionary<string, MBeanInternalConstructorInfo> internalConstructors = new Dictionary<string, MBeanInternalConstructorInfo>();
-			Dictionary<string, MBeanInternalAttributeInfo> internalAttributes = new Dictionary<string, MBeanInternalAttributeInfo>();
-			List<MBeanInternalNotificationInfo> internalNotifications = new List<MBeanInternalNotificationInfo>();
+         Dictionary<string, MBeanInternalAttributeInfo> internalAttributes = new Dictionary<string, MBeanInternalAttributeInfo>();
+         List<MBeanInternalNotificationInfo> internalNotifications = new List<MBeanInternalNotificationInfo>();
 
          List<Type> types = new List<Type>();
          types.Add(intfType);
          types.AddRange(intfType.GetInterfaces());
-		   IMBeanInfoFactory factory;
+         IMBeanInfoFactory factory;
          if (intfType.IsDefined(typeof(OpenMBeanAttribute), true))
          {
             factory = new OpenMBeanBeanInfoFactory();
@@ -103,15 +103,15 @@ namespace NetMX.Default.InternalInfo
                }
             }
          }
-			_info = factory.CreateMBeanInfo(intfType, attributes, constructors, operations, notifications);
-			_attributes = internalAttributes;
+         _info = factory.CreateMBeanInfo(intfType, attributes, constructors, operations, notifications);
+         _attributes = internalAttributes;
          _constructors = internalConstructors;
-			_operations = internalOperations;
-			_notifications = internalNotifications;
-		}	   
-	   #endregion
+         _operations = internalOperations;
+         _notifications = internalNotifications;
+      }	   
+      #endregion
 
-		#region INTERFACE
+      #region INTERFACE
       internal static MBeanInternalInfo GetCached(Type intfType)
       {
          lock (_synchRoot)
@@ -124,6 +124,6 @@ namespace NetMX.Default.InternalInfo
          }
          return _cache[intfType];
       }
-	   #endregion
-	}
+      #endregion
+   }
 }

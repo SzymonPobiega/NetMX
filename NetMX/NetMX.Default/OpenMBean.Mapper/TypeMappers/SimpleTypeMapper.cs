@@ -1,28 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Text;
+using NetMX.OpenMBean;
 
-namespace NetMX.OpenMBean.Mapper
+namespace NetMX.Server.OpenMBean.Mapper.TypeMappers
 {
    /// <summary>
-   /// A mapper which maps enumeration types.
+   /// A mapper which maps "simple" types to <see cref="SimpleType"/> instances.
    /// </summary>
-   public sealed class EnumTypeMapper : ITypeMapper
+   public sealed class SimpleTypeMapper : ITypeMapper
    {
-      #region Implementation of ITypeMapper
+      #region ITypeMapper Members
       public bool CanHandle(Type plainNetType, out OpenTypeKind mapsTo, CanHandleDelegate canHandleNestedTypeCallback)
       {
          mapsTo = OpenTypeKind.SimpleType;
-         return plainNetType.IsEnum;
+         return SimpleType.IsSimpleType(plainNetType);
       }
       public OpenType MapType(Type plainNetType, MapTypeDelegate mapNestedTypeCallback)
       {
-         return SimpleType.String;
+         return SimpleType.CreateSimpleType(plainNetType);
       }
       public object MapValue(Type plainNetType, OpenType mappedType, object value, MapValueDelegate mapNestedValueCallback)
       {
-         return string.Format(CultureInfo.InvariantCulture, "{0} ({1})", value, Convert.ToUInt32(value));
+         return value;
       }
       #endregion
    }

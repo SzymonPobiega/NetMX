@@ -2,7 +2,7 @@ using System;
 using System.Text;
 using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using NetMX.Default.InternalInfo;
+using NetMX.Server.InternalInfo;
 
 namespace NetMX.Tests
 {

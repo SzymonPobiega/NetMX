@@ -3,80 +3,81 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Reflection;
-using NetMX.Default.InternalInfo;
+using NetMX.Server.InternalInfo;
+
 #endregion
 
-namespace NetMX.Default
+namespace NetMX.Server
 {
-	public sealed class StandardMBean : IDynamicMBean, IMBeanRegistration, INotificationEmitter, INotificationListener
-	{
-		#region MEMBERS
-		private ObjectName _objectName;
-		private readonly MBeanInfo _info;
-		private readonly MBeanInternalInfo _internalInfo;
-		private readonly object _impl;
-		private readonly IMBeanRegistration _registration;
+   public sealed class StandardMBean : IDynamicMBean, IMBeanRegistration, INotificationEmitter, INotificationListener
+   {
+      #region MEMBERS
+      private ObjectName _objectName;
+      private readonly MBeanInfo _info;
+      private readonly MBeanInternalInfo _internalInfo;
+      private readonly object _impl;
+      private readonly IMBeanRegistration _registration;
       private readonly INotificationListener _notifListener;
-	   private NotificationEmitterSupport _notificationSupport;
-	   private INotificationEmitter _notifEmitter;
-		#endregion
+      private NotificationEmitterSupport _notificationSupport;
+      private INotificationEmitter _notifEmitter;
+      #endregion
 
-		#region CONSTRUCTOR
-		public StandardMBean(object impl, Type intfType)
-		{
-			_internalInfo = MBeanInternalInfo.GetCached(intfType);
-			_info = _internalInfo.MBeanInfo;//CreateMBeanInfo(impl, intfType);
-			_impl = impl;
-		   _registration = impl as IMBeanRegistration;
+      #region CONSTRUCTOR
+      public StandardMBean(object impl, Type intfType)
+      {
+         _internalInfo = MBeanInternalInfo.GetCached(intfType);
+         _info = _internalInfo.MBeanInfo;//CreateMBeanInfo(impl, intfType);
+         _impl = impl;
+         _registration = impl as IMBeanRegistration;
          _notifListener = impl as INotificationListener;
-		   _notifEmitter = impl as INotificationEmitter;
-		}
-		#endregion
+         _notifEmitter = impl as INotificationEmitter;
+      }
+      #endregion
 
-		#region IDynamicMBean Members
-		public MBeanInfo GetMBeanInfo()
-		{
-			return _internalInfo.MBeanInfo;
-		}
+      #region IDynamicMBean Members
+      public MBeanInfo GetMBeanInfo()
+      {
+         return _internalInfo.MBeanInfo;
+      }
 
-		public object GetAttribute(string attributeName)
-		{
-			PropertyInfo propInfo = FindAttribute(attributeName);
-			return propInfo.GetValue(_impl, new object[] { });
-		}
+      public object GetAttribute(string attributeName)
+      {
+         PropertyInfo propInfo = FindAttribute(attributeName);
+         return propInfo.GetValue(_impl, new object[] { });
+      }
 
-		public void SetAttribute(string attributeName, object value)
-		{
-			PropertyInfo propInfo = FindAttribute(attributeName);
-			propInfo.SetValue(_impl, value, new object[] { });
-		}
+      public void SetAttribute(string attributeName, object value)
+      {
+         PropertyInfo propInfo = FindAttribute(attributeName);
+         propInfo.SetValue(_impl, value, new object[] { });
+      }
 
-		public object Invoke(string operationName, object[] arguments)
-		{
-			MethodInfo methInfo = FindOperation(operationName);
-			return methInfo.Invoke(_impl, arguments);
-		}
-		#endregion
+      public object Invoke(string operationName, object[] arguments)
+      {
+         MethodInfo methInfo = FindOperation(operationName);
+         return methInfo.Invoke(_impl, arguments);
+      }
+      #endregion
 
-		#region UTILITY
-		private PropertyInfo FindAttribute(string attributeName)
-		{
-			MBeanInternalAttributeInfo attributeInfo;
-			if (_internalInfo.Attributes.TryGetValue(attributeName, out attributeInfo))
-			{				
-				return attributeInfo.Property;
-			}			
-			throw new AttributeNotFoundException(attributeName, _objectName.ToString(), _info.ClassName);
-		}
-		private MethodInfo FindOperation(string operationName)
-		{
-			MBeanInternalOperationInfo operationInfo;
-			if (_internalInfo.Operations.TryGetValue(operationName, out operationInfo))
-			{
-				return operationInfo.MethodInfo;
-			}			
-			throw new OperationNotFoundException(operationName, _objectName.ToString(), _info.ClassName);
-		}
+      #region UTILITY
+      private PropertyInfo FindAttribute(string attributeName)
+      {
+         MBeanInternalAttributeInfo attributeInfo;
+         if (_internalInfo.Attributes.TryGetValue(attributeName, out attributeInfo))
+         {				
+            return attributeInfo.Property;
+         }			
+         throw new AttributeNotFoundException(attributeName, _objectName.ToString(), _info.ClassName);
+      }
+      private MethodInfo FindOperation(string operationName)
+      {
+         MBeanInternalOperationInfo operationInfo;
+         if (_internalInfo.Operations.TryGetValue(operationName, out operationInfo))
+         {
+            return operationInfo.MethodInfo;
+         }			
+         throw new OperationNotFoundException(operationName, _objectName.ToString(), _info.ClassName);
+      }
       private void AttachNotifications()
       {
 
@@ -99,43 +100,43 @@ namespace NetMX.Default
 
       }
 
-	   [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]//U퓓wane przez AttachNotifications
-		private void HandleNotification(object sender, Notification args)
-		{
-			_notificationSupport.SendNotification(args);
-		}				
-		#endregion
+      [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]//U퓓wane przez AttachNotifications
+      private void HandleNotification(object sender, Notification args)
+      {
+         _notificationSupport.SendNotification(args);
+      }				
+      #endregion
 
-		#region IMBeanRegistration Members
-		public void PostDeregister()
-		{
-			if (_registration != null)
-			{
-				_registration.PostDeregister();
-			}
-		}
-		public void PostRegister(bool registrationDone)
-		{
-			if (_registration != null)
-			{
-				_registration.PostRegister(registrationDone);
-			}
-		}
-		public void PreDeregister()
-		{
-			if (_registration != null)
-			{
-				_registration.PreDeregister();
-			}
-		}
-		public ObjectName PreRegister(IMBeanServer server, ObjectName name)
-		{
-			ObjectName newName = name;
-			if (_registration != null)
-			{
-				newName = _registration.PreRegister(server, name);
-			}
-			_objectName = newName;
+      #region IMBeanRegistration Members
+      public void PostDeregister()
+      {
+         if (_registration != null)
+         {
+            _registration.PostDeregister();
+         }
+      }
+      public void PostRegister(bool registrationDone)
+      {
+         if (_registration != null)
+         {
+            _registration.PostRegister(registrationDone);
+         }
+      }
+      public void PreDeregister()
+      {
+         if (_registration != null)
+         {
+            _registration.PreDeregister();
+         }
+      }
+      public ObjectName PreRegister(IMBeanServer server, ObjectName name)
+      {
+         ObjectName newName = name;
+         if (_registration != null)
+         {
+            newName = _registration.PreRegister(server, name);
+         }
+         _objectName = newName;
          if (_notifEmitter == null)
          {
             _notificationSupport = new NotificationEmitterSupport();
@@ -143,28 +144,28 @@ namespace NetMX.Default
             _notifEmitter = _notificationSupport;
             AttachNotifications();
          }
-		   return newName;
-		}
-		#endregion
+         return newName;
+      }
+      #endregion
 
-		#region INotficationEmitter Members
-		public void AddNotificationListener(NotificationCallback callback, NotificationFilterCallback filterCallback, object handback)
-		{
-			_notifEmitter.AddNotificationListener(callback, filterCallback, handback);
-		}
-		public void RemoveNotificationListener(NotificationCallback callback, NotificationFilterCallback filterCallback, object handback)
-		{
+      #region INotficationEmitter Members
+      public void AddNotificationListener(NotificationCallback callback, NotificationFilterCallback filterCallback, object handback)
+      {
+         _notifEmitter.AddNotificationListener(callback, filterCallback, handback);
+      }
+      public void RemoveNotificationListener(NotificationCallback callback, NotificationFilterCallback filterCallback, object handback)
+      {
          _notifEmitter.RemoveNotificationListener(callback, filterCallback, handback);
-		}
-		public void RemoveNotificationListener(NotificationCallback callback)
-		{
+      }
+      public void RemoveNotificationListener(NotificationCallback callback)
+      {
          _notifEmitter.RemoveNotificationListener(callback);
-		}
-		public IList<MBeanNotificationInfo> NotificationInfo
-		{
+      }
+      public IList<MBeanNotificationInfo> NotificationInfo
+      {
          get { return _notifEmitter.NotificationInfo; }
-		}
-		#endregion
+      }
+      #endregion
 
       #region INotificationListener Members
       public void HandleNotification(Notification notification, object handback)
@@ -180,33 +181,33 @@ namespace NetMX.Default
       }
       #endregion
 
-		#region Utility class
-		private class SimpleNotificationHandler
-		{
-			private readonly string _notifType;
-			private readonly NotificationEmitterSupport _support;
+      #region Utility class
+      private class SimpleNotificationHandler
+      {
+         private readonly string _notifType;
+         private readonly NotificationEmitterSupport _support;
 
-			public SimpleNotificationHandler(NotificationEmitterSupport support, string notifType)
-			{
-				_support = support;
-				_notifType = notifType;				 
-			}
+         public SimpleNotificationHandler(NotificationEmitterSupport support, string notifType)
+         {
+            _support = support;
+            _notifType = notifType;				 
+         }
 
-			[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]//U퓓wane przez AttachNotifications
-			private void HandleSimpleNotification(object sender, NotificationEventArgs args)
-			{
-				if (sender == null)
-				{
-					throw new ArgumentNullException("sender");
-				}
-				if (args == null)
-				{
-					throw new ArgumentNullException("args");
-				}
-			   Notification notification = args.CreateNotification(_notifType, sender);
-				_support.SendNotification(notification);
-			}
-		}
-		#endregion      
+         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]//U퓓wane przez AttachNotifications
+         private void HandleSimpleNotification(object sender, NotificationEventArgs args)
+         {
+            if (sender == null)
+            {
+               throw new ArgumentNullException("sender");
+            }
+            if (args == null)
+            {
+               throw new ArgumentNullException("args");
+            }
+            Notification notification = args.CreateNotification(_notifType, sender);
+            _support.SendNotification(notification);
+         }
+      }
+      #endregion      
    }
 }

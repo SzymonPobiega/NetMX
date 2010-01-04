@@ -53,6 +53,10 @@
     <DefineConstants>TRACE</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Castle.DynamicProxy, Version=1.1.5.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\NetMX.Proxy.Castle\Lib\Castle.DynamicProxy.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.configuration" />
@@ -89,9 +93,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\NetMX.Default\NetMX.Default.csproj">
+    <ProjectReference Include="..\NetMX.Default\NetMX.Server.csproj">
       <Project>{9B9279AA-5B62-4834-9949-F2CCE7318610}</Project>
-      <Name>NetMX.Default</Name>
+      <Name>NetMX.Server</Name>
     </ProjectReference>
     <ProjectReference Include="..\NetMX.Proxy.Castle\NetMX.Proxy.Castle.csproj">
       <Project>{2C4128C4-CD09-4CB6-A97B-E8F36E92AA6E}</Project>

@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using NetMX.Server.OpenMBean.Mapper.TypeMappers;
 
-namespace NetMX.OpenMBean.Mapper
+namespace NetMX.Server.OpenMBean.Mapper
 {
    public class OpenMBeanMapperService : OpenMBeanMapperServiceMBean, IMBeanRegistration, INotificationListener
    {
@@ -10,7 +11,7 @@ namespace NetMX.OpenMBean.Mapper
       private IMBeanServer _server;
       private ObjectName _ownName;
       private ObjectName[] _beansToMapPatterns;
-		private string _proxyIndicatorProperty = "OpenMBeanProxy";
+      private string _proxyIndicatorProperty = "OpenMBeanProxy";
 
 
       private readonly OpenTypeCache _typeCache = new OpenTypeCache();
@@ -113,7 +114,7 @@ namespace NetMX.OpenMBean.Mapper
             {
                if (ShouldMapBean(serverNotification.ObjectName))
                {
-						MapBean(serverNotification.ObjectName);
+                  MapBean(serverNotification.ObjectName);
                }
             }
             else if (serverNotification.Type == MBeanServerNotification.UnregistrationNotification)

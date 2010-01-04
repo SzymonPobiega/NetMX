@@ -8,7 +8,7 @@ using System.Globalization;
 
 #endregion
 
-namespace NetMX.Default.GenericMBeans
+namespace NetMX.Server.GenericMBeans
 {
    public class PerfCounterMBean : IDynamicMBean, IMBeanRegistration
    {
@@ -136,17 +136,17 @@ namespace NetMX.Default.GenericMBeans
             OpenMBeanParameterInfoSupport addParam =
                new OpenMBeanParameterInfoSupport("counterName", "Name of new counter", SimpleType.String, null, legalCountersToCreate );
             operations.Add(new OpenMBeanOperationInfoSupport("AddPerformanceCounter", "Adds new performance counter", SimpleType.Boolean, 
-               new IOpenMBeanParameterInfo[] { addParam}, OperationImpact.Action));
+                                                             new IOpenMBeanParameterInfo[] { addParam}, OperationImpact.Action));
 
             OpenMBeanParameterInfoSupport removeParam =
                new OpenMBeanParameterInfoSupport("counterName", "Name of new counter", SimpleType.String, null, legalCountersToRemove);
             operations.Add(new OpenMBeanOperationInfoSupport("RemovePerformanceCounter", "Removes existing performance counter", SimpleType.Boolean,
-               new IOpenMBeanParameterInfo[] { removeParam }, OperationImpact.Action));
+                                                             new IOpenMBeanParameterInfo[] { removeParam }, OperationImpact.Action));
 
             foreach (PerformanceCounter counter in _counters.Values)
             {
                attributes.Add(new OpenMBeanAttributeInfoSupport(counter.CounterName,
-                  string.Format(CultureInfo.CurrentCulture, "Raw counter value for counter {0}.", counter.CounterName), SimpleType.Float, true, false));
+                                                                string.Format(CultureInfo.CurrentCulture, "Raw counter value for counter {0}.", counter.CounterName), SimpleType.Float, true, false));
             }
 
             _beanInfo = new OpenMBeanInfoSupport(typeof(PerfCounterMBean).AssemblyQualifiedName, description, attributes, constructors, operations, notifications);

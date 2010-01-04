@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using NetMX.Server.OpenMBean.Mapper;
 
 namespace NetMX.OpenMBean.Mapper.Tests
 {

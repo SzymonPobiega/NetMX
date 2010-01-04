@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using NetMX.OpenMBean;
 
-namespace NetMX.OpenMBean.Mapper
+namespace NetMX.Server.OpenMBean.Mapper
 {
    internal class ProxyBean : NotificationEmitterSupport, IDynamicMBean, IMBeanRegistration
    {
@@ -63,7 +64,7 @@ namespace NetMX.OpenMBean.Mapper
                continue;               
             }
             OpenMBeanOperationInfoSupport openInfo = new OpenMBeanOperationInfoSupport(operationInfo.Name, 
-               operationInfo.Description, mappedReturnType, openParameters, operationInfo.Impact );
+                                                                                       operationInfo.Description, mappedReturnType, openParameters, operationInfo.Impact );
             operations.Add(openInfo);
             _operationReturnTypes[operationInfo.Name] = new OpenAndClrType(returnType, mappedReturnType);
          }

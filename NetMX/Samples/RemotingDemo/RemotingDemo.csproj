@@ -52,9 +52,9 @@
     <Compile Include="Sample.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\NetMX.Default\NetMX.Default.csproj">
+    <ProjectReference Include="..\..\NetMX.Default\NetMX.Server.csproj">
       <Project>{9B9279AA-5B62-4834-9949-F2CCE7318610}</Project>
-      <Name>NetMX.Default</Name>
+      <Name>NetMX.Server</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\NetMX.Remote.Jsr262\NetMX.Remote.Jsr262.csproj">
       <Project>{BA2A4CF7-BE10-4CBC-899C-0976D9DBCC74}</Project>

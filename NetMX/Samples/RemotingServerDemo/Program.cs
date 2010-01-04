@@ -2,11 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using NetMX;
-using NetMX.OpenMBean.Mapper;
 using NetMX.Remote;
 using NetMX.Relation;
 using NetMX.OpenMBean;
 using NetMX.Proxy;
+using NetMX.Server.OpenMBean.Mapper;
 
 namespace RemotingServerDemo
 {

@@ -4,57 +4,58 @@ using System.Collections.Generic;
 using System.Text;
 using System.Configuration;
 using NetMX.Configuration;
-using NetMX.Default.Configuration;
 using System.ComponentModel;
+using NetMX.Server.Configuration;
+
 #endregion
 
-namespace NetMX.Default
+namespace NetMX.Server
 {
-	public class MBeanServer : IMBeanServer
-	{
-		#region MEMBERS
+   public class MBeanServer : IMBeanServer
+   {
+      #region MEMBERS
       private readonly MBeanServerDelegate _delegate;
       private readonly string _defaultDomain = "NetMXImplementation";
-		private readonly Dictionary<ObjectName, IDynamicMBean> _beans = new Dictionary<ObjectName, IDynamicMBean>();
+      private readonly Dictionary<ObjectName, IDynamicMBean> _beans = new Dictionary<ObjectName, IDynamicMBean>();
       private readonly Dictionary<string, bool> _domainSet = new Dictionary<string, bool>();
-		#endregion
+      #endregion
 
-		#region PROPERTIES
-		#endregion
+      #region PROPERTIES
+      #endregion
 
-		#region CONSTRUCTOR
-		public MBeanServer(string instanceName)
-		{
+      #region CONSTRUCTOR
+      public MBeanServer(string instanceName)
+      {
          if (instanceName == null)
          {
             instanceName = Guid.NewGuid().ToString();
          }
-			_delegate = new MBeanServerDelegate(instanceName, "", "http://netmx.eu",
-				typeof(MBeanServer).Assembly.GetName().Version.ToString());
-			RegisterMBean(_delegate, MBeanServerDelegate.ObjectName);
-			MBeanServerConfigurationSection section = TypedConfigurationManager.GetSection<MBeanServerConfigurationSection>(instanceName, false);
-			if (section != null)
-			{
-				foreach (MBean beanConfig in section.Beans)
-				{
-					List<object> args = new List<object>();
-					foreach (MBeanConstructorArgument arg in beanConfig.Arguments)
-					{
-					   Type valueType = Type.GetType(arg.Type);
-					   TypeConverter tc = TypeDescriptor.GetConverter(valueType);
-						args.Add(tc.ConvertFromString(arg.Value));
-					}
-					CreateMBean(beanConfig.ClassName, beanConfig.ObjectName, args.ToArray());
-				}
-			}
-		}
+         _delegate = new MBeanServerDelegate(instanceName, "", "http://netmx.eu",
+                                             typeof(MBeanServer).Assembly.GetName().Version.ToString());
+         RegisterMBean(_delegate, MBeanServerDelegate.ObjectName);
+         MBeanServerConfigurationSection section = TypedConfigurationManager.GetSection<MBeanServerConfigurationSection>(instanceName, false);
+         if (section != null)
+         {
+            foreach (MBean beanConfig in section.Beans)
+            {
+               List<object> args = new List<object>();
+               foreach (MBeanConstructorArgument arg in beanConfig.Arguments)
+               {
+                  Type valueType = Type.GetType(arg.Type);
+                  TypeConverter tc = TypeDescriptor.GetConverter(valueType);
+                  args.Add(tc.ConvertFromString(arg.Value));
+               }
+               CreateMBean(beanConfig.ClassName, beanConfig.ObjectName, args.ToArray());
+            }
+         }
+      }
       public MBeanServer()
-			: this(null)
+         : this(null)
       {         
       }
-		#endregion
+      #endregion
 
-		#region UTILITY
+      #region UTILITY
       private ObjectInstance RegisterMBeanExternal(object bean, ObjectName name)
       {
          IDynamicMBean dynBean = bean as IDynamicMBean;
@@ -83,36 +84,36 @@ namespace NetMX.Default
             return RegisterMBeanInternal(name, stdBean);
          }
       }
-		private ObjectInstance RegisterMBeanInternal(ObjectName name, IDynamicMBean bean)
-		{
-			IMBeanRegistration registration = new MBeanRegistrationHelper(bean as IMBeanRegistration);
-			name = registration.PreRegister(this, name);
+      private ObjectInstance RegisterMBeanInternal(ObjectName name, IDynamicMBean bean)
+      {
+         IMBeanRegistration registration = new MBeanRegistrationHelper(bean as IMBeanRegistration);
+         name = registration.PreRegister(this, name);
 
-			string className = bean.GetMBeanInfo().ClassName;
-			TestPermissions(className, null, name, MBeanPermissionAction.RegisterMBean);			
-			if (_beans.ContainsKey(name))
-			{
-				registration.PostRegister(false);
-				throw new InstanceAlreadyExistsException(name.ToString());
-			}
-			_beans[name] = bean;
-			registration.PostRegister(true);
+         string className = bean.GetMBeanInfo().ClassName;
+         TestPermissions(className, null, name, MBeanPermissionAction.RegisterMBean);			
+         if (_beans.ContainsKey(name))
+         {
+            registration.PostRegister(false);
+            throw new InstanceAlreadyExistsException(name.ToString());
+         }
+         _beans[name] = bean;
+         registration.PostRegister(true);
          _delegate.SendNotification(new MBeanServerNotification(MBeanServerNotification.RegistrationNotification,
-            null, -1, name));
+                                                                null, -1, name));
          _domainSet[name.Domain] = true;
 
          return new ObjectInstance(name, bean.GetMBeanInfo().ClassName);
-		}
-		private INotificationEmitter GetEmitterMBean(ObjectName name, out IDynamicMBean bean)
-		{
-			bean = GetMBean(name);
-			INotificationEmitter emitter = bean as INotificationEmitter;
-			if (emitter != null)
-			{
-				return emitter;
-			}
-			throw new OperationsException(string.Format("Bean \"{0}\" is not a notification emitter.", name));
-		}
+      }
+      private INotificationEmitter GetEmitterMBean(ObjectName name, out IDynamicMBean bean)
+      {
+         bean = GetMBean(name);
+         INotificationEmitter emitter = bean as INotificationEmitter;
+         if (emitter != null)
+         {
+            return emitter;
+         }
+         throw new OperationsException(string.Format("Bean \"{0}\" is not a notification emitter.", name));
+      }
       private INotificationListener GetListenerMBean(ObjectName name, out IDynamicMBean bean)
       {
          bean = GetMBean(name);
@@ -123,22 +124,22 @@ namespace NetMX.Default
          }
          throw new OperationsException(string.Format("Bean \"{0}\" is not a notification listener.", name));
       }
-		private IDynamicMBean GetMBean(ObjectName name)
-		{
-			IDynamicMBean bean;
-			if (_beans.TryGetValue(name, out bean))
-			{
-				return bean;
-			}
-			throw new InstanceNotFoundException(name.ToString());
-		}
-		private static void TestPermissions(string className, string memberName, ObjectName name, MBeanPermissionAction action)
-		{
-			MBeanCASPermission casPerm = new MBeanCASPermission(className, memberName, name, action);
-			casPerm.Demand();
-			MBeanPermission perm = new MBeanPermission(className, memberName, name, action);
-			perm.Demand();
-		}
+      private IDynamicMBean GetMBean(ObjectName name)
+      {
+         IDynamicMBean bean;
+         if (_beans.TryGetValue(name, out bean))
+         {
+            return bean;
+         }
+         throw new InstanceNotFoundException(name.ToString());
+      }
+      private static void TestPermissions(string className, string memberName, ObjectName name, MBeanPermissionAction action)
+      {
+         MBeanCASPermission casPerm = new MBeanCASPermission(className, memberName, name, action);
+         casPerm.Demand();
+         MBeanPermission perm = new MBeanPermission(className, memberName, name, action);
+         perm.Demand();
+      }
       private ObjectName GetNameWithDomain(ObjectName name)
       {
          if (name.Domain == "")
@@ -150,136 +151,136 @@ namespace NetMX.Default
             return name;
          }
       }      
-		#endregion
+      #endregion
 
-		#region IMBeanServer Members
+      #region IMBeanServer Members
       public ObjectInstance CreateMBean(string className, ObjectName name, object[] arguments)
       {
          object instance = Activator.CreateInstance(Type.GetType(className), arguments);
          return RegisterMBeanExternal(instance, GetNameWithDomain(name));
       }
-		public void RegisterMBean(object bean, ObjectName name)
-		{
+      public void RegisterMBean(object bean, ObjectName name)
+      {
          RegisterMBeanExternal(bean, GetNameWithDomain(name));
-		}
-		public object Invoke(ObjectName name, string operationName, object[] arguments)
-		{
+      }
+      public object Invoke(ObjectName name, string operationName, object[] arguments)
+      {
          name = GetNameWithDomain(name);
-			IDynamicMBean bean = GetMBean(name);
-			TestPermissions(bean.GetMBeanInfo().ClassName, operationName, name, MBeanPermissionAction.Invoke);
-			try
-			{				
-				return bean.Invoke(operationName, arguments);
-			}
-			catch (Exception e)
-			{
-				throw new MBeanException("Exception during 'invoke' operation.", e);
-			}
-		}
+         IDynamicMBean bean = GetMBean(name);
+         TestPermissions(bean.GetMBeanInfo().ClassName, operationName, name, MBeanPermissionAction.Invoke);
+         try
+         {				
+            return bean.Invoke(operationName, arguments);
+         }
+         catch (Exception e)
+         {
+            throw new MBeanException("Exception during 'invoke' operation.", e);
+         }
+      }
 
-		public void SetAttribute(ObjectName name, string attributeName, object value)
-		{
+      public void SetAttribute(ObjectName name, string attributeName, object value)
+      {
          name = GetNameWithDomain(name);
-			IDynamicMBean bean = GetMBean(name);
-			TestPermissions(bean.GetMBeanInfo().ClassName, attributeName, name, MBeanPermissionAction.SetAttribute);	
-			bean.SetAttribute(attributeName, value);
-		}
+         IDynamicMBean bean = GetMBean(name);
+         TestPermissions(bean.GetMBeanInfo().ClassName, attributeName, name, MBeanPermissionAction.SetAttribute);	
+         bean.SetAttribute(attributeName, value);
+      }
 
-		public object GetAttribute(ObjectName name, string attributeName)
-		{
+      public object GetAttribute(ObjectName name, string attributeName)
+      {
          name = GetNameWithDomain(name);
-			IDynamicMBean bean = GetMBean(name);
-			TestPermissions(bean.GetMBeanInfo().ClassName, attributeName, name, MBeanPermissionAction.GetAttribute);	
-			return bean.GetAttribute(attributeName);
-		}
+         IDynamicMBean bean = GetMBean(name);
+         TestPermissions(bean.GetMBeanInfo().ClassName, attributeName, name, MBeanPermissionAction.GetAttribute);	
+         return bean.GetAttribute(attributeName);
+      }
 
-		public IList<AttributeValue> GetAttributes(ObjectName name, string[] attributeNames)
-		{
+      public IList<AttributeValue> GetAttributes(ObjectName name, string[] attributeNames)
+      {
          name = GetNameWithDomain(name);
-			IDynamicMBean bean = GetMBean(name);
-			string className = bean.GetMBeanInfo().ClassName;
-			List<AttributeValue> results = new List<AttributeValue>();
-			foreach (string attributeName in attributeNames)
-			{
-				TestPermissions(className, attributeName, name, MBeanPermissionAction.GetAttribute);
-				try
-				{
-					results.Add(new AttributeValue(attributeName, bean.GetAttribute(attributeName)));
-				}
-				catch (AttributeNotFoundException)
-				{
-				}
-			}
-			return results;
-		}
+         IDynamicMBean bean = GetMBean(name);
+         string className = bean.GetMBeanInfo().ClassName;
+         List<AttributeValue> results = new List<AttributeValue>();
+         foreach (string attributeName in attributeNames)
+         {
+            TestPermissions(className, attributeName, name, MBeanPermissionAction.GetAttribute);
+            try
+            {
+               results.Add(new AttributeValue(attributeName, bean.GetAttribute(attributeName)));
+            }
+            catch (AttributeNotFoundException)
+            {
+            }
+         }
+         return results;
+      }
 
-		public MBeanInfo GetMBeanInfo(ObjectName name)
-		{
+      public MBeanInfo GetMBeanInfo(ObjectName name)
+      {
          name = GetNameWithDomain(name);
-			IDynamicMBean bean = GetMBean(name);
-			MBeanInfo info = bean.GetMBeanInfo();
-			TestPermissions(info.ClassName, null, name, MBeanPermissionAction.GetMBeanInfo);	
-			return info;
-		}
-		public void AddNotificationListener(ObjectName name, NotificationCallback callback, NotificationFilterCallback filterCallback, object handback)
-		{
+         IDynamicMBean bean = GetMBean(name);
+         MBeanInfo info = bean.GetMBeanInfo();
+         TestPermissions(info.ClassName, null, name, MBeanPermissionAction.GetMBeanInfo);	
+         return info;
+      }
+      public void AddNotificationListener(ObjectName name, NotificationCallback callback, NotificationFilterCallback filterCallback, object handback)
+      {
          name = GetNameWithDomain(name);
-			IDynamicMBean bean;
-			INotificationEmitter emitter = GetEmitterMBean(name, out bean);
-			TestPermissions(bean.GetMBeanInfo().ClassName, null, name, MBeanPermissionAction.AddNotificationListener);
-			emitter.AddNotificationListener(callback, filterCallback, handback);
-		}
+         IDynamicMBean bean;
+         INotificationEmitter emitter = GetEmitterMBean(name, out bean);
+         TestPermissions(bean.GetMBeanInfo().ClassName, null, name, MBeanPermissionAction.AddNotificationListener);
+         emitter.AddNotificationListener(callback, filterCallback, handback);
+      }
 
-		public void RemoveNotificationListener(ObjectName name, NotificationCallback callback, NotificationFilterCallback filterCallback, object handback)
-		{
+      public void RemoveNotificationListener(ObjectName name, NotificationCallback callback, NotificationFilterCallback filterCallback, object handback)
+      {
          name = GetNameWithDomain(name);
-			IDynamicMBean bean;
-			INotificationEmitter emitter = GetEmitterMBean(name, out bean);
-			TestPermissions(bean.GetMBeanInfo().ClassName, null, name, MBeanPermissionAction.RemoveNotificationListener);
-			emitter.RemoveNotificationListener(callback, filterCallback, handback);
-		}
+         IDynamicMBean bean;
+         INotificationEmitter emitter = GetEmitterMBean(name, out bean);
+         TestPermissions(bean.GetMBeanInfo().ClassName, null, name, MBeanPermissionAction.RemoveNotificationListener);
+         emitter.RemoveNotificationListener(callback, filterCallback, handback);
+      }
 
-		public void RemoveNotificationListener(ObjectName name, NotificationCallback callback)
-		{
+      public void RemoveNotificationListener(ObjectName name, NotificationCallback callback)
+      {
          name = GetNameWithDomain(name);
-			IDynamicMBean bean;
-			INotificationEmitter emitter = GetEmitterMBean(name, out bean);
-			TestPermissions(bean.GetMBeanInfo().ClassName, null, name, MBeanPermissionAction.RemoveNotificationListener);
-			emitter.RemoveNotificationListener(callback);
-		}		
-		public bool IsInstanceOf(ObjectName name, string className)
-		{
+         IDynamicMBean bean;
+         INotificationEmitter emitter = GetEmitterMBean(name, out bean);
+         TestPermissions(bean.GetMBeanInfo().ClassName, null, name, MBeanPermissionAction.RemoveNotificationListener);
+         emitter.RemoveNotificationListener(callback);
+      }		
+      public bool IsInstanceOf(ObjectName name, string className)
+      {
          name = GetNameWithDomain(name);
-			IDynamicMBean bean = GetMBean(name);
-			MBeanInfo info = bean.GetMBeanInfo();
-			TestPermissions(info.ClassName, null, name, MBeanPermissionAction.IsInstanceOf);			
-			return info.ClassName == className;			
-		}
-		public bool IsRegistered(ObjectName name)
-		{
-			return _beans.ContainsKey(GetNameWithDomain(name));
-		}
-		public IEnumerable<ObjectName> QueryNames(ObjectName name, QueryExp query)
-		{         
-			List<ObjectName> results = new List<ObjectName>(_beans.Keys);
-			return results;
-		}
-		public void UnregisterMBean(ObjectName name)
-		{
+         IDynamicMBean bean = GetMBean(name);
+         MBeanInfo info = bean.GetMBeanInfo();
+         TestPermissions(info.ClassName, null, name, MBeanPermissionAction.IsInstanceOf);			
+         return info.ClassName == className;			
+      }
+      public bool IsRegistered(ObjectName name)
+      {
+         return _beans.ContainsKey(GetNameWithDomain(name));
+      }
+      public IEnumerable<ObjectName> QueryNames(ObjectName name, QueryExp query)
+      {         
+         List<ObjectName> results = new List<ObjectName>(_beans.Keys);
+         return results;
+      }
+      public void UnregisterMBean(ObjectName name)
+      {
          name = GetNameWithDomain(name);
-			IDynamicMBean bean = GetMBean(name);
-			MBeanInfo info = bean.GetMBeanInfo();
+         IDynamicMBean bean = GetMBean(name);
+         MBeanInfo info = bean.GetMBeanInfo();
 
-			TestPermissions(info.ClassName, null, name, MBeanPermissionAction.UnregisterMBean);			
+         TestPermissions(info.ClassName, null, name, MBeanPermissionAction.UnregisterMBean);			
 
-			IMBeanRegistration registration = new MBeanRegistrationHelper(bean as IMBeanRegistration);
-			registration.PreDeregister();
-			_beans.Remove(name);
-			registration.PostDeregister();
+         IMBeanRegistration registration = new MBeanRegistrationHelper(bean as IMBeanRegistration);
+         registration.PreDeregister();
+         _beans.Remove(name);
+         registration.PostDeregister();
          _delegate.SendNotification(new MBeanServerNotification(MBeanServerNotification.UnregistrationNotification,
-            null, -1, name));
+                                                                null, -1, name));
          _domainSet.Remove(name.Domain);
-		}		
+      }		
       public int GetMBeanCount()
       {
          return _beans.Count;

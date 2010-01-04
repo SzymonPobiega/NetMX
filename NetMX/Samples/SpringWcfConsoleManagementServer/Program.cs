@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using NetMX.OpenMBean.Mapper;
 using NetMX.Relation;
 using NetMX.Remote;
 using Spring.Context;

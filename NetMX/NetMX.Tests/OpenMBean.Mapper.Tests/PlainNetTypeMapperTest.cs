@@ -2,6 +2,9 @@
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NetMX.OpenMBean.Mapper;
+using NetMX.Server.OpenMBean.Mapper;
+using NetMX.Server.OpenMBean.Mapper.Attributes;
+using NetMX.Server.OpenMBean.Mapper.TypeMappers;
 
 namespace NetMX.OpenMBean.Mapper.Tests
 {     

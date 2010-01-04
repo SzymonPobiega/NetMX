@@ -2,8 +2,9 @@
 using System.Resources;
 using System.Reflection;
 using System.ComponentModel;
+using NetMX.Server.OpenMBean.Mapper.Exceptions;
 
-namespace NetMX.OpenMBean.Mapper
+namespace NetMX.Server.OpenMBean.Mapper.Attributes
 {
    public static class AttributeUtils
    {

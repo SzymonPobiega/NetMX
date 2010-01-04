@@ -18,6 +18,7 @@
     <OldToolsVersion>2.0</OldToolsVersion>
     <UpgradeBackupLocation>
     </UpgradeBackupLocation>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -39,6 +40,10 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
+    <Reference Include="System.Core, Version=3.5.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+      <HintPath>c:\Program Files\Reference Assemblies\Microsoft\Framework\v3.5\System.Core.dll</HintPath>
+    </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Runtime.Remoting" />
     <Reference Include="System.Xml" />
@@ -51,9 +56,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\NetMX.Default\NetMX.Default.csproj">
+    <ProjectReference Include="..\..\NetMX.Default\NetMX.Server.csproj">
       <Project>{9B9279AA-5B62-4834-9949-F2CCE7318610}</Project>
-      <Name>NetMX.Default</Name>
+      <Name>NetMX.Server</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\NetMX.Proxy.Castle\NetMX.Proxy.Castle.csproj">
       <Project>{2C4128C4-CD09-4CB6-A97B-E8F36E92AA6E}</Project>

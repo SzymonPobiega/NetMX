@@ -64,6 +64,22 @@
     <Compile Include="MBeanRegistrationHelper.cs" />
     <Compile Include="MBeanServer.cs" />
     <Compile Include="MBeanServerBuilder.cs" />
+    <Compile Include="OpenMBean.Mapper\Attributes\AttributeUtils.cs" />
+    <Compile Include="OpenMBean.Mapper\Attributes\CompositeTypeItemAttribute.cs" />
+    <Compile Include="OpenMBean.Mapper\Attributes\OpenTypeAttribute.cs" />
+    <Compile Include="OpenMBean.Mapper\Exceptions\MapperNotFoundException.cs" />
+    <Compile Include="OpenMBean.Mapper\Exceptions\MissingResourceItemException.cs" />
+    <Compile Include="OpenMBean.Mapper\Exceptions\NonUniquePriorityException.cs" />
+    <Compile Include="OpenMBean.Mapper\ITypeMapper.cs" />
+    <Compile Include="OpenMBean.Mapper\OpenMBeanMapperService.cs" />
+    <Compile Include="OpenMBean.Mapper\OpenMBeanMapperServiceMBean.cs" />
+    <Compile Include="OpenMBean.Mapper\OpenTypeCache.cs" />
+    <Compile Include="OpenMBean.Mapper\ProxyBean.cs" />
+    <Compile Include="OpenMBean.Mapper\TypeMapperInfo.cs" />
+    <Compile Include="OpenMBean.Mapper\TypeMappers\CollectionTypeMapper.cs" />
+    <Compile Include="OpenMBean.Mapper\TypeMappers\EnumTypeMapper.cs" />
+    <Compile Include="OpenMBean.Mapper\TypeMappers\PlainNetTypeMapper.cs" />
+    <Compile Include="OpenMBean.Mapper\TypeMappers\SimpleTypeMapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StandardMBean.cs" />
   </ItemGroup>

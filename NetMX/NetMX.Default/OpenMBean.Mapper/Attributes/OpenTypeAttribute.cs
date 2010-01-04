@@ -1,6 +1,7 @@
 ﻿using System;
+using NetMX.OpenMBean;
 
-namespace NetMX.OpenMBean.Mapper
+namespace NetMX.Server.OpenMBean.Mapper.Attributes
 {
    /// <summary>
    /// Provides information about mapping of CLR type to <see cref="OpenType"/>.

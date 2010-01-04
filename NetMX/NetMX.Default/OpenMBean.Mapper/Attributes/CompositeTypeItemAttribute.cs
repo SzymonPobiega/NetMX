@@ -1,6 +1,7 @@
 ﻿using System;
+using NetMX.OpenMBean;
 
-namespace NetMX.OpenMBean.Mapper
+namespace NetMX.Server.OpenMBean.Mapper.Attributes
 {
    /// <summary>
    /// Provides information about name mapping for a property.

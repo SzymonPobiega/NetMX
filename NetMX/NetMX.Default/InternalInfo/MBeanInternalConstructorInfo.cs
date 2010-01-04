@@ -3,29 +3,29 @@ using System.Collections.Generic;
 using System.Text;
 using System.Reflection;
 
-namespace NetMX.Default.InternalInfo
+namespace NetMX.Server.InternalInfo
 {
-	internal sealed class MBeanInternalConstructorInfo
-	{
-		#region PROPERTIES
-		private readonly ConstructorInfo _methodInfo;
+   internal sealed class MBeanInternalConstructorInfo
+   {
+      #region PROPERTIES
+      private readonly ConstructorInfo _methodInfo;
       public ConstructorInfo MethodInfo
-		{
+      {
          get { return _methodInfo; }
-		}
-		private readonly MBeanConstructorInfo _constructorInfo;
+      }
+      private readonly MBeanConstructorInfo _constructorInfo;
       public MBeanConstructorInfo ConstructorInfo
-		{
-			get { return _constructorInfo; }
-		}
-		#endregion
+      {
+         get { return _constructorInfo; }
+      }
+      #endregion
 
-		#region CONSTRUCTOR
+      #region CONSTRUCTOR
       public MBeanInternalConstructorInfo(ConstructorInfo method, IMBeanInfoFactory factory)
-		{
-			_methodInfo = method;
+      {
+         _methodInfo = method;
          _constructorInfo = factory.CreateMBeanConstructorInfo(method);
-		}
-		#endregion
-	}
+      }
+      #endregion
+   }
 }

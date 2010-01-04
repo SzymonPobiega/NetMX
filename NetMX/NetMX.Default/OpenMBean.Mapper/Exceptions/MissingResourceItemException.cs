@@ -2,7 +2,7 @@
 using System.Globalization;
 using System.Runtime.Serialization;
 
-namespace NetMX.OpenMBean.Mapper
+namespace NetMX.Server.OpenMBean.Mapper.Exceptions
 {
    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1032:ImplementStandardExceptionConstructors", Justification = "Other constructos do not make sense"), Serializable]
    public sealed class MissingResourceItemException : NetMXException
@@ -12,23 +12,23 @@ namespace NetMX.OpenMBean.Mapper
       private readonly string _assemblyName;
 
       /// <summary>
-		/// Creates new <see cref="MissingResourceItemException"/> object.
-		/// </summary>		
-		public MissingResourceItemException(string itemName, string resourceName, string assemblyName)
-			: base(string.Format(CultureInfo.CurrentCulture, "Unable to retrieve item \"{0}\" from resource \"{1}\" of assembly {2}.", itemName, resourceName, assemblyName))
-		{
+      /// Creates new <see cref="MissingResourceItemException"/> object.
+      /// </summary>		
+      public MissingResourceItemException(string itemName, string resourceName, string assemblyName)
+         : base(string.Format(CultureInfo.CurrentCulture, "Unable to retrieve item \"{0}\" from resource \"{1}\" of assembly {2}.", itemName, resourceName, assemblyName))
+      {
          _itemName = itemName;
          _resourceName = resourceName;
          _assemblyName = assemblyName;
-		}
+      }
 
       private MissingResourceItemException(SerializationInfo info, StreamingContext context)
-			: base(info, context)
-		{
+         : base(info, context)
+      {
          _itemName = info.GetString("itemName");
          _resourceName = info.GetString("resourceName");
          _assemblyName = info.GetString("assemblyName");
-		}
+      }
       [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods"), System.Security.Permissions.SecurityPermission(System.Security.Permissions.SecurityAction.LinkDemand, Flags = System.Security.Permissions.SecurityPermissionFlag.SerializationFormatter)]
       public override void GetObjectData(SerializationInfo info, StreamingContext context)
       {

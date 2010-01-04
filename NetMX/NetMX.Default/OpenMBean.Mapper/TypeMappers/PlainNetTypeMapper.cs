@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
+using NetMX.OpenMBean;
+using NetMX.Server.OpenMBean.Mapper.Attributes;
 
-namespace NetMX.OpenMBean.Mapper
+namespace NetMX.Server.OpenMBean.Mapper.TypeMappers
 {
    /// <summary>
    /// A mapper which maps the type to <see cref="CompositeType"/> and all its public readable properties

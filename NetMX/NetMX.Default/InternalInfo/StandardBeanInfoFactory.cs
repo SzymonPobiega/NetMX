@@ -4,7 +4,7 @@ using System.Reflection;
 
 #endregion
 
-namespace NetMX.Default.InternalInfo
+namespace NetMX.Server.InternalInfo
 {
    internal sealed class StandardBeanInfoFactory : IMBeanInfoFactory
    {

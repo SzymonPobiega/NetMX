@@ -4,8 +4,10 @@ using System.Collections.ObjectModel;
 using System.Text;
 using System.Globalization;
 using System.Collections;
+using NetMX.OpenMBean;
+using NetMX.Server.OpenMBean.Mapper.Attributes;
 
-namespace NetMX.OpenMBean.Mapper
+namespace NetMX.Server.OpenMBean.Mapper.TypeMappers
 {
    /// <summary>
    /// A mapper which maps CLR generic collection types (like IEnumerable<>) to their OpenMBean equivalents:
@@ -18,14 +20,14 @@ namespace NetMX.OpenMBean.Mapper
    {
       private const string CollectionIndexColumnName = "CollectionIndex";
       private static readonly Type[] _supportedCollectionTypes = new Type[]
-      {
-         typeof(IEnumerable<>),
-         typeof(ICollection<>),
-         typeof(IList<>),
-         typeof(List<>),
-         typeof(LinkedList<>),
-         typeof(ReadOnlyCollection<>)
-      };
+                                                                    {
+                                                                       typeof(IEnumerable<>),
+                                                                       typeof(ICollection<>),
+                                                                       typeof(IList<>),
+                                                                       typeof(List<>),
+                                                                       typeof(LinkedList<>),
+                                                                       typeof(ReadOnlyCollection<>)
+                                                                    };
 
       #region ITypeMapper Members
       public bool CanHandle(Type plainNetType, out OpenTypeKind mapsTo, CanHandleDelegate canHandleNestedTypeCallback)
@@ -35,9 +37,9 @@ namespace NetMX.OpenMBean.Mapper
          {
             Type genericDef = plainNetType.GetGenericTypeDefinition();
             if (Array.Exists(_supportedCollectionTypes, delegate(Type t)
-               {
-                  return t == genericDef;
-               }))
+                                                           {
+                                                              return t == genericDef;
+                                                           }))
             {
                Type elementType = plainNetType.GetGenericArguments()[0];
                return CanHandleElementType(elementType, out mapsTo, canHandleNestedTypeCallback);

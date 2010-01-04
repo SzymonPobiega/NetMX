@@ -5,7 +5,7 @@ using NetMX.OpenMBean;
 
 #endregion
 
-namespace NetMX.Default.InternalInfo
+namespace NetMX.Server.InternalInfo
 {
    internal sealed class OpenMBeanBeanInfoFactory : IMBeanInfoFactory
    {

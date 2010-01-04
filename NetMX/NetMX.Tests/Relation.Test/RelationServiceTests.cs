@@ -2,6 +2,7 @@ using System;
 using System.Text;
 using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NetMX.Server;
 
 namespace NetMX.Relation.Tests
 {
@@ -49,7 +50,7 @@ namespace NetMX.Relation.Tests
       [TestInitialize]
       public void Initialize()
       {
-         _server = new NetMX.Default.MBeanServer();
+         _server = new MBeanServer();
          _relationService = new RelationService();
          _server.RegisterMBean(_relationService, ":type=RelationService");
 
