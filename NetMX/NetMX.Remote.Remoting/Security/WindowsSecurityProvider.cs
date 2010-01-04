@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 using System.Threading;
 using System.Security.Principal;
@@ -41,14 +42,21 @@ namespace NetMX.Remote.Remoting.Security
 			_permissionMap = new Dictionary<SecurityIdentifier, IEnumerable<MBeanPermission>>();
 			foreach (RoleElement role in roles)
 			{
-				List<MBeanPermission> permissionList = new List<MBeanPermission>();
-				foreach (PermissionElement perm in role.Permissions)
-				{
-					permissionList.Add(new MBeanPermission(perm.Pattern, perm.Actions));
-				}
-				NTAccount identity = new NTAccount(role.Name);				
-				SecurityIdentifier si = (SecurityIdentifier)identity.Translate(typeof(SecurityIdentifier));				
-				_permissionMap[si] = permissionList;
+			   List<MBeanPermission> permissionList = new List<MBeanPermission>();
+			   foreach (PermissionElement perm in role.Permissions)
+			   {
+			      permissionList.Add(new MBeanPermission(perm.Pattern, perm.Actions));
+			   }
+			   NTAccount identity = new NTAccount(role.Name);            
+            try
+            {
+               SecurityIdentifier si = (SecurityIdentifier)identity.Translate(typeof(SecurityIdentifier));
+               _permissionMap[si] = permissionList;
+            }
+            catch (IdentityNotMappedException ex)
+            {
+               Trace.WriteLine(string.Format("Invalid identity specification: {0}", role.Name));
+            }
 			}
 		}
 		#endregion

@@ -7,8 +7,8 @@
     <ProjectGuid>{9B9279AA-5B62-4834-9949-F2CCE7318610}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>NetMX.Default</RootNamespace>
-    <AssemblyName>NetMX.Default</AssemblyName>
+    <RootNamespace>NetMX.Server</RootNamespace>
+    <AssemblyName>NetMX.Server</AssemblyName>
     <SccProjectName>SAK</SccProjectName>
     <SccLocalPath>SAK</SccLocalPath>
     <SccAuxPath>SAK</SccAuxPath>
@@ -30,7 +30,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Debug\NetMX.Default.XML</DocumentationFile>
+    <DocumentationFile>bin\Debug\NetMX.Server.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>

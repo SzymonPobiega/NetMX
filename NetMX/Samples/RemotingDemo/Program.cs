@@ -16,8 +16,7 @@ namespace RemotingDemo
 			Sample o = new Sample();
 			ObjectName name = new ObjectName("Sample:a=b");
 			server.RegisterMBean(o, name);
-			//Uri serviceUrl = new Uri("tcp://localhost:1234/MBeanServer.tcp");
-         Uri serviceUrl = new Uri("http://simon-hp:80/MBeanServer");      
+         Uri serviceUrl = new Uri("tcp://localhost:1234/MBeanServer.tcp");         
 
 			using (INetMXConnectorServer connectorServer = NetMXConnectorServerFactory.NewNetMXConnectorServer(serviceUrl, server))
 			{
@@ -27,7 +26,7 @@ namespace RemotingDemo
 				{
 					IMBeanServerConnection remoteServer = connector.MBeanServerConnection;
 
-               //remoteServer.AddNotificationListener(name, CounterChanged, null, null);
+               remoteServer.AddNotificationListener(name, CounterChanged, null, null);
 
                Console.WriteLine("******");
                MBeanInfo info = remoteServer.GetMBeanInfo(name);

@@ -7,8 +7,8 @@
     <ProjectGuid>{C20C2476-6811-4557-8DA1-389BCB5A4399}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>CLRMonitoringSample</RootNamespace>
-    <AssemblyName>CLRMonitoringSample</AssemblyName>
+    <RootNamespace>CLRMonitoringDemo</RootNamespace>
+    <AssemblyName>CLRMonitoringDemo</AssemblyName>
     <SccProjectName>SAK</SccProjectName>
     <SccLocalPath>SAK</SccLocalPath>
     <SccAuxPath>SAK</SccAuxPath>

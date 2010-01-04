@@ -6,24 +6,22 @@ using NetMX.Relation;
 using NetMX.Remote;
 using NetMX.Default.GenericMBeans;
 
-namespace CLRMonitoringSample
+namespace CLRMonitoringDemo
 {
    class Program
    {
       static void Main(string[] args)
       {
+         //Server side
          IMBeanServer server = MBeanServerFactory.CreateMBeanServer("PlatformMBeanServer");         
          PerfCounterMBean processMBean = new PerfCounterMBean("Process", true, new[] {"% Processor Time"});
          server.RegisterMBean(processMBean, "CLR:type=Process");
          
-         Uri serviceUrl = new Uri("tcp://localhost:1234/MBeanServer.tcp");
-
-         using (INetMXConnectorServer connectorServer = NetMXConnectorServerFactory.NewNetMXConnectorServer(serviceUrl, server))
-         {
-            connectorServer.Start();
-            Console.WriteLine("Press any key to quit.");
-            Console.ReadKey();
-         }
+         //Client side
+         object value = server.GetAttribute("CLR:type=Process", "% Processor Time");
+         Console.WriteLine("% Processor Time: {0}", value);
+         Console.WriteLine("Press any key to exit");
+         Console.ReadKey();         
       }
    }
 }

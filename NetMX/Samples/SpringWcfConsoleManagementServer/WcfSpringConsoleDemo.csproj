@@ -8,8 +8,8 @@
     <ProjectGuid>{06975F6E-744C-4622-8B67-F6B520461308}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ConsoleSample</RootNamespace>
-    <AssemblyName>ConsoleSample</AssemblyName>
+    <RootNamespace>WcfSpringConsoleDemo</RootNamespace>
+    <AssemblyName>WcfSpringConsoleDemo</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SccProjectName>SAK</SccProjectName>
@@ -71,6 +71,10 @@
     <Compile Include="SampleComponentMBean.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\NetMX.Remote.ServiceModel\NetMX.Remote.ServiceModel.csproj">
+      <Project>{ED2EA082-7271-4615-8B1F-B9C5BDA695B4}</Project>
+      <Name>NetMX.Remote.ServiceModel</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\NetMX.Spring.BeanExporter\NetMX.Spring.BeanExporter.csproj">
       <Project>{C19B42A6-0CDA-439C-B3E9-6E11FB057733}</Project>
       <Name>NetMX.Spring.BeanExporter</Name>
