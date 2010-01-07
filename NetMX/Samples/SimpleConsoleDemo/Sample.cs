@@ -8,37 +8,30 @@ using System.ComponentModel;
 
 namespace SimpleConsoleDemo
 {
-	public class Sample : SampleMBean
+	public class Counter : CounterMBean
 	{
-		#region MEMBERS
 		private int _counter;
-		#endregion
 
-		#region SampleMBean Members
-		public int Counter
+		public int Value
 		{
-			get
-			{
-				return _counter;
-			}
+			get { return _counter; }
 			set
 			{
 				_counter = value;
 				OnCounterChanged();
 			}
 		}
-		public void ResetCounter()
+		public void Reset()
 		{
 			_counter = 0;
 			OnCounterChanged();
 		}
-		public void AddAmount(int amount)
+		public void Add(int amount)
 		{
 			_counter += amount;
 			OnCounterChanged();
 		}
 		public event EventHandler<NotificationEventArgs> CounterChanged;
-		#endregion
 
 		private void OnCounterChanged()
 		{
@@ -49,14 +42,14 @@ namespace SimpleConsoleDemo
 		}
 	}
 
-	public interface SampleMBean
+	public interface CounterMBean
 	{
 		[Description("Counter value")]
-		int Counter { get; set; }
+		int Value { get; set; }
 		[Description("Sets counter value to 0")]
-		void ResetCounter();
+		void Reset();
 		[Description("Adds specified value to value of the counter")]
-		void AddAmount(int amount);
+		void Add(int amount);
 		[Description("Raised when counter value gets changed")]
 		[MBeanNotification("sample.counter")]
 		event EventHandler<NotificationEventArgs> CounterChanged;

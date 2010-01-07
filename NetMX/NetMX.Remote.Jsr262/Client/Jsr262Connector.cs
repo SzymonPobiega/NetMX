@@ -38,7 +38,8 @@ namespace NetMX.Remote.Jsr262
          _connection = new Jsr262MBeanServerConnection(
             new ProxyFactory(factory, _serviceUrl),
             new ManagementClient(_serviceUrl, transferFactory, MessageVersion.Soap12WSAddressingAugust2004),
-            new EnumerationClient(true, _serviceUrl, b));
+            new EnumerationClient(true, _serviceUrl, b), 
+            null);
       }
       public string ConnectionId
       {

@@ -22,7 +22,7 @@ namespace Jsr262Demo
 			{
 				connectorServer.Start();
 
-				using (INetMXConnector connector = NetMXConnectorFactory.Connect(serviceUrl, null))
+            using (INetMXConnector connector = NetMXConnectorFactory.Connect(new Uri("http://localhost:9998/jmx"), null))
 				{
 					IMBeanServerConnection remoteServer = connector.MBeanServerConnection;
 

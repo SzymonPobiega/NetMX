@@ -6,36 +6,73 @@ using System.ServiceModel.Channels;
 using System.Text;
 using WSMan.NET;
 using WSMan.NET.Enumeration;
+using WSMan.NET.Eventing;
 using WSMan.NET.Management;
 
 namespace NetMX.Remote.Jsr262.Client
 {
    internal sealed class Jsr262MBeanServerConnection : IMBeanServerConnection, IDisposable
    {
-      private readonly ProxyFactory _proxyFactory;
-      private readonly ManagementClient _manClient;
-      private readonly EnumerationClient _enumClient;
-      private bool _disposed;
-
-      public Jsr262MBeanServerConnection(ProxyFactory proxyFactory, ManagementClient managementClient, EnumerationClient enumerationClient)
+      public Jsr262MBeanServerConnection(ProxyFactory proxyFactory, ManagementClient managementClient, EnumerationClient enumerationClient, EventingClient eventingClient)
       {
          _proxyFactory = proxyFactory;
          _manClient = managementClient;
          _enumClient = enumerationClient;
+         _eventingClient = eventingClient;
       }
 
       #region IMBeanServerConnection Members
       public void AddNotificationListener(ObjectName name, NotificationCallback callback, NotificationFilterCallback filterCallback, object handback)
       {
-         throw new NotImplementedException();
+         NotificationSubscriptionKey key = new NotificationSubscriptionKey(name, callback, filterCallback, handback);
+         if (_subscriptions.ContainsKey(key))
+         {
+            throw new InvalidOperationException("Subscription already exists.");
+         }
+         PullSubscriptionListener listener =
+            new PullSubscriptionListener(
+               _eventingClient.SubscribeUsingPullDelivery<NotificationResult>(new Uri(Schema.DynamicMBeanResourceUri),
+                                                                             null, name.CreateSelectorSet()), callback,
+               filterCallback, handback);
+         _subscriptions.Add(key, listener);
       }
+
+      public void RemoveNotificationListener(ObjectName name, NotificationCallback callback, NotificationFilterCallback filterCallback, object handback)
+      {
+         NotificationSubscriptionKey key = new NotificationSubscriptionKey(name, callback, filterCallback, handback);
+
+         PullSubscriptionListener listener;
+         if (_subscriptions.TryGetValue(key, out listener))
+         {
+            _subscriptions.Remove(key);
+            listener.Dispose();
+         }
+      }
+
+      public void RemoveNotificationListener(ObjectName name, NotificationCallback callback)
+      {
+         IList<NotificationSubscriptionKey> toRemove =
+            _subscriptions.Keys.Where(x => ReferenceEquals(callback, x.Callback) && name.Equals(x.ObjectName)).ToList();
+         foreach (NotificationSubscriptionKey key in toRemove)
+         {
+            PullSubscriptionListener listener = _subscriptions[key];
+            listener.Dispose();
+            _subscriptions.Remove(key);
+         }
+      }
+
 
       public void AddNotificationListener(ObjectName name, ObjectName listener, NotificationFilterCallback filterCallback, object handback)
       {
          throw new NotImplementedException();
       }
 
-      public void RemoveNotificationListener(ObjectName name, NotificationCallback callback, NotificationFilterCallback filterCallback, object handback)
+      public void RemoveNotificationListener(ObjectName name, ObjectName listener, NotificationFilterCallback filterCallback, object handback)
+      {
+         throw new NotImplementedException();
+      }      
+
+      public void RemoveNotificationListener(ObjectName name, ObjectName listener)
       {
          throw new NotImplementedException();
       }
@@ -51,22 +88,7 @@ namespace NetMX.Remote.Jsr262.Client
                                                       };
          ObjectName objectName = _manClient.Create(Schema.MBeanServerResourceUri, request).ExtractObjectName();
          return new ObjectInstance(objectName, null);
-      }
-
-      public void RemoveNotificationListener(ObjectName name, ObjectName listener, NotificationFilterCallback filterCallback, object handback)
-      {
-         throw new NotImplementedException();
-      }
-
-      public void RemoveNotificationListener(ObjectName name, NotificationCallback callback)
-      {
-         throw new NotImplementedException();
-      }
-
-      public void RemoveNotificationListener(ObjectName name, ObjectName listener)
-      {
-         throw new NotImplementedException();
-      }
+      }      
 
       public object Invoke(ObjectName name, string operationName, object[] arguments)
       {
@@ -145,20 +167,20 @@ namespace NetMX.Remote.Jsr262.Client
       public bool IsRegistered(ObjectName name)
       {
          return _enumClient.EnumerateEPR(new Uri(Schema.DynamicMBeanResourceUri), null, 1,
-                                         ObjectNameSelector.CreateSelectorSet(name)).Count() > 0;
+                                         name.CreateSelectorSet()).Count() > 0;
       }
 
       public IEnumerable<ObjectName> QueryNames(ObjectName name, QueryExp query)
       {
          Filter filter = query != null ? new Filter(Schema.QueryNamesDialect, query) : null;
          return _enumClient.EnumerateEPR(new Uri(Schema.DynamicMBeanResourceUri), filter, 1500,
-                                         ObjectNameSelector.CreateSelectorSet(name))
+                                         name.CreateSelectorSet())
             .Select(x => x.ExtractObjectName());
       }
 
       public void UnregisterMBean(ObjectName name)
       {
-         _manClient.Delete(Schema.DynamicMBeanResourceUri, ObjectNameSelector.CreateSelectorSet(name));
+         _manClient.Delete(Schema.DynamicMBeanResourceUri, name.CreateSelectorSet());
       }
 
       public string GetDefaultDomain()
@@ -178,13 +200,29 @@ namespace NetMX.Remote.Jsr262.Client
 
       public void Dispose()
       {
-         if (!_disposed)
+         if (_disposed)
          {
-            _proxyFactory.Dispose();
-            //_manClient.
-            _enumClient.Dispose();
-            _disposed = true;
+            return;
          }
+
+         _proxyFactory.Dispose();
+         //_manClient.
+         _enumClient.Dispose();
+         _eventingClient.Dispose();
+         foreach (PullSubscriptionListener listener in _subscriptions.Values)
+         {
+            listener.Dispose();
+         }
+
+         _disposed = true;
       }
+
+      private readonly ProxyFactory _proxyFactory;
+      private readonly ManagementClient _manClient;
+      private readonly EnumerationClient _enumClient;
+      private readonly EventingClient _eventingClient;
+      private readonly Dictionary<NotificationSubscriptionKey, PullSubscriptionListener> _subscriptions = new Dictionary<NotificationSubscriptionKey, PullSubscriptionListener>();
+      private bool _disposed;
+
    }
 }

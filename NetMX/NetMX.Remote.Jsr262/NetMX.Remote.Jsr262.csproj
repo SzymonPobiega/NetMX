@@ -59,6 +59,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Client\NotificationSubscriptionKey.cs" />
+    <Compile Include="Client\PullSubscriptionListener.cs" />
     <Compile Include="ConnectionIdHeader.cs" />
     <Compile Include="FragmentHeaderAttribute.cs" />
     <Compile Include="Server\EventingRequestHandler.cs" />

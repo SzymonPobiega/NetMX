@@ -11,8 +11,8 @@ namespace SimpleConsoleDemo
 		static void Main(string[] args)
 		{
 			IMBeanServer server = MBeanServerFactory.CreateMBeanServer();
-			Sample o = new Sample();
-			ObjectName name = new ObjectName("Sample:");
+			Counter o = new Counter();
+			ObjectName name = new ObjectName("QuickStart:type=counter");
 			server.RegisterMBean(o, name);
 
 			Console.WriteLine("******");
@@ -33,22 +33,22 @@ namespace SimpleConsoleDemo
 
 			server.AddNotificationListener(name, CounterChanged, null, null);
 
-			object counter = server.GetAttribute(name, "Counter");
+			object counter = server.GetAttribute(name, "Value");
 
 			Console.WriteLine("Counter value is {0}", counter);
 
-			server.SetAttribute(name, "Counter", 5);
-			counter = server.GetAttribute(name, "Counter");
+			server.SetAttribute(name, "Value", 5);
+			counter = server.GetAttribute(name, "Value");
 
 			Console.WriteLine("Now, counter value is {0}", counter);
 
-			counter = server.Invoke(name, "AddAmount", new object[] { 5 });
-			counter = server.GetAttribute(name, "Counter");
+			counter = server.Invoke(name, "Add", new object[] { 5 });
+			counter = server.GetAttribute(name, "Value");
 
 			Console.WriteLine("Now, counter value is {0}", counter);
 
-			counter = server.Invoke(name, "ResetCounter", new object[] { });
-			counter = server.GetAttribute(name, "Counter");
+			counter = server.Invoke(name, "Reset", new object[] { });
+			counter = server.GetAttribute(name, "Value");
 
 			Console.WriteLine("Now, counter value is {0}", counter);
 
