@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.ServiceModel;
-using System.ServiceModel.Channels;
 using System.Text;
 using WSMan.NET;
 using WSMan.NET.Enumeration;
 using WSMan.NET.Eventing;
 using WSMan.NET.Management;
+using WSMan.NET.Faults;
 
 namespace NetMX.Remote.Jsr262.Client
 {
@@ -131,9 +131,20 @@ namespace NetMX.Remote.Jsr262.Client
 
       public object GetAttribute(ObjectName name, string attributeName)
       {
-         return _manClient.Get<XmlFragment<DynamicMBeanResource>>(Schema.DynamicMBeanResourceUri,
+         try
+         {
+            return _manClient.Get<XmlFragment<DynamicMBeanResource>>(Schema.DynamicMBeanResourceUri,
                                                                   new GetAttributesFragment(attributeName).GetExpression(), name.CreateSelectorSet())
             .Value.Property.First(x => x.name == attributeName).Deserialize();
+         }
+         catch (FaultException ex)
+         {
+            if (ex.IsEndpointUnavailable())
+            {
+               throw new InstanceNotFoundException(name);
+            }
+            throw;
+         }         
       }
 
       public IList<AttributeValue> GetAttributes(ObjectName name, string[] attributeNames)
@@ -208,7 +219,10 @@ namespace NetMX.Remote.Jsr262.Client
          _proxyFactory.Dispose();
          //_manClient.
          _enumClient.Dispose();
-         _eventingClient.Dispose();
+         if (_eventingClient != null)
+         {
+            _eventingClient.Dispose();
+         }
          foreach (PullSubscriptionListener listener in _subscriptions.Values)
          {
             listener.Dispose();

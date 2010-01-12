@@ -517,7 +517,7 @@ namespace NetMX.Remote.Jsr262
          {
             impact += "r";
          }
-         if ((operationInfo.Impact & OperationImpact.Info) == OperationImpact.Info)
+         if ((operationInfo.Impact & OperationImpact.Action) == OperationImpact.Action)
          {
             impact += "w";
          }
@@ -533,13 +533,13 @@ namespace NetMX.Remote.Jsr262
       public MBeanOperationInfo Deserialize()
       {
          OperationImpact impactEnum = OperationImpact.Unknown;
-         if (impact.IndexOf('r') != -1)
+         if (impact != null && impact.IndexOf('r') != -1)
          {
             impactEnum |= OperationImpact.Info;
          }
-         if (impact.IndexOf('w') != -1)
+         if (impact != null && impact.IndexOf('w') != -1)
          {
-            impactEnum |= OperationImpact.Info;
+            impactEnum |= OperationImpact.Action;
          }
          XmlQualifiedName typeQualifiedName = null;
          if (outputField != null)

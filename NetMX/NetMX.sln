@@ -68,9 +68,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebClientDemo", "Samples\We
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jsr262Demo", "Samples\Jsr262Demo\Jsr262Demo.csproj", "{592E0D6E-453B-4C70-9F29-98E684F2A79E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JmxClientDemo", "Samples\JmxClientDemo\JmxClientDemo.csproj", "{4B3B3AC2-5797-4FB7-BCED-18BF461EBDC4}"
+EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 20
+		SccNumberOfProjects = 21
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://tfs04.codeplex.com/
 		SccLocalPath0 = .
@@ -142,6 +144,10 @@ Global
 		SccProjectTopLevelParentUniqueName19 = NetMX.sln
 		SccProjectName19 = Samples/Jsr262Demo
 		SccLocalPath19 = Samples\\Jsr262Demo
+		SccProjectUniqueName20 = Samples\\JmxClientDemo\\JmxClientDemo.csproj
+		SccProjectTopLevelParentUniqueName20 = NetMX.sln
+		SccProjectName20 = Samples/JmxClientDemo
+		SccLocalPath20 = Samples\\JmxClientDemo
 	EndGlobalSection
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = NetMX7.vsmdi
@@ -345,6 +351,16 @@ Global
 		{592E0D6E-453B-4C70-9F29-98E684F2A79E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{592E0D6E-453B-4C70-9F29-98E684F2A79E}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{592E0D6E-453B-4C70-9F29-98E684F2A79E}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{4B3B3AC2-5797-4FB7-BCED-18BF461EBDC4}.Debug|.NET.ActiveCfg = Debug|Any CPU
+		{4B3B3AC2-5797-4FB7-BCED-18BF461EBDC4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4B3B3AC2-5797-4FB7-BCED-18BF461EBDC4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4B3B3AC2-5797-4FB7-BCED-18BF461EBDC4}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{4B3B3AC2-5797-4FB7-BCED-18BF461EBDC4}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{4B3B3AC2-5797-4FB7-BCED-18BF461EBDC4}.Release|.NET.ActiveCfg = Release|Any CPU
+		{4B3B3AC2-5797-4FB7-BCED-18BF461EBDC4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4B3B3AC2-5797-4FB7-BCED-18BF461EBDC4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4B3B3AC2-5797-4FB7-BCED-18BF461EBDC4}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{4B3B3AC2-5797-4FB7-BCED-18BF461EBDC4}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -358,6 +374,7 @@ Global
 		{06975F6E-744C-4622-8B67-F6B520461308} = {95F701FD-2093-4520-AB90-D314864AE21F}
 		{04A97CF5-52F9-45C1-B114-CA21AF6A7F28} = {95F701FD-2093-4520-AB90-D314864AE21F}
 		{592E0D6E-453B-4C70-9F29-98E684F2A79E} = {95F701FD-2093-4520-AB90-D314864AE21F}
+		{4B3B3AC2-5797-4FB7-BCED-18BF461EBDC4} = {95F701FD-2093-4520-AB90-D314864AE21F}
 		{ED2EA082-7271-4615-8B1F-B9C5BDA695B4} = {A0329667-EB28-48C0-A4CF-FA1CF01C5FEA}
 		{BA2A4CF7-BE10-4CBC-899C-0976D9DBCC74} = {A0329667-EB28-48C0-A4CF-FA1CF01C5FEA}
 		{FF650A14-16B7-4CB3-BBC0-592FAE591D3D} = {A0329667-EB28-48C0-A4CF-FA1CF01C5FEA}
