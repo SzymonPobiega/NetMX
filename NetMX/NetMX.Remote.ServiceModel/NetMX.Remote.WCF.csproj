@@ -8,8 +8,8 @@
     <ProjectGuid>{ED2EA082-7271-4615-8B1F-B9C5BDA695B4}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>NetMX.Remote.ServiceModel</RootNamespace>
-    <AssemblyName>NetMX.Remote.ServiceModel</AssemblyName>
+    <RootNamespace>NetMX.Remote.WCF</RootNamespace>
+    <AssemblyName>NetMX.Remote.WCF</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SccProjectName>SAK</SccProjectName>
@@ -56,6 +56,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\SolutionInfo.cs">
+      <Link>Properties\SolutionInfo.cs</Link>
+    </Compile>
     <Compile Include="IMBeanServerContract.cs" />
     <Compile Include="MBeanServerService.cs" />
     <Compile Include="NetDataContractFormatAttribute.cs" />

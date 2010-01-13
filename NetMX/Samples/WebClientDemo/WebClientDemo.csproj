@@ -92,9 +92,9 @@
       <Project>{FF650A14-16B7-4CB3-BBC0-592FAE591D3D}</Project>
       <Name>NetMX.Remote.Remoting</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\NetMX.Remote.ServiceModel\NetMX.Remote.ServiceModel.csproj">
+    <ProjectReference Include="..\..\NetMX.Remote.ServiceModel\NetMX.Remote.WCF.csproj">
       <Project>{ED2EA082-7271-4615-8B1F-B9C5BDA695B4}</Project>
-      <Name>NetMX.Remote.ServiceModel</Name>
+      <Name>NetMX.Remote.WCF</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\NetMX.WebUI\NetMX.WebUI.csproj">
       <Project>{7ABCFCE5-8A64-4D8F-AC60-731637E54F3B}</Project>

@@ -71,9 +71,9 @@
     <Compile Include="SampleComponentMBean.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\NetMX.Remote.ServiceModel\NetMX.Remote.ServiceModel.csproj">
+    <ProjectReference Include="..\..\NetMX.Remote.ServiceModel\NetMX.Remote.WCF.csproj">
       <Project>{ED2EA082-7271-4615-8B1F-B9C5BDA695B4}</Project>
-      <Name>NetMX.Remote.ServiceModel</Name>
+      <Name>NetMX.Remote.WCF</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\NetMX.Spring.BeanExporter\NetMX.Spring.BeanExporter.csproj">
       <Project>{C19B42A6-0CDA-439C-B3E9-6E11FB057733}</Project>

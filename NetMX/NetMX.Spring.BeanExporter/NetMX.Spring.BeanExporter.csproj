@@ -53,6 +53,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\SolutionInfo.cs">
+      <Link>Properties\SolutionInfo.cs</Link>
+    </Compile>
     <Compile Include="Assembler\IMBeanInfoAssembler.cs" />
     <Compile Include="ManagementBeanExporter.cs" />
     <Compile Include="Naming\IObjectNamingStrategy.cs" />

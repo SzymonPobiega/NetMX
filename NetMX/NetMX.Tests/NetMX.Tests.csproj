@@ -65,6 +65,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\SolutionInfo.cs">
+      <Link>Properties\SolutionInfo.cs</Link>
+    </Compile>
     <Compile Include="Tests\CASPermissionsTests.cs" />
     <Compile Include="Tests\MBeanInternalInfoTests.cs" />
     <Compile Include="Tests\MBeanPermissionTest.cs" />

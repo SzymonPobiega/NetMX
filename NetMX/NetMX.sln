@@ -14,6 +14,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		NetMX5.vsmdi = NetMX5.vsmdi
 		NetMX6.vsmdi = NetMX6.vsmdi
 		NetMX7.vsmdi = NetMX7.vsmdi
+		SolutionInfo.cs = SolutionInfo.cs
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetMX", "NetMX\NetMX.csproj", "{619AD956-B7BC-492D-9722-25DA4891E144}"
@@ -42,7 +43,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetMX.Monitor", "NetMX.Moni
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimersConsoleDemo", "Samples\TimersConsoleDemo\TimersConsoleDemo.csproj", "{FD20227D-E09E-4AF0-B055-F959C09455CE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetMX.Remote.ServiceModel", "NetMX.Remote.ServiceModel\NetMX.Remote.ServiceModel.csproj", "{ED2EA082-7271-4615-8B1F-B9C5BDA695B4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetMX.Remote.WCF", "NetMX.Remote.ServiceModel\NetMX.Remote.WCF.csproj", "{ED2EA082-7271-4615-8B1F-B9C5BDA695B4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetMX.Spring.BeanExporter", "NetMX.Spring.BeanExporter\NetMX.Spring.BeanExporter.csproj", "{C19B42A6-0CDA-439C-B3E9-6E11FB057733}"
 EndProject
@@ -114,40 +115,40 @@ Global
 		SccProjectTopLevelParentUniqueName11 = NetMX.sln
 		SccProjectName11 = Samples/TimersConsoleDemo
 		SccLocalPath11 = Samples\\TimersConsoleDemo
-		SccProjectUniqueName12 = NetMX.Remote.ServiceModel\\NetMX.Remote.ServiceModel.csproj
-		SccProjectTopLevelParentUniqueName12 = NetMX.sln
-		SccProjectName12 = NetMX.Remote.ServiceModel
-		SccLocalPath12 = NetMX.Remote.ServiceModel
-		SccProjectUniqueName13 = NetMX.Spring.BeanExporter\\NetMX.Spring.BeanExporter.csproj
-		SccProjectName13 = NetMX.Spring.BeanExporter
-		SccLocalPath13 = NetMX.Spring.BeanExporter
-		SccProjectUniqueName14 = NetMX.Remote.Jsr262\\NetMX.Remote.Jsr262.csproj
+		SccProjectUniqueName12 = NetMX.Spring.BeanExporter\\NetMX.Spring.BeanExporter.csproj
+		SccProjectName12 = NetMX.Spring.BeanExporter
+		SccLocalPath12 = NetMX.Spring.BeanExporter
+		SccProjectUniqueName13 = NetMX.Remote.Jsr262\\NetMX.Remote.Jsr262.csproj
+		SccProjectTopLevelParentUniqueName13 = NetMX.sln
+		SccProjectName13 = NetMX.Remote.Jsr262
+		SccLocalPath13 = NetMX.Remote.Jsr262
+		SccProjectUniqueName14 = Samples\\SpringWcfConsoleManagementServer\\WcfSpringConsoleDemo.csproj
 		SccProjectTopLevelParentUniqueName14 = NetMX.sln
-		SccProjectName14 = NetMX.Remote.Jsr262
-		SccLocalPath14 = NetMX.Remote.Jsr262
-		SccProjectUniqueName15 = Samples\\SpringWcfConsoleManagementServer\\WcfSpringConsoleDemo.csproj
+		SccProjectName14 = Samples/SpringWcfConsoleManagementServer
+		SccLocalPath14 = Samples\\SpringWcfConsoleManagementServer
+		SccProjectUniqueName15 = Samples\\CLRMonitoringSample\\CLRMonitoringDemo.csproj
 		SccProjectTopLevelParentUniqueName15 = NetMX.sln
-		SccProjectName15 = Samples/SpringWcfConsoleManagementServer
-		SccLocalPath15 = Samples\\SpringWcfConsoleManagementServer
-		SccProjectUniqueName16 = Samples\\CLRMonitoringSample\\CLRMonitoringDemo.csproj
-		SccProjectTopLevelParentUniqueName16 = NetMX.sln
-		SccProjectName16 = Samples/CLRMonitoringSample
-		SccLocalPath16 = Samples\\CLRMonitoringSample
-		SccProjectUniqueName17 = NetMX.Default\\NetMX.Server.csproj
-		SccProjectName17 = NetMX.Default
-		SccLocalPath17 = NetMX.Default
-		SccProjectUniqueName18 = Samples\\WebClientDemo\\WebClientDemo.csproj
+		SccProjectName15 = Samples/CLRMonitoringSample
+		SccLocalPath15 = Samples\\CLRMonitoringSample
+		SccProjectUniqueName16 = NetMX.Default\\NetMX.Server.csproj
+		SccProjectName16 = NetMX.Default
+		SccLocalPath16 = NetMX.Default
+		SccProjectUniqueName17 = Samples\\WebClientDemo\\WebClientDemo.csproj
+		SccProjectTopLevelParentUniqueName17 = NetMX.sln
+		SccProjectName17 = Samples/WebClientDemo
+		SccLocalPath17 = Samples\\WebClientDemo
+		SccProjectUniqueName18 = Samples\\Jsr262Demo\\Jsr262Demo.csproj
 		SccProjectTopLevelParentUniqueName18 = NetMX.sln
-		SccProjectName18 = Samples/WebClientDemo
-		SccLocalPath18 = Samples\\WebClientDemo
-		SccProjectUniqueName19 = Samples\\Jsr262Demo\\Jsr262Demo.csproj
+		SccProjectName18 = Samples/Jsr262Demo
+		SccLocalPath18 = Samples\\Jsr262Demo
+		SccProjectUniqueName19 = Samples\\JmxClientDemo\\JmxClientDemo.csproj
 		SccProjectTopLevelParentUniqueName19 = NetMX.sln
-		SccProjectName19 = Samples/Jsr262Demo
-		SccLocalPath19 = Samples\\Jsr262Demo
-		SccProjectUniqueName20 = Samples\\JmxClientDemo\\JmxClientDemo.csproj
+		SccProjectName19 = Samples/JmxClientDemo
+		SccLocalPath19 = Samples\\JmxClientDemo
+		SccProjectUniqueName20 = NetMX.Remote.ServiceModel\\NetMX.Remote.WCF.csproj
 		SccProjectTopLevelParentUniqueName20 = NetMX.sln
-		SccProjectName20 = Samples/JmxClientDemo
-		SccLocalPath20 = Samples\\JmxClientDemo
+		SccProjectName20 = NetMX.Remote.ServiceModel
+		SccLocalPath20 = NetMX.Remote.ServiceModel
 	EndGlobalSection
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = NetMX7.vsmdi

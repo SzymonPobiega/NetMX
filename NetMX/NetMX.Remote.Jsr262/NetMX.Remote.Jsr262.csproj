@@ -59,6 +59,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\SolutionInfo.cs">
+      <Link>Properties\SolutionInfo.cs</Link>
+    </Compile>
     <Compile Include="Client\NotificationSubscriptionKey.cs" />
     <Compile Include="Client\PullSubscriptionListener.cs" />
     <Compile Include="ConnectionIdHeader.cs" />
