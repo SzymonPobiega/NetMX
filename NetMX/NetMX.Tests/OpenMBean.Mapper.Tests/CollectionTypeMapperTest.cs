@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using NetMX.OpenMBean.Mapper;
 using NetMX.Server.OpenMBean.Mapper;
 using NetMX.Server.OpenMBean.Mapper.TypeMappers;
 
 namespace NetMX.OpenMBean.Mapper.Tests
 {
-   [TestClass]
+   [TestFixture]
    public class CollectionTypeMapperTest : MapperTestBase
    {
       private readonly ITypeMapper mapper = new CollectionTypeMapper();
@@ -70,7 +70,7 @@ namespace NetMX.OpenMBean.Mapper.Tests
       }
       #endregion
 
-      [TestMethod]
+      [Test]
       public void CollectionMapperCanHandleMappingIEnumerableToArray()
       {
          OpenTypeKind mapsTo;
@@ -78,7 +78,7 @@ namespace NetMX.OpenMBean.Mapper.Tests
          Assert.IsTrue(mapper.CanHandle(typeof (IEnumerable<int>), out mapsTo, CanHandle));
          Assert.AreEqual(OpenTypeKind.ArrayType, mapsTo);
       }
-      [TestMethod]
+      [Test]
       public void CollectionMapperCanHandleMappingICollectionToArray()
       {
          OpenTypeKind mapsTo;
@@ -86,7 +86,7 @@ namespace NetMX.OpenMBean.Mapper.Tests
          Assert.IsTrue(mapper.CanHandle(typeof(ICollection<int>), out mapsTo, CanHandle));
          Assert.AreEqual(OpenTypeKind.ArrayType, mapsTo);
       }
-      [TestMethod]
+      [Test]
       public void CollectionMapperCanHandleMappingIListToArray()
       {
          OpenTypeKind mapsTo;
@@ -94,7 +94,7 @@ namespace NetMX.OpenMBean.Mapper.Tests
          Assert.IsTrue(mapper.CanHandle(typeof(IList<int>), out mapsTo, CanHandle));
          Assert.AreEqual(OpenTypeKind.ArrayType, mapsTo);
       }
-      [TestMethod]
+      [Test]
       public void CollectionMapperCanHandleMappingListToArray()
       {
          OpenTypeKind mapsTo;
@@ -102,7 +102,7 @@ namespace NetMX.OpenMBean.Mapper.Tests
          Assert.IsTrue(mapper.CanHandle(typeof(List<int>), out mapsTo, CanHandle));
          Assert.AreEqual(OpenTypeKind.ArrayType, mapsTo);
       }
-      [TestMethod]
+      [Test]
       public void CollectionMapperCanHandleMappingReadOnlyCollectionToArray()
       {
          OpenTypeKind mapsTo;
@@ -110,7 +110,7 @@ namespace NetMX.OpenMBean.Mapper.Tests
          Assert.IsTrue(mapper.CanHandle(typeof(ReadOnlyCollection<int>), out mapsTo, CanHandle));
          Assert.AreEqual(OpenTypeKind.ArrayType, mapsTo);
       }
-      [TestMethod]
+      [Test]
       public void CollectionMapperCanHandleMappingLinkedListToArray()
       {
          OpenTypeKind mapsTo;
@@ -118,7 +118,7 @@ namespace NetMX.OpenMBean.Mapper.Tests
          Assert.IsTrue(mapper.CanHandle(typeof(LinkedList<int>), out mapsTo, CanHandle));
          Assert.AreEqual(OpenTypeKind.ArrayType, mapsTo);
       }
-      [TestMethod]
+      [Test]
       public void CollectionMapperCanHandleMappingCollectionToArray()
       {
          OpenType mappedType = mapper.MapType(typeof (IEnumerable<int>), MapType);
@@ -142,7 +142,7 @@ namespace NetMX.OpenMBean.Mapper.Tests
          Assert.AreEqual(3, array[2]);
       }
 
-      [TestMethod]
+      [Test]
       public void CollectionMapperCanHandleMappingArrayToArray()
       {
          OpenTypeKind mapsTo;
@@ -168,42 +168,42 @@ namespace NetMX.OpenMBean.Mapper.Tests
          Assert.AreEqual(3, array[2]);
       }
 
-      [TestMethod]
+      [Test]
       public void CollectionMapperCanHandleMappingIEnumerableToTabular()
       {
          OpenTypeKind mapsTo;
          Assert.IsTrue(mapper.CanHandle(typeof(IEnumerable<TestCollectionElement>), out mapsTo, CanHandle));
          Assert.AreEqual(OpenTypeKind.TabularType, mapsTo);
       }
-      [TestMethod]
+      [Test]
       public void CollectionMapperCanHandleMappingICollectionToTabular()
       {
          OpenTypeKind mapsTo;
          Assert.IsTrue(mapper.CanHandle(typeof(ICollection<TestCollectionElement>), out mapsTo, CanHandle));
          Assert.AreEqual(OpenTypeKind.TabularType, mapsTo);
       }
-      [TestMethod]
+      [Test]
       public void CollectionMapperCanHandleMappingIListToTabular()
       {
          OpenTypeKind mapsTo;
          Assert.IsTrue(mapper.CanHandle(typeof(IList<TestCollectionElement>), out mapsTo, CanHandle));
          Assert.AreEqual(OpenTypeKind.TabularType, mapsTo);
       }
-      [TestMethod]
+      [Test]
       public void CollectionMapperCanHandleMappingListToTabular()
       {
          OpenTypeKind mapsTo;
          Assert.IsTrue(mapper.CanHandle(typeof(List<TestCollectionElement>), out mapsTo, CanHandle));
          Assert.AreEqual(OpenTypeKind.TabularType, mapsTo);
       }
-      [TestMethod]
+      [Test]
       public void CollectionMapperCanHandleMappingLinkedListToTabular()
       {
          OpenTypeKind mapsTo;
          Assert.IsTrue(mapper.CanHandle(typeof(LinkedList<TestCollectionElement>), out mapsTo, CanHandle));
          Assert.AreEqual(OpenTypeKind.TabularType, mapsTo);
       }
-      [TestMethod]
+      [Test]
       public void CollectionMapperCanHandleMappingReadOnlyCollectionToTabular()
       {
          OpenTypeKind mapsTo;
@@ -211,7 +211,7 @@ namespace NetMX.OpenMBean.Mapper.Tests
          Assert.AreEqual(OpenTypeKind.TabularType, mapsTo);
       }
 
-      [TestMethod]
+      [Test]
       public void CollectionMapperCanHandleMappingCollectionToTabular()
       {
          OpenType mappedType = mapper.MapType(typeof(IEnumerable<TestCollectionElement>), MapType);

@@ -1,7 +1,7 @@
 using System;
 using System.Text;
 using System.Collections.Generic;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using NetMX.Server;
 
 namespace NetMX.Relation.Tests
@@ -9,7 +9,7 @@ namespace NetMX.Relation.Tests
    /// <summary>
    /// Summary description for RelationServiceTests
    /// </summary>
-   [TestClass]
+   [TestFixture]
    public class RelationServiceTests
    {
       private IMBeanServer _server;
@@ -18,36 +18,7 @@ namespace NetMX.Relation.Tests
       private Child _child1;
       private Child _child2;
 
-      public RelationServiceTests()
-      {
-         //
-         // TODO: Add constructor logic here
-         //
-      }
-
-      #region Additional test attributes
-      //
-      // You can use the following additional attributes as you write your tests:
-      //
-      // Use ClassInitialize to run code before running the first test in the class
-      // [ClassInitialize()]
-      // public static void MyClassInitialize(TestContext testContext) { }
-      //
-      // Use ClassCleanup to run code after all tests in a class have run
-      // [ClassCleanup()]
-      // public static void MyClassCleanup() { }
-      //
-      // Use TestInitialize to run code before running each test 
-      // [TestInitialize()]
-      // public void MyTestInitialize() { }
-      //
-      // Use TestCleanup to run code after each test has run
-      // [TestCleanup()]
-      // public void MyTestCleanup() { }
-      //
-      #endregion
-
-      [TestInitialize]
+      [SetUp]
       public void Initialize()
       {
          _server = new MBeanServer();
@@ -67,14 +38,14 @@ namespace NetMX.Relation.Tests
                new RoleInfo("Child", typeof(ChildMBean), true, true, 0, RoleInfo.RoleCardinalityInfinity, "Child") });
       }
 
-      [TestCleanup]
+      [TearDown]
       public void Cleanup()
       {
          _server.UnregisterMBean(":type=RelationService");
       }
 
       #region AddRelation tests
-      [TestMethod]
+      [Test]
       public void TestAddRelationSuccess()
       {
          RelationSupport relation = new RelationSupport("REL1", ":type=RelationService", "Parenthood",
@@ -86,13 +57,13 @@ namespace NetMX.Relation.Tests
          Assert.AreEqual("REL1", _relationService.IsRelation(":type=Parenthood,id=1"));
          Assert.AreEqual(new ObjectName(":type=Parenthood,id=1"), _relationService.IsRelationMBean("REL1"));
       }
-      [TestMethod]
+      [Test]
       [ExpectedException(typeof(ArgumentNullException))]
       public void TestAddRelationFailureNull()
       {
          _relationService.AddRelation(null);
       }
-      [TestMethod]
+      [Test]
       [ExpectedException(typeof(InvalidRelationIdException))]
       public void TestAddRelationFailuereInvalidId()
       {
@@ -107,7 +78,7 @@ namespace NetMX.Relation.Tests
          _server.RegisterMBean(relation, ":type=Parenthood,id=2");
          _relationService.AddRelation(":type=Parenthood,id=2");
       }
-      [TestMethod]
+      [Test]
       [ExpectedException(typeof(InvalidRelationServiceException))]
       public void TestAddRelationFailureInvalidRelationService()
       {
@@ -117,7 +88,7 @@ namespace NetMX.Relation.Tests
          _server.RegisterMBean(relation, ":type=Parenthood,id=1");
          _relationService.AddRelation(":type=Parenthood,id=1");
       }
-      [TestMethod]
+      [Test]
       [ExpectedException(typeof(RelationTypeNotFoundException))]
       public void TestAddRelationFailureTypeNotFound()
       {
@@ -127,7 +98,7 @@ namespace NetMX.Relation.Tests
          _server.RegisterMBean(relation, ":type=Parenthood,id=1");
          _relationService.AddRelation(":type=Parenthood,id=1");
       }
-      [TestMethod]
+      [Test]
       [ExpectedException(typeof(InvalidRoleValueException))]
       public void TestAddRelationFailureMinDegree()
       {
@@ -137,7 +108,7 @@ namespace NetMX.Relation.Tests
          _server.RegisterMBean(relation, ":type=Parenthood,id=1");
          _relationService.AddRelation(":type=Parenthood,id=1");
       }
-      [TestMethod]
+      [Test]
       [ExpectedException(typeof(InvalidRoleValueException))]
       public void TestAddRelationFailureMaxDegree()
       {
@@ -147,7 +118,7 @@ namespace NetMX.Relation.Tests
          _server.RegisterMBean(relation, ":type=Parenthood,id=1");
          _relationService.AddRelation(":type=Parenthood,id=1");
       }
-      [TestMethod]
+      [Test]
       [ExpectedException(typeof(InvalidRoleValueException))]
       public void TestAddRelationFailureInvalidClass()
       {
@@ -157,7 +128,7 @@ namespace NetMX.Relation.Tests
          _server.RegisterMBean(relation, ":type=Parenthood,id=1");
          _relationService.AddRelation(":type=Parenthood,id=1");
       }
-      [TestMethod]
+      [Test]
       [ExpectedException(typeof(InvalidRoleValueException))]
       public void TestAddRelationFailureNotRegistered()
       {
@@ -170,7 +141,7 @@ namespace NetMX.Relation.Tests
       #endregion
 
       #region AddRelationType tests
-      [TestMethod]
+      [Test]
       public void TestAddRelationTypeSuccess()
       {
          RelationTypeSupport type = new RelationTypeSupport("Partnership",
@@ -182,13 +153,13 @@ namespace NetMX.Relation.Tests
          Assert.AreEqual(RoleStatus.RoleOk, _relationService.CheckRoleWriting("Partner2", "Partnership", false));
          Assert.AreEqual(RoleStatus.RoleNotWritable, _relationService.CheckRoleWriting("Partner1", "Partnership", false));
       }
-      [TestMethod]
+      [Test]
       [ExpectedException(typeof(ArgumentNullException))]
       public void TestAddRelationTypeFailureNull()
       {
          _relationService.AddRelationType(null);
       }
-      [TestMethod]
+      [Test]
       [ExpectedException(typeof(InvalidRelationTypeException), "Relation type with that name already registered.")]
       public void TestAddRelationTypeFailureInvalidRelationTypeName()
       {
@@ -197,14 +168,14 @@ namespace NetMX.Relation.Tests
             new RoleInfo("Partner2", typeof(ParentMBean), false, true, 1, RoleInfo.RoleCardinalityInfinity, "Partner2"));
          _relationService.AddRelationType(type);
       }
-      [TestMethod]
+      [Test]
       [ExpectedException(typeof(InvalidRelationTypeException), "Relation type contains no roles.")]
       public void TestAddRelationTypeFailureNoRoles()
       {
          RelationTypeSupport type = new RelationTypeSupport("Partnership");
          _relationService.AddRelationType(type);
       }
-      [TestMethod]
+      [Test]
       [ExpectedException(typeof(InvalidRelationTypeException), "Relation type contains null RoleInfo.")]
       public void TestAddRelationTypeFailureNullRoleInfo()
       {
@@ -213,7 +184,7 @@ namespace NetMX.Relation.Tests
             new RoleInfo("Partner2", typeof(ParentMBean), false, true, 1, RoleInfo.RoleCardinalityInfinity, "Partner2"));
          _relationService.AddRelationType(type);
       }
-      [TestMethod]
+      [Test]
       [ExpectedException(typeof(InvalidRelationTypeException), "Relation type contains two roles with same name.")]
       public void TestAddRelationTypeFailureDuplicateRoleName()
       {
@@ -225,7 +196,7 @@ namespace NetMX.Relation.Tests
       #endregion
 
       #region FindAssociatedMBeans tests
-      [TestMethod]
+      [Test]
       public void TestFindAssociatedMBeansNoFilter()
       {
          PrepareForAssociationAndReferenceTests();
@@ -239,7 +210,7 @@ namespace NetMX.Relation.Tests
          Assert.IsTrue(res[":type=Parent"].Contains("REL1"));
          Assert.IsTrue(res[":type=Parent"].Contains("REL2"));         
       }
-      [TestMethod]
+      [Test]
       public void TestFindAssociatedMBeansFilterByRelationType()
       {
          PrepareForAssociationAndReferenceTests();
@@ -253,7 +224,7 @@ namespace NetMX.Relation.Tests
          Assert.IsTrue(res[":type=Child,id=1"].Contains("REL1"));
          Assert.IsTrue(res[":type=Child,id=1"].Contains("REL2"));         
       }
-      [TestMethod]
+      [Test]
       public void TestFindAssociatedMBeansFilterByRole()
       {
          PrepareForAssociationAndReferenceTests();
@@ -264,7 +235,7 @@ namespace NetMX.Relation.Tests
       #endregion
 
       #region FindReferencingRelations test
-      [TestMethod]
+      [Test]
       public void TestFindReferencingRelationsNoFilter()
       {
          PrepareForAssociationAndReferenceTests();
@@ -280,7 +251,7 @@ namespace NetMX.Relation.Tests
          Assert.AreEqual(1, res["REL3"].Count);         
          Assert.IsTrue(res["REL3"].Contains("Partner1"));
       }
-      [TestMethod]
+      [Test]
       public void TestFindReferencingRelationsFilterByRelationType()
       {
          PrepareForAssociationAndReferenceTests();
@@ -293,7 +264,7 @@ namespace NetMX.Relation.Tests
          Assert.AreEqual(1, res["REL2"].Count);
          Assert.AreEqual("Parent", res["REL2"][0]);
       }
-      [TestMethod]
+      [Test]
       public void TestFindReferencingRelationsFilterByRole()
       {
          PrepareForAssociationAndReferenceTests();

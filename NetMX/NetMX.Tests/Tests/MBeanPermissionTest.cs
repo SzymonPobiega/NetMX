@@ -1,7 +1,7 @@
 using System;
 using System.Text;
 using System.Collections.Generic;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using System.Threading;
 using System.Security.Principal;
 
@@ -10,7 +10,7 @@ namespace NetMX.Tests
    /// <summary>
    /// Summary description for MBeanPermissionTest
    /// </summary>
-   [TestClass]
+   [TestFixture]
    public class MBeanPermissionTest
    {
       #region Additional test attributes
@@ -35,7 +35,7 @@ namespace NetMX.Tests
       //
       #endregion
 
-      [TestMethod]
+      [Test]
       public void CopyTest()
       {
          MBeanPermission perm = new MBeanPermission("NetMX.StandardMBean, NetMX", "getMBeanInfo", new ObjectName("Sample:"), MBeanPermissionAction.Invoke);
@@ -44,7 +44,7 @@ namespace NetMX.Tests
          Assert.IsTrue(permCopy.Equals(perm));
       }
 
-      [TestMethod]
+      [Test]
       public void TextFormatTest()
       {
          MBeanPermission perm = new MBeanPermission("NetMX.StandardMBean, NetMX", "getMBeanInfo", new ObjectName("Sample:"), MBeanPermissionAction.Invoke);
@@ -83,7 +83,7 @@ namespace NetMX.Tests
          Assert.IsTrue(permText.Equals(perm));
       }
 
-      [TestMethod]
+      [Test]
       public void InSubsetOfTest()
       {
          MBeanPermission permFull = new MBeanPermission("NetMX.StandardMBean, NetMX", "getMBeanInfo", new ObjectName("Sample:"), MBeanPermissionAction.Invoke);
@@ -104,7 +104,7 @@ namespace NetMX.Tests
          perm = new MBeanPermission("NetMX.StandardMBean, NetMX", "getMBeanInfo", new ObjectName("Sample:"), MBeanPermissionAction.Instantiate);
          Assert.IsFalse(permFull.IsSubsetOf(perm));
       }
-      [TestMethod]
+      [Test]
       public void UnionTest()
       {
          MBeanPermission permFull = new MBeanPermission("NetMX.StandardMBean, NetMX", "getMBeanInfo", new ObjectName("Sample:"), MBeanPermissionAction.Invoke);
@@ -128,7 +128,7 @@ namespace NetMX.Tests
          perm = null;
          Assert.IsTrue(permFull.Equals(permFull.Union(perm)));
       }
-      [TestMethod]
+      [Test]
       public void IntersectTest()
       {
          MBeanPermission permFull = new MBeanPermission("NetMX.StandardMBean, NetMX", "getMBeanInfo", new ObjectName("Sample:"), MBeanPermissionAction.Invoke);
@@ -152,7 +152,7 @@ namespace NetMX.Tests
          perm = null;
          Assert.IsNull(permFull.Intersect(perm));
       }
-      [TestMethod]
+      [Test]
       public void DemandTest()
       {
          SetPermissions(new MBeanPermission("NetMX.StandardMBean, NetMX", "getMBeanInfo", new ObjectName("Sample:"), MBeanPermissionAction.Invoke));
@@ -169,8 +169,8 @@ namespace NetMX.Tests
          perm.Demand();
       }
 
-      [TestMethod]
-      [ExpectedException(typeof(InvalidOperationException), "This operation requires a 'needed' permission.")]
+      [Test]
+      [ExpectedException(typeof(InvalidOperationException))]
       public void DemandVerifyAsNeededFailueTest()
       {
          SetPermissions(new MBeanPermission(null, "getMBeanInfo", new ObjectName("Sample:"), MBeanPermissionAction.Invoke));
@@ -178,8 +178,8 @@ namespace NetMX.Tests
          perm.Demand();
       }
 
-      [TestMethod]
-      [ExpectedException(typeof(InvalidOperationException), "This operation requires a 'held' permission.")]
+      [Test]
+      [ExpectedException(typeof(InvalidOperationException))]
       public void DemandVerifyAsHeldFailueTest()
       {
          SetPermissions(new MBeanPermission("NetMX.StandardMBean, NetMX", "getMBeanInfo", new ObjectName("Sample:"), MBeanPermissionAction.Invoke));

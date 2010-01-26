@@ -1,7 +1,7 @@
 using System;
 using System.Text;
 using System.Collections.Generic;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using NetMX.Server.InternalInfo;
 
 namespace NetMX.Tests
@@ -9,7 +9,7 @@ namespace NetMX.Tests
 	/// <summary>
 	/// Summary description for MBeanInternalInfoTests
 	/// </summary>
-	[TestClass]
+	[TestFixture]
 	public class MBeanInternalInfoTests
 	{		
 		#region Additional test attributes
@@ -34,7 +34,7 @@ namespace NetMX.Tests
 		//
 		#endregion
 
-		[TestMethod]
+		[Test]
 		public void TestCreateMBeanInfo()
 		{
 			MBeanInternalInfo info = MBeanInternalInfo.GetCached(typeof(TestMBean));

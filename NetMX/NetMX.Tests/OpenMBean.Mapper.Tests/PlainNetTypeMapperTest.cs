@@ -1,6 +1,6 @@
 ﻿using System;
 
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using NetMX.OpenMBean.Mapper;
 using NetMX.Server.OpenMBean.Mapper;
 using NetMX.Server.OpenMBean.Mapper.Attributes;
@@ -8,7 +8,7 @@ using NetMX.Server.OpenMBean.Mapper.TypeMappers;
 
 namespace NetMX.OpenMBean.Mapper.Tests
 {     
-   [TestClass]
+   [TestFixture]
    public class PlainNetTypeMapperTest : MapperTestBase
    {
       private ITypeMapper mapper = new PlainNetTypeMapper();
@@ -35,7 +35,7 @@ namespace NetMX.OpenMBean.Mapper.Tests
       }
       #endregion
 
-      [TestMethod]
+      [Test]
       public void PlainNetMapperCanHandleSimpleFlatTypes()
       {
          OpenTypeKind mapsTo;
@@ -94,7 +94,7 @@ namespace NetMX.OpenMBean.Mapper.Tests
       }
       #endregion
 
-      [TestMethod]
+      [Test]
       public void PlainNetMapperCanHandleComplexTypes()
       {
          OpenTypeKind mapsTo;
@@ -159,7 +159,7 @@ namespace NetMX.OpenMBean.Mapper.Tests
       }
       #endregion
 
-      [TestMethod]
+      [Test]
       public void MappersUseDescriptionsFromResourceFile()
       {
          OpenTypeKind mapsTo;
@@ -199,7 +199,7 @@ namespace NetMX.OpenMBean.Mapper.Tests
       }
       #endregion
 
-      [TestMethod]
+      [Test]
       public void MappersUseCustomizedMappedTypeName()
       {
          OpenTypeKind mapsTo;

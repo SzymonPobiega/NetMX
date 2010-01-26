@@ -1,15 +1,15 @@
 using System;
 using System.Text;
 using System.Collections.Generic;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace NetMX.OpenMBean.Tests
 {   
-   [TestClass]
+   [TestFixture]
    public class CompositeTypeTests
    {      
-      [TestMethod]
-      [ExpectedException(typeof(ArgumentNullException), "Item names cannot contain null or empty string items.")]
+      [Test]
+      [ExpectedException(typeof(ArgumentNullException))]
       public void TestConstructorFailureNullItemNames()
       {         
          CompositeType type = new CompositeType("TypeName", "TypeDescription", 
@@ -17,17 +17,17 @@ namespace NetMX.OpenMBean.Tests
             new string[] {"ItemDescr1", "ItemDescr2"},
             new OpenType[] { SimpleType.Integer, SimpleType.Double});
       }
-      [TestMethod]
-      [ExpectedException(typeof(ArgumentNullException), "Item descriptions cannot contain null or empty string items.")]
+      [Test]
+      [ExpectedException(typeof(ArgumentNullException))]
       public void TestConstructorFailureNullItemDescriptions()
       {
          CompositeType type = new CompositeType("TypeName", "TypeDescription",
             new string[] { "ItemName1", "ItemName2" },
             new string[] { "ItemDescr1", null },
-            new OpenType[] { SimpleType.Integer, SimpleType.Double });
+            new OpenType[] { SimpleType.Integer, SimpleType.Double });         
       }
-      [TestMethod]
-      [ExpectedException(typeof(ArgumentNullException), "Item types cannot contain null items.")]
+      [Test]
+      [ExpectedException(typeof(ArgumentNullException))]
       public void TestConstructorFailureNullItemTypes()
       {
          CompositeType type = new CompositeType("TypeName", "TypeDescription",
@@ -35,7 +35,7 @@ namespace NetMX.OpenMBean.Tests
             new string[] { "ItemDescr1", "ItemDescr2" },
             new OpenType[] { SimpleType.Integer, null });
       }
-      [TestMethod]
+      [Test]
       [ExpectedException(typeof(OpenDataException), "CompositeType items cannot have duplicate keys.")]
       public void TestConstructorFailureDuplicateItems()
       {
@@ -44,7 +44,7 @@ namespace NetMX.OpenMBean.Tests
             new string[] { "ItemDescr1", "ItemDescr2" },
             new OpenType[] { SimpleType.Integer, SimpleType.Double });
       }      
-      [TestMethod]
+      [Test]
       public void TestGetOpenType()
       {
          CompositeType type = CreateSampleType();
@@ -52,7 +52,7 @@ namespace NetMX.OpenMBean.Tests
          Assert.AreEqual(SimpleType.Double, type.GetOpenType("ItemName2"));
          Assert.AreEqual(null, type.GetOpenType("ItemName3"));
       }
-      [TestMethod]
+      [Test]
       public void TestGetDescription()
       {
          CompositeType type = CreateSampleType();
@@ -60,7 +60,7 @@ namespace NetMX.OpenMBean.Tests
          Assert.AreEqual("ItemDescr2", type.GetDescription("ItemName2"));
          Assert.AreEqual(null, type.GetDescription("ItemName3"));
       }
-      [TestMethod]
+      [Test]
       public void TestContainsKey()
       {
          CompositeType type = CreateSampleType();
@@ -68,7 +68,7 @@ namespace NetMX.OpenMBean.Tests
          Assert.IsTrue(type.ContainsKey("ItemName2"));
          Assert.IsFalse(type.ContainsKey("ItemName3"));
       }
-      [TestMethod]
+      [Test]
       public void TestEquals()
       {         
          for (int i = 0; i < _testPairs.Length; i++)
@@ -80,7 +80,7 @@ namespace NetMX.OpenMBean.Tests
             Assert.AreEqual(result, right.Equals(left));
          }
       }
-      [TestMethod]
+      [Test]
       public void TestEqualityOperator()
       {
          for (int i = 0; i < _testPairs.Length; i++)

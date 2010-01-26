@@ -1,7 +1,7 @@
 using System;
 using System.Text;
 using System.Collections.Generic;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using System.Threading;
 using System.Security.Permissions;
 using System.Security;
@@ -88,16 +88,16 @@ namespace NetMX.Tests
       void DoSomething();
    }
 
-   [TestClass]
+   [TestFixture]
    public class CASPermissionsTests
    {
-      [TestMethod]
+      [Test]
       public void RegisterMBeanSuccessTest()
       {
          IMBeanServer server = new MBeanServer();
          server.RegisterMBean(new Trusted(), new ObjectName("trusted:"));
       }
-      [TestMethod]
+      [Test]
       [ExpectedException(typeof(SecurityException))]
       public void RegisterMBeanFailureTest()
       {
@@ -105,7 +105,7 @@ namespace NetMX.Tests
          server.RegisterMBean(new Untrusted(), new ObjectName("trusted:"));
       }
 
-      [TestMethod]
+      [Test]
       public void GetAttributePermissionTest()
       {
          IMBeanServer server = null;
@@ -121,7 +121,7 @@ namespace NetMX.Tests
             }, "IntValue", "DoSomething", MBeanPermissionAction.GetAttribute, MBeanPermissionAction.SetAttribute);
       }
 
-      [TestMethod]
+      [Test]
       public void SetAttributePermissionTest()
       {
          IMBeanServer server = null;
@@ -137,7 +137,7 @@ namespace NetMX.Tests
             }, "IntValue", "DoSomething", MBeanPermissionAction.SetAttribute, MBeanPermissionAction.GetAttribute);
       }
 
-      [TestMethod]
+      [Test]
       public void RegisterMBeanPermissionTest()
       {
          DoPermissionTest(
@@ -148,7 +148,7 @@ namespace NetMX.Tests
                server.RegisterMBean(new Dummy(), new ObjectName("dummy:"));
             }, null, null, MBeanPermissionAction.RegisterMBean, MBeanPermissionAction.UnregisterMBean);
       }
-      [TestMethod]
+      [Test]
       public void UnregisterMBeanPermissionTest()
       {
          IMBeanServer server = null;

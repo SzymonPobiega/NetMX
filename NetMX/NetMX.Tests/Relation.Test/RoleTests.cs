@@ -1,14 +1,14 @@
 using System;
 using System.Text;
 using System.Collections.Generic;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace NetMX.Relation.Tests
 {
    /// <summary>
    /// Summary description for RoleTests
    /// </summary>
-   [TestClass]
+   [TestFixture]
    public class RoleTests
    {
       public RoleTests()
@@ -40,7 +40,7 @@ namespace NetMX.Relation.Tests
       //
       #endregion
 
-      [TestMethod]
+      [Test]
       public void TestMethod1()
       {
          //

@@ -1,14 +1,14 @@
 using System;
 using System.Text;
 using System.Collections.Generic;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace NetMX.OpenMBean.Tests
 {
    /// <summary>
    /// Summary description for UnitTest1
    /// </summary>
-   [TestClass]
+   [TestFixture]
    public class SimpleTypeTests
    {
       private readonly object[][] _values = new object[][]
@@ -28,7 +28,7 @@ namespace NetMX.OpenMBean.Tests
             new object[] { SimpleType.TimeSpan, TimeSpan.Zero},            
          };  
  
-      [TestMethod]
+      [Test]
       public void TestIsValue()
       {         
          for (int i = 0; i < _values.Length; i++)
@@ -48,7 +48,7 @@ namespace NetMX.OpenMBean.Tests
             }
          }
       }
-      [TestMethod]
+      [Test]
       public void TestEquals()
       {
          for (int i = 0; i < _values.Length; i++)
@@ -68,7 +68,7 @@ namespace NetMX.OpenMBean.Tests
             }
          }
       }
-      [TestMethod]
+      [Test]
       public void TestEqualityOperator()
       {
          for (int i = 0; i < _values.Length; i++)

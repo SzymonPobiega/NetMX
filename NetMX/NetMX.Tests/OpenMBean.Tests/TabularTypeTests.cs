@@ -1,11 +1,11 @@
 using System;
 using System.Text;
 using System.Collections.Generic;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace NetMX.OpenMBean.Tests
 {   
-   [TestClass]
+   [TestFixture]
    public class TabularTypeTests
    {
       private static readonly CompositeType _compType1 = new CompositeType("Type1", "Type1", new string[] {"Item1", "Item2"}, new string[] {"Descr1", "Descr2"}, new OpenType[] {SimpleType.Integer, SimpleType.Double});
@@ -29,7 +29,7 @@ namespace NetMX.OpenMBean.Tests
                false},
          };
 
-      [TestMethod]
+      [Test]
       public void TestEquals()
       {
          for (int i = 0; i < _values.Length; i++)
@@ -41,7 +41,7 @@ namespace NetMX.OpenMBean.Tests
             Assert.AreEqual(result, right.Equals(left));
          }
       }
-      [TestMethod]
+      [Test]
       public void TestEqualityOperator()
       {
          for (int i = 0; i < _values.Length; i++)

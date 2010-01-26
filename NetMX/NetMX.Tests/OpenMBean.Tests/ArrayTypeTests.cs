@@ -1,14 +1,14 @@
 using System;
 using System.Text;
 using System.Collections.Generic;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace NetMX.OpenMBean.Tests
 {
-   [TestClass]
+   [TestFixture]
    public class ArrayTypeTests
    {
-      [TestMethod]
+      [Test]
       public void TestIsValue()
       {
          object[][] values = new object[][]
@@ -31,7 +31,7 @@ namespace NetMX.OpenMBean.Tests
             Assert.AreEqual(result, type.IsValue(value), descr);
          }
       }
-      [TestMethod]
+      [Test]
       public void TestEquals()
       {
          Assert.IsTrue(new ArrayType(1, SimpleType.Integer).Equals(new ArrayType(1, SimpleType.Integer)));

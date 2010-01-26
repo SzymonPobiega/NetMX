@@ -1,14 +1,14 @@
 using System;
 using System.Text;
 using System.Collections.Generic;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace NetMX.OpenMBean.Tests
 {   
-   [TestClass]
+   [TestFixture]
    public class TabularDataSupportTests
    {      
-      [TestMethod]
+      [Test]
       public void TestMethod1()
       {
          //
