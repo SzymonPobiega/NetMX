@@ -5,6 +5,7 @@ using System.ServiceModel.Channels;
 using System.Threading;
 using System.Xml;
 using System;
+using WSMan.NET;
 using WSMan.NET.Enumeration;
 using WSMan.NET.Management;
 using WSMan.NET.Transfer;
@@ -74,7 +75,7 @@ namespace NetMX.Remote.Jsr262.Server
          ResourceUriHeader resourceUri = ResourceUriHeader.ReadFrom(OperationContext.Current.IncomingMessageHeaders);
          if (resourceUri == null || resourceUri.ResourceUri != expectedResourceUri)
          {
-            throw WsAddressingFaults.CreateDestinationUnreachable();
+            throw Faults.DestinationUnreachable.Create();
          }
       }      
    }

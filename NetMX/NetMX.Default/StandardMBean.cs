@@ -194,7 +194,10 @@ namespace NetMX.Server
          }
 
          [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]//U¿ywane przez AttachNotifications
+//Used via reflection
+// ReSharper disable UnusedMember.Local 
          private void HandleSimpleNotification(object sender, NotificationEventArgs args)
+// ReSharper restore UnusedMember.Local
          {
             if (sender == null)
             {

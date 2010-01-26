@@ -8,7 +8,7 @@ using System.Globalization;
 
 namespace NetMX
 {
-   [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1032:ImplementStandardExceptionConstructors", Justification = "Other constructos do not make sense"), Serializable]
+   [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1032:ImplementStandardExceptionConstructors", Justification = "Other constructos do not make sense"), Serializable]   
 	public sealed class AttributeNotFoundException : OperationsException
 	{
 		private readonly string _attributeName;

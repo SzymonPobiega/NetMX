@@ -7,7 +7,6 @@ using WSMan.NET;
 using WSMan.NET.Enumeration;
 using WSMan.NET.Eventing;
 using WSMan.NET.Management;
-using WSMan.NET.Faults;
 
 namespace NetMX.Remote.Jsr262.Client
 {
@@ -139,7 +138,7 @@ namespace NetMX.Remote.Jsr262.Client
          }
          catch (FaultException ex)
          {
-            if (ex.IsEndpointUnavailable())
+            if (ex.IsA(Faults.EndpointUnavailable))
             {
                throw new InstanceNotFoundException(name);
             }
