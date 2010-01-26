@@ -228,7 +228,6 @@ Global
 		{02C0718F-E261-41BE-BB30-5978AE2E1CC7}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
 		{02C0718F-E261-41BE-BB30-5978AE2E1CC7}.Release|.NET.ActiveCfg = Release|Any CPU
 		{02C0718F-E261-41BE-BB30-5978AE2E1CC7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{02C0718F-E261-41BE-BB30-5978AE2E1CC7}.Release|Any CPU.Build.0 = Release|Any CPU
 		{02C0718F-E261-41BE-BB30-5978AE2E1CC7}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{02C0718F-E261-41BE-BB30-5978AE2E1CC7}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{7ABCFCE5-8A64-4D8F-AC60-731637E54F3B}.Debug|.NET.ActiveCfg = Debug|Any CPU
