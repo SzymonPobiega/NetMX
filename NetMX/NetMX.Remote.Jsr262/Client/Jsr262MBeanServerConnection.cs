@@ -182,7 +182,7 @@ namespace NetMX.Remote.Jsr262.Client
 
       public IEnumerable<ObjectName> QueryNames(ObjectName name, QueryExp query)
       {
-         Filter filter = query != null ? new Filter(Schema.QueryNamesDialect, query) : null;
+         Filter filter = new Filter(Schema.QueryNamesDialect, query);
          return _enumClient.EnumerateEPR(new Uri(Schema.DynamicMBeanResourceUri), filter, 1500,
                                          name.CreateSelectorSet())
             .Select(x => x.ExtractObjectName());
@@ -195,16 +195,16 @@ namespace NetMX.Remote.Jsr262.Client
 
       public string GetDefaultDomain()
       {
-         return _manClient.Get<GetDefaultDomainResponse>(Schema.DynamicMBeanResourceUri,
+         return _manClient.Get<XmlFragment<GetDefaultDomainResponse>>(Schema.MBeanServerResourceUri,
                                                          IJsr262ServiceContractConstants.
-                                                            GetDefaultDomainFragmentTransferPath).DomainName;
+                                                            GetDefaultDomainFragmentTransferPath).Value.DomainName;
       }
 
       public IList<string> GetDomains()
       {
-         return _manClient.Get<GetDomainsResponse>(Schema.DynamicMBeanResourceUri,
+         return _manClient.Get<XmlFragment<GetDomainsResponse>>(Schema.MBeanServerResourceUri,
                                                    IJsr262ServiceContractConstants.
-                                                      GetDefaultDomainFragmentTransferPath).DomainNames.ToList();
+                                                      GetDomainsFragmentTransferPath).Value.DomainNames.ToList();
       }
       #endregion
 
