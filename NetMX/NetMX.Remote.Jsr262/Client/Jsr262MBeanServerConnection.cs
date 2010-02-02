@@ -12,8 +12,9 @@ namespace NetMX.Remote.Jsr262.Client
 {
    internal sealed class Jsr262MBeanServerConnection : IMBeanServerConnection, IDisposable
    {
-      public Jsr262MBeanServerConnection(ProxyFactory proxyFactory, ManagementClient managementClient, EnumerationClient enumerationClient, EventingClient eventingClient)
+      public Jsr262MBeanServerConnection(int enumerationMaxElements, ProxyFactory proxyFactory, ManagementClient managementClient, EnumerationClient enumerationClient, EventingClient eventingClient)
       {
+         _enumerationMaxElements = enumerationMaxElements;
          _proxyFactory = proxyFactory;
          _manClient = managementClient;
          _enumClient = enumerationClient;
@@ -183,7 +184,7 @@ namespace NetMX.Remote.Jsr262.Client
       public IEnumerable<ObjectName> QueryNames(ObjectName name, QueryExp query)
       {
          Filter filter = new Filter(Schema.QueryNamesDialect, query);
-         return _enumClient.EnumerateEPR(new Uri(Schema.DynamicMBeanResourceUri), filter, 1500,
+         return _enumClient.EnumerateEPR(new Uri(Schema.DynamicMBeanResourceUri), filter, _enumerationMaxElements,
                                          name.CreateSelectorSet())
             .Select(x => x.ExtractObjectName());
       }
@@ -230,6 +231,7 @@ namespace NetMX.Remote.Jsr262.Client
          _disposed = true;
       }
 
+      private readonly int _enumerationMaxElements;
       private readonly ProxyFactory _proxyFactory;
       private readonly ManagementClient _manClient;
       private readonly EnumerationClient _enumClient;

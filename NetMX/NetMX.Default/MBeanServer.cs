@@ -261,8 +261,15 @@ namespace NetMX.Server
          return _beans.ContainsKey(GetNameWithDomain(name));
       }
       public IEnumerable<ObjectName> QueryNames(ObjectName name, QueryExp query)
-      {         
-         List<ObjectName> results = new List<ObjectName>(_beans.Keys);
+      {
+         List<ObjectName> results = new List<ObjectName>();
+         foreach (ObjectName key in _beans.Keys)
+         {
+            if (name == null || name.Apply(key))
+            {
+               results.Add(key);
+            }
+         }         
          return results;
       }
       public void UnregisterMBean(ObjectName name)

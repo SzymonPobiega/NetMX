@@ -36,6 +36,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
@@ -91,6 +92,8 @@
     <Compile Include="Jsr262GeneratedTypesLogic.cs" />
     <Compile Include="Server\ServerAddressExtension.cs" />
     <Compile Include="Soap12Addressing200408WSHttpBinding.cs" />
+    <Compile Include="Soap12Addressing200408WSHttpBindingCollectionElement.cs" />
+    <Compile Include="Soap12Addressing200408WSHttpBindingElement.cs" />
     <Compile Include="WsAddressingFaults.cs" />
   </ItemGroup>
   <ItemGroup>

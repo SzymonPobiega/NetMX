@@ -1,4 +1,4 @@
-using System;
+using System.Configuration;
 using System.Linq;
 using System.Collections.Generic;
 using System.ServiceModel;
@@ -12,6 +12,13 @@ namespace NetMX.Remote.Jsr262
          : base(securityMode)
       { }
 
+      public Soap12Addressing200408WSHttpBinding(string configurationName)         
+      {
+         Soap12Addressing200408WSHttpBindingCollectionElement.GetBindingCollectionElement()
+            .Bindings[configurationName]
+            .ApplyConfiguration(this);
+      }      
+      
       public override BindingElementCollection CreateBindingElements()
       {
          BindingElementCollection elements = base.CreateBindingElements();

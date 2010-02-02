@@ -55,6 +55,7 @@
   <ItemGroup>
     <Compile Include="Jsr262Tests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="QueryNamesTests.cs" />
     <Compile Include="Sample.cs" />
   </ItemGroup>
   <ItemGroup>
