@@ -9,7 +9,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>NetMX.Remote.Jsr262.Tests</RootNamespace>
-    <AssemblyName>NetMX.Remote.Jsr262.Tests</AssemblyName>
+    <AssemblyName>Tests.NetMX.Remote.Jsr262</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SccProjectName>SAK</SccProjectName>
