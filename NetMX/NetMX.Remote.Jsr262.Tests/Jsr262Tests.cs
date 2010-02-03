@@ -58,11 +58,11 @@ namespace NetMX.Remote.Jsr262.Tests
          Sample o = new Sample();
          ObjectName name = new ObjectName("Sample:a=b");
          _server.RegisterMBean(o, name);
-         Uri serviceUrl = new Uri("http://localhost/MBeanServer");
+         Uri serviceUrl = new Uri("http://localhost:13545/MBeanServer");
 
          _connectorServer = NetMXConnectorServerFactory.NewNetMXConnectorServer(serviceUrl, _server);
          _connectorServer.Start();
-         _connector = NetMXConnectorFactory.Connect(new Uri("http://localhost/MBeanServer"), null);
+         _connector = NetMXConnectorFactory.Connect(serviceUrl, null);
          _remoteServer = _connector.MBeanServerConnection;
       }
 
