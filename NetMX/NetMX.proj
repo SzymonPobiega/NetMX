@@ -11,7 +11,7 @@
   <!--BEGIN USER-->
   <ItemGroup>
     <TestAssemblies Include="NetMX.Tests\bin\Debug\NetMX.Tests.dll"/>
-    <TestAssemblies Include="NetMX.Remote.Jsr262.Tests\bin\Debug\NetMX.Remote.Jsr262.Tests.dll"/>
+    <!--<TestAssemblies Include="NetMX.Remote.Jsr262.Tests\bin\Debug\NetMX.Remote.Jsr262.Tests.dll"/>-->
   </ItemGroup>
   <!--END USER-->
   <ItemGroup>
