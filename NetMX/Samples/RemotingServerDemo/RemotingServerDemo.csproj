@@ -66,17 +66,9 @@
       <Project>{2C4128C4-CD09-4CB6-A97B-E8F36E92AA6E}</Project>
       <Name>NetMX.Proxy.Castle</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\NetMX.Remote.Jsr262\NetMX.Remote.Jsr262.csproj">
-      <Project>{BA2A4CF7-BE10-4CBC-899C-0976D9DBCC74}</Project>
-      <Name>NetMX.Remote.Jsr262</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\NetMX.Remote.Remoting\NetMX.Remote.Remoting.csproj">
       <Project>{FF650A14-16B7-4CB3-BBC0-592FAE591D3D}</Project>
       <Name>NetMX.Remote.Remoting</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\NetMX.Remote.ServiceModel\NetMX.Remote.WCF.csproj">
-      <Project>{ED2EA082-7271-4615-8B1F-B9C5BDA695B4}</Project>
-      <Name>NetMX.Remote.WCF</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\NetMX\NetMX.csproj">
       <Project>{619AD956-B7BC-492D-9722-25DA4891E144}</Project>

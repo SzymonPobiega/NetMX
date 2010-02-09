@@ -16,6 +16,10 @@ namespace NetMX.OpenMBean
    public interface IOpenMBeanParameterInfo
    {
       /// <summary>
+      /// Gets the type of this parameter.
+      /// </summary>
+      string Type { get; }
+      /// <summary>
       /// Gets the default value for this parameter, if it has one, or null otherwise.
       /// </summary>
       object DefaultValue { get; }

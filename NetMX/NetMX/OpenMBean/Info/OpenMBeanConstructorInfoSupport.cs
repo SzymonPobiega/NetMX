@@ -1,6 +1,7 @@
 #region Using
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using NetMX;
 
@@ -12,32 +13,30 @@ namespace NetMX.OpenMBean
    /// Describes a constructor of an Open MBean.   
    /// </summary>
    [Serializable]
-   public class OpenMBeanConstructorInfoSupport : MBeanConstructorInfo, IOpenMBeanConstructorInfo
+   public class OpenMBeanConstructorInfoSupport : IOpenMBeanConstructorInfo
    {
-      /// <summary>
-      /// Constructs an MBeanConstructorInfo object.
-      /// </summary>      
-      /// <param name="name">Name of constructor</param>
-      /// <param name="description">Description of constructor</param>
-      /// <param name="signature">Parameters for this constructor.</param>
-      public OpenMBeanConstructorInfoSupport(string name, string description, IEnumerable<IOpenMBeanParameterInfo> signature)
-			: base(name, description, OpenInfoUtils.Transform<MBeanParameterInfo, IOpenMBeanParameterInfo>(signature), true)
-		{
-		}
-      /// <summary>
-      /// Constructs an MBeanConstructorInfo object.
-      /// </summary>
-      /// <param name="info">Object describing CLR constructor.</param>      
-      public OpenMBeanConstructorInfoSupport(ConstructorInfo info)
-			: base(info, true)
-		{         
-         ParameterInfo[] paramInfos = info.GetParameters();
-         List<MBeanParameterInfo> tmp = new List<MBeanParameterInfo>();
-         for (int i = 0; i < paramInfos.Length; i++)
-         {
-            tmp.Add(new OpenMBeanParameterInfoSupport(paramInfos[i]));
-         }
-         _signature = tmp.AsReadOnly();	
-		}
+      private readonly MBeanConstructorInfo _wrappedInfo;
+      private readonly IList<IOpenMBeanParameterInfo> _wrappedParameters;
+
+      public OpenMBeanConstructorInfoSupport(MBeanConstructorInfo wrappedInfo)
+      {
+         _wrappedInfo = wrappedInfo;
+         _wrappedParameters = _wrappedInfo.Signature.Select<MBeanParameterInfo, IOpenMBeanParameterInfo>(x => new OpenMBeanParameterInfoSupport(x)).ToList().AsReadOnly();
+      }
+
+      public string Name
+      {
+         get { return _wrappedInfo.Name; }
+      }
+
+      public string Description
+      {
+         get { return _wrappedInfo.Description; }
+      }
+
+      public IList<IOpenMBeanParameterInfo> Signature
+      {
+         get { return _wrappedParameters; }
+      }
    }
 }

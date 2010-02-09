@@ -1,10 +1,11 @@
-#region USING
 using System;
-using System.Reflection;
-#endregion
+using System.Collections.Generic;
 
 namespace NetMX
 {
+   /// <summary>
+   /// Represents metadata about MBean attribute.
+   /// </summary>
 	[Serializable]
 	public class MBeanAttributeInfo : MBeanFeatureInfo
 	{
@@ -44,7 +45,21 @@ namespace NetMX
       /// <param name="type">A human readable description of the attribute.</param>
       /// <param name="isReadable">True if the attribute has a getter method, false otherwise.</param>
       /// <param name="isWritable">True if the attribute has a setter method, false otherwise.</param>
-		public MBeanAttributeInfo(string name, string description, string type, bool isReadable, bool isWritable) : base(name, description)
+      public MBeanAttributeInfo(string name, string description, string type, bool isReadable, bool isWritable)
+         : this(name, description, type, isReadable, isWritable, new Descriptor())
+      {         
+      }
+      /// <summary>
+      /// Constructs an MBeanAttributeInfo object.
+      /// </summary>
+      /// <param name="name">The name of the attribute.</param>
+      /// <param name="description">The type or class name of the attribute.</param>
+      /// <param name="type">A human readable description of the attribute.</param>
+      /// <param name="isReadable">True if the attribute has a getter method, false otherwise.</param>
+      /// <param name="isWritable">True if the attribute has a setter method, false otherwise.</param>
+      /// <param name="descriptor">Initial descriptor values.</param>
+      public MBeanAttributeInfo(string name, string description, string type, bool isReadable, bool isWritable, Descriptor descriptor)
+         : base(name, description, descriptor)
 		{
 			if (name == null)
 			{
@@ -61,15 +76,7 @@ namespace NetMX
 			_type = type;
 			_isReadable = isReadable;
 			_isWritable = isWritable;
-		}
-      /// <summary>
-      /// Constructs an MBeanAttributeInfo object.
-      /// </summary>
-      /// <param name="info">Property information object.</param>
-		public MBeanAttributeInfo(PropertyInfo info)
-			: this(info.Name, InfoUtils.GetDescrition(info, info, "MBean attribute"), info.PropertyType.AssemblyQualifiedName, info.CanRead, info.CanWrite)
-		{           
-		}        
+		}      
 		#endregion
 	}
 }

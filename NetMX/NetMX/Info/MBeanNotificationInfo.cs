@@ -1,11 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using System.Collections.ObjectModel;
-using System.Reflection;
 
 namespace NetMX
 {
+   /// <summary>
+   /// Represents metadata about MBean notification.
+   /// </summary>
 	[Serializable]
 	public class MBeanNotificationInfo : MBeanFeatureInfo
 	{
@@ -29,20 +30,6 @@ namespace NetMX
          : base(notificationTypeName, description)
 		{
 			_notifTypes = Array.AsReadOnly(notifTypes);
-		}
-		/// <summary>
-		/// Constructs <see cref="NetMX.MBeanNotificationInfo"/> object.
-		/// </summary>
-		/// <param name="notifTypes">The array of strings (in dot notation) containing the notification types that 
-		/// the MBean may emit.</param>
-		/// <param name="notificationType">.NET type of the notification.</param>
-		public MBeanNotificationInfo(EventInfo eventInfo, Type handlerType)
-			: base(handlerType.GetGenericArguments()[0].AssemblyQualifiedName, InfoUtils.GetDescrition(eventInfo, eventInfo, "MBean notification"))
-		{
-			MBeanNotificationAttribute attribute = (MBeanNotificationAttribute)eventInfo.GetCustomAttributes(typeof(MBeanNotificationAttribute), true)[0];
-			List<string> notifTypes = new List<string>();
-			notifTypes.Add(attribute.NotifType);
-			_notifTypes = notifTypes.AsReadOnly();
-		}
+		}		
 	}
 }

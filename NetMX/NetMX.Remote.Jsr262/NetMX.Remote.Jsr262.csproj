@@ -63,10 +63,24 @@
     <Compile Include="..\SolutionInfo.cs">
       <Link>Properties\SolutionInfo.cs</Link>
     </Compile>
+    <Compile Include="Structures\Metadata\FactoryModelInfoType.cs" />
+    <Compile Include="Structures\Metadata\NotificationModelInfoType.cs" />
+    <Compile Include="Structures\Metadata\ParameterModelInfoType.cs" />
+    <Compile Include="Structures\Metadata\OperationModelInfoType.cs" />
+    <Compile Include="Structures\CompositeDataField.cs" />
+    <Compile Include="EnumerableExtensions.cs" />
+    <Compile Include="Structures\Metadata\ResourceMetaDataType.cs" />
+    <Compile Include="Structures\Metadata\PropertyModelInfoType.cs" />
+    <Compile Include="Structures\Metadata\FeatureInfoType.cs" />
+    <Compile Include="Structures\Metadata\FeatureDescriptorTypeField.cs" />
+    <Compile Include="Structures\Metadata\FeatureDescriptorType.cs" />
+    <Compile Include="Structures\CompositeDataType_Type.cs" />
+    <Compile Include="Structures\ArrayDataType_Type.cs" />
     <Compile Include="Client\NotificationSubscriptionKey.cs" />
     <Compile Include="Client\PullSubscriptionListener.cs" />
     <Compile Include="ConnectionIdHeader.cs" />
     <Compile Include="FragmentHeaderAttribute.cs" />
+    <Compile Include="Structures\OpenDataType_Type.cs" />
     <Compile Include="Server\EventingRequestHandler.cs" />
     <Compile Include="Server\IsRegisteredEnumerationRequestHandler.cs" />
     <Compile Include="Server\MBeanServerManagementRequestHandler.cs" />
@@ -94,6 +108,8 @@
     <Compile Include="Soap12Addressing200408WSHttpBinding.cs" />
     <Compile Include="Soap12Addressing200408WSHttpBindingCollectionElement.cs" />
     <Compile Include="Soap12Addressing200408WSHttpBindingElement.cs" />
+    <Compile Include="Structures\TabularDataType_Type.cs" />
+    <Compile Include="Structures\Metadata\TypedFeatureInfoType.cs" />
     <Compile Include="WsAddressingFaults.cs" />
   </ItemGroup>
   <ItemGroup>

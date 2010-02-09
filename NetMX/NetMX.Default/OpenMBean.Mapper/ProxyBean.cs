@@ -20,9 +20,9 @@ namespace NetMX.Server.OpenMBean.Mapper
          _originalName = originalName;
          _typeCache = typeCache;
 
-         List<IOpenMBeanAttributeInfo> attributes = new List<IOpenMBeanAttributeInfo>();
-         List<IOpenMBeanOperationInfo> operations = new List<IOpenMBeanOperationInfo>();
-         List<IOpenMBeanConstructorInfo> constructors = new List<IOpenMBeanConstructorInfo>();
+         List<MBeanAttributeInfo> attributes = new List<MBeanAttributeInfo>();
+         List<MBeanOperationInfo> operations = new List<MBeanOperationInfo>();
+         List<MBeanConstructorInfo> constructors = new List<MBeanConstructorInfo>();
 
          foreach (MBeanAttributeInfo attributeInfo in originalBeanInfo.Attributes)
          {
@@ -32,23 +32,28 @@ namespace NetMX.Server.OpenMBean.Mapper
                OpenType mappedType = _typeCache.MapType(attributeType);
                if (mappedType != null)
                {
-                  OpenMBeanAttributeInfoSupport openInfo = new OpenMBeanAttributeInfoSupport(
-                     attributeInfo.Name, attributeInfo.Description, mappedType, attributeInfo.Readable, false);
+                  Descriptor descriptor = new Descriptor(); //TODO: Copty fields
+                  descriptor.SetField(OpenTypeDescriptor.Field, mappedType);
+                  MBeanAttributeInfo openInfo = new MBeanAttributeInfo(
+                     attributeInfo.Name, attributeInfo.Description, mappedType.Representation.AssemblyQualifiedName,
+                     attributeInfo.Readable, false, descriptor);
                   attributes.Add(openInfo);
                   _attributeTypes[attributeInfo.Name] = new OpenAndClrType(attributeType, mappedType);
                }
             }
          }
          foreach (MBeanOperationInfo operationInfo in originalBeanInfo.Operations)
-         {
+         {            
             Type returnType = Type.GetType(operationInfo.ReturnType, true);
             OpenType mappedReturnType = _typeCache.MapType(returnType);
             if (mappedReturnType == null)
             {
                continue;               
             }
+            Descriptor descriptor = new Descriptor();
+            descriptor.SetField(OpenTypeDescriptor.Field, mappedReturnType);
             bool success = true;
-            List<IOpenMBeanParameterInfo> openParameters = new List<IOpenMBeanParameterInfo>();
+            List<MBeanParameterInfo> openParameters = new List<MBeanParameterInfo>();
             foreach (MBeanParameterInfo parameterInfo in operationInfo.Signature)
             {
                OpenType mappedParamType = _typeCache.MapType(Type.GetType(parameterInfo.Type, true));
@@ -57,19 +62,24 @@ namespace NetMX.Server.OpenMBean.Mapper
                   success = false;
                   break;                  
                }
-               openParameters.Add(new OpenMBeanParameterInfoSupport(parameterInfo.Name, parameterInfo.Description, mappedParamType));
+               Descriptor paramDescriptor = new Descriptor(); //TODO: Copy fields
+               paramDescriptor.SetField(OpenTypeDescriptor.Field, mappedParamType);
+               openParameters.Add(new MBeanParameterInfo(parameterInfo.Name, parameterInfo.Description,
+                                                         mappedParamType.Representation.AssemblyQualifiedName,
+                                                         paramDescriptor));
             }
             if (!success)
             {
                continue;               
             }
-            OpenMBeanOperationInfoSupport openInfo = new OpenMBeanOperationInfoSupport(operationInfo.Name, 
-                                                                                       operationInfo.Description, mappedReturnType, openParameters, operationInfo.Impact );
+            MBeanOperationInfo openInfo = new MBeanOperationInfo(operationInfo.Name, operationInfo.Description,
+                                                                 mappedReturnType.Representation.AssemblyQualifiedName,
+                                                                 openParameters, operationInfo.Impact, descriptor);
             operations.Add(openInfo);
             _operationReturnTypes[operationInfo.Name] = new OpenAndClrType(returnType, mappedReturnType);
          }
 
-         _info = new OpenMBeanInfoSupport(originalBeanInfo.ClassName, originalBeanInfo.Description,
+         _info = new MBeanInfo(originalBeanInfo.ClassName, originalBeanInfo.Description,
                                           attributes, constructors, operations, originalBeanInfo.Notifications);
       }
 

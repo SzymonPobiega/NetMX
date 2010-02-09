@@ -15,7 +15,6 @@ namespace NetMX
    [Serializable]   
    public class MBeanConstructorInfo : MBeanFeatureInfo
    {
-      #region PROPERTIES
       protected ReadOnlyCollection<MBeanParameterInfo> _signature;
       /// <summary>
       /// Gets the list of parameters for this constructor.
@@ -24,9 +23,7 @@ namespace NetMX
 		{
 			get { return _signature; }
 		}
-      #endregion
 
-      #region CONSTRUCTOR
       /// <summary>
       /// Constructs an MBeanConstructorInfo object.
       /// </summary>      
@@ -37,43 +34,6 @@ namespace NetMX
 			: base(name, description)
 		{
          _signature = new List<MBeanParameterInfo>(signature).AsReadOnly();
-		}
-      /// <summary>
-      /// Constructs an MBeanConstructorInfo object.
-      /// </summary>      
-      /// <param name="name">Name of constructor</param>
-      /// <param name="description">Description of constructor</param>
-      /// <param name="signature">Parameters for this constructor.</param>
-      /// <param name="dummy">A dummy parameter used to differenciate constructor signatures.</param>
-      protected MBeanConstructorInfo(string name, string description, ReadOnlyCollection<MBeanParameterInfo> signature, bool dummy)
-         : base(name, description)
-      {
-         _signature = signature;
-      }
-      /// <summary>
-      /// Constructs an MBeanConstructorInfo object.
-      /// </summary>
-      /// <param name="info">Object describing CLR constructor.</param>      
-      public MBeanConstructorInfo(ConstructorInfo info)
-			: base(info.Name, InfoUtils.GetDescrition(info, info, "MBean constructor"))
-		{			
-			ParameterInfo[] paramInfos = info.GetParameters();
-			List<MBeanParameterInfo> tmp = new List<MBeanParameterInfo>();			
-			for (int i = 0; i < paramInfos.Length; i++)
-			{
-				tmp.Add(new MBeanParameterInfo(paramInfos[i]));
-			}
-			_signature = tmp.AsReadOnly();
-		}
-      /// <summary>
-      /// Constructs an MBeanConstructorInfo object.
-      /// </summary>
-      /// <param name="info">Object describing CLR constructor.</param>      
-      /// <param name="dummy">A dummy parameter used to differenciate constructor signatures.</param>
-      public MBeanConstructorInfo(ConstructorInfo info, bool dummy)
-         : base(info.Name, InfoUtils.GetDescrition(info, info, "MBean constructor"))
-      {         
-      }
-      #endregion
+		}      
    }
 }

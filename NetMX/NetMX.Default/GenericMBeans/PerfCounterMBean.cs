@@ -1,6 +1,7 @@
 #region USING
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Diagnostics;
 using NetMX.OpenMBean;
@@ -14,7 +15,7 @@ namespace NetMX.Server.GenericMBeans
    {
       #region MEMBERS
       private bool _beanInfoDirty = true;
-      private OpenMBeanInfoSupport _beanInfo;
+      private MBeanInfo _beanInfo;
       private ObjectName _thisName;
       private readonly string _perfObjectName;
       private readonly string _perfInstanceName;
@@ -113,11 +114,6 @@ namespace NetMX.Server.GenericMBeans
             {
                description = string.Format(CultureInfo.CurrentCulture, "Performance counter MBean for {0}.", _perfObjectName);
             }
-            List<IOpenMBeanAttributeInfo> attributes = new List<IOpenMBeanAttributeInfo>();
-            List<IOpenMBeanConstructorInfo> constructors = new List<IOpenMBeanConstructorInfo>();
-            List<IOpenMBeanOperationInfo> operations = new List<IOpenMBeanOperationInfo>();
-            List<MBeanNotificationInfo> notifications = new List<MBeanNotificationInfo>();
-
             List<object> legalCountersToCreate = new List<object>();
             List<object> legalCountersToRemove = new List<object>();
 
@@ -133,27 +129,43 @@ namespace NetMX.Server.GenericMBeans
                }
             }
 
-            OpenMBeanParameterInfoSupport addParam =
-               new OpenMBeanParameterInfoSupport("counterName", "Name of new counter", SimpleType.String, null, legalCountersToCreate );
-            operations.Add(new OpenMBeanOperationInfoSupport("AddPerformanceCounter", "Adds new performance counter", SimpleType.Boolean, 
-                                                             new IOpenMBeanParameterInfo[] { addParam}, OperationImpact.Action));
+            MBeanOperationInfo addOperation =
+               MBean.MutatorOperation("AddPerformanceCounter", "Adds new performance counter")
+                  .WithParameters(
+                     MBean.Parameter("counterName", "Name of new counter")
+                     .WithLimitedValues(legalCountersToCreate)
+                     .TypedAs(SimpleType.String)
+                  )
+                  .Returning(SimpleType.Boolean)();
 
-            OpenMBeanParameterInfoSupport removeParam =
-               new OpenMBeanParameterInfoSupport("counterName", "Name of new counter", SimpleType.String, null, legalCountersToRemove);
-            operations.Add(new OpenMBeanOperationInfoSupport("RemovePerformanceCounter", "Removes existing performance counter", SimpleType.Boolean,
-                                                             new IOpenMBeanParameterInfo[] { removeParam }, OperationImpact.Action));
+            MBeanOperationInfo removeOperation =
+               MBean.MutatorOperation("RemovePerformanceCounter", "Removes existing performance counter")
+                  .WithParameters(
+                     MBean.Parameter("counterName", "Name of new counter")
+                     .WithLimitedValues(legalCountersToRemove)
+                     .TypedAs(SimpleType.String)
+                  )
+                  .Returning(SimpleType.Boolean)();
 
-            foreach (PerformanceCounter counter in _counters.Values)
-            {
-               attributes.Add(new OpenMBeanAttributeInfoSupport(counter.CounterName,
-                                                                string.Format(CultureInfo.CurrentCulture, "Raw counter value for counter {0}.", counter.CounterName), SimpleType.Float, true, false));
-            }
+            _beanInfo = MBean.Info(typeof(PerfCounterMBean).AssemblyQualifiedName, description)
+               .WithAttributes(GetCurrentAttributes)
+               .WithOperations(addOperation, removeOperation)
+               .AndNothingElse()();
 
-            _beanInfo = new OpenMBeanInfoSupport(typeof(PerfCounterMBean).AssemblyQualifiedName, description, attributes, constructors, operations, notifications);
             _beanInfoDirty = false;
          }
          return _beanInfo;
       }
+
+      private IEnumerable<MBeanAttributeInfo> GetCurrentAttributes()
+      {
+         return _counters.Values.Select(x =>
+                                 MBean.ReadOnlyAttribute(x.CounterName,
+                                                         string.Format(CultureInfo.CurrentCulture,
+                                                                       "Raw counter value for counter {0}.",
+                                                                       x.CounterName)).TypedAs(SimpleType.Float)());       
+      }      
+
       public object GetAttribute(string attributeName)
       {
          PerformanceCounter counter;
@@ -175,7 +187,7 @@ namespace NetMX.Server.GenericMBeans
       {
          if (operationName == "AddPerformanceCounter")
          {
-            return AddPerformanceCounter((string) arguments[0]);
+            return AddPerformanceCounter((string)arguments[0]);
          }
          else if (operationName == "RemovePerformanceCounter")
          {

@@ -42,10 +42,8 @@ namespace NetMX.OpenMBean
       string ReturnType { get; }
       /// <summary>
       /// Gets a list of <see cref="IOpenMBeanParameterInfo"/> instances describing each parameter in the 
-      /// signature of the operation described by this IOpenMBeanOperationInfo instance. Each instance in the 
-      /// returned list should actually be a subclass of <see cref="MBeanParameterInfo"/> which implements the 
-      /// <see cref="IOpenMBeanParameterInfo"/> interface (typically OpenMBeanParameterInfoSupport).
+      /// signature of the operation described by this IOpenMBeanOperationInfo instance.
       /// </summary>
-      IList<MBeanParameterInfo> Signature { get; }
+      IList<IOpenMBeanParameterInfo> Signature { get; }
    }
 }

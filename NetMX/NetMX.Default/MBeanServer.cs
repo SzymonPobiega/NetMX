@@ -36,7 +36,7 @@ namespace NetMX.Server
          MBeanServerConfigurationSection section = TypedConfigurationManager.GetSection<MBeanServerConfigurationSection>(instanceName, false);
          if (section != null)
          {
-            foreach (MBean beanConfig in section.Beans)
+            foreach (MBeanElement beanConfig in section.Beans)
             {
                List<object> args = new List<object>();
                foreach (MBeanConstructorArgument arg in beanConfig.Arguments)

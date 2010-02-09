@@ -34,6 +34,6 @@ namespace NetMX.OpenMBean
       /// Gets a list of <see cref="IOpenMBeanParameterInfo"/> instances describing each parameter in the 
       /// signature of the constructor described by this IOpenMBeanConstructorInfo instance.
       /// </summary>
-      IList<MBeanParameterInfo> Signature { get; }
+      IList<IOpenMBeanParameterInfo> Signature { get; }
    }
 }

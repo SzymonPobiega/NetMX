@@ -12,7 +12,8 @@ namespace NetMX.WebUI.WebControls
    {
       internal static IValueEditControl CreateValueEditControl(OpenType info)
       {
-         return CreateValueEditControl(new NullOpenMBeanParameterInfo(info));
+         throw new NotImplementedException();
+         //return CreateValueEditControl(new NullOpenMBeanParameterInfo(info));
       }
       internal static IValueEditControl CreateValueEditControl(IOpenMBeanParameterInfo info)
       {         
@@ -72,66 +73,6 @@ namespace NetMX.WebUI.WebControls
          string minValue = info.HasMinValue ? info.MinValue.ToString() : (typeMinValue != null ? typeMinValue.ToString() : "");
          string maxValue = info.HasMaxValue ? info.MaxValue.ToString() : (typeMaxValue != null ? typeMaxValue.ToString() : "");
          return new TextValueEditControl(dataType, info.Name, defaultValue, minValue, maxValue);
-      }
-      private class NullOpenMBeanParameterInfo : IOpenMBeanParameterInfo
-      {
-         private OpenType _openType;
-
-         public NullOpenMBeanParameterInfo(OpenType openType)
-         {
-            _openType = openType;
-         }
-
-         #region IOpenMBeanParameterInfo Members
-         public object DefaultValue
-         {
-            get { return null; }
-         }
-         public string Description
-         {
-            get { return null; }
-         }
-         public IEnumerable LegalValues
-         {
-            get { return null; }
-         }
-         public IComparable MaxValue
-         {
-            get { return null; }
-         }
-         public IComparable MinValue
-         {
-            get { return null; }
-         }
-         public string Name
-         {
-            get { return null; }
-         }
-         public OpenType OpenType
-         {
-            get { return _openType; }
-         }
-         public bool HasDefaultValue
-         {
-            get { return false; }
-         }
-         public bool HasLegalValues
-         {
-            get { return false; }
-         }
-         public bool HasMaxValue
-         {
-            get { return false; }
-         }
-         public bool HasMinValue
-         {
-            get { return false; }
-         }
-         public bool IsValue(object value)
-         {
-            return _openType.IsValue(value);
-         }
-         #endregion
-      }
+      }      
    }
 }

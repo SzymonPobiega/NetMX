@@ -5,6 +5,7 @@ using System.ServiceModel.Channels;
 using System.Threading;
 using System.Xml;
 using System;
+using NetMX.Remote.Jsr262.Structures;
 using WSMan.NET;
 using WSMan.NET.Enumeration;
 using WSMan.NET.Management;

@@ -21,6 +21,7 @@
     <OldToolsVersion>2.0</OldToolsVersion>
     <UpgradeBackupLocation>
     </UpgradeBackupLocation>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -44,6 +45,10 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
+    <Reference Include="System.Core, Version=3.5.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+      <HintPath>c:\Program Files\Reference Assemblies\Microsoft\Framework\v3.5\System.Core.dll</HintPath>
+    </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Web" />
     <Reference Include="System.Xml" />
@@ -80,7 +85,15 @@
     <Compile Include="IDynamicMBean.cs" />
     <Compile Include="IMBeanServer.cs" />
     <Compile Include="INetMXPrincipal.cs" />
-    <Compile Include="Info\InfoUtils.cs" />
+    <Compile Include="Info\Builders\IBuilder.cs" />
+    <Compile Include="Info\Builders\MBeanAttributeInfoBuilder.cs" />
+    <Compile Include="Info\Builders\MBeanInfoBuilder.cs" />
+    <Compile Include="Info\Builders\MBeanOperationInfoBuilder.cs" />
+    <Compile Include="Info\Builders\BuilderExtensions.cs" />
+    <Compile Include="Info\Builders\MBeanParameterInfoBuilder.cs" />
+    <Compile Include="Info\Builders\OpenBuilderExtensions.cs" />
+    <Compile Include="Info\Descriptor.cs" />
+    <Compile Include="Info\DescriptorField.cs" />
     <Compile Include="Info\MBeanAttributeInfo.cs" />
     <Compile Include="Info\MBeanConstructorInfo.cs" />
     <Compile Include="Info\MBeanFeatureInfo.cs" />
@@ -89,6 +102,7 @@
     <Compile Include="Info\MBeanParameterInfo.cs" />
     <Compile Include="Info\MBeanOperationInfo.cs" />
     <Compile Include="Info\MBeanNotificationInfo.cs" />
+    <Compile Include="Info\OperationImpact.cs" />
     <Compile Include="INotficationEmitter.cs" />
     <Compile Include="INotificationListener.cs" />
     <Compile Include="MBeanCASPermission.cs" />
@@ -128,7 +142,9 @@
     <Compile Include="OpenMBean\Info\IOpenMBeanInfo.cs" />
     <Compile Include="OpenMBean\Info\IOpenMBeanOperationInfo.cs" />
     <Compile Include="OpenMBean\Info\IOpenMBeanParameterInfo.cs" />
-    <Compile Include="OpenMBean\Info\OpenInfoUtils.cs" />
+    <Compile Include="OpenMBean\Info\DescriptorFields.cs" />
+    <Compile Include="OpenMBean\Info\OpenMBeanInfoExtensions.cs" />
+    <Compile Include="OpenMBean\Info\OpenTypeValidationExtensions.cs" />
     <Compile Include="OpenMBean\Info\OpenMBeanAttributeInfoSupport.cs" />
     <Compile Include="OpenMBean\Info\OpenMBeanConstructorInfoSupport.cs" />
     <Compile Include="OpenMBean\Info\OpenMBeanInfoSupport.cs" />
@@ -136,7 +152,7 @@
     <Compile Include="OpenMBean\Info\OpenMBeanParameterInfoSupport.cs" />
     <Compile Include="OpenMBean\ITabularData.cs" />
     <Compile Include="OpenMBean\OpenType.cs" />
-    <Compile Include="OpenMBean\OpenTypeVisitor.cs" />
+    <Compile Include="OpenMBean\OpenTypeKind.cs" />
     <Compile Include="OpenMBean\SimpleType.cs" />
     <Compile Include="OpenMBean\TabularDataSupport.cs" />
     <Compile Include="OpenMBean\TabularType.cs" />

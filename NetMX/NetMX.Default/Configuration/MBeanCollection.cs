@@ -15,11 +15,11 @@ namespace NetMX.Server.Configuration
    {
       protected override ConfigurationElement CreateNewElement()
       {
-         return new MBean();
+         return new MBeanElement();
       }
       protected override object GetElementKey(ConfigurationElement element)
       {
-         return ((MBean)element).ObjectName;
+         return ((MBeanElement)element).ObjectName;
       }
    }
 }

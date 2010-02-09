@@ -6,9 +6,9 @@ using System.Linq;
 using System.ServiceModel;
 using System.Text;
 using System.Xml;
-using System.Xml.Serialization;
 using NetMX.OpenMBean;
 using NetMX.Relation;
+using NetMX.Remote.Jsr262.Structures;
 using WSMan.NET;
 
 namespace NetMX.Remote.Jsr262
@@ -16,18 +16,6 @@ namespace NetMX.Remote.Jsr262
    public interface IDeserializable
    {
       object Deserialize();
-   }
-
-   public static class SerializationEnumerableExtensions
-   {
-      public static IEnumerable<T> EmptyIfNull<T>(this IEnumerable<T> nullableCollection)
-      {
-         if (nullableCollection != null)
-         {
-            return nullableCollection;
-         }
-         return new T[] { };
-      }
    }
 
    public partial class NamedGenericValueType
@@ -184,7 +172,12 @@ namespace NetMX.Remote.Jsr262
             {
                Item = new ManagedResourceRoleResult((RoleResult) value);
                ItemElementName = ItemChoiceType.ManagedResourceRoleResult;
+            }
+            else if (typeof(OpenType).IsAssignableFrom(valueType))
+            {
+               Item = OpenDataType_Type.Serialize(value, out itemElementNameField);
             }            
+            else throw new NotSupportedException("Not supported type in serialization: "+valueType);
          }
       }
       public object Deserialize()
@@ -361,217 +354,5 @@ namespace NetMX.Remote.Jsr262
             ManagedResourceRoleList.ManagedResourceRole.Select(x => x.Deserialize()),
             ManagedResourceRoleUnresolvedList.ManagedResourceRoleUnresolved.Select(x => x.Deserialize()));
       }
-   }
-
-   public partial class ResourceMetaDataType
-   {
-      public ResourceMetaDataType()
-      {         
-      }
-      public ResourceMetaDataType(MBeanInfo beanInfo)
-      {
-         Description = new Description {Value = beanInfo.Description};
-         dynamicMBeanResourceClassField = beanInfo.ClassName;
-         factoryTypeField = beanInfo.Constructors.Select(x => new FactoryModelInfoType(x)).ToArray();
-         notificationTypeField = beanInfo.Notifications.Select(x => new NotificationModelInfoType(x)).ToArray();
-         operationTypeField = beanInfo.Operations.Select(x => new OperationModelInfoType(x)).ToArray();
-         propertyTypeField = beanInfo.Attributes.Select(x => new PropertyModelInfoType(x)).ToArray();         
-      }
-      public MBeanInfo Deserialize()
-      {
-         return new MBeanInfo(dynamicMBeanResourceClassField, Description.Value,
-            propertyTypeField.EmptyIfNull().Select(x => x.Deserialize()),
-            factoryTypeField.EmptyIfNull().Select(x => x.Deserialize()),
-            operationTypeField.EmptyIfNull().Select(x => x.Deserialize()),
-            notificationTypeField.EmptyIfNull().Select(x => x.Deserialize()));
-      }
-      private static IEnumerable<T> EmptyIfNull<T>(IEnumerable<T> nullableCollection)
-      {         
-         if (nullableCollection != null)
-         {
-            return nullableCollection;
-         }
-         return new T[] {};
-      }
-   }
-
-   public abstract partial class FeatureInfoType
-   {
-      protected FeatureInfoType()
-      {
-      }
-
-      protected FeatureInfoType(MBeanFeatureInfo attributeInfo)
-      {
-         name = attributeInfo.Name;
-         Description = new Description { Value = attributeInfo.Description };         
-      }      
-   }
-
-   public partial class TypedFeatureInfoType
-   {
-      protected TypedFeatureInfoType(MBeanFeatureInfo featureInfo)
-         : base(featureInfo)
-      {
-      }
-   }
-
-   public partial class PropertyModelInfoType
-   {         
-      public PropertyModelInfoType(MBeanAttributeInfo attributeInfo) : base(attributeInfo)
-      {
-         accessField = "";
-         if (attributeInfo.Readable)
-         {
-            accessField += "r";
-         }
-         if (attributeInfo.Writable)
-         {
-            accessField += "w";
-         }         
-         type = JmxTypeMapping.GetJmxXmlType(attributeInfo.Type);
-      }
-      public MBeanAttributeInfo Deserialize()
-      {
-         FeatureDescriptorTypeField openTypeField = null;
-         if (Field != null)
-         {
-            openTypeField = Field.FirstOrDefault(x => x.Name == "openType");
-         }
-         bool readable = accessField.IndexOf('r') != -1;
-         bool writable = accessField.IndexOf('w') != -1;
-         if (openTypeField == null)
-         {
-            return new MBeanAttributeInfo(name, Description.Value, JmxTypeMapping.GetCLRTypeName(type), readable, writable);
-         }
-         OpenType openType = (OpenType)openTypeField.Value.Deserialize();
-         FeatureDescriptorTypeField defaultValueField = Field.FirstOrDefault(x => x.Name == "defaultValue");
-         FeatureDescriptorTypeField minValueField = Field.FirstOrDefault(x => x.Name == "minValue");
-         FeatureDescriptorTypeField maxValueField = Field.FirstOrDefault(x => x.Name == "maxValue");
-         FeatureDescriptorTypeField legalValuesField = Field.FirstOrDefault(x => x.Name == "legalValues");
-
-         object defaultValue = defaultValueField != null ? defaultValueField.Value.Deserialize() : null;
-
-         if (defaultValueField == null && minValueField == null && maxValueField == null && legalValuesField == null)
-         {
-            return new OpenMBeanAttributeInfoSupport(name, Description.Value, openType, readable, writable);
-         }
-         if (legalValuesField != null)
-         {
-            object[] legalValues = (object[]) legalValuesField.Value.Deserialize();
-            return new OpenMBeanAttributeInfoSupport(name, Description.Value, openType, readable, writable,
-                                                     (IComparable) defaultValue, legalValues);
-         }
-         IComparable minValue = minValueField != null ? (IComparable)minValueField.Value.Deserialize() : null;
-         IComparable maxValue = maxValueField != null ? (IComparable)maxValueField.Value.Deserialize() : null;
-
-         return new OpenMBeanAttributeInfoSupport(name, Description.Value, openType, readable, writable, (IComparable)defaultValue, minValue, maxValue);
-      }
-   }
-
-   public partial class NotificationModelInfoType
-   {
-      public NotificationModelInfoType()
-      {         
-      }
-      public NotificationModelInfoType(MBeanNotificationInfo notificationInfo)
-         : base(notificationInfo)
-      {
-         notificationTypeField = notificationInfo.NotifTypes.ToArray();         
-      }
-      public MBeanNotificationInfo Deserialize()
-      {
-         return new MBeanNotificationInfo(notificationTypeField, name, Description.Value );
-      }
-   }
-
-   public partial class FactoryModelInfoType
-   {
-      public FactoryModelInfoType()
-      {         
-      }
-
-      public FactoryModelInfoType(MBeanConstructorInfo constructorInfo)
-         : base(constructorInfo)
-      {
-         parameterField = constructorInfo.Signature.Select(x => new ParameterModelInfoType(x)).ToArray();         
-      }
-      public MBeanConstructorInfo Deserialize()
-      {
-         return new MBeanConstructorInfo(name, Description.Value, 
-                                       parameterField.EmptyIfNull().Select(x => x.Deserialize()).ToArray());
-      }
-   }
-
-   public partial class OperationModelInfoType
-   {
-      public OperationModelInfoType()
-      {         
-      }
-
-      public OperationModelInfoType(MBeanOperationInfo operationInfo) : base(operationInfo)
-      {
-         inputField = operationInfo.Signature.Select(x => new ParameterModelInfoType(x)).ToArray();
-         impact = "";
-         if ((operationInfo.Impact & OperationImpact.Info) == OperationImpact.Info)
-         {
-            impact += "r";
-         }
-         if ((operationInfo.Impact & OperationImpact.Action) == OperationImpact.Action)
-         {
-            impact += "w";
-         }
-         if (impact.Length == 0)
-         {
-            impact = "unknown";
-         }
-         if (operationInfo.ReturnType != typeof(void).AssemblyQualifiedName)
-         {
-            outputField = new ParameterModelInfoType(operationInfo.ReturnType);  
-         }         
-      }
-      public MBeanOperationInfo Deserialize()
-      {
-         OperationImpact impactEnum = OperationImpact.Unknown;
-         if (impact != null && impact.IndexOf('r') != -1)
-         {
-            impactEnum |= OperationImpact.Info;
-         }
-         if (impact != null && impact.IndexOf('w') != -1)
-         {
-            impactEnum |= OperationImpact.Action;
-         }
-         XmlQualifiedName typeQualifiedName = null;
-         if (outputField != null)
-         {
-            typeQualifiedName = outputField.type;
-         }
-         return new MBeanOperationInfo(name, Description.Value, JmxTypeMapping.GetCLRTypeName(typeQualifiedName),
-                                       inputField.EmptyIfNull().Select(x => x.Deserialize()).ToArray(),
-                                       impactEnum);
-      }      
-   }
-
-   public partial class ParameterModelInfoType
-   {
-      public ParameterModelInfoType()
-      {         
-      }
-
-      public ParameterModelInfoType(string typeName)         
-      {
-         type = JmxTypeMapping.GetJmxXmlType(typeName);
-      }
-
-      public ParameterModelInfoType(MBeanParameterInfo parameterInfo)
-         : base(parameterInfo)
-      {
-         type = JmxTypeMapping.GetJmxXmlType(parameterInfo.Type);
-      }
-
-      public MBeanParameterInfo Deserialize()
-      {
-         return new MBeanParameterInfo(name, Description.Value, JmxTypeMapping.GetCLRTypeName(type));
-      }
-   }           
+   }       
 }

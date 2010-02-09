@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Xml;
+using NetMX.OpenMBean;
 using NetMX.Relation;
 
 namespace NetMX.Remote.Jsr262
@@ -41,6 +42,12 @@ namespace NetMX.Remote.Jsr262
                                                                                  { typeof(RoleUnresolved).AssemblyQualifiedName, "ManagedResourceRoleUnresolved" },
                                                                                  { typeof(RoleResult).AssemblyQualifiedName, "ManagedResourceRoleResult" },
                                                                                  { typeof(ObjectName).AssemblyQualifiedName, "EndpointReference" }, 
+                                                                                 { typeof(ITabularData).AssemblyQualifiedName, "TabularDataValue" }, 
+                                                                                 { typeof(ICompositeData).AssemblyQualifiedName, "CompositeDataValue" }, 
+                                                                                 { typeof(SimpleType).AssemblyQualifiedName, "SimpleDataType" }, 
+                                                                                 { typeof(CompositeType).AssemblyQualifiedName, "CompositeDataType" }, 
+                                                                                 { typeof(ArrayType).AssemblyQualifiedName, "ArrayDataType" }, 
+                                                                                 { typeof(TabularType).AssemblyQualifiedName, "TabularDataType" }, 
                                                                                  //{ typeof().AssemblyQualifiedName, "" }, 
                                                                               };
       static JmxTypeMapping()
@@ -93,7 +100,7 @@ namespace NetMX.Remote.Jsr262
             Type dictionaryType = typeof(IDictionary<,>).MakeGenericType(keyType, valueType);
             return dictionaryType.AssemblyQualifiedName;
          }
-         throw new NotSupportedException("Type is not supported.");
+         throw new NotSupportedException("JMX type is not supported: "+jmxTypeName);
       }
 
 
@@ -139,8 +146,8 @@ namespace NetMX.Remote.Jsr262
          if (typeof(ICollection).IsAssignableFrom(clrType))
          {
             return "List";
-         }
-         throw new NotSupportedException("Type is not supported.");
+         }         
+         throw new NotSupportedException("JMX type is not supported: "+clrTypeName);
       }
    }
 }

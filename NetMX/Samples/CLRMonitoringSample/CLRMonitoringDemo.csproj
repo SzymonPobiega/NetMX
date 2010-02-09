@@ -64,10 +64,6 @@
       <Project>{2C4128C4-CD09-4CB6-A97B-E8F36E92AA6E}</Project>
       <Name>NetMX.Proxy.Castle</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\NetMX.Remote.Remoting\NetMX.Remote.Remoting.csproj">
-      <Project>{FF650A14-16B7-4CB3-BBC0-592FAE591D3D}</Project>
-      <Name>NetMX.Remote.Remoting</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\NetMX\NetMX.csproj">
       <Project>{619AD956-B7BC-492D-9722-25DA4891E144}</Project>
       <Name>NetMX</Name>

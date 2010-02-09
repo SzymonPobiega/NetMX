@@ -34,21 +34,21 @@ namespace NetMX.OpenMBean
       /// subclass of <see cref="MBeanAttributeInfo"/> which implements the <see cref="IOpenMBeanAttributeInfo"/> 
       /// interface (typically OpenMBeanAttributeInfoSupport).
       /// </summary>
-      IList<MBeanAttributeInfo> Attributes { get; }
+      IList<IOpenMBeanAttributeInfo> Attributes { get; }
       /// <summary>
       /// Gets a list of <see cref="IOpenMBeanOperationInfo"/> instances describing each operation in the open 
       /// MBean described by this IOpenMBeanInfo instance. Each instance in the returned list should actually 
       /// be a subclass of <see cref="MBeanOperationInfo"/> which implements the <see cref="IOpenMBeanOperationInfo"/> 
       /// interface (typically OpenMBeanOperationInfoSupport).
       /// </summary>
-      IList<MBeanOperationInfo> Operations { get; }
+      IList<IOpenMBeanOperationInfo> Operations { get; }
       /// <summary>
       /// Gets a list of <see cref="IOpenMBeanConstructorInfo"/> instances describing each constructor in 
       /// the open MBean described by this IOpenMBeanInfo instance. Each instance in the returned list should 
       /// actually be a subclass of <see cref="MBeanConstructorInfo"/> which implements the 
       /// <see cref="IOpenMBeanConstructorInfo"/> interface (typically OpenMBeanConstructorInfoSupport).
       /// </summary>
-      IList<MBeanConstructorInfo> Constructors { get; }
+      IList<IOpenMBeanConstructorInfo> Constructors { get; }
       /// <summary>
       /// Gets a list of <see cref="MBeanNotificationInfo"/> instances describing each notification emitted by 
       /// the open MBean described by this IOpenMBeanInfo instance.

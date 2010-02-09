@@ -2,38 +2,54 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using System.Reflection;
 #endregion
 
 namespace NetMX
 {
+   /// <summary>
+   /// Base class for all feature info classes.
+   /// </summary>
 	[Serializable]
 	public abstract class MBeanFeatureInfo
 	{
-		#region MEMBERS
-		#endregion
-
-		#region PROPERTIES
-		private string _name;
-
+		private readonly string _name;
+      /// <summary>
+      /// Gets name of this feature.
+      /// </summary>
 		public string Name
 		{
 			get { return _name; }
 		}
-		private string _description;
-
+		private readonly string _description;
+      /// <summary>
+      /// Gets description of this feature.
+      /// </summary>
 		public string Description
 		{
 			get { return _description; }
 		}
-		#endregion
 
-		#region CONSTRUCTOR        
+      private readonly Descriptor _descriptor;
+      /// <summary>
+      /// Gets descriptor of this feature.
+      /// </summary>
+      public Descriptor Descriptor
+      {
+         get { return _descriptor; }
+      }
+
 		protected MBeanFeatureInfo(string name, string description)
 		{
 			_name = name;
 			_description = description;
+         _descriptor = new Descriptor();
 		}
-		#endregion
+
+      protected MBeanFeatureInfo(string name, string description, Descriptor descriptor)
+      {
+         _name = name;
+         _description = description;
+         _descriptor = descriptor; //TODO: copy values
+      }
 	}
 }

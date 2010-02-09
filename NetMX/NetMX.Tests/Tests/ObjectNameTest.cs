@@ -9,202 +9,202 @@ using NUnit.Framework;
 
 namespace NetMX.Tests
 {
-    /// <summary>
-    ///This is a test class for NetMX.ObjectName and is intended
-    ///to contain all NetMX.ObjectName Unit Tests
-    ///</summary>
-    [TestFixture]
-    public class ObjectNameTest
-    {        
-        /// <summary>
-        ///A test for Apply (ObjectName)
-        ///</summary>
-        [Test]
-        public void ApplyTest()
-        {
-            ObjectName pattern = new ObjectName("domain:a=1,b=2,c=3");
-            Assert.IsTrue(pattern.Apply(pattern));
+   /// <summary>
+   ///This is a test class for NetMX.ObjectName and is intended
+   ///to contain all NetMX.ObjectName Unit Tests
+   ///</summary>
+   [TestFixture]
+   public class ObjectNameTest
+   {
+      /// <summary>
+      ///A test for Apply (ObjectName)
+      ///</summary>
+      [Test]
+      public void ApplyTest()
+      {
+         ObjectName pattern = new ObjectName("domain:a=1,b=2,c=3");
+         Assert.IsTrue(pattern.Apply(pattern));
 
-            pattern = new ObjectName("domain:a=1,b=2,c=3,*");
-            ObjectName target = new ObjectName("domain:a=1,b=2,c=3");
-            Assert.IsTrue(pattern.Apply(target));
+         pattern = new ObjectName("domain:a=1,b=2,c=3,*");
+         ObjectName target = new ObjectName("domain:a=1,b=2,c=3");
+         Assert.IsTrue(pattern.Apply(target));
 
-            pattern = new ObjectName("domain:a=1,b=2,c=3,*");
-            target = new ObjectName("domain:a=1,b=2,c=3,d=4");
-            Assert.IsTrue(pattern.Apply(target));
+         pattern = new ObjectName("domain:a=1,b=2,c=3,*");
+         target = new ObjectName("domain:a=1,b=2,c=3,d=4");
+         Assert.IsTrue(pattern.Apply(target));
 
-            pattern = new ObjectName("domain:a=1,b=2,c=3");
-            target = new ObjectName("domain:a=1,b=2,c=3,d=4");
-            Assert.IsFalse(pattern.Apply(target));
+         pattern = new ObjectName("domain:a=1,b=2,c=3");
+         target = new ObjectName("domain:a=1,b=2,c=3,d=4");
+         Assert.IsFalse(pattern.Apply(target));
 
-            pattern = new ObjectName("domain:a=1,b=2,c=3");
-            target = new ObjectName("domain:a=1,b=4,c=3");
-            Assert.IsFalse(pattern.Apply(target));
+         pattern = new ObjectName("domain:a=1,b=2,c=3");
+         target = new ObjectName("domain:a=1,b=4,c=3");
+         Assert.IsFalse(pattern.Apply(target));
 
-            pattern = new ObjectName("do?ain:a=1,b=2,c=3");
-            target = new ObjectName("doFain:a=1,b=2,c=3");
-            Assert.IsTrue(pattern.Apply(target));
+         pattern = new ObjectName("do?ain:a=1,b=2,c=3");
+         target = new ObjectName("doFain:a=1,b=2,c=3");
+         Assert.IsTrue(pattern.Apply(target));
 
-            pattern = new ObjectName("dom*in:a=1,b=2,c=3");
-            target = new ObjectName("domHUGSXUain:a=1,b=2,c=3");
-            Assert.IsTrue(pattern.Apply(target));
-        }
+         pattern = new ObjectName("dom*in:a=1,b=2,c=3");
+         target = new ObjectName("domHUGSXUain:a=1,b=2,c=3");
+         Assert.IsTrue(pattern.Apply(target));
+      }      
 
-        /// <summary>
-        ///A test for CanonicalKeyPropertyListString
-        ///</summary>
-        [Test]
-        public void CanonicalKeyPropertyListStringTest()
-        {
-            string domain = "domain";
+      /// <summary>
+      ///A test for CanonicalKeyPropertyListString
+      ///</summary>
+      [Test]
+      public void CanonicalKeyPropertyListStringTest()
+      {
+         string domain = "domain";
 
-            System.Collections.Generic.Dictionary<string, string> properties = new Dictionary<string, string>();
-            properties["bbb"] = "1";
-            properties["ccc"] = "2";
-            properties["ddd"] = "3";
-            properties["aaa"] = "4";
-            ObjectName target = new ObjectName(domain, properties);
+         System.Collections.Generic.Dictionary<string, string> properties = new Dictionary<string, string>();
+         properties["bbb"] = "1";
+         properties["ccc"] = "2";
+         properties["ddd"] = "3";
+         properties["aaa"] = "4";
+         ObjectName target = new ObjectName(domain, properties);
 
-            string val = "aaa=4,bbb=1,ccc=2,ddd=3";
-            Assert.AreEqual(val, target.CanonicalKeyPropertyListString);
-        }
+         string val = "aaa=4,bbb=1,ccc=2,ddd=3";
+         Assert.AreEqual(val, target.CanonicalKeyPropertyListString);
+      }
 
-        [Test]
-        [ExpectedException(typeof(MalformedObjectNameException))]
-        public void MalformedTestDoubleAsterisk()
-        {
-            ObjectName name = new ObjectName("domain:aaa=1,*,b=2,*");
-        }
-        
-        /// <summary>
-        ///A test for CanonicalName
-        ///</summary>
-        [Test]
-        public void CanonicalNameTest()
-        {
-            string domain = "domain";
+      [Test]
+      [ExpectedException(typeof(MalformedObjectNameException))]
+      public void MalformedTestDoubleAsterisk()
+      {
+         ObjectName name = new ObjectName("domain:aaa=1,*,b=2,*");
+      }
 
-            System.Collections.Generic.Dictionary<string, string> properties = new Dictionary<string, string>();
-            properties["bbb"] = "1";
-            properties["ccc"] = "2";
-            properties["*"] = null;
-            properties["ddd"] = "3";
-            properties["aaa"] = "4";            
-            ObjectName target = new ObjectName(domain, properties);
+      /// <summary>
+      ///A test for CanonicalName
+      ///</summary>
+      [Test]
+      public void CanonicalNameTest()
+      {
+         string domain = "domain";
 
-            string val = "domain:aaa=4,bbb=1,ccc=2,ddd=3,*";
-            Assert.AreEqual(val, target.CanonicalName);
-        }
-        
-        /// <summary>
-        ///A test for Equals (object)
-        ///</summary>
-        [Test]
-        public void EqualsTest()
-        {            
-            ObjectName target = new ObjectName("domain:a=4,b=5,c=6");
+         System.Collections.Generic.Dictionary<string, string> properties = new Dictionary<string, string>();
+         properties["bbb"] = "1";
+         properties["ccc"] = "2";
+         properties["*"] = null;
+         properties["ddd"] = "3";
+         properties["aaa"] = "4";
+         ObjectName target = new ObjectName(domain, properties);
 
-            ObjectName other = new ObjectName("domain:a=4,b=5,c=6");                        
-            Assert.IsTrue(target.Equals(other));
+         string val = "domain:aaa=4,bbb=1,ccc=2,ddd=3,*";
+         Assert.AreEqual(val, target.CanonicalName);
+      }
 
-            other = new ObjectName("domain:b=5,a=4,c=6");
-            Assert.IsTrue(target.Equals(other));
+      /// <summary>
+      ///A test for Equals (object)
+      ///</summary>
+      [Test]
+      public void EqualsTest()
+      {
+         ObjectName target = new ObjectName("domain:a=4,b=5,c=6");
 
-            other = new ObjectName("domain:c=6,b=5,a=4");
-            Assert.IsTrue(target.Equals(other));
+         ObjectName other = new ObjectName("domain:a=4,b=5,c=6");
+         Assert.IsTrue(target.Equals(other));
 
-            Dictionary<string, string> properties = new Dictionary<string, string>();
-            properties["a"] = "4";
-            properties["b"] = "5";
-            properties["c"] = "6";
-            other = new ObjectName("domain", properties);
-            Assert.IsTrue(target.Equals(other));
-        }
+         other = new ObjectName("domain:b=5,a=4,c=6");
+         Assert.IsTrue(target.Equals(other));
 
-        /// <summary>
-        ///A test for IsDomainPattern
-        ///</summary>
-        [Test]
-        public void IsDomainPatternTest()
-        {
-            ObjectName target = new ObjectName("domain:");
-            Assert.IsFalse(target.IsDomainPattern);
+         other = new ObjectName("domain:c=6,b=5,a=4");
+         Assert.IsTrue(target.Equals(other));
 
-            target = new ObjectName("dom?in:");
-            Assert.IsTrue(target.IsDomainPattern);
+         Dictionary<string, string> properties = new Dictionary<string, string>();
+         properties["a"] = "4";
+         properties["b"] = "5";
+         properties["c"] = "6";
+         other = new ObjectName("domain", properties);
+         Assert.IsTrue(target.Equals(other));
+      }
 
-            target = new ObjectName("d*main:");
-            Assert.IsTrue(target.IsDomainPattern);            
-        }
-        
-        /// <summary>
-        ///A test for IsPropertyPattern
-        ///</summary>
-        [Test]
-        public void IsPropertyPatternTest()
-        {
-            Dictionary<string, string> properties = new Dictionary<string, string>();
-            properties["a"] = "4";
-            properties["b"] = "5";
-            properties["c"] = "6";
-            properties["*"] = null;            
-            ObjectName target = new ObjectName("domain", properties);
-            Assert.IsTrue(target.IsPropertyPattern);
+      /// <summary>
+      ///A test for IsDomainPattern
+      ///</summary>
+      [Test]
+      public void IsDomainPatternTest()
+      {
+         ObjectName target = new ObjectName("domain:");
+         Assert.IsFalse(target.IsDomainPattern);
 
-            properties = new Dictionary<string, string>();
-            properties["a"] = "4";
-            properties["b"] = "5";
-            properties["c"] = "6";            
-            target = new ObjectName("domain", properties);
-            Assert.IsFalse(target.IsPropertyPattern);
+         target = new ObjectName("dom?in:");
+         Assert.IsTrue(target.IsDomainPattern);
 
-            target = new ObjectName("domain:a=5,b=6");
-            Assert.IsFalse(target.IsPropertyPattern);
+         target = new ObjectName("d*main:");
+         Assert.IsTrue(target.IsDomainPattern);
+      }
 
-            target = new ObjectName("domain:a=5,*,b=6");
-            Assert.IsTrue(target.IsPropertyPattern);            
-        }
+      /// <summary>
+      ///A test for IsPropertyPattern
+      ///</summary>
+      [Test]
+      public void IsPropertyPatternTest()
+      {
+         Dictionary<string, string> properties = new Dictionary<string, string>();
+         properties["a"] = "4";
+         properties["b"] = "5";
+         properties["c"] = "6";
+         properties["*"] = null;
+         ObjectName target = new ObjectName("domain", properties);
+         Assert.IsTrue(target.IsPropertyPattern);
 
-        /// <summary>
-        ///A test for KeyProperty
-        ///</summary>
-        [Test]
-        public void KeyPropertyTest()
-        {            
-            ObjectName target = new ObjectName("domain:a=1,b=2,c=3");
-            Assert.AreEqual("1", target.GetKeyProperty("a"));
-				Assert.AreEqual("2", target.GetKeyProperty("b"));
-				Assert.AreEqual("3", target.GetKeyProperty("c"));
-				Assert.AreEqual(null, target.GetKeyProperty("d"));            
-        }
+         properties = new Dictionary<string, string>();
+         properties["a"] = "4";
+         properties["b"] = "5";
+         properties["c"] = "6";
+         target = new ObjectName("domain", properties);
+         Assert.IsFalse(target.IsPropertyPattern);
 
-        /// <summary>
-        ///A test for KeyProperyListString
-        ///</summary>
-        [Test]
-        public void KeyProperyListStringTest()
-        {            
-            ObjectName target = new ObjectName("domain:b=2,c=3,a=1");
-            Assert.AreEqual("b=2,c=3,a=1", target.KeyPropertyListString);
+         target = new ObjectName("domain:a=5,b=6");
+         Assert.IsFalse(target.IsPropertyPattern);
 
-            Dictionary<string, string> properties = new Dictionary<string, string>();
-            properties["a"] = "4";
-            properties["b"] = "5";
-            properties["c"] = "6";
-            target = new ObjectName("domain", properties);
-            Assert.AreEqual("a=4,b=5,c=6", target.KeyPropertyListString);
-        }        
-        /// <summary>
-        ///A test for ToString ()
-        ///</summary>
-        [Test]
-        public void ToStringTest()
-        {
-            ObjectName target = new ObjectName("domain:b=2,c=3,a=1");
-            Assert.AreEqual("domain:b=2,c=3,a=1", target.ToString());
-        }
+         target = new ObjectName("domain:a=5,*,b=6");
+         Assert.IsTrue(target.IsPropertyPattern);
+      }
 
-    }
+      /// <summary>
+      ///A test for KeyProperty
+      ///</summary>
+      [Test]
+      public void KeyPropertyTest()
+      {
+         ObjectName target = new ObjectName("domain:a=1,b=2,c=3");
+         Assert.AreEqual("1", target.GetKeyProperty("a"));
+         Assert.AreEqual("2", target.GetKeyProperty("b"));
+         Assert.AreEqual("3", target.GetKeyProperty("c"));
+         Assert.AreEqual(null, target.GetKeyProperty("d"));
+      }
+
+      /// <summary>
+      ///A test for KeyProperyListString
+      ///</summary>
+      [Test]
+      public void KeyProperyListStringTest()
+      {
+         ObjectName target = new ObjectName("domain:b=2,c=3,a=1");
+         Assert.AreEqual("b=2,c=3,a=1", target.KeyPropertyListString);
+
+         Dictionary<string, string> properties = new Dictionary<string, string>();
+         properties["a"] = "4";
+         properties["b"] = "5";
+         properties["c"] = "6";
+         target = new ObjectName("domain", properties);
+         Assert.AreEqual("a=4,b=5,c=6", target.KeyPropertyListString);
+      }
+      /// <summary>
+      ///A test for ToString ()
+      ///</summary>
+      [Test]
+      public void ToStringTest()
+      {
+         ObjectName target = new ObjectName("domain:b=2,c=3,a=1");
+         Assert.AreEqual("domain:b=2,c=3,a=1", target.ToString());
+      }
+
+   }
 
 
 }

@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using NUnit.Framework;
 
-namespace NetMX.Remote.Jsr262.Tests
+namespace NetMX.Remote.Tests
 {
    [TestFixture]
-   public class Jsr262Tests
+   public abstract class SimpleStandardTests
    {      
       [Test]
       public void TestGetDefaultDomain()
@@ -24,7 +24,7 @@ namespace NetMX.Remote.Jsr262.Tests
 
          Assert.AreEqual(2, domains.Count());
          Assert.IsTrue(domains.Contains("NetMXImplementation"));
-         Assert.IsTrue(domains.Contains("Sample"));
+         Assert.IsTrue(domains.Contains("Tests"));
       }
 
       [Test]
@@ -33,17 +33,17 @@ namespace NetMX.Remote.Jsr262.Tests
          IEnumerable<ObjectName> names = _remoteServer.QueryNames(null, null);
 
          Assert.AreEqual(2, names.Count());
-         Assert.IsTrue(names.Contains(new ObjectName("Sample:a=b")));
+         Assert.IsTrue(names.Contains(new ObjectName("Tests:key=value")));
          Assert.IsTrue(names.Contains(new ObjectName("NetMXImplementation:type=MBeanServerDelegate")));
       }
 
       [Test]
       public void TestQueryNamesObjectNameRestriction()
       {
-         IEnumerable<ObjectName> names = _remoteServer.QueryNames("Sample:a=b", null);
+         IEnumerable<ObjectName> names = _remoteServer.QueryNames("Tests:key=value", null);
 
          Assert.AreEqual(1, names.Count());
-         Assert.IsTrue(names.Contains(new ObjectName("Sample:a=b")));
+         Assert.IsTrue(names.Contains(new ObjectName("Tests:key=value")));
       }
 
       private IMBeanServer _server;
@@ -55,16 +55,18 @@ namespace NetMX.Remote.Jsr262.Tests
       public void SetUp()
       {
          _server = MBeanServerFactory.CreateMBeanServer();
-         Sample o = new Sample();
-         ObjectName name = new ObjectName("Sample:a=b");
+         SimpleStandard o = new SimpleStandard();
+         ObjectName name = new ObjectName("Tests:key=value");
          _server.RegisterMBean(o, name);
-         Uri serviceUrl = new Uri("http://localhost:13545/MBeanServer");
+         Uri serviceUrl = GetUri();
 
          _connectorServer = NetMXConnectorServerFactory.NewNetMXConnectorServer(serviceUrl, _server);
          _connectorServer.Start();
          _connector = NetMXConnectorFactory.Connect(serviceUrl, null);
          _remoteServer = _connector.MBeanServerConnection;
       }
+
+      protected abstract Uri GetUri();
 
       [TearDown]
       public void TearDown()

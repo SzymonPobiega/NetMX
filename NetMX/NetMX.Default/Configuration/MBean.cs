@@ -12,7 +12,7 @@ namespace NetMX.Server.Configuration
    /// Represents one MBean instance. Defines name, class and construcotr arguments for this bean. Values are
    /// to be passed to <see cref="IMBeanServer.CreateMBean"/> method.
    /// </summary>
-   public class MBean : ConfigurationElement
+   public class MBeanElement : ConfigurationElement
    {
       /// <summary>
       /// Object name of configured MBean. Configuration framework ensures uniqueness of is among all MBean

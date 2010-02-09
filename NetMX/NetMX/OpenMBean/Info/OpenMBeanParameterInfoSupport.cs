@@ -13,160 +13,78 @@ namespace NetMX.OpenMBean
    /// Describes a parameter used in one or more operations or constructors of an open MBean.
    /// </summary>
    [Serializable]   
-   public class OpenMBeanParameterInfoSupport : MBeanParameterInfo, IOpenMBeanParameterInfo
+   public class OpenMBeanParameterInfoSupport : IOpenMBeanParameterInfo
    {
-      #region Members
-      private readonly object _defaultValue;
-      private readonly object _minValue;
-      private readonly object _maxValue;
-      private readonly ReadOnlyCollection<object> _legalValues;
-      private readonly OpenType _openType;
-      #endregion
+      private readonly MBeanParameterInfo _wrappedInfo;
 
-      #region Constructors
-      /// <summary>
-      /// Constructs an OpenMBeanParameterInfoSupport object.
-      /// </summary>
-      /// <param name="name">The name of the parameter.</param>
-      /// <param name="description">A human readable description of the parameter.</param>
-      /// <param name="openType">An open type of the parameter.</param>      
-      public OpenMBeanParameterInfoSupport(string name, string description, OpenType openType)
-         : base(name, description, openType.Representation.AssemblyQualifiedName)
+      public OpenMBeanParameterInfoSupport(MBeanParameterInfo wrappedInfo)
       {
-         if (openType == null)
-         {
-            throw new ArgumentNullException("openType");
-         }
-         _openType = openType;
+         _wrappedInfo = wrappedInfo;
       }
-      /// <summary>
-      /// Constructs an OpenMBeanParameterInfoSupport object.
-      /// </summary>
-      /// <param name="name">The name of the parameter.</param>
-      /// <param name="description">A human readable description of the parameter.</param>
-      /// <param name="openType">An open type of the parameter.</param>      
-      /// <param name="defaultValue">Must be a valid value for the <paramref name="openType"/> specified for 
-      /// this parameter; default value not supported for <see cref="ArrayType"/> and <see cref="TabularType"/>; 
-      /// can be null, in which case it means that no default value is set.</param>
-      public OpenMBeanParameterInfoSupport(string name, string description, OpenType openType, object defaultValue)
-         : this(name, description, openType)
+
+      public string Type
       {
-         OpenInfoUtils.ValidateDefaultValue(openType, defaultValue);
-         _defaultValue = defaultValue;
+         get { return OpenType.Representation.AssemblyQualifiedName; }
       }
-      /// <summary>
-      /// Constructs an OpenMBeanParameterInfoSupport object.
-      /// </summary>
-      /// <param name="name">The name of the parameter.</param>
-      /// <param name="description">A human readable description of the parameter.</param>
-      /// <param name="openType">An open type of the parameter.</param>      
-      /// <param name="defaultValue">Must be a valid value for the <paramref name="openType"/> specified for 
-      /// this parameter; default value not supported for <see cref="ArrayType"/> and <see cref="TabularType"/>; 
-      /// can be null, in which case it means that no default value is set.</param>
-      /// <param name="minValue">Minimum parameter value. Must be valid for the <paramref name="openType"/> specified for this 
-      /// parameter; can be null, in which case it means that no minimal value is set.</param>
-      /// <param name="maxValue">Maximum parameter value. Must be valid for the <paramref name="openType"/> 
-      /// specified for this parameter; can be null, in which case it means that no minimal value is set.</param>
-      public OpenMBeanParameterInfoSupport(string name, string description, OpenType openType, IComparable defaultValue, IComparable minValue, IComparable maxValue)
-         : this(name, description, openType, defaultValue)
-      {
-         OpenInfoUtils.ValidateMinMaxValue(openType, defaultValue, minValue, maxValue);
-         _minValue = minValue;
-         _maxValue = maxValue;
-      }      
-      /// <summary>
-      /// Constructs an OpenMBeanParameterInfoSupport object.
-      /// </summary>
-      /// <param name="name">The name of the parameter.</param>
-      /// <param name="description">A human readable description of the parameter.</param>
-      /// <param name="openType">An open type of the parameter.</param>      
-      /// <param name="defaultValue">Must be a valid value for the <paramref name="openType"/> specified for 
-      /// this parameter; default value not supported for <see cref="ArrayType"/> and <see cref="TabularType"/>; 
-      /// can be null, in which case it means that no default value is set.</param>
-      /// <param name="legalValues">Legal values for this parameter. Each contained value must be valid for 
-      /// the <paramref name="openType"/> specified for this parameter; legal values not supported for 
-      /// <see cref="ArrayType"/> and <see cref="TabularType"/>; can be null or empty.</param>      
-      public OpenMBeanParameterInfoSupport(string name, string description, OpenType openType, IComparable defaultValue, IEnumerable<object> legalValues)
-         : this(name, description, openType, defaultValue)
-      {
-         OpenInfoUtils.ValidateLegalValues(openType, legalValues);
-         _legalValues = new List<object>(legalValues).AsReadOnly();
-      }      
-      /// <summary>
-      /// Constructs an OpenMBeanParameterInfoSupport object.
-      /// </summary>
-      /// <param name="info">Parameter information object.</param>
-      public OpenMBeanParameterInfoSupport(ParameterInfo info)
-			: base(info)
-      {
-         _openType = OpenMBean.OpenType.CreateOpenType(info.ParameterType);
-         object[] tmp = info.GetCustomAttributes(typeof (OpenMBeanParameterAttribute), false);
-         if (tmp.Length > 0)
-         {
-            OpenMBeanParameterAttribute attr = (OpenMBeanParameterAttribute)tmp[0];
-            if (attr.LegalValues != null && (attr.MinValue != null || attr.MaxValue != null))
-            {
-               throw new OpenDataException("Cannot specify both min/max values and legal values.");
-            }            
-            OpenInfoUtils.ValidateDefaultValue(_openType, attr.DefaultValue);
-            IComparable defaultValue = (IComparable) attr.DefaultValue;
-            IComparable minValue = (IComparable) attr.MinValue;
-            IComparable maxValue = (IComparable) attr.MaxValue;
-            OpenInfoUtils.ValidateMinMaxValue(_openType, defaultValue, minValue, maxValue);
-            if (attr.LegalValues != null)
-            {
-               OpenInfoUtils.ValidateLegalValues(_openType, attr.LegalValues);
-               _legalValues = new ReadOnlyCollection<object>(attr.LegalValues);
-            }            
-            _defaultValue = defaultValue;
-            _minValue = minValue;
-            _maxValue = maxValue;                        
-         }
-      }      
-      #endregion
 
-
-      #region IOpenMBeanParameterInfo Members
       public object DefaultValue
       {
-         get { return _defaultValue; }
+         get { return _wrappedInfo.Descriptor.GetFieldValue(DefaultValueDescriptor.Field); }
       }
+
+      public string Description
+      {
+         get { return _wrappedInfo.Description; }
+      }
+
       public IEnumerable LegalValues
       {
-         get { return _legalValues; }
+         get { return _wrappedInfo.Descriptor.GetFieldValue(LegalValuesDescriptor.Field); }
       }
+
       public IComparable MaxValue
       {
-         get { return (IComparable)_maxValue; }
+         get { return _wrappedInfo.Descriptor.GetFieldValue(MaxValueDescriptor.Field); }
       }
+
       public IComparable MinValue
       {
-         get { return (IComparable)_minValue; }
+         get { return _wrappedInfo.Descriptor.GetFieldValue(MinValueDescriptor.Field); }
       }
+
+      public string Name
+      {
+         get { return _wrappedInfo.Name; }
+      }
+
       public OpenType OpenType
       {
-         get { return _openType; }
+         get { return _wrappedInfo.Descriptor.GetFieldValue(OpenTypeDescriptor.Field); }
       }
+
       public bool HasDefaultValue
       {
-         get { return _defaultValue != null; }
+         get { return _wrappedInfo.Descriptor.HasValue(DefaultValueDescriptor.Field); }
       }
+
       public bool HasLegalValues
       {
-         get { return _legalValues != null; }
+         get { return _wrappedInfo.Descriptor.HasValue(LegalValuesDescriptor.Field); }
       }
+
       public bool HasMaxValue
       {
-         get { return _maxValue != null; }
+         get { return _wrappedInfo.Descriptor.HasValue(MaxValueDescriptor.Field); }
       }
+
       public bool HasMinValue
       {
-         get { return _minValue != null; }
+         get { return _wrappedInfo.Descriptor.HasValue(MinValueDescriptor.Field); }
       }
+
       public bool IsValue(object value)
       {
-         return _openType.IsValue(value);
-      }
-      #endregion
+         return OpenType.IsValue(value);
+      }      
    }
 }

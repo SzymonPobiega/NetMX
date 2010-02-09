@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using NetMX;
 
 #endregion
@@ -9,82 +10,58 @@ using NetMX;
 namespace NetMX.OpenMBean
 {
    /// <summary>
-   /// The OpenMBeanInfoSupport class describes the management information of an open MBean: it is a subclass 
+   /// The OpenMBeanInfoSupport class describes the management information of an open MBean: it wrapps an instance 
    /// of <see cref="MBeanInfo"/>, and it implements the <see cref="IOpenMBeanInfo"/> interface. Note that an 
-   /// open MBean is recognized as such if its <see cref="IDynamicMBean.GetMBeanInfo"/> method returns an 
-   /// instance of a class which implements the <see cref="IOpenMBeanInfo"/> interface, typically 
-   /// IOpenMBeanInfoSupport.
+   /// open MBean is recognized as such if its info's descriptor contains OpenType field.
    /// </summary>
    [Serializable]
-   public class OpenMBeanInfoSupport : MBeanInfo, IOpenMBeanInfo
+   public class OpenMBeanInfoSupport : IOpenMBeanInfo
    {
+      private readonly MBeanInfo _wrappedInfo;
+      private readonly IList<IOpenMBeanAttributeInfo> _wrappedAttributes;
+      private readonly IList<IOpenMBeanOperationInfo> _wrappedOperations;
+      private readonly IList<IOpenMBeanConstructorInfo> _wrappedConstructors;
+
       /// <summary>
-      /// Constructs
+      /// Creates new open MBean info wrapper.
       /// </summary>
-      /// <param name="type">Type object of MBean implementation.</param>
-      /// <param name="attributes">List of MBean attributes. It should be an empty list if MBean contains no attributes.</param>
-      /// <param name="constructors">List of MBean constructors. It should be an empty list if MBean contains no constructors.</param>
-      /// <param name="operations">List of MBean operations. It should be an empty list if MBean contains no operations.</param>
-      /// <param name="notifications">List of MBean notifications. It should be an empty list if MBean contains no notifications.</param>
-      public OpenMBeanInfoSupport(Type type, IEnumerable<MBeanAttributeInfo> attributes, IEnumerable<MBeanConstructorInfo> constructors, IEnumerable<MBeanOperationInfo> operations, IEnumerable<MBeanNotificationInfo> notifications)
-         : base(type,
-         OpenInfoUtils.ValidateAs<MBeanAttributeInfo, IOpenMBeanAttributeInfo>(attributes),
-         OpenInfoUtils.ValidateAs<MBeanConstructorInfo, IOpenMBeanConstructorInfo>(constructors),
-         OpenInfoUtils.ValidateAs<MBeanOperationInfo, IOpenMBeanOperationInfo>(operations),
-         new List<MBeanNotificationInfo>(notifications).AsReadOnly())
+      /// <param name="wrappedInfo"></param>
+      public OpenMBeanInfoSupport(MBeanInfo wrappedInfo)
       {
+         _wrappedInfo = wrappedInfo;
+         _wrappedAttributes = _wrappedInfo.Attributes.Select<MBeanAttributeInfo, IOpenMBeanAttributeInfo>(x => new OpenMBeanAttributeInfoSupport(x)).ToList().AsReadOnly();
+         _wrappedOperations = _wrappedInfo.Operations.Select<MBeanOperationInfo, IOpenMBeanOperationInfo>(x => new OpenMBeanOperationInfoSupport(x)).ToList().AsReadOnly();
+         _wrappedConstructors = _wrappedInfo.Constructors.Select<MBeanConstructorInfo, IOpenMBeanConstructorInfo>(x => new OpenMBeanConstructorInfoSupport(x)).ToList().AsReadOnly();
       }
-      /// <summary>
-      /// Constructs
-      /// </summary>
-      /// <param name="className">Name of the MBean described by this MBeanInfo.</param>
-      /// <param name="description">Human readable description of the MBean. </param>
-      /// <param name="attributes">List of MBean attributes. It should be an empty list if MBean contains no attributes.</param>
-      /// <param name="constructors">List of MBean constructors. It should be an empty list if MBean contains no constructors.</param>
-      /// <param name="operations">List of MBean operations. It should be an empty list if MBean contains no operations.</param>
-      /// <param name="notifications">List of MBean notifications. It should be an empty list if MBean contains no notifications.</param>
-      public OpenMBeanInfoSupport(string className, string description, IEnumerable<MBeanAttributeInfo> attributes, IEnumerable<MBeanConstructorInfo> constructors, IEnumerable<MBeanOperationInfo> operations, IEnumerable<MBeanNotificationInfo> notifications)
-         : base(className, description,
-         OpenInfoUtils.ValidateAs<MBeanAttributeInfo, IOpenMBeanAttributeInfo>(attributes),
-         OpenInfoUtils.ValidateAs<MBeanConstructorInfo, IOpenMBeanConstructorInfo>(constructors),
-         OpenInfoUtils.ValidateAs<MBeanOperationInfo, IOpenMBeanOperationInfo>(operations),
-         new List<MBeanNotificationInfo>(notifications).AsReadOnly())
+
+      public string ClassName
       {
+         get { return _wrappedInfo.ClassName; }
       }
-		/// <summary>
-		/// Constructs
-		/// </summary>
-		/// <param name="type">Type object of MBean implementation.</param>
-		/// <param name="attributes">List of MBean attributes. It should be an empty list if MBean contains no attributes.</param>
-      /// <param name="constructors">List of MBean constructors. It should be an empty list if MBean contains no constructors.</param>
-		/// <param name="operations">List of MBean operations. It should be an empty list if MBean contains no operations.</param>
-		/// <param name="notifications">List of MBean notifications. It should be an empty list if MBean contains no notifications.</param>
-		public OpenMBeanInfoSupport(Type type, IEnumerable<IOpenMBeanAttributeInfo> attributes, IEnumerable<IOpenMBeanConstructorInfo> constructors, IEnumerable<IOpenMBeanOperationInfo> operations, IEnumerable<MBeanNotificationInfo> notifications)
-			: base(type,
-         OpenInfoUtils.Transform<MBeanAttributeInfo, IOpenMBeanAttributeInfo>(attributes),
-         OpenInfoUtils.Transform<MBeanConstructorInfo, IOpenMBeanConstructorInfo>(constructors),
-         OpenInfoUtils.Transform<MBeanOperationInfo, IOpenMBeanOperationInfo>(operations),
-         new List<MBeanNotificationInfo>(notifications).AsReadOnly(),
-         true)
-		{
-		}
-		/// <summary>
-		/// Constructs
-		/// </summary>
-		/// <param name="className">Name of the MBean described by this MBeanInfo.</param>
-		/// <param name="description">Human readable description of the MBean. </param>
-		/// <param name="attributes">List of MBean attributes. It should be an empty list if MBean contains no attributes.</param>
-      /// <param name="constructors">List of MBean constructors. It should be an empty list if MBean contains no constructors.</param>
-		/// <param name="operations">List of MBean operations. It should be an empty list if MBean contains no operations.</param>
-		/// <param name="notifications">List of MBean notifications. It should be an empty list if MBean contains no notifications.</param>
-      public OpenMBeanInfoSupport(string className, string description, IEnumerable<IOpenMBeanAttributeInfo> attributes, IEnumerable<IOpenMBeanConstructorInfo> constructors, IEnumerable<IOpenMBeanOperationInfo> operations, IEnumerable<MBeanNotificationInfo> notifications)
-         : base(className, description,
-         OpenInfoUtils.Transform<MBeanAttributeInfo, IOpenMBeanAttributeInfo>(attributes),
-         OpenInfoUtils.Transform<MBeanConstructorInfo, IOpenMBeanConstructorInfo>(constructors),
-         OpenInfoUtils.Transform<MBeanOperationInfo, IOpenMBeanOperationInfo>(operations),
-         new List<MBeanNotificationInfo>(notifications).AsReadOnly(),
-         true)
-		{         
-		}      
+
+      public string Description
+      {
+         get { return _wrappedInfo.Description; }
+      }
+
+      public IList<IOpenMBeanAttributeInfo> Attributes
+      {
+         get { return _wrappedAttributes; }
+      }
+
+      public IList<IOpenMBeanOperationInfo> Operations
+      {
+         get { return _wrappedOperations; }
+      }
+
+      public IList<IOpenMBeanConstructorInfo> Constructors
+      {
+         get { return _wrappedConstructors; }
+      }
+
+      public IList<MBeanNotificationInfo> Notifications
+      {
+         get { return _wrappedInfo.Notifications; }
+      }
    }
 }

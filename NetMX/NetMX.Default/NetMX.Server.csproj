@@ -21,6 +21,7 @@
     <OldToolsVersion>2.0</OldToolsVersion>
     <UpgradeBackupLocation>
     </UpgradeBackupLocation>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -43,6 +44,9 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
   </ItemGroup>
@@ -56,6 +60,7 @@
     <Compile Include="Configuration\MBeanConstructorArgument.cs" />
     <Compile Include="Configuration\MBeanServerConfigurationSection.cs" />
     <Compile Include="GenericMBeans\PerfCounterMBean.cs" />
+    <Compile Include="InfoUtils.cs" />
     <Compile Include="InternalInfo\OpenMBeanBeanInfoFactory.cs" />
     <Compile Include="InternalInfo\IMBeanInfoFactory.cs" />
     <Compile Include="InternalInfo\MBeanInternalConstructorInfo.cs" />
@@ -67,6 +72,7 @@
     <Compile Include="MBeanRegistrationHelper.cs" />
     <Compile Include="MBeanServer.cs" />
     <Compile Include="MBeanServerBuilder.cs" />
+    <Compile Include="OpenInfoUtils.cs" />
     <Compile Include="OpenMBean.Mapper\Attributes\AttributeUtils.cs" />
     <Compile Include="OpenMBean.Mapper\Attributes\CompositeTypeItemAttribute.cs" />
     <Compile Include="OpenMBean.Mapper\Attributes\OpenTypeAttribute.cs" />

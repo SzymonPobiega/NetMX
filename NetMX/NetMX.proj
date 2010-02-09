@@ -22,6 +22,7 @@
     <_SolutionProjectProjects Include="NetMX.Remote.Jsr262\NetMX.Remote.Jsr262.csproj" />
     <_SolutionProjectProjects Include="NetMX.Remote.Remoting\NetMX.Remote.Remoting.csproj" />
     <_SolutionProjectProjects Include="NetMX.Remote.ServiceModel\NetMX.Remote.WCF.csproj" />
+    <_SolutionProjectProjects Include="NetMX.Remote.Tests\NetMX.Remote.Tests.csproj" />
     <_SolutionProjectProjects Include="NetMX.Spring.BeanExporter\NetMX.Spring.BeanExporter.csproj" />
     <_SolutionProjectProjects Include="NetMX.Tests\NetMX.Tests.csproj" />
     <_SolutionProjectProjects Include="NetMX.Timer\NetMX.Timer.csproj" />
@@ -59,6 +60,10 @@
       <Platform>AnyCPU</Platform>
     </BuildLevel1>
     <BuildLevel1 Include="NetMX.Remote.ServiceModel\NetMX.Remote.WCF.csproj">
+      <Configuration>Debug</Configuration>
+      <Platform>AnyCPU</Platform>
+    </BuildLevel1>
+    <BuildLevel1 Include="NetMX.Remote.Tests\NetMX.Remote.Tests.csproj">
       <Configuration>Debug</Configuration>
       <Platform>AnyCPU</Platform>
     </BuildLevel1>
@@ -145,6 +150,10 @@
       <Platform>AnyCPU</Platform>
     </BuildLevel1>
     <BuildLevel1 Include="NetMX.Remote.ServiceModel\NetMX.Remote.WCF.csproj">
+      <Configuration>Release</Configuration>
+      <Platform>AnyCPU</Platform>
+    </BuildLevel1>
+    <BuildLevel1 Include="NetMX.Remote.Tests\NetMX.Remote.Tests.csproj">
       <Configuration>Release</Configuration>
       <Platform>AnyCPU</Platform>
     </BuildLevel1>
@@ -255,6 +264,7 @@
         <ProjectConfiguration Project="{592E0D6E-453B-4C70-9F29-98E684F2A79E}">Debug|AnyCPU</ProjectConfiguration>
         <ProjectConfiguration Project="{4B3B3AC2-5797-4FB7-BCED-18BF461EBDC4}">Debug|AnyCPU</ProjectConfiguration>
         <ProjectConfiguration Project="{1CB5FB98-FA6A-49D5-B3F5-3B878B437782}">Debug|AnyCPU</ProjectConfiguration>
+        <ProjectConfiguration Project="{47D58C3C-63E6-48A5-B6C9-BE70A48FCA2C}">Debug|AnyCPU</ProjectConfiguration>
       </SolutionConfiguration>
     </CurrentSolutionConfigurationContents>
   </PropertyGroup>
@@ -282,6 +292,7 @@
         <ProjectConfiguration Project="{592E0D6E-453B-4C70-9F29-98E684F2A79E}">Release|AnyCPU</ProjectConfiguration>
         <ProjectConfiguration Project="{4B3B3AC2-5797-4FB7-BCED-18BF461EBDC4}">Release|AnyCPU</ProjectConfiguration>
         <ProjectConfiguration Project="{1CB5FB98-FA6A-49D5-B3F5-3B878B437782}">Release|AnyCPU</ProjectConfiguration>
+        <ProjectConfiguration Project="{47D58C3C-63E6-48A5-B6C9-BE70A48FCA2C}">Release|AnyCPU</ProjectConfiguration>
       </SolutionConfiguration>
     </CurrentSolutionConfigurationContents>
   </PropertyGroup>
@@ -413,7 +424,7 @@
     <MSBuild Projects="Samples\RemotingDemo\RemotingDemo.csproj" Targets="Publish" Properties="Configuration=Debug; Platform=AnyCPU; BuildingSolutionFile=true; CurrentSolutionConfigurationContents=$(CurrentSolutionConfigurationContents); SolutionDir=$(SolutionDir); SolutionExt=$(SolutionExt); SolutionFileName=$(SolutionFileName); SolutionName=$(SolutionName); SolutionPath=$(SolutionPath)" ToolsVersion="$(ProjectToolsVersion)" UnloadProjectsOnCompletion="$(UnloadProjectsOnCompletion)" UseResultsCache="$(UseResultsCache)" Condition=" ('$(Configuration)' == 'Debug') and ('$(Platform)' == 'Any CPU') " />
     <MSBuild Projects="Samples\RemotingDemo\RemotingDemo.csproj" Targets="Publish" Properties="Configuration=Release; Platform=AnyCPU; BuildingSolutionFile=true; CurrentSolutionConfigurationContents=$(CurrentSolutionConfigurationContents); SolutionDir=$(SolutionDir); SolutionExt=$(SolutionExt); SolutionFileName=$(SolutionFileName); SolutionName=$(SolutionName); SolutionPath=$(SolutionPath)" ToolsVersion="$(ProjectToolsVersion)" UnloadProjectsOnCompletion="$(UnloadProjectsOnCompletion)" UseResultsCache="$(UseResultsCache)" Condition=" ('$(Configuration)' == 'Release') and ('$(Platform)' == 'Any CPU') " />
   </Target>
-  <Target Name="Samples\RemotingServerDemo" DependsOnTargets="NetMX_Server;NetMX_Proxy_Castle;Connectors\NetMX_Remote_Jsr262;Connectors\NetMX_Remote_Remoting;Connectors\NetMX_Remote_WCF;NetMX" Condition="'$(CurrentSolutionConfigurationContents)' != ''" Outputs="@(RemotingServerDemoBuildOutput)">
+  <Target Name="Samples\RemotingServerDemo" DependsOnTargets="NetMX_Server;NetMX_Proxy_Castle;Connectors\NetMX_Remote_Remoting;NetMX" Condition="'$(CurrentSolutionConfigurationContents)' != ''" Outputs="@(RemotingServerDemoBuildOutput)">
     <MSBuild Projects="Samples\RemotingServerDemo\RemotingServerDemo.csproj" Properties="Configuration=Debug; Platform=AnyCPU; BuildingSolutionFile=true; CurrentSolutionConfigurationContents=$(CurrentSolutionConfigurationContents); SolutionDir=$(SolutionDir); SolutionExt=$(SolutionExt); SolutionFileName=$(SolutionFileName); SolutionName=$(SolutionName); SolutionPath=$(SolutionPath)" ToolsVersion="$(ProjectToolsVersion)" UnloadProjectsOnCompletion="$(UnloadProjectsOnCompletion)" UseResultsCache="$(UseResultsCache)" Condition=" ('$(Configuration)' == 'Debug') and ('$(Platform)' == 'Any CPU') ">
       <Output TaskParameter="TargetOutputs" ItemName="RemotingServerDemoBuildOutput" />
     </MSBuild>
@@ -421,11 +432,11 @@
       <Output TaskParameter="TargetOutputs" ItemName="RemotingServerDemoBuildOutput" />
     </MSBuild>
   </Target>
-  <Target Name="Samples\RemotingServerDemo:Clean" DependsOnTargets="NetMX_Server:Clean;NetMX_Proxy_Castle:Clean;Connectors\NetMX_Remote_Jsr262:Clean;Connectors\NetMX_Remote_Remoting:Clean;Connectors\NetMX_Remote_WCF:Clean;NetMX:Clean" Condition="'$(CurrentSolutionConfigurationContents)' != ''">
+  <Target Name="Samples\RemotingServerDemo:Clean" DependsOnTargets="NetMX_Server:Clean;NetMX_Proxy_Castle:Clean;Connectors\NetMX_Remote_Remoting:Clean;NetMX:Clean" Condition="'$(CurrentSolutionConfigurationContents)' != ''">
     <MSBuild Projects="Samples\RemotingServerDemo\RemotingServerDemo.csproj" Targets="Clean" Properties="Configuration=Debug; Platform=AnyCPU; BuildingSolutionFile=true; CurrentSolutionConfigurationContents=$(CurrentSolutionConfigurationContents); SolutionDir=$(SolutionDir); SolutionExt=$(SolutionExt); SolutionFileName=$(SolutionFileName); SolutionName=$(SolutionName); SolutionPath=$(SolutionPath)" ToolsVersion="$(ProjectToolsVersion)" UnloadProjectsOnCompletion="$(UnloadProjectsOnCompletion)" UseResultsCache="$(UseResultsCache)" Condition=" ('$(Configuration)' == 'Debug') and ('$(Platform)' == 'Any CPU') " />
     <MSBuild Projects="Samples\RemotingServerDemo\RemotingServerDemo.csproj" Targets="Clean" Properties="Configuration=Release; Platform=AnyCPU; BuildingSolutionFile=true; CurrentSolutionConfigurationContents=$(CurrentSolutionConfigurationContents); SolutionDir=$(SolutionDir); SolutionExt=$(SolutionExt); SolutionFileName=$(SolutionFileName); SolutionName=$(SolutionName); SolutionPath=$(SolutionPath)" ToolsVersion="$(ProjectToolsVersion)" UnloadProjectsOnCompletion="$(UnloadProjectsOnCompletion)" UseResultsCache="$(UseResultsCache)" Condition=" ('$(Configuration)' == 'Release') and ('$(Platform)' == 'Any CPU') " />
   </Target>
-  <Target Name="Samples\RemotingServerDemo:Rebuild" DependsOnTargets="NetMX_Server:Rebuild;NetMX_Proxy_Castle:Rebuild;Connectors\NetMX_Remote_Jsr262:Rebuild;Connectors\NetMX_Remote_Remoting:Rebuild;Connectors\NetMX_Remote_WCF:Rebuild;NetMX:Rebuild" Condition="'$(CurrentSolutionConfigurationContents)' != ''" Outputs="@(RemotingServerDemoBuildOutput)">
+  <Target Name="Samples\RemotingServerDemo:Rebuild" DependsOnTargets="NetMX_Server:Rebuild;NetMX_Proxy_Castle:Rebuild;Connectors\NetMX_Remote_Remoting:Rebuild;NetMX:Rebuild" Condition="'$(CurrentSolutionConfigurationContents)' != ''" Outputs="@(RemotingServerDemoBuildOutput)">
     <MSBuild Projects="Samples\RemotingServerDemo\RemotingServerDemo.csproj" Targets="Rebuild" Properties="Configuration=Debug; Platform=AnyCPU; BuildingSolutionFile=true; CurrentSolutionConfigurationContents=$(CurrentSolutionConfigurationContents); SolutionDir=$(SolutionDir); SolutionExt=$(SolutionExt); SolutionFileName=$(SolutionFileName); SolutionName=$(SolutionName); SolutionPath=$(SolutionPath)" ToolsVersion="$(ProjectToolsVersion)" UnloadProjectsOnCompletion="$(UnloadProjectsOnCompletion)" UseResultsCache="$(UseResultsCache)" Condition=" ('$(Configuration)' == 'Debug') and ('$(Platform)' == 'Any CPU') ">
       <Output TaskParameter="TargetOutputs" ItemName="RemotingServerDemoBuildOutput" />
     </MSBuild>
@@ -433,7 +444,7 @@
       <Output TaskParameter="TargetOutputs" ItemName="RemotingServerDemoBuildOutput" />
     </MSBuild>
   </Target>
-  <Target Name="Samples\RemotingServerDemo:Publish" DependsOnTargets="NetMX_Server:Publish;NetMX_Proxy_Castle:Publish;Connectors\NetMX_Remote_Jsr262:Publish;Connectors\NetMX_Remote_Remoting:Publish;Connectors\NetMX_Remote_WCF:Publish;NetMX:Publish" Condition="'$(CurrentSolutionConfigurationContents)' != ''">
+  <Target Name="Samples\RemotingServerDemo:Publish" DependsOnTargets="NetMX_Server:Publish;NetMX_Proxy_Castle:Publish;Connectors\NetMX_Remote_Remoting:Publish;NetMX:Publish" Condition="'$(CurrentSolutionConfigurationContents)' != ''">
     <MSBuild Projects="Samples\RemotingServerDemo\RemotingServerDemo.csproj" Targets="Publish" Properties="Configuration=Debug; Platform=AnyCPU; BuildingSolutionFile=true; CurrentSolutionConfigurationContents=$(CurrentSolutionConfigurationContents); SolutionDir=$(SolutionDir); SolutionExt=$(SolutionExt); SolutionFileName=$(SolutionFileName); SolutionName=$(SolutionName); SolutionPath=$(SolutionPath)" ToolsVersion="$(ProjectToolsVersion)" UnloadProjectsOnCompletion="$(UnloadProjectsOnCompletion)" UseResultsCache="$(UseResultsCache)" Condition=" ('$(Configuration)' == 'Debug') and ('$(Platform)' == 'Any CPU') " />
     <MSBuild Projects="Samples\RemotingServerDemo\RemotingServerDemo.csproj" Targets="Publish" Properties="Configuration=Release; Platform=AnyCPU; BuildingSolutionFile=true; CurrentSolutionConfigurationContents=$(CurrentSolutionConfigurationContents); SolutionDir=$(SolutionDir); SolutionExt=$(SolutionExt); SolutionFileName=$(SolutionFileName); SolutionName=$(SolutionName); SolutionPath=$(SolutionPath)" ToolsVersion="$(ProjectToolsVersion)" UnloadProjectsOnCompletion="$(UnloadProjectsOnCompletion)" UseResultsCache="$(UseResultsCache)" Condition=" ('$(Configuration)' == 'Release') and ('$(Platform)' == 'Any CPU') " />
   </Target>
@@ -509,7 +520,7 @@
     <MSBuild Projects="NetMX.Proxy.Castle\NetMX.Proxy.Castle.csproj" Targets="Publish" Properties="Configuration=Debug; Platform=AnyCPU; BuildingSolutionFile=true; CurrentSolutionConfigurationContents=$(CurrentSolutionConfigurationContents); SolutionDir=$(SolutionDir); SolutionExt=$(SolutionExt); SolutionFileName=$(SolutionFileName); SolutionName=$(SolutionName); SolutionPath=$(SolutionPath)" ToolsVersion="$(ProjectToolsVersion)" UnloadProjectsOnCompletion="$(UnloadProjectsOnCompletion)" UseResultsCache="$(UseResultsCache)" Condition=" ('$(Configuration)' == 'Debug') and ('$(Platform)' == 'Any CPU') " />
     <MSBuild Projects="NetMX.Proxy.Castle\NetMX.Proxy.Castle.csproj" Targets="Publish" Properties="Configuration=Release; Platform=AnyCPU; BuildingSolutionFile=true; CurrentSolutionConfigurationContents=$(CurrentSolutionConfigurationContents); SolutionDir=$(SolutionDir); SolutionExt=$(SolutionExt); SolutionFileName=$(SolutionFileName); SolutionName=$(SolutionName); SolutionPath=$(SolutionPath)" ToolsVersion="$(ProjectToolsVersion)" UnloadProjectsOnCompletion="$(UnloadProjectsOnCompletion)" UseResultsCache="$(UseResultsCache)" Condition=" ('$(Configuration)' == 'Release') and ('$(Platform)' == 'Any CPU') " />
   </Target>
-  <Target Name="Samples\CLRMonitoringDemo" DependsOnTargets="NetMX_Server;NetMX_Proxy_Castle;Connectors\NetMX_Remote_Remoting;NetMX" Condition="'$(CurrentSolutionConfigurationContents)' != ''" Outputs="@(CLRMonitoringDemoBuildOutput)">
+  <Target Name="Samples\CLRMonitoringDemo" DependsOnTargets="NetMX_Server;NetMX_Proxy_Castle;NetMX" Condition="'$(CurrentSolutionConfigurationContents)' != ''" Outputs="@(CLRMonitoringDemoBuildOutput)">
     <MSBuild Projects="Samples\CLRMonitoringSample\CLRMonitoringDemo.csproj" Properties="Configuration=Debug; Platform=AnyCPU; BuildingSolutionFile=true; CurrentSolutionConfigurationContents=$(CurrentSolutionConfigurationContents); SolutionDir=$(SolutionDir); SolutionExt=$(SolutionExt); SolutionFileName=$(SolutionFileName); SolutionName=$(SolutionName); SolutionPath=$(SolutionPath)" ToolsVersion="$(ProjectToolsVersion)" UnloadProjectsOnCompletion="$(UnloadProjectsOnCompletion)" UseResultsCache="$(UseResultsCache)" Condition=" ('$(Configuration)' == 'Debug') and ('$(Platform)' == 'Any CPU') ">
       <Output TaskParameter="TargetOutputs" ItemName="CLRMonitoringDemoBuildOutput" />
     </MSBuild>
@@ -517,11 +528,11 @@
       <Output TaskParameter="TargetOutputs" ItemName="CLRMonitoringDemoBuildOutput" />
     </MSBuild>
   </Target>
-  <Target Name="Samples\CLRMonitoringDemo:Clean" DependsOnTargets="NetMX_Server:Clean;NetMX_Proxy_Castle:Clean;Connectors\NetMX_Remote_Remoting:Clean;NetMX:Clean" Condition="'$(CurrentSolutionConfigurationContents)' != ''">
+  <Target Name="Samples\CLRMonitoringDemo:Clean" DependsOnTargets="NetMX_Server:Clean;NetMX_Proxy_Castle:Clean;NetMX:Clean" Condition="'$(CurrentSolutionConfigurationContents)' != ''">
     <MSBuild Projects="Samples\CLRMonitoringSample\CLRMonitoringDemo.csproj" Targets="Clean" Properties="Configuration=Debug; Platform=AnyCPU; BuildingSolutionFile=true; CurrentSolutionConfigurationContents=$(CurrentSolutionConfigurationContents); SolutionDir=$(SolutionDir); SolutionExt=$(SolutionExt); SolutionFileName=$(SolutionFileName); SolutionName=$(SolutionName); SolutionPath=$(SolutionPath)" ToolsVersion="$(ProjectToolsVersion)" UnloadProjectsOnCompletion="$(UnloadProjectsOnCompletion)" UseResultsCache="$(UseResultsCache)" Condition=" ('$(Configuration)' == 'Debug') and ('$(Platform)' == 'Any CPU') " />
     <MSBuild Projects="Samples\CLRMonitoringSample\CLRMonitoringDemo.csproj" Targets="Clean" Properties="Configuration=Release; Platform=AnyCPU; BuildingSolutionFile=true; CurrentSolutionConfigurationContents=$(CurrentSolutionConfigurationContents); SolutionDir=$(SolutionDir); SolutionExt=$(SolutionExt); SolutionFileName=$(SolutionFileName); SolutionName=$(SolutionName); SolutionPath=$(SolutionPath)" ToolsVersion="$(ProjectToolsVersion)" UnloadProjectsOnCompletion="$(UnloadProjectsOnCompletion)" UseResultsCache="$(UseResultsCache)" Condition=" ('$(Configuration)' == 'Release') and ('$(Platform)' == 'Any CPU') " />
   </Target>
-  <Target Name="Samples\CLRMonitoringDemo:Rebuild" DependsOnTargets="NetMX_Server:Rebuild;NetMX_Proxy_Castle:Rebuild;Connectors\NetMX_Remote_Remoting:Rebuild;NetMX:Rebuild" Condition="'$(CurrentSolutionConfigurationContents)' != ''" Outputs="@(CLRMonitoringDemoBuildOutput)">
+  <Target Name="Samples\CLRMonitoringDemo:Rebuild" DependsOnTargets="NetMX_Server:Rebuild;NetMX_Proxy_Castle:Rebuild;NetMX:Rebuild" Condition="'$(CurrentSolutionConfigurationContents)' != ''" Outputs="@(CLRMonitoringDemoBuildOutput)">
     <MSBuild Projects="Samples\CLRMonitoringSample\CLRMonitoringDemo.csproj" Targets="Rebuild" Properties="Configuration=Debug; Platform=AnyCPU; BuildingSolutionFile=true; CurrentSolutionConfigurationContents=$(CurrentSolutionConfigurationContents); SolutionDir=$(SolutionDir); SolutionExt=$(SolutionExt); SolutionFileName=$(SolutionFileName); SolutionName=$(SolutionName); SolutionPath=$(SolutionPath)" ToolsVersion="$(ProjectToolsVersion)" UnloadProjectsOnCompletion="$(UnloadProjectsOnCompletion)" UseResultsCache="$(UseResultsCache)" Condition=" ('$(Configuration)' == 'Debug') and ('$(Platform)' == 'Any CPU') ">
       <Output TaskParameter="TargetOutputs" ItemName="CLRMonitoringDemoBuildOutput" />
     </MSBuild>
@@ -529,7 +540,7 @@
       <Output TaskParameter="TargetOutputs" ItemName="CLRMonitoringDemoBuildOutput" />
     </MSBuild>
   </Target>
-  <Target Name="Samples\CLRMonitoringDemo:Publish" DependsOnTargets="NetMX_Server:Publish;NetMX_Proxy_Castle:Publish;Connectors\NetMX_Remote_Remoting:Publish;NetMX:Publish" Condition="'$(CurrentSolutionConfigurationContents)' != ''">
+  <Target Name="Samples\CLRMonitoringDemo:Publish" DependsOnTargets="NetMX_Server:Publish;NetMX_Proxy_Castle:Publish;NetMX:Publish" Condition="'$(CurrentSolutionConfigurationContents)' != ''">
     <MSBuild Projects="Samples\CLRMonitoringSample\CLRMonitoringDemo.csproj" Targets="Publish" Properties="Configuration=Debug; Platform=AnyCPU; BuildingSolutionFile=true; CurrentSolutionConfigurationContents=$(CurrentSolutionConfigurationContents); SolutionDir=$(SolutionDir); SolutionExt=$(SolutionExt); SolutionFileName=$(SolutionFileName); SolutionName=$(SolutionName); SolutionPath=$(SolutionPath)" ToolsVersion="$(ProjectToolsVersion)" UnloadProjectsOnCompletion="$(UnloadProjectsOnCompletion)" UseResultsCache="$(UseResultsCache)" Condition=" ('$(Configuration)' == 'Debug') and ('$(Platform)' == 'Any CPU') " />
     <MSBuild Projects="Samples\CLRMonitoringSample\CLRMonitoringDemo.csproj" Targets="Publish" Properties="Configuration=Release; Platform=AnyCPU; BuildingSolutionFile=true; CurrentSolutionConfigurationContents=$(CurrentSolutionConfigurationContents); SolutionDir=$(SolutionDir); SolutionExt=$(SolutionExt); SolutionFileName=$(SolutionFileName); SolutionName=$(SolutionName); SolutionPath=$(SolutionPath)" ToolsVersion="$(ProjectToolsVersion)" UnloadProjectsOnCompletion="$(UnloadProjectsOnCompletion)" UseResultsCache="$(UseResultsCache)" Condition=" ('$(Configuration)' == 'Release') and ('$(Platform)' == 'Any CPU') " />
   </Target>
@@ -773,7 +784,7 @@
     <MSBuild Projects="Samples\JmxClientDemo\JmxClientDemo.csproj" Targets="Publish" Properties="Configuration=Debug; Platform=AnyCPU; BuildingSolutionFile=true; CurrentSolutionConfigurationContents=$(CurrentSolutionConfigurationContents); SolutionDir=$(SolutionDir); SolutionExt=$(SolutionExt); SolutionFileName=$(SolutionFileName); SolutionName=$(SolutionName); SolutionPath=$(SolutionPath)" ToolsVersion="$(ProjectToolsVersion)" UnloadProjectsOnCompletion="$(UnloadProjectsOnCompletion)" UseResultsCache="$(UseResultsCache)" Condition=" ('$(Configuration)' == 'Debug') and ('$(Platform)' == 'Any CPU') " />
     <MSBuild Projects="Samples\JmxClientDemo\JmxClientDemo.csproj" Targets="Publish" Properties="Configuration=Release; Platform=AnyCPU; BuildingSolutionFile=true; CurrentSolutionConfigurationContents=$(CurrentSolutionConfigurationContents); SolutionDir=$(SolutionDir); SolutionExt=$(SolutionExt); SolutionFileName=$(SolutionFileName); SolutionName=$(SolutionName); SolutionPath=$(SolutionPath)" ToolsVersion="$(ProjectToolsVersion)" UnloadProjectsOnCompletion="$(UnloadProjectsOnCompletion)" UseResultsCache="$(UseResultsCache)" Condition=" ('$(Configuration)' == 'Release') and ('$(Platform)' == 'Any CPU') " />
   </Target>
-  <Target Name="Connectors\NetMX_Remote_Jsr262_Tests" DependsOnTargets="NetMX_Server;Connectors\NetMX_Remote_Jsr262;NetMX" Condition="'$(CurrentSolutionConfigurationContents)' != ''" Outputs="@(NetMX_Remote_Jsr262_TestsBuildOutput)">
+  <Target Name="Connectors\NetMX_Remote_Jsr262_Tests" DependsOnTargets="NetMX_Server;Connectors\NetMX_Remote_Jsr262;Connectors\NetMX_Remote_Tests;NetMX" Condition="'$(CurrentSolutionConfigurationContents)' != ''" Outputs="@(NetMX_Remote_Jsr262_TestsBuildOutput)">
     <MSBuild Projects="NetMX.Remote.Jsr262.Tests\NetMX.Remote.Jsr262.Tests.csproj" Properties="Configuration=Debug; Platform=AnyCPU; BuildingSolutionFile=true; CurrentSolutionConfigurationContents=$(CurrentSolutionConfigurationContents); SolutionDir=$(SolutionDir); SolutionExt=$(SolutionExt); SolutionFileName=$(SolutionFileName); SolutionName=$(SolutionName); SolutionPath=$(SolutionPath)" ToolsVersion="$(ProjectToolsVersion)" UnloadProjectsOnCompletion="$(UnloadProjectsOnCompletion)" UseResultsCache="$(UseResultsCache)" Condition=" ('$(Configuration)' == 'Debug') and ('$(Platform)' == 'Any CPU') ">
       <Output TaskParameter="TargetOutputs" ItemName="NetMX_Remote_Jsr262_TestsBuildOutput" />
     </MSBuild>
@@ -781,11 +792,11 @@
       <Output TaskParameter="TargetOutputs" ItemName="NetMX_Remote_Jsr262_TestsBuildOutput" />
     </MSBuild>
   </Target>
-  <Target Name="Connectors\NetMX_Remote_Jsr262_Tests:Clean" DependsOnTargets="NetMX_Server:Clean;Connectors\NetMX_Remote_Jsr262:Clean;NetMX:Clean" Condition="'$(CurrentSolutionConfigurationContents)' != ''">
+  <Target Name="Connectors\NetMX_Remote_Jsr262_Tests:Clean" DependsOnTargets="NetMX_Server:Clean;Connectors\NetMX_Remote_Jsr262:Clean;Connectors\NetMX_Remote_Tests:Clean;NetMX:Clean" Condition="'$(CurrentSolutionConfigurationContents)' != ''">
     <MSBuild Projects="NetMX.Remote.Jsr262.Tests\NetMX.Remote.Jsr262.Tests.csproj" Targets="Clean" Properties="Configuration=Debug; Platform=AnyCPU; BuildingSolutionFile=true; CurrentSolutionConfigurationContents=$(CurrentSolutionConfigurationContents); SolutionDir=$(SolutionDir); SolutionExt=$(SolutionExt); SolutionFileName=$(SolutionFileName); SolutionName=$(SolutionName); SolutionPath=$(SolutionPath)" ToolsVersion="$(ProjectToolsVersion)" UnloadProjectsOnCompletion="$(UnloadProjectsOnCompletion)" UseResultsCache="$(UseResultsCache)" Condition=" ('$(Configuration)' == 'Debug') and ('$(Platform)' == 'Any CPU') " />
     <MSBuild Projects="NetMX.Remote.Jsr262.Tests\NetMX.Remote.Jsr262.Tests.csproj" Targets="Clean" Properties="Configuration=Release; Platform=AnyCPU; BuildingSolutionFile=true; CurrentSolutionConfigurationContents=$(CurrentSolutionConfigurationContents); SolutionDir=$(SolutionDir); SolutionExt=$(SolutionExt); SolutionFileName=$(SolutionFileName); SolutionName=$(SolutionName); SolutionPath=$(SolutionPath)" ToolsVersion="$(ProjectToolsVersion)" UnloadProjectsOnCompletion="$(UnloadProjectsOnCompletion)" UseResultsCache="$(UseResultsCache)" Condition=" ('$(Configuration)' == 'Release') and ('$(Platform)' == 'Any CPU') " />
   </Target>
-  <Target Name="Connectors\NetMX_Remote_Jsr262_Tests:Rebuild" DependsOnTargets="NetMX_Server:Rebuild;Connectors\NetMX_Remote_Jsr262:Rebuild;NetMX:Rebuild" Condition="'$(CurrentSolutionConfigurationContents)' != ''" Outputs="@(NetMX_Remote_Jsr262_TestsBuildOutput)">
+  <Target Name="Connectors\NetMX_Remote_Jsr262_Tests:Rebuild" DependsOnTargets="NetMX_Server:Rebuild;Connectors\NetMX_Remote_Jsr262:Rebuild;Connectors\NetMX_Remote_Tests:Rebuild;NetMX:Rebuild" Condition="'$(CurrentSolutionConfigurationContents)' != ''" Outputs="@(NetMX_Remote_Jsr262_TestsBuildOutput)">
     <MSBuild Projects="NetMX.Remote.Jsr262.Tests\NetMX.Remote.Jsr262.Tests.csproj" Targets="Rebuild" Properties="Configuration=Debug; Platform=AnyCPU; BuildingSolutionFile=true; CurrentSolutionConfigurationContents=$(CurrentSolutionConfigurationContents); SolutionDir=$(SolutionDir); SolutionExt=$(SolutionExt); SolutionFileName=$(SolutionFileName); SolutionName=$(SolutionName); SolutionPath=$(SolutionPath)" ToolsVersion="$(ProjectToolsVersion)" UnloadProjectsOnCompletion="$(UnloadProjectsOnCompletion)" UseResultsCache="$(UseResultsCache)" Condition=" ('$(Configuration)' == 'Debug') and ('$(Platform)' == 'Any CPU') ">
       <Output TaskParameter="TargetOutputs" ItemName="NetMX_Remote_Jsr262_TestsBuildOutput" />
     </MSBuild>
@@ -793,9 +804,33 @@
       <Output TaskParameter="TargetOutputs" ItemName="NetMX_Remote_Jsr262_TestsBuildOutput" />
     </MSBuild>
   </Target>
-  <Target Name="Connectors\NetMX_Remote_Jsr262_Tests:Publish" DependsOnTargets="NetMX_Server:Publish;Connectors\NetMX_Remote_Jsr262:Publish;NetMX:Publish" Condition="'$(CurrentSolutionConfigurationContents)' != ''">
+  <Target Name="Connectors\NetMX_Remote_Jsr262_Tests:Publish" DependsOnTargets="NetMX_Server:Publish;Connectors\NetMX_Remote_Jsr262:Publish;Connectors\NetMX_Remote_Tests:Publish;NetMX:Publish" Condition="'$(CurrentSolutionConfigurationContents)' != ''">
     <MSBuild Projects="NetMX.Remote.Jsr262.Tests\NetMX.Remote.Jsr262.Tests.csproj" Targets="Publish" Properties="Configuration=Debug; Platform=AnyCPU; BuildingSolutionFile=true; CurrentSolutionConfigurationContents=$(CurrentSolutionConfigurationContents); SolutionDir=$(SolutionDir); SolutionExt=$(SolutionExt); SolutionFileName=$(SolutionFileName); SolutionName=$(SolutionName); SolutionPath=$(SolutionPath)" ToolsVersion="$(ProjectToolsVersion)" UnloadProjectsOnCompletion="$(UnloadProjectsOnCompletion)" UseResultsCache="$(UseResultsCache)" Condition=" ('$(Configuration)' == 'Debug') and ('$(Platform)' == 'Any CPU') " />
     <MSBuild Projects="NetMX.Remote.Jsr262.Tests\NetMX.Remote.Jsr262.Tests.csproj" Targets="Publish" Properties="Configuration=Release; Platform=AnyCPU; BuildingSolutionFile=true; CurrentSolutionConfigurationContents=$(CurrentSolutionConfigurationContents); SolutionDir=$(SolutionDir); SolutionExt=$(SolutionExt); SolutionFileName=$(SolutionFileName); SolutionName=$(SolutionName); SolutionPath=$(SolutionPath)" ToolsVersion="$(ProjectToolsVersion)" UnloadProjectsOnCompletion="$(UnloadProjectsOnCompletion)" UseResultsCache="$(UseResultsCache)" Condition=" ('$(Configuration)' == 'Release') and ('$(Platform)' == 'Any CPU') " />
+  </Target>
+  <Target Name="Connectors\NetMX_Remote_Tests" DependsOnTargets="NetMX" Condition="'$(CurrentSolutionConfigurationContents)' != ''" Outputs="@(NetMX_Remote_TestsBuildOutput)">
+    <MSBuild Projects="NetMX.Remote.Tests\NetMX.Remote.Tests.csproj" Properties="Configuration=Debug; Platform=AnyCPU; BuildingSolutionFile=true; CurrentSolutionConfigurationContents=$(CurrentSolutionConfigurationContents); SolutionDir=$(SolutionDir); SolutionExt=$(SolutionExt); SolutionFileName=$(SolutionFileName); SolutionName=$(SolutionName); SolutionPath=$(SolutionPath)" ToolsVersion="$(ProjectToolsVersion)" UnloadProjectsOnCompletion="$(UnloadProjectsOnCompletion)" UseResultsCache="$(UseResultsCache)" Condition=" ('$(Configuration)' == 'Debug') and ('$(Platform)' == 'Any CPU') ">
+      <Output TaskParameter="TargetOutputs" ItemName="NetMX_Remote_TestsBuildOutput" />
+    </MSBuild>
+    <MSBuild Projects="NetMX.Remote.Tests\NetMX.Remote.Tests.csproj" Properties="Configuration=Release; Platform=AnyCPU; BuildingSolutionFile=true; CurrentSolutionConfigurationContents=$(CurrentSolutionConfigurationContents); SolutionDir=$(SolutionDir); SolutionExt=$(SolutionExt); SolutionFileName=$(SolutionFileName); SolutionName=$(SolutionName); SolutionPath=$(SolutionPath)" ToolsVersion="$(ProjectToolsVersion)" UnloadProjectsOnCompletion="$(UnloadProjectsOnCompletion)" UseResultsCache="$(UseResultsCache)" Condition=" ('$(Configuration)' == 'Release') and ('$(Platform)' == 'Any CPU') ">
+      <Output TaskParameter="TargetOutputs" ItemName="NetMX_Remote_TestsBuildOutput" />
+    </MSBuild>
+  </Target>
+  <Target Name="Connectors\NetMX_Remote_Tests:Clean" DependsOnTargets="NetMX:Clean" Condition="'$(CurrentSolutionConfigurationContents)' != ''">
+    <MSBuild Projects="NetMX.Remote.Tests\NetMX.Remote.Tests.csproj" Targets="Clean" Properties="Configuration=Debug; Platform=AnyCPU; BuildingSolutionFile=true; CurrentSolutionConfigurationContents=$(CurrentSolutionConfigurationContents); SolutionDir=$(SolutionDir); SolutionExt=$(SolutionExt); SolutionFileName=$(SolutionFileName); SolutionName=$(SolutionName); SolutionPath=$(SolutionPath)" ToolsVersion="$(ProjectToolsVersion)" UnloadProjectsOnCompletion="$(UnloadProjectsOnCompletion)" UseResultsCache="$(UseResultsCache)" Condition=" ('$(Configuration)' == 'Debug') and ('$(Platform)' == 'Any CPU') " />
+    <MSBuild Projects="NetMX.Remote.Tests\NetMX.Remote.Tests.csproj" Targets="Clean" Properties="Configuration=Release; Platform=AnyCPU; BuildingSolutionFile=true; CurrentSolutionConfigurationContents=$(CurrentSolutionConfigurationContents); SolutionDir=$(SolutionDir); SolutionExt=$(SolutionExt); SolutionFileName=$(SolutionFileName); SolutionName=$(SolutionName); SolutionPath=$(SolutionPath)" ToolsVersion="$(ProjectToolsVersion)" UnloadProjectsOnCompletion="$(UnloadProjectsOnCompletion)" UseResultsCache="$(UseResultsCache)" Condition=" ('$(Configuration)' == 'Release') and ('$(Platform)' == 'Any CPU') " />
+  </Target>
+  <Target Name="Connectors\NetMX_Remote_Tests:Rebuild" DependsOnTargets="NetMX:Rebuild" Condition="'$(CurrentSolutionConfigurationContents)' != ''" Outputs="@(NetMX_Remote_TestsBuildOutput)">
+    <MSBuild Projects="NetMX.Remote.Tests\NetMX.Remote.Tests.csproj" Targets="Rebuild" Properties="Configuration=Debug; Platform=AnyCPU; BuildingSolutionFile=true; CurrentSolutionConfigurationContents=$(CurrentSolutionConfigurationContents); SolutionDir=$(SolutionDir); SolutionExt=$(SolutionExt); SolutionFileName=$(SolutionFileName); SolutionName=$(SolutionName); SolutionPath=$(SolutionPath)" ToolsVersion="$(ProjectToolsVersion)" UnloadProjectsOnCompletion="$(UnloadProjectsOnCompletion)" UseResultsCache="$(UseResultsCache)" Condition=" ('$(Configuration)' == 'Debug') and ('$(Platform)' == 'Any CPU') ">
+      <Output TaskParameter="TargetOutputs" ItemName="NetMX_Remote_TestsBuildOutput" />
+    </MSBuild>
+    <MSBuild Projects="NetMX.Remote.Tests\NetMX.Remote.Tests.csproj" Targets="Rebuild" Properties="Configuration=Release; Platform=AnyCPU; BuildingSolutionFile=true; CurrentSolutionConfigurationContents=$(CurrentSolutionConfigurationContents); SolutionDir=$(SolutionDir); SolutionExt=$(SolutionExt); SolutionFileName=$(SolutionFileName); SolutionName=$(SolutionName); SolutionPath=$(SolutionPath)" ToolsVersion="$(ProjectToolsVersion)" UnloadProjectsOnCompletion="$(UnloadProjectsOnCompletion)" UseResultsCache="$(UseResultsCache)" Condition=" ('$(Configuration)' == 'Release') and ('$(Platform)' == 'Any CPU') ">
+      <Output TaskParameter="TargetOutputs" ItemName="NetMX_Remote_TestsBuildOutput" />
+    </MSBuild>
+  </Target>
+  <Target Name="Connectors\NetMX_Remote_Tests:Publish" DependsOnTargets="NetMX:Publish" Condition="'$(CurrentSolutionConfigurationContents)' != ''">
+    <MSBuild Projects="NetMX.Remote.Tests\NetMX.Remote.Tests.csproj" Targets="Publish" Properties="Configuration=Debug; Platform=AnyCPU; BuildingSolutionFile=true; CurrentSolutionConfigurationContents=$(CurrentSolutionConfigurationContents); SolutionDir=$(SolutionDir); SolutionExt=$(SolutionExt); SolutionFileName=$(SolutionFileName); SolutionName=$(SolutionName); SolutionPath=$(SolutionPath)" ToolsVersion="$(ProjectToolsVersion)" UnloadProjectsOnCompletion="$(UnloadProjectsOnCompletion)" UseResultsCache="$(UseResultsCache)" Condition=" ('$(Configuration)' == 'Debug') and ('$(Platform)' == 'Any CPU') " />
+    <MSBuild Projects="NetMX.Remote.Tests\NetMX.Remote.Tests.csproj" Targets="Publish" Properties="Configuration=Release; Platform=AnyCPU; BuildingSolutionFile=true; CurrentSolutionConfigurationContents=$(CurrentSolutionConfigurationContents); SolutionDir=$(SolutionDir); SolutionExt=$(SolutionExt); SolutionFileName=$(SolutionFileName); SolutionName=$(SolutionName); SolutionPath=$(SolutionPath)" ToolsVersion="$(ProjectToolsVersion)" UnloadProjectsOnCompletion="$(UnloadProjectsOnCompletion)" UseResultsCache="$(UseResultsCache)" Condition=" ('$(Configuration)' == 'Release') and ('$(Platform)' == 'Any CPU') " />
   </Target>
   <Target Name="Build" Condition="'$(CurrentSolutionConfigurationContents)' != ''" Outputs="@(CollectedBuildOutput)">
     <MSBuild Condition="@(BuildLevel0) != ''" Projects="@(BuildLevel0)" Properties="Configuration=%(Configuration); Platform=%(Platform); BuildingSolutionFile=true; CurrentSolutionConfigurationContents=$(CurrentSolutionConfigurationContents); SolutionDir=$(SolutionDir); SolutionExt=$(SolutionExt); SolutionFileName=$(SolutionFileName); SolutionName=$(SolutionName); SolutionPath=$(SolutionPath)" ToolsVersion="$(ProjectToolsVersion)" BuildInParallel="true" UnloadProjectsOnCompletion="$(UnloadProjectsOnCompletion)" UseResultsCache="$(UseResultsCache)">

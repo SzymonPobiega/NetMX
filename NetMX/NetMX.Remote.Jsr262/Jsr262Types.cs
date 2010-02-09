@@ -10,6 +10,7 @@ using System.Text;
 using System.Xml;
 using System.Xml.Schema;
 using System.Xml.Serialization;
+using NetMX.Remote.Jsr262.Structures;
 
 namespace NetMX.Remote.Jsr262
 {

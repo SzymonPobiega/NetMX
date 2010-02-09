@@ -7,29 +7,9 @@ using System.Text;
 
 namespace NetMX.OpenMBean
 {
-   internal static class OpenInfoUtils
-   {
-      internal static IEnumerable<TSource> ValidateAs<TSource,TDest>(IEnumerable<TSource> source)
-      {
-         foreach (TSource o in source)
-         {
-            if (!(o is TDest))
-            {
-               throw new ArgumentException("Invalid argument type. Should be "+typeof(TDest).AssemblyQualifiedName);
-            }
-         }
-         return source;
-      }
-      internal static ReadOnlyCollection<TDest> Transform<TDest, TSource>(IEnumerable<TSource> source)
-      {
-         List<TDest> results = new List<TDest>();
-         foreach (TSource element in source)
-         {
-            results.Add((TDest)(object)element);
-         }
-         return results.AsReadOnly();
-      }
-      internal static void ValidateDefaultValue(OpenType openType, object defaultValue)
+   internal static class OpenTypeValidationExtensions
+   {      
+      internal static void ValidateDefaultValue(this OpenType openType, object defaultValue)
       {
          if (defaultValue != null)
          {
@@ -43,7 +23,7 @@ namespace NetMX.OpenMBean
             }
          }
       }
-      internal static void ValidateMinMaxValue(OpenType openType, IComparable defaultValue, IComparable minValue, IComparable maxValue)
+      internal static void ValidateMinMaxValue(this OpenType openType, IComparable defaultValue, IComparable minValue, IComparable maxValue)
       {
          if (minValue != null)
          {
@@ -72,7 +52,7 @@ namespace NetMX.OpenMBean
             throw new OpenDataException("Maximum value must be greater than or equal to minimum value.");
          }
       }
-      internal static void ValidateLegalValues(OpenType openType, IEnumerable<object> legalValues)
+      internal static void ValidateLegalValues(this OpenType openType, IEnumerable<object> legalValues)
       {
          if (legalValues == null)
          {
