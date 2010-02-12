@@ -45,5 +45,23 @@ namespace NetMX
          : this (name, description, type, new Descriptor())
       {
       }
+
+      public override bool Equals(object obj)
+      {
+         MBeanParameterInfo other = obj as MBeanParameterInfo;
+         return other != null &&
+                Name.Equals(other.Name) &&
+                Description.Equals(other.Description) &&
+                Descriptor.Equals(other.Descriptor) &&
+                _type.Equals(other._type);
+      }
+
+      public override int GetHashCode()
+      {
+         return Name.GetHashCode() ^
+                Description.GetHashCode() ^
+                Descriptor.GetHashCode() ^
+                _type.GetHashCode();
+      }
    }
 }

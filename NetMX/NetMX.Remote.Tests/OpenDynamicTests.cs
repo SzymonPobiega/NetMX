@@ -33,26 +33,10 @@ namespace NetMX.Remote.Tests
       public void TestGetMBeanInfo()
       {
          MBeanInfo info = _remoteServer.GetMBeanInfo("Tests:key=value");
+         MBeanInfo referenceInfo = _server.GetMBeanInfo("Tests:key=value");
 
          Assert.IsTrue(info.IsOpen());
-         IOpenMBeanInfo openInfo = info.AsOpen();
-         IOpenMBeanInfo referenceInfo = _server.GetMBeanInfo("Tests:key=value").AsOpen();
-
-         IOpenMBeanAttributeInfo firstDeserializedAttriute = openInfo.Attributes.First(x => x.Name == "Attribute");
-         IOpenMBeanAttributeInfo firstAttribute = referenceInfo.Attributes.First(x => x.Name == "Attribute");
-         Assert.IsTrue(firstDeserializedAttriute.Readable);
-         Assert.IsTrue(firstDeserializedAttriute.Writable);
-         Assert.AreEqual(firstAttribute.OpenType, firstDeserializedAttriute.OpenType);
-
-         IOpenMBeanAttributeInfo secondDeserializedAttribute = openInfo.Attributes.First(x => x.Name == "NestedTableAttribute");
-         IOpenMBeanAttributeInfo secondAttribute = referenceInfo.Attributes.First(x => x.Name == "NestedTableAttribute");
-         Assert.IsTrue(secondDeserializedAttribute.Readable);
-         Assert.IsTrue(secondDeserializedAttribute.Writable);
-         Assert.AreEqual(secondAttribute.OpenType, secondDeserializedAttribute.OpenType);
-
-         IOpenMBeanOperationInfo deserializedOperation = openInfo.Operations.First(x => x.Name == "DoSomething");
-         IOpenMBeanOperationInfo referenceOperation = referenceInfo.Operations.First(x => x.Name == "DoSomething");
-         Assert.AreEqual(referenceOperation.ReturnOpenType, deserializedOperation.ReturnOpenType);         
+         Assert.AreEqual(referenceInfo, info);
       }
 
       private IMBeanServer _server;

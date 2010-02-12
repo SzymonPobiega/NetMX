@@ -30,7 +30,7 @@ namespace NetMX.Remote.Jsr262.Structures
 
       public MBeanParameterInfo Deserialize()
       {
-         return new MBeanParameterInfo(name, Description.Value, JmxTypeMapping.GetCLRTypeName(type));
+         return new MBeanParameterInfo(name, Description.Value, JmxTypeMapping.GetCLRTypeName(type), GetDescriptorFromFieldValues());
       }
    }
 }

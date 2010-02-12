@@ -1,6 +1,7 @@
 #region USING
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Reflection;
 using System.Collections.ObjectModel;
@@ -67,6 +68,24 @@ namespace NetMX
       public MBeanOperationInfo(string name, string description, string returnType, IEnumerable<MBeanParameterInfo> signature, OperationImpact impact)
          : this(name, description, returnType, signature, impact, new Descriptor())
       {
-      } 
+      }
+
+      public override bool Equals(object obj)
+      {
+         MBeanOperationInfo other = obj as MBeanOperationInfo;
+         return other != null &&
+                Name.Equals(other.Name) &&
+                Description.Equals(other.Description) &&
+                Descriptor.Equals(other.Descriptor) &&
+                ReturnType.Equals(other.ReturnType) &&
+                Impact.Equals(other.Impact) &&
+                Signature.SequenceEqual(other.Signature);
+      }
+
+      public override int GetHashCode()
+      {
+         return _signature.Aggregate(Name.GetHashCode() ^ Description.GetHashCode() ^ Descriptor.GetHashCode() ^ 
+            ReturnType.GetHashCode() ^ Impact.GetHashCode(), (hash, value) => hash ^ value.GetHashCode());
+      }
 	}
 }

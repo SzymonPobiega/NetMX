@@ -9,7 +9,6 @@ namespace NetMX
 	[Serializable]
 	public class MBeanAttributeInfo : MBeanFeatureInfo
 	{
-		#region PROPERTIES
 		private readonly string _type;
       /// <summary>
       /// Gets the class name of the attribute.
@@ -34,9 +33,7 @@ namespace NetMX
 		{
 			get { return  _isWritable; }
 		}		
-		#endregion
 
-		#region CONSTRUCTOR
       /// <summary>
       /// Constructs an MBeanAttributeInfo object.
       /// </summary>
@@ -77,6 +74,27 @@ namespace NetMX
 			_isReadable = isReadable;
 			_isWritable = isWritable;
 		}      
-		#endregion
+
+      public override bool Equals(object obj)
+      {
+         MBeanAttributeInfo other = obj as MBeanAttributeInfo;
+         return other != null &&
+                Name.Equals(other.Name) &&
+                Description.Equals(other.Description) &&
+                Descriptor.Equals(other.Descriptor) &&
+                _type.Equals(other._type) &&
+                _isReadable.Equals(other._isReadable) &&
+                _isWritable.Equals(other._isWritable);
+      }
+
+      public override int GetHashCode()
+      {
+         return Name.GetHashCode() ^
+            Description.GetHashCode() ^
+            Descriptor.GetHashCode() ^
+            _type.GetHashCode() ^ 
+            _isReadable.GetHashCode() ^ 
+            _isWritable.GetHashCode();
+      }
 	}
 }

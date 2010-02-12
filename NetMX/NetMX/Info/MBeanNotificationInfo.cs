@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace NetMX
@@ -30,6 +31,22 @@ namespace NetMX
          : base(notificationTypeName, description)
 		{
 			_notifTypes = Array.AsReadOnly(notifTypes);
-		}		
+		}
+
+      public override bool Equals(object obj)
+      {
+         MBeanNotificationInfo other = obj as MBeanNotificationInfo;
+         return other != null &&
+                Name.Equals(other.Name) &&
+                Description.Equals(other.Description) &&
+                Descriptor.Equals(other.Descriptor) &&
+                _notifTypes.SequenceEqual(other._notifTypes);
+      }
+
+      public override int GetHashCode()
+      {
+         return _notifTypes.Aggregate(Name.GetHashCode() ^ Description.GetHashCode() ^ Descriptor.GetHashCode()
+            , (hash, value) => hash ^ value.GetHashCode());
+      }
 	}
 }

@@ -116,23 +116,41 @@ namespace NetMX.Remote.Tests
 
       public void AddRow(int id, string name)
       {
-         _tabularValue.Put(new CompositeDataSupport(_tabularType.RowType, new[] {"ID", "Name"}, new object[] {id, name}));
+         _tabularValue.Put(x =>
+                              {
+                                 x.Simple("ID", id);
+                                 x.Simple("Name", name);
+                              });
       }
 
       public void AddNestedRow(int outerId, int innerId, string name)
       {
-         var nestedCompositeValue = new CompositeDataSupport(_nestedCompositeValueType,
-                                                             new[] {"NestedItem1", "NestedItem2"},
-                                                             new object[] {"1", 5.7});
-         var compositeValue = new CompositeDataSupport(_compositeValueType, new[] {"Item1", "Item2", "Item3"},
-                                                       new object[] {1, false, nestedCompositeValue});
-         var innerRow = new CompositeDataSupport(_innerTabularType.RowType, new[] {"ID", "Name", "CompositeValue"},
-                                                 new object[] {outerId, name, compositeValue});
-         var innerTable = new TabularDataSupport(_innerTabularType);
-         innerTable.Put(innerRow);
-         var outerRow = new CompositeDataSupport(_outerTabularType.RowType, new[] {"ID", "Value"},
-                                                 new object[] {innerId, innerTable});
-         _nestedTabularValue.Put(outerRow);
+         _nestedTabularValue.Put(r =>
+                                    {
+                                       r.Simple("ID", innerId);
+                                       r.Table("Value",
+                                               t => t.Put(x =>
+                                                             {
+                                                                x.Simple("ID", outerId);
+                                                                x.Simple("Name", name);
+                                                                x.Composite("CompositeValue",
+                                                                            y =>
+                                                                               {
+                                                                                  y.Simple("Item1", 1);
+                                                                                  y.Simple("Item2", false);
+                                                                                  y.Composite("Item3",
+                                                                                              z =>
+                                                                                                 {
+                                                                                                    x.Simple(
+                                                                                                       "NestedItem1",
+                                                                                                       "1");
+                                                                                                    x.Simple(
+                                                                                                       "NestedItem2",
+                                                                                                       5.7);
+                                                                                                 });
+                                                                               });
+                                                             }));
+                                    });
       }
    }
 }

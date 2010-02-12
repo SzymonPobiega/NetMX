@@ -1,10 +1,8 @@
-#region USING
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Collections.ObjectModel;
-using System.Reflection;
-#endregion
 
 namespace NetMX
 {
@@ -34,6 +32,22 @@ namespace NetMX
 			: base(name, description)
 		{
          _signature = new List<MBeanParameterInfo>(signature).AsReadOnly();
-		}      
+		}
+
+      public override bool Equals(object obj)
+      {
+         MBeanConstructorInfo other = obj as MBeanConstructorInfo;
+         return other != null &&
+                Name.Equals(other.Name) &&
+                Description.Equals(other.Description) &&
+                Descriptor.Equals(other.Descriptor) &&
+                Signature.SequenceEqual(other.Signature);
+      }
+
+      public override int GetHashCode()
+      {
+         return _signature.Aggregate(Name.GetHashCode() ^ Description.GetHashCode() ^ Descriptor.GetHashCode(), 
+               (hash, value) => hash ^ value.GetHashCode());           
+      }
    }
 }

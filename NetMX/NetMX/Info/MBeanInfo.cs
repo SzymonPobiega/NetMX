@@ -1,6 +1,7 @@
 #region USING
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Collections.ObjectModel;
 #endregion
@@ -121,5 +122,23 @@ namespace NetMX
       {         
       } 
 		#endregion
+
+      public override bool Equals(object obj)
+      {
+         MBeanInfo other = obj as MBeanInfo;
+         return other != null &&
+                ClassName.Equals(other.ClassName) &&
+                Description.Equals(other.Description) &&
+                Descriptor.Equals(other.Descriptor) &&
+                Attributes.SequenceEqual(other.Attributes) &&
+                Operations.SequenceEqual(other.Operations) &&
+                Constructors.SequenceEqual(other.Constructors) &&
+                Notifications.SequenceEqual(other.Notifications);
+      }
+
+      public override int GetHashCode()
+      {
+         return base.GetHashCode();
+      }
 	}
 }

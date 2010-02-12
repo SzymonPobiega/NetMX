@@ -153,7 +153,9 @@
     <Compile Include="OpenMBean\ITabularData.cs" />
     <Compile Include="OpenMBean\OpenType.cs" />
     <Compile Include="OpenMBean\OpenTypeKind.cs" />
+    <Compile Include="OpenMBean\OpenTypeRepresentation.cs" />
     <Compile Include="OpenMBean\SimpleType.cs" />
+    <Compile Include="OpenMBean\TabularDataExtensions.cs" />
     <Compile Include="OpenMBean\TabularDataSupport.cs" />
     <Compile Include="OpenMBean\TabularType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
