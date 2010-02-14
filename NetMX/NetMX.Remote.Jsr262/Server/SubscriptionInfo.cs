@@ -22,9 +22,14 @@ namespace NetMX.Remote.Jsr262.Server
          get { return _eventingContext; }
       }
 
+      public int ListenerId
+      {
+         get { return _listenerId; }
+      }
+
       public void OnNotification(Notification notification, object handback)
       {
-         EventingContext.Push(new TargetedNotificationType(notification, _listenerId));                                  
+         EventingContext.Push(new TargetedNotificationType(notification, ListenerId));                                  
       }
 
       public bool FilterNotification(Notification notification)

@@ -24,16 +24,18 @@ namespace NetMX.Remote.Jsr262.Server
          {
             _subscriptions.Add(subscriptionInfo);
          }
-         _server.AddNotificationListener(target, subscriptionInfo.OnNotification, subscriptionInfo.FilterNotification, target);
+         _server.AddNotificationListener(target, subscriptionInfo.OnNotification, subscriptionInfo.FilterNotification, listenerId);
       }
 
       public void Unbind(IEventingRequestHandlerContext context)
       {            
+         ObjectName target = context.Selectors.ExtractObjectName();        
          lock (_subscriptions)
          {
             SubscriptionInfo toRemove = _subscriptions.Single(x => x.EventingContext == context);
-            _subscriptions.Remove(toRemove);
-         }
+            _server.RemoveNotificationListener(target, toRemove.OnNotification, toRemove.FilterNotification, toRemove.ListenerId);
+            _subscriptions.Remove(toRemove);            
+         }        
       }
 
       private int GenerateNextListenerId()

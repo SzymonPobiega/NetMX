@@ -29,8 +29,7 @@ namespace NetMX.Remote.Jsr262.Client
 
       private static Notification Deserialize(TargetedNotificationType notification)
       {
-         //TODO
-         return new Notification(notification.eventType, null, notification.sequenceNumber, notification.Message, notification.UserData);
+         return notification.Deserialize();
       }
 
       public void Dispose()

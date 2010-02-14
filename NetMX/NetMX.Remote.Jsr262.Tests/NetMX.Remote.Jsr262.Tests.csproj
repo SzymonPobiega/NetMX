@@ -53,6 +53,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Jsr262NotificationDeliveryTests.cs" />
+    <Compile Include="Jsr262NotificationTests.cs" />
     <Compile Include="Jsr262OpenDynamicTests.cs" />
     <Compile Include="Jsr262SimpleStandardTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -55,6 +55,13 @@ namespace NetMX.Remote.Jsr262.Structures
          Message = notification.Message;
          sequenceNumber = notification.SequenceNumber;
          notificationClass = notification.GetType().AssemblyQualifiedName;
+         UserData = new GenericValueType(notification.UserData);
+      }
+
+      public Notification Deserialize()
+      {
+         //TODO: subclasses.
+         return new Notification(eventType, null, sequenceNumber, Message, UserData.Deserialize());
       }
    }
 }

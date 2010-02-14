@@ -44,10 +44,16 @@ namespace NetMX.Remote.Jsr262.Client
             return false;
          }
          NotificationSubscriptionKey other = (NotificationSubscriptionKey) obj;
-         return ReferenceEquals(Callback, other.Callback) &&
-                ReferenceEquals(_filterCallback, other._filterCallback) &&
-                ReferenceEquals(_handback, other._handback) &&
+         return Callback.Equals(other.Callback) &&
+                AreBothNullOrEqual(_filterCallback, other._filterCallback) &&
+                AreBothNullOrEqual(_handback, other._handback) &&
                 ObjectName.Equals(other.ObjectName);
+      }
+
+      private static bool AreBothNullOrEqual(object left, object rigth)
+      {
+         return (left == null && rigth == null) ||
+                (left != null && rigth != null && left.Equals(rigth));
       }
 
       public override int GetHashCode()

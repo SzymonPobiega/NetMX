@@ -40,6 +40,14 @@ namespace NetMX.Remote.Jsr262.Client
 
       public void RemoveNotificationListener(ObjectName name, NotificationCallback callback, NotificationFilterCallback filterCallback, object handback)
       {
+         if (name == null)
+         {
+            throw new ArgumentNullException("name");
+         }
+         if (callback == null)
+         {
+            throw new ArgumentNullException("callback");
+         }
          NotificationSubscriptionKey key = new NotificationSubscriptionKey(name, callback, filterCallback, handback);
 
          PullSubscriptionListener listener;
@@ -52,8 +60,16 @@ namespace NetMX.Remote.Jsr262.Client
 
       public void RemoveNotificationListener(ObjectName name, NotificationCallback callback)
       {
+         if (name == null)
+         {
+            throw new ArgumentNullException("name");
+         }
+         if (callback == null)
+         {
+            throw new ArgumentNullException("callback");
+         }
          IList<NotificationSubscriptionKey> toRemove =
-            _subscriptions.Keys.Where(x => ReferenceEquals(callback, x.Callback) && name.Equals(x.ObjectName)).ToList();
+            _subscriptions.Keys.Where(x => callback.Equals(x.Callback) && name.Equals(x.ObjectName)).ToList();
          foreach (NotificationSubscriptionKey key in toRemove)
          {
             PullSubscriptionListener listener = _subscriptions[key];

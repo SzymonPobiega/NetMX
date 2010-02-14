@@ -44,6 +44,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libs", "Libs", "{996F2F65-9
 		Libs\antlr.runtime.dll = Libs\antlr.runtime.dll
 		Libs\Common.Logging.dll = Libs\Common.Logging.dll
 		Libs\nunit.framework.dll = Libs\nunit.framework.dll
+		Libs\Rhino.Mocks.dll = Libs\Rhino.Mocks.dll
 		Libs\Spring.Core.dll = Libs\Spring.Core.dll
 		Libs\Spring.Core.pdb = Libs\Spring.Core.pdb
 		Libs\Spring.Services.dll = Libs\Spring.Services.dll
