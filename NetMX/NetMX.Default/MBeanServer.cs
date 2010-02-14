@@ -15,7 +15,7 @@ namespace NetMX.Server
    {
       #region MEMBERS
       private readonly MBeanServerDelegate _delegate;
-      private readonly string _defaultDomain = "NetMXImplementation";
+      private readonly string _defaultDomain = "JMImplementation";
       private readonly Dictionary<ObjectName, IDynamicMBean> _beans = new Dictionary<ObjectName, IDynamicMBean>();
       private readonly Dictionary<string, bool> _domainSet = new Dictionary<string, bool>();
       #endregion

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.ServiceModel;
 using System.Text;
+using NetMX.Remote.Jsr262.Structures;
 using WSMan.NET;
 using WSMan.NET.Enumeration;
 using WSMan.NET.Eventing;
@@ -31,8 +32,8 @@ namespace NetMX.Remote.Jsr262.Client
          }
          PullSubscriptionListener listener =
             new PullSubscriptionListener(
-               _eventingClient.SubscribeUsingPullDelivery<NotificationResult>(new Uri(Schema.DynamicMBeanResourceUri),
-                                                                             null, name.CreateSelectorSet()), callback,
+               _eventingClient.SubscribeUsingPullDelivery<TargetedNotificationType>(new Uri(Schema.DynamicMBeanResourceUri), new Uri(Schema.MBeanNotificationSubscriptionManagerUri), 
+                                                                             new Filter(Schema.NotificationDialect, null), name.CreateSelectorSet()), callback,
                filterCallback, handback);
          _subscriptions.Add(key, listener);
       }

@@ -3,6 +3,7 @@ using System.ServiceModel;
 using System.ServiceModel.Channels;
 using NetMX.Remote.Jsr262.Client;
 using WSMan.NET.Enumeration;
+using WSMan.NET.Eventing;
 using WSMan.NET.Management;
 using WSMan.NET.Transfer;
 
@@ -46,7 +47,7 @@ namespace NetMX.Remote.Jsr262
             new ProxyFactory(factory, _serviceUrl),
             new ManagementClient(_serviceUrl, transferFactory, MessageVersion.Soap12WSAddressingAugust2004),
             new EnumerationClient(true, _serviceUrl, b), 
-            null);
+            new EventingClient(_serviceUrl, b));
       }
       public string ConnectionId
       {

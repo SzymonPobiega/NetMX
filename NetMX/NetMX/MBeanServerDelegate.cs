@@ -13,7 +13,7 @@ namespace NetMX
    public class MBeanServerDelegate : NotificationEmitterSupport, MBeanServerDelegateMBean, IMBeanRegistration
    {
       #region Const
-      public const string ObjectName = "NetMXImplementation:type=MBeanServerDelegate";
+      public const string ObjectName = "JMImplementation:type=MBeanServerDelegate";
       #endregion
 
       #region MEMBERS

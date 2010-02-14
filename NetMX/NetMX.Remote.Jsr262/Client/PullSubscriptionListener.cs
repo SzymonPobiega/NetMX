@@ -1,28 +1,36 @@
 using System;
 using System.Linq;
 using System.Collections.Generic;
+using NetMX.Remote.Jsr262.Structures;
 using WSMan.NET.Eventing;
 
 namespace NetMX.Remote.Jsr262.Client
 {
    public class PullSubscriptionListener : IDisposable
-   {      
-      public PullSubscriptionListener(IPullSubscriptionClient<NotificationResult> client, NotificationCallback callback, NotificationFilterCallback filterCallback, object handback)
+   {
+      public PullSubscriptionListener(IPullSubscriptionClient<TargetedNotificationType> client, NotificationCallback callback, NotificationFilterCallback filterCallback, object handback)
       {
-         _token = new CallbackThreadPoolPullSubscriptionClient<NotificationResult>(
+         _token = new CallbackThreadPoolPullSubscriptionClient<TargetedNotificationType>(
             HandleEvent, client, true);
          
          _filterCallback = filterCallback;
          _handback = handback;
          _callback = callback;         
-      }      
+      }
 
-      private void HandleEvent(NotificationResult result)
+      private void HandleEvent(TargetedNotificationType result)
       {
-         foreach (TargetedNotificationType targetedNotification in result.TargetedNotification)
+         Notification deserializedNotification = Deserialize(result);
+         if (_filterCallback == null || _filterCallback(deserializedNotification))
          {
-            //targetedNotification.
+            _callback(deserializedNotification, _handback);
          }
+      }
+
+      private static Notification Deserialize(TargetedNotificationType notification)
+      {
+         //TODO
+         return new Notification(notification.eventType, null, notification.sequenceNumber, notification.Message, notification.UserData);
       }
 
       public void Dispose()

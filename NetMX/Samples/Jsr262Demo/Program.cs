@@ -16,35 +16,34 @@ namespace Jsr262Demo
 			Sample o = new Sample();
 			ObjectName name = new ObjectName("Sample:a=b");
 			server.RegisterMBean(o, name);
-         Uri serviceUrl = new Uri("http://localhost/MBeanServer");            
+         Uri serviceUrl = new Uri("http://simon-hp:80/MBeanServer");            
 
 			using (INetMXConnectorServer connectorServer = NetMXConnectorServerFactory.NewNetMXConnectorServer(serviceUrl, server))
 			{
 				connectorServer.Start();
 
-            using (INetMXConnector connector = NetMXConnectorFactory.Connect(new Uri("http://localhost/MBeanServer"), null))
+            using (INetMXConnector connector = NetMXConnectorFactory.Connect(new Uri("http://localhost:8888/MBeanServer"), null))
 				{
-					IMBeanServerConnection remoteServer = connector.MBeanServerConnection;
+               IMBeanServerConnection remoteServer = connector.MBeanServerConnection;
 
 
-				   string defaultDomain = remoteServer.GetDefaultDomain();
+               string defaultDomain = remoteServer.GetDefaultDomain();
                Console.WriteLine("Default domain is {0}", defaultDomain);
 
                IEnumerable<string> domains = remoteServer.GetDomains();
-				   Console.WriteLine("Following domains are registereds:");
-				   foreach (string domain in domains)
-				   {
-				      Console.WriteLine(" * {0}", domain);
-				   }
+               Console.WriteLine("Following domains are registereds:");
+               foreach (string domain in domains)
+               {
+                  Console.WriteLine(" * {0}", domain);
+               }
 
-				   IEnumerable<ObjectName> names = remoteServer.QueryNames(null, null);
+               IEnumerable<ObjectName> names = remoteServer.QueryNames(null, null);
                Console.WriteLine("Following MBeans are registered in the server:");
-				   foreach (ObjectName objectName in names)
-				   {
-				      Console.WriteLine(" * {0}",objectName);
-				   }
+               foreach (ObjectName objectName in names)
+               {
+                  Console.WriteLine(" * {0}", objectName);
+               }
 
-               //Not supported yet in JSR-262 connector.
                //remoteServer.AddNotificationListener(name, CounterChanged, null, null);
 
                Console.WriteLine("******");

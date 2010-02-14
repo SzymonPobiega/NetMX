@@ -4,6 +4,7 @@ using System.Linq;
 using System.ServiceModel;
 using System.ServiceModel.Channels;
 using System.Text;
+using WSMan.NET;
 using WSMan.NET.Management;
 
 namespace NetMX.Remote.Jsr262
@@ -36,6 +37,11 @@ namespace NetMX.Remote.Jsr262
             }
          }
          throw new InvalidOperationException();
+      }
+
+      internal static EndpointReference ToEndpointReference(this ObjectName name)
+      {
+         return new EndpointReference(CreateEndpointAddress(name));
       }
 
       internal static EndpointAddress CreateEndpointAddress(ObjectName name)
