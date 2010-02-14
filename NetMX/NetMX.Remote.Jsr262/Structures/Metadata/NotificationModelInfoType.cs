@@ -21,7 +21,7 @@ namespace NetMX.Remote.Jsr262.Structures
       }
       public NotificationModelInfoType(MBeanNotificationInfo notificationInfo)
          : base(notificationInfo)
-      {
+      {         
          NotificationType = notificationInfo.NotifTypes.ToArray();
       }
       public MBeanNotificationInfo Deserialize()

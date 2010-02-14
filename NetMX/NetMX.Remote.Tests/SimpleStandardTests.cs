@@ -14,7 +14,7 @@ namespace NetMX.Remote.Tests
       {
          string defaultDomain = _remoteServer.GetDefaultDomain();
 
-         Assert.AreEqual("NetMXImplementation", defaultDomain);
+         Assert.AreEqual("JMImplementation", defaultDomain);
       }
 
       [Test]
@@ -23,7 +23,7 @@ namespace NetMX.Remote.Tests
          IEnumerable<string> domains = _remoteServer.GetDomains();
 
          Assert.AreEqual(2, domains.Count());
-         Assert.IsTrue(domains.Contains("NetMXImplementation"));
+         Assert.IsTrue(domains.Contains("JMImplementation"));
          Assert.IsTrue(domains.Contains("Tests"));
       }
 
@@ -34,7 +34,7 @@ namespace NetMX.Remote.Tests
 
          Assert.AreEqual(2, names.Count());
          Assert.IsTrue(names.Contains(new ObjectName("Tests:key=value")));
-         Assert.IsTrue(names.Contains(new ObjectName("NetMXImplementation:type=MBeanServerDelegate")));
+         Assert.IsTrue(names.Contains(new ObjectName("JMImplementation:type=MBeanServerDelegate")));
       }
 
       [Test]

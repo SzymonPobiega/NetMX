@@ -26,7 +26,7 @@ namespace NetMX.Remote.Tests
          _bean.AddAmount(3);
 
          //Assert
-         if (!notificationFlag.WaitOne(5000))
+         if (!notificationFlag.WaitOne())
          {
             Assert.Fail();
          }
@@ -55,7 +55,7 @@ namespace NetMX.Remote.Tests
          _bean.AddAmount(3);
          
          //Assert
-         if (!notificationFlag.WaitOne(5000) || !notificationFlag2.WaitOne(5000))
+         if (!notificationFlag.WaitOne() || !notificationFlag2.WaitOne())
          {
             Assert.Fail();
          }
@@ -83,7 +83,7 @@ namespace NetMX.Remote.Tests
          _bean.AddAmount(3);
 
          //Assert
-         if (!notificationFlag.WaitOne(5000) || !notificationFlag2.WaitOne(5000))
+         if (!notificationFlag.WaitOne() || !notificationFlag2.WaitOne())
          {
             Assert.Fail();
          }
@@ -104,7 +104,7 @@ namespace NetMX.Remote.Tests
          _bean.AddAmount(3);
 
          //Assert
-         if (!notificationFlag.WaitOne(5000))
+         if (!notificationFlag.WaitOne())
          {
             Assert.Fail();
          }
@@ -125,7 +125,7 @@ namespace NetMX.Remote.Tests
          _bean.AddAmount(3);
 
          //Assert
-         if (!notificationFlag.WaitOne(5000))
+         if (!notificationFlag.WaitOne())
          {
             Assert.Fail();
          }
@@ -146,7 +146,7 @@ namespace NetMX.Remote.Tests
          _bean.AddAmount(3);
 
          //Assert
-         if (!notificationFlag.WaitOne(5000))
+         if (!notificationFlag.WaitOne())
          {
             Assert.Fail();
          }

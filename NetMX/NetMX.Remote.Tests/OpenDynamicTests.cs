@@ -17,7 +17,7 @@ namespace NetMX.Remote.Tests
 
          Assert.AreEqual(2, names.Count());
          Assert.IsTrue(names.Contains(new ObjectName("Tests:key=value")));
-         Assert.IsTrue(names.Contains(new ObjectName("NetMXImplementation:type=MBeanServerDelegate")));
+         Assert.IsTrue(names.Contains(new ObjectName("JMImplementation:type=MBeanServerDelegate")));
       }
 
       [Test]

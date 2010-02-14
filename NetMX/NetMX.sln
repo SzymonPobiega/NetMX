@@ -69,9 +69,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetMX.Remote.Jsr262.Tests",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetMX.Remote.Tests", "NetMX.Remote.Tests\NetMX.Remote.Tests.csproj", "{47D58C3C-63E6-48A5-B6C9-BE70A48FCA2C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetMX.Remote.Remoting.Tests", "NetMX.Remote.Remoting.Tests\NetMX.Remote.Remoting.Tests.csproj", "{E0762BF1-F906-49AB-B4C1-6880425F3345}"
+EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 23
+		SccNumberOfProjects = 24
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://tfs04.codeplex.com/
 		SccLocalPath0 = .
@@ -155,6 +157,10 @@ Global
 		SccProjectTopLevelParentUniqueName22 = NetMX.sln
 		SccProjectName22 = NetMX.Remote.Tests
 		SccLocalPath22 = NetMX.Remote.Tests
+		SccProjectUniqueName23 = NetMX.Remote.Remoting.Tests\\NetMX.Remote.Remoting.Tests.csproj
+		SccProjectTopLevelParentUniqueName23 = NetMX.sln
+		SccProjectName23 = NetMX.Remote.Remoting.Tests
+		SccLocalPath23 = NetMX.Remote.Remoting.Tests
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -249,6 +255,10 @@ Global
 		{47D58C3C-63E6-48A5-B6C9-BE70A48FCA2C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{47D58C3C-63E6-48A5-B6C9-BE70A48FCA2C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{47D58C3C-63E6-48A5-B6C9-BE70A48FCA2C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E0762BF1-F906-49AB-B4C1-6880425F3345}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E0762BF1-F906-49AB-B4C1-6880425F3345}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E0762BF1-F906-49AB-B4C1-6880425F3345}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E0762BF1-F906-49AB-B4C1-6880425F3345}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -268,5 +278,6 @@ Global
 		{FF650A14-16B7-4CB3-BBC0-592FAE591D3D} = {A0329667-EB28-48C0-A4CF-FA1CF01C5FEA}
 		{1CB5FB98-FA6A-49D5-B3F5-3B878B437782} = {A0329667-EB28-48C0-A4CF-FA1CF01C5FEA}
 		{47D58C3C-63E6-48A5-B6C9-BE70A48FCA2C} = {A0329667-EB28-48C0-A4CF-FA1CF01C5FEA}
+		{E0762BF1-F906-49AB-B4C1-6880425F3345} = {A0329667-EB28-48C0-A4CF-FA1CF01C5FEA}
 	EndGlobalSection
 EndGlobal

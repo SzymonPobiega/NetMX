@@ -36,7 +36,8 @@ namespace NetMX.Server.InternalInfo
          MBeanNotificationAttribute attribute =
             (MBeanNotificationAttribute) info.GetCustomAttributes(typeof (MBeanNotificationAttribute), true)[0];
          return new MBeanNotificationInfo(new[] {attribute.NotifType},
-                                          handlerType.GetGenericArguments()[0].AssemblyQualifiedName,
+                                          //handlerType.GetGenericArguments()[0].AssemblyQualifiedName,
+                                          "javax.management.Notification",
                                           InfoUtils.GetDescrition(info, info, "MBean notification"));
       }
 
