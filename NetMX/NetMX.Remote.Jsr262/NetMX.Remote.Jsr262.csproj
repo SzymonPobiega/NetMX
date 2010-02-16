@@ -63,6 +63,8 @@
     <Compile Include="..\SolutionInfo.cs">
       <Link>Properties\SolutionInfo.cs</Link>
     </Compile>
+    <Compile Include="Structures\CompositeDataValueType.cs" />
+    <Compile Include="Structures\GenericValueType.cs" />
     <Compile Include="Server\SubscriptionInfo.cs" />
     <Compile Include="Structures\Metadata\FactoryModelInfoType.cs" />
     <Compile Include="Structures\Metadata\NotificationModelInfoType.cs" />
@@ -112,6 +114,7 @@
     <Compile Include="Structures\TabularDataType_Type.cs" />
     <Compile Include="Structures\Metadata\TypedFeatureInfoType.cs" />
     <Compile Include="Structures\TargetedNotificationType.cs" />
+    <Compile Include="Structures\TabularDataValueType.cs" />
     <Compile Include="WsAddressingFaults.cs" />
   </ItemGroup>
   <ItemGroup>

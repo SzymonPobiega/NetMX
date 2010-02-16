@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 namespace NetMX.OpenMBean
 {
+   /// <summary>
+   /// An open type which describes on <see cref="ICompositeData"/> instance.
+   /// </summary>
    [Serializable]
    public class CompositeType : OpenType
    {
@@ -95,10 +98,7 @@ namespace NetMX.OpenMBean
          {
             return member.Type;
          }
-         else
-         {
-            return null;
-         }
+         return null;
       }
       /// <summary>
       /// Returns the description of the item whose name is <paramref name="itemName"/>, or null if this CompositeType instance 
@@ -117,10 +117,7 @@ namespace NetMX.OpenMBean
          {
             return member.Description;
          }
-         else
-         {
-            return null;
-         }
+         return null;
       }
       /// <summary>
       /// Returns true if this CompositeType instance defines an item whose name is <paramref name="itemName"/>.

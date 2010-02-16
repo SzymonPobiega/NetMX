@@ -1,6 +1,8 @@
 #region USING
 using System;
 using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
 using System.Text;
 #endregion
 
@@ -81,7 +83,9 @@ namespace NetMX.OpenMBean
          }         
          if (_items.Count != compositeType.KeySet.Count)
          {
-            throw new OpenDataException("Composite type has different item count than count of items provided.");
+            throw new OpenDataException(string.Format(CultureInfo.CurrentCulture,
+                                                      "Composite type has different item count ({0}) than count of items provided ({1}).",
+                                                      _items.Count, compositeType.KeySet.Count));
          }
          _compositeType = compositeType;         
       }
@@ -105,10 +109,7 @@ namespace NetMX.OpenMBean
             {
                return result;
             }
-            else
-            {
-               throw new InvalidKeyException(key);
-            }
+            throw new InvalidKeyException(key);
          }
       }
       public IList<object> GetAll(IEnumerable<string> keys)
@@ -132,10 +133,34 @@ namespace NetMX.OpenMBean
       {
          get { return _compositeType; }
       }
-      public ICollection<object> Values
+      public IEnumerable<object> Values
       {
-         get { return _items.Values; }
+         get { return _items.Keys.OrderBy(x => x).Select(x => _items[x]); }
       }
       #endregion
+
+      public override bool Equals(object obj)
+      {
+         ICompositeData other = obj as ICompositeData;
+         return other != null &&
+                CompositeType.Equals(other.CompositeType) &&
+                GetAll(CompositeType.KeySet.OrderBy(x => x)).SequenceEqual(other.GetAll(CompositeType.KeySet.OrderBy(x => x)));
+      }
+
+      public override int GetHashCode()
+      {
+         return _items.Aggregate(CompositeType.GetHashCode(),
+                                 (acc, x) => acc ^ GetValuePairHashCode(x));
+      }
+
+      private static int GetValuePairHashCode(KeyValuePair<string, object> pair)
+      {
+         int code = pair.Key.GetHashCode();
+         if (pair.Value != null)
+         {
+            code ^= pair.Value.GetHashCode();
+         }
+         return code;
+      }
    }
 }

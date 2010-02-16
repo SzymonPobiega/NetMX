@@ -379,113 +379,6 @@ namespace NetMX.Remote.Jsr262
    }
 
 
-   [XmlInclude(typeof(ParameterType))]
-   [XmlInclude(typeof(NamedGenericValueType))]
-   [GeneratedCode("xsd", "2.0.50727.1432")]
-   [Serializable]
-   //[MessageContract(IsWrapped=true, WrapperName="string", WrapperNamespace=Simon.WsManagement.Schema.EnumerationNamespace)]
-   [DesignerCategory("code")]
-   [XmlType(Namespace = "http://jsr262.dev.java.net/jmxconnector")]
-   [XmlRoot("ManagedResourceOperationResult", Namespace = "http://jsr262.dev.java.net/jmxconnector", IsNullable = false
-      )]
-   public partial class GenericValueType
-   {
-      private ItemChoiceType itemElementNameField;
-      private object itemField;
-
-
-      [XmlElement("ArrayDataType", typeof(ArrayDataType_Type))]
-      [XmlElement("Base64Binary", typeof(byte[]), DataType = "base64Binary")]
-      [XmlElement("Boolean", typeof(bool))]
-      [XmlElement("Byte", typeof(sbyte))]
-      [XmlElement("Character", typeof(ushort))]
-      [XmlElement("CompositeDataType", typeof(CompositeDataType_Type))]
-      [XmlElement("CompositeDataValue", typeof(CompositeDataValueType))]
-      [XmlElement("Custom", typeof(XmlElement))]
-      [XmlElement("Date", typeof(DateTime), DataType = "date")]
-      [XmlElement("DateTime", typeof(DateTime))]
-      [XmlElement("Decimal", typeof(decimal))]
-      [XmlElement("Double", typeof(double))]
-      [XmlElement("Duration", typeof(string), DataType = "duration")]
-      [XmlElement("EndpointReference", typeof(EndpointReference))]
-      [XmlElement("Enumeration", typeof(Enumeration))]
-      [XmlElement("Fault", typeof(ManagementFaultType))]
-      [XmlElement("Float", typeof(float))]
-      [XmlElement("Int", typeof(int))]
-      [XmlElement("Integer", typeof(string), DataType = "integer")]
-      [XmlElement("List", typeof(MultipleValueType))]
-      [XmlElement("TypedList", typeof(TypedMultipleValueType))]
-      [XmlElement("Long", typeof(long))]
-      [XmlElement("ManagedResourceRelationType", typeof(ManagedResourceRelationType))]
-      [XmlElement("ManagedResourceRole", typeof(ManagedResourceRole))]
-      [XmlElement("ManagedResourceRoleInfo", typeof(ManagedResourceRoleInfo))]
-      [XmlElement("ManagedResourceRoleList", typeof(ManagedResourceRoleList))]
-      [XmlElement("ManagedResourceRoleResult", typeof(ManagedResourceRoleResult))]
-      [XmlElement("ManagedResourceRoleUnresolved", typeof(ManagedResourceRoleUnresolved))]
-      [XmlElement("ManagedResourceRoleUnresolvedList", typeof(ManagedResourceRoleUnresolvedList))]
-      [XmlElement("Map", typeof(MapType))]
-      [XmlElement("TypedMap", typeof(TypedMapType))]
-      [XmlElement("NotificationFilter", typeof(XmlElement))]
-      [XmlElement("NotificationResult", typeof(NotificationResult))]
-      [XmlElement("Null", typeof(NullType))]
-      [XmlElement("QName", typeof(XmlQualifiedName))]
-      [XmlElement("ServiceURL", typeof(string))]
-      [XmlElement("Set", typeof(MultipleValueType))]
-      [XmlElement("Short", typeof(short))]
-      [XmlElement("SimpleDataType", typeof(OpenDataType_Type))]
-      [XmlElement("String", typeof(string))]
-      [XmlElement("Table", typeof(TableType))]
-      [XmlElement("TabularDataType", typeof(TabularDataType_Type))]
-      [XmlElement("TabularDataValue", typeof(TabularDataValueType))]
-      [XmlElement("URI", typeof(string))]
-      [XmlElement("URL", typeof(string))]
-      [XmlElement("UUID", typeof(string))]
-      [XmlElement("Vector", typeof(MultipleValueType))]
-      [XmlChoiceIdentifier("ItemElementName")]
-      public object Item
-      {
-         get { return itemField; }
-         set { itemField = value; }
-      }
-
-
-      [XmlIgnore]
-      public ItemChoiceType ItemElementName
-      {
-         get { return itemElementNameField; }
-         set { itemElementNameField = value; }
-      }
-   }
-
-
-   [GeneratedCode("xsd", "2.0.50727.1432")]
-   [Serializable]
-
-   [DesignerCategory("code")]
-   [XmlType(Namespace = "http://jsr262.dev.java.net/jmxconnector")]
-   [XmlRoot("CompositeDataValue", Namespace = "http://jsr262.dev.java.net/jmxconnector", IsNullable = false)]
-   public partial class CompositeDataValueType
-   {
-      private CompositeDataType_Type compositeDataTypeField;
-      private GenericValueType[] valuesField;
-
-
-      [XmlArrayItem("Value", IsNullable = false)]
-      public GenericValueType[] Values
-      {
-         get { return valuesField; }
-         set { valuesField = value; }
-      }
-
-
-      public CompositeDataType_Type CompositeDataType
-      {
-         get { return compositeDataTypeField; }
-         set { compositeDataTypeField = value; }
-      }
-   }
-
-
    [GeneratedCode("xsd", "2.0.50727.1432")]
    [Serializable]
 
@@ -1087,34 +980,6 @@ namespace NetMX.Remote.Jsr262
 
    [GeneratedCode("xsd", "2.0.50727.1432")]
    [Serializable]
-
-   [DesignerCategory("code")]
-   [XmlType(Namespace = "http://jsr262.dev.java.net/jmxconnector")]
-   [XmlRoot("TabularDataValue", Namespace = "http://jsr262.dev.java.net/jmxconnector", IsNullable = false)]
-   public partial class TabularDataValueType
-   {
-      private TabularDataType_Type tabularDataTypeField;
-      private GenericValueType[] valuesField;
-
-
-      [XmlArrayItem("Value", IsNullable = false)]
-      public GenericValueType[] Values
-      {
-         get { return valuesField; }
-         set { valuesField = value; }
-      }
-
-
-      public TabularDataType_Type TabularDataType
-      {
-         get { return tabularDataTypeField; }
-         set { tabularDataTypeField = value; }
-      }
-   }
-
-
-   [GeneratedCode("xsd", "2.0.50727.1432")]
-   [Serializable]
    [XmlType(Namespace = "http://jsr262.dev.java.net/jmxconnector", IncludeInSchema = false)]
    public enum ItemChoiceType
    {
@@ -1316,28 +1181,7 @@ namespace NetMX.Remote.Jsr262
          get { return propertyField; }
          set { propertyField = value; }
       }
-   }
-
-   /// <remarks/>
-   [GeneratedCode("xsd", "2.0.50727.1432")]
-   [Serializable]
-   [DesignerCategory("code")]
-   [XmlType(AnonymousType = true, Namespace = "http://jsr262.dev.java.net/jmxconnector")]
-   [XmlRoot(Namespace = "http://jsr262.dev.java.net/jmxconnector", IsNullable = false)]
-   public partial class DynamicMBeanResource2
-   {
-      private NamedGenericValueType[] propertyField;
-
-      /// <remarks/>
-      [XmlElement("Property")]
-      [MessageBodyMember(Name = "GetResult")]
-      public NamedGenericValueType[] Property
-      {
-         get { return propertyField; }
-         set { propertyField = value; }
-      }
-   }
-
+   }   
 
    [GeneratedCode("xsd", "2.0.50727.1432")]
    [Serializable]
@@ -1660,28 +1504,7 @@ namespace NetMX.Remote.Jsr262
          get { return notificationListenerListField; }
          set { notificationListenerListField = value; }
       }
-   }
-
-
-   [GeneratedCode("xsd", "2.0.50727.1432")]
-   [Serializable]
-
-   [DesignerCategory("code")]
-   [XmlType(AnonymousType = true, Namespace = "http://jsr262.dev.java.net/jmxconnector")]
-   [XmlRoot(Namespace = "http://jsr262.dev.java.net/jmxconnector", IsNullable = false)]
-   public partial class NotificationListenerIdRequired
-   {
-      private XmlAttribute[] anyAttrField;
-
-
-      [XmlAnyAttribute]
-      public XmlAttribute[] AnyAttr
-      {
-         get { return anyAttrField; }
-         set { anyAttrField = value; }
-      }
-   }
-
+   }   
 
    [GeneratedCode("xsd", "2.0.50727.1432")]
    [Serializable]

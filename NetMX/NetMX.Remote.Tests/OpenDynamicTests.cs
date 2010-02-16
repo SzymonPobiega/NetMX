@@ -39,6 +39,29 @@ namespace NetMX.Remote.Tests
          Assert.AreEqual(referenceInfo, info);
       }
 
+      [Test]
+      public void TestGetSimpleAttribute()
+      {
+         _bean.AddRow(1, "First row");
+         _bean.AddRow(2, "Second row");
+
+         object referenceValue = _server.GetAttribute("Tests:key=value", "Attribute");
+         object value = _remoteServer.GetAttribute("Tests:key=value", "Attribute");
+         Assert.AreEqual(referenceValue, value);
+      }
+
+      [Test]
+      public void TestGetNestedAttribute()
+      {
+         _bean.AddNestedRow(1, 1, "First row");
+         _bean.AddNestedRow(2, 2, "Second row");
+
+         object referenceValue = _server.GetAttribute("Tests:key=value", "NestedTableAttribute");
+         object value = _remoteServer.GetAttribute("Tests:key=value", "NestedTableAttribute");
+         Assert.AreEqual(referenceValue, value);
+      }
+
+      private OpenDynamic _bean;
       private IMBeanServer _server;
       private INetMXConnectorServer _connectorServer;
       private INetMXConnector _connector;
@@ -48,9 +71,9 @@ namespace NetMX.Remote.Tests
       public void SetUp()
       {
          _server = MBeanServerFactory.CreateMBeanServer();
-         OpenDynamic o = new OpenDynamic();
+         _bean = new OpenDynamic();
          ObjectName name = new ObjectName("Tests:key=value");
-         _server.RegisterMBean(o, name);
+         _server.RegisterMBean(_bean, name);
          Uri serviceUrl = GetUri();
 
          _connectorServer = NetMXConnectorServerFactory.NewNetMXConnectorServer(serviceUrl, _server);

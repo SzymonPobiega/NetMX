@@ -128,8 +128,11 @@
     <Compile Include="OpenMBean\Attributes\OpenMBeanAttrParamBase.cs" />
     <Compile Include="OpenMBean\Attributes\OpenMBeanOperationAttribute.cs" />
     <Compile Include="OpenMBean\Attributes\OpenMBeanParameterAttribute.cs" />
+    <Compile Include="OpenMBean\Composite.cs" />
+    <Compile Include="OpenMBean\CompositeDataBuilder.cs" />
     <Compile Include="OpenMBean\CompositeDataSupport.cs" />
     <Compile Include="OpenMBean\CompositeType.cs" />
+    <Compile Include="OpenMBean\Tabular.cs" />
     <Compile Include="OpenMBean\EnumerationType.cs" />
     <Compile Include="OpenMBean\Exceptions\InvalidKeyException .cs" />
     <Compile Include="OpenMBean\Exceptions\InvalidOpenTypeException .cs" />

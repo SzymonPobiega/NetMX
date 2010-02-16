@@ -7,9 +7,6 @@ namespace NetMX.Remote.Tests
 {
    public class OpenDynamic : IDynamicMBean
    {
-      private readonly CompositeType _compositeValueType;
-      private readonly TabularType _innerTabularType;
-      private readonly CompositeType _nestedCompositeValueType;
       private readonly TabularType _outerTabularType;
       private readonly TabularType _tabularType;
       private ITabularData _nestedTabularValue;
@@ -18,29 +15,27 @@ namespace NetMX.Remote.Tests
 
       public OpenDynamic()
       {
-         var rowType = new CompositeType("Row", "Row", new[] {"ID", "Name"}, new[] {"Unique ID", "Name"},
-                                         new[] {SimpleType.Integer, SimpleType.String});
-         _tabularType = new TabularType("Table", "Table", rowType, new[] {"ID"});
+         _tabularType = Tabular.Type("Table", "Table")
+            .WithIndexColumn("ID", "UniqueID").TypedAs(SimpleType.Integer)
+            .WithColumn("Name", "Name").TypedAs(SimpleType.String);
+         
          _tabularValue = new TabularDataSupport(_tabularType);
 
-         _nestedCompositeValueType = new CompositeType("Nested composite value", "Nested composite value",
-                                                       new[] {"NestedItem1", "NestedItem2"},
-                                                       new[] {"Nested item 1", "Nested item 2"},
-                                                       new[] {SimpleType.String, SimpleType.Double});
-         _compositeValueType = new CompositeType("Composite value", "Composite value",
-                                                 new[] {"Item1", "Item2", "Item3"},
-                                                 new[] {"Item 1", "Item 2", "Item 3"},
-                                                 new[]
-                                                    {SimpleType.Integer, SimpleType.Boolean, _nestedCompositeValueType});
+         _outerTabularType = Tabular.Type("Outer table", "Outer table")
+            .WithIndexColumn("ID", "Unique ID").TypedAs(SimpleType.Integer)
+            .WithColumn("Value", "Tabular value").TypedAs(
+               Tabular.Type("Inner table", "Inner table")
+                  .WithIndexColumn("ID", "Unique ID").TypedAs(SimpleType.Integer)
+                  .WithColumn("Name", "Name").TypedAs(SimpleType.String)
+                  .WithColumn("CompositeValue", "Composite Value").TypedAs(
+                     Composite.Type("Composite value", "Composite value")
+                        .WithItem("Item1", "Item 2").TypedAs(SimpleType.Integer)
+                        .WithItem("Item2", "Item 2").TypedAs(SimpleType.Boolean)
+                        .WithItem("Item3", "Item 3").TypedAs(
+                           Composite.Type("Nested", "Nested composite")
+                              .WithItem("NestedItem1", "NestedItem1").TypedAs(SimpleType.String)
+                              .WithItem("NestedItem2", "NestedItem2").TypedAs(SimpleType.Double))));
 
-         var innerRowType = new CompositeType("Row", "Row", new[] {"ID", "Name", "CompositeValue"},
-                                              new[] {"Unique ID", "Name", "Composite Value"},
-                                              new[] {SimpleType.Integer, SimpleType.String, _compositeValueType});
-         _innerTabularType = new TabularType("Inner table", "Inner table", innerRowType, new[] {"ID"});
-         var outerRowType = new CompositeType("Outer Row", "Outer Row", new[] {"ID", "Value"},
-                                              new[] {"Unique ID", "Tabular value"},
-                                              new[] {SimpleType.Integer, _innerTabularType});
-         _outerTabularType = new TabularType("Outer table", "Outer table", outerRowType, new[] {"ID"});
          _nestedTabularValue = new TabularDataSupport(_outerTabularType);
 
          _beanInfoGetter = MBean.Info<OpenDynamic>("Sample dynamic MBean")
@@ -65,11 +60,6 @@ namespace NetMX.Remote.Tests
       public TabularType NestedTabularType
       {
          get { return _outerTabularType; }
-      }
-
-      public TabularType InnerTabularType
-      {
-         get { return _innerTabularType; }
       }
 
       #region IDynamicMBean Members
@@ -141,10 +131,10 @@ namespace NetMX.Remote.Tests
                                                                                   y.Composite("Item3",
                                                                                               z =>
                                                                                                  {
-                                                                                                    x.Simple(
+                                                                                                    z.Simple(
                                                                                                        "NestedItem1",
                                                                                                        "1");
-                                                                                                    x.Simple(
+                                                                                                    z.Simple(
                                                                                                        "NestedItem2",
                                                                                                        5.7);
                                                                                                  });

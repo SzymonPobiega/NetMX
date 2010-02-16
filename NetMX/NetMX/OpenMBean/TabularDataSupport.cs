@@ -1,6 +1,7 @@
 #region USING
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 #endregion
 
@@ -92,10 +93,7 @@ namespace NetMX.OpenMBean
             {
                return result;
             }
-            else
-            {
-               return null;
-            }
+            return null;
          }
       }
       public TabularType TabularType
@@ -153,10 +151,7 @@ namespace NetMX.OpenMBean
             _rows.Remove(entry);
             return result;
          }
-         else
-         {
-            return null;
-         }
+         return null;
       }
       public int Count
       {
@@ -189,10 +184,7 @@ namespace NetMX.OpenMBean
                IEnumerator<object> otherValues = other.Items.GetEnumerator();
                return Equals(otherValues);
             }
-            else
-            {                              
-               return false;
-            }
+            return false;
          }
          private bool Equals(IEnumerator<object> otherValues)
          {            
@@ -238,5 +230,32 @@ namespace NetMX.OpenMBean
          #endregion
       }
       #endregion
+
+      public override bool Equals(object obj)
+      {
+         ITabularData other = obj as ITabularData;
+         return other != null &&
+                TabularType.Equals(other.TabularType) &&
+                ContainsSameValues(other.Values);
+      }
+
+      private bool ContainsSameValues(IEnumerable<ICompositeData> otherRows)
+      {
+         foreach (ICompositeData otherRow in otherRows)
+         {
+            IEnumerable<object> otherKey = CalculateIndex(otherRow);
+            ICompositeData thisRow = this[otherKey];
+            if (!otherRow.Equals(thisRow))
+            {
+               return false;
+            }
+         }
+         return true;
+      }
+
+      public override int GetHashCode()
+      {
+         return _rows.Values.Aggregate(_tabularType.GetHashCode(), (acc, x) => acc ^ x.GetHashCode());
+      }
    }
 }
