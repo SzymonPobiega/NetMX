@@ -1,5 +1,5 @@
 ﻿using System;
-
+using System.Linq;
 using NUnit.Framework;
 using NetMX.OpenMBean.Mapper;
 using NetMX.Server.OpenMBean.Mapper;
@@ -69,7 +69,7 @@ namespace NetMX.OpenMBean.Mapper.Tests
          Assert.IsTrue(compositeData.ContainsKey("StringValue"));
          Assert.AreEqual(value.IntValue, compositeData["IntValue"]);
          Assert.AreEqual(value.StringValue, compositeData["StringValue"]);
-         Assert.AreEqual(2, compositeData.Values.Count);
+         Assert.AreEqual(2, compositeData.Values.Count());
       }
 
       #region Test types
@@ -132,11 +132,11 @@ namespace NetMX.OpenMBean.Mapper.Tests
          ICompositeData outerCompositeData = (ICompositeData)mappedValue;
          Assert.IsTrue(outerCompositeType.IsValue(outerCompositeData));
          Assert.IsTrue(outerCompositeData.ContainsKey("Inner"));
-         Assert.AreEqual(1, outerCompositeData.Values.Count);         
+         Assert.AreEqual(1, outerCompositeData.Values.Count());         
          Assert.IsTrue(outerCompositeData["Inner"] is ICompositeData);
          ICompositeData innerCompositeData = (ICompositeData) outerCompositeData["Inner"];
          Assert.IsTrue(innerCompositeData.ContainsKey("Value"));
-         Assert.AreEqual(1, innerCompositeData.Values.Count);
+         Assert.AreEqual(1, innerCompositeData.Values.Count());
          Assert.AreEqual(value.Inner.Value, innerCompositeData["Value"]);
       }
 
