@@ -6,6 +6,7 @@ using System.Threading;
 using System.Xml;
 using System;
 using NetMX.Remote.Jsr262.Structures;
+using NetMX.Remote.Jsr262.Structures.Query;
 using WSMan.NET;
 using WSMan.NET.Enumeration;
 using WSMan.NET.Management;

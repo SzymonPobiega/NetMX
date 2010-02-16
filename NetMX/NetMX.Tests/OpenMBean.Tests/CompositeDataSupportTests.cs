@@ -31,7 +31,7 @@ namespace NetMX.OpenMBean.Tests
          CompositeDataSupport data = new CompositeDataSupport(_sampleType, new string[] { "Name1", "Name2" }, new object[] { 1, true });
       }
       [Test]
-      [ExpectedException(typeof(OpenDataException), "Composite type has different item count than count of items provided.")]
+      [ExpectedException(typeof(OpenDataException), "Composite type has different item count (1) than count of items provided (2).")]
       public void TestConstructorFailureInvalidItemCount()
       {
          CompositeDataSupport data = new CompositeDataSupport(_sampleType, new string[] { "Name1" }, new object[] { 1 });

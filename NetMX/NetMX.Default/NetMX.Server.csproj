@@ -59,6 +59,7 @@
     <Compile Include="Configuration\MBean.cs" />
     <Compile Include="Configuration\MBeanConstructorArgument.cs" />
     <Compile Include="Configuration\MBeanServerConfigurationSection.cs" />
+    <Compile Include="EvaluationContext.cs" />
     <Compile Include="GenericMBeans\PerfCounterMBean.cs" />
     <Compile Include="InfoUtils.cs" />
     <Compile Include="InternalInfo\OpenMBeanBeanInfoFactory.cs" />

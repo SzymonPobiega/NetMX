@@ -5,7 +5,8 @@ using System.Text;
 namespace NetMX
 {
 	[Serializable]
-	public class QueryExp
+	public abstract class QueryExp
 	{
+      public abstract bool Match(IQueryEvaluationContext context);
 	}
 }

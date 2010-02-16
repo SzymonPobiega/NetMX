@@ -265,7 +265,8 @@ namespace NetMX.Server
          List<ObjectName> results = new List<ObjectName>();
          foreach (ObjectName key in _beans.Keys)
          {
-            if (name == null || name.Apply(key))
+            if ((name == null || name.Apply(key))&&
+               (query == null || query.Match(new EvaluationContext(key, _beans[key]))))
             {
                results.Add(key);
             }
