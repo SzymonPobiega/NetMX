@@ -1,15 +1,16 @@
 using System;
 using System.Linq;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 
 namespace NetMX
 {
    [Serializable]
-   public class ConstantExpression : ValueExpression
+   public class ConstantExp : QueryExp
    {
-      private readonly IComparable _constantValue;
+      private readonly object _constantValue;
 
-      public ConstantExpression(IComparable constantValue)
+      public ConstantExp(object constantValue)
       {
          if (constantValue == null)
          {
@@ -18,14 +19,15 @@ namespace NetMX
          _constantValue = constantValue;
       }
 
-      public IComparable ConstantValue
+      public object ConstantValue
       {
          get { return _constantValue; }
       }
 
-      public override IComparable Evaluate(IQueryEvaluationContext context)
+
+      public override Expression Convert()
       {
-         return _constantValue;
+         return Expression.Constant(_constantValue);
       }
    }
 }

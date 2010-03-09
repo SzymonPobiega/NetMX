@@ -1,13 +1,18 @@
 using System;
+using System.IO;
 using System.Linq;
 using System.Collections.Generic;
+using System.ServiceModel.Channels;
+using System.Xml.Serialization;
 using NUnit.Framework;
+using WSMan.NET;
+using WSMan.NET.Enumeration;
 
 namespace NetMX.Remote.Jsr262.Tests
 {
    [TestFixture]
    public class QueryNamesTests
-   {
+   {      
       [Test]
       public void Quoted_object_name_can_be_returned()
       {
@@ -31,7 +36,7 @@ namespace NetMX.Remote.Jsr262.Tests
       }
 
       [Test]
-      public void Large_result_sets_can_be_returned_using_multiple_pull_requests()
+      public void Large_result_sets_can_be_returned_using_multiple_pull_requests_set_in_code()
       {
          RegisterBeansForLargeResultSetTests();
          using (INetMXConnector connector = new Jsr262Connector(_serviceUrl, null, 100))
@@ -41,7 +46,19 @@ namespace NetMX.Remote.Jsr262.Tests
 
             Assert.AreEqual(1001, remoteServer.QueryNames(null, null).Count());
          }
-      }      
+      }
+
+      [Test]
+      public void Large_result_sets_can_be_returned_using_multiple_pull_requests_set_in_configuration()
+      {
+         RegisterBeansForLargeResultSetTests();
+         using (INetMXConnector connector = NetMXConnectorFactory.Connect(_serviceUrl, null))
+         {
+            IMBeanServerConnection remoteServer = connector.MBeanServerConnection;
+
+            Assert.AreEqual(1001, remoteServer.QueryNames(null, null).Count());
+         }
+      } 
 
       [Test]
       public void Large_result_sets_can_be_returned_using_specific_binding_configuration()
@@ -54,7 +71,7 @@ namespace NetMX.Remote.Jsr262.Tests
 
             Assert.AreEqual(1001, remoteServer.QueryNames(null, null).Count());
          }
-      }
+      }      
 
       private void RegisterBeansForLargeResultSetTests()
       {

@@ -1,6 +1,7 @@
 #region USING
 using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Text;
 #endregion
 
@@ -135,8 +136,8 @@ namespace NetMX.Remote.Remoting
       public int GetMBeanCount()
       {
          return _connection.GetMBeanCount(_token);
-      }      
-		public IEnumerable<ObjectName> QueryNames(ObjectName name, QueryExp query)
+      }
+      public IEnumerable<ObjectName> QueryNames(ObjectName name, QueryExp query)
 		{
 			return _connection.QueryNames(_token, name, query);
 		}		

@@ -25,7 +25,7 @@ namespace NetMX.Remote.Jsr262.Server
 
       public int EstimateRemainingItemsCount(IEnumerationContext context)
       {
-         throw new NotSupportedException();
+         return _server.GetMBeanCount();
       }
    }
 }

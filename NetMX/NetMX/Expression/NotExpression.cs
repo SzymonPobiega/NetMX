@@ -1,15 +1,16 @@
 using System;
 using System.Linq;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 
 namespace NetMX
 {
    [Serializable]
-   public class NotExpression : QueryExp
+   public class NotExp : QueryExp
    {
       private readonly QueryExp _negated;
 
-      public NotExpression(QueryExp negated)
+      public NotExp(QueryExp negated)
       {
          if (negated == null)
          {
@@ -22,10 +23,10 @@ namespace NetMX
       {
          get { return _negated; }
       }
-
-      public override bool Match(IQueryEvaluationContext instance)
+      
+      public override Expression Convert()
       {
-         return !_negated.Match(instance);
+         return Expression.Not(_negated.Convert());
       }
    }
 }

@@ -18,6 +18,14 @@ namespace NetMX.Remote.Tests
       }
 
       [Test]
+      public void TestGetMBeanCount()
+      {
+         int count = _remoteServer.GetMBeanCount();
+
+         Assert.AreEqual(2, count);
+      }
+
+      [Test]
       public void TestGetDomains()
       {
          IEnumerable<string> domains = _remoteServer.GetDomains();

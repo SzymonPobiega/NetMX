@@ -1,6 +1,7 @@
 #region USING
 using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Text;
 using System.Configuration;
 using NetMX.Configuration;
@@ -262,11 +263,12 @@ namespace NetMX.Server
       }
       public IEnumerable<ObjectName> QueryNames(ObjectName name, QueryExp query)
       {
+         Func<IQueryEvaluationContext, bool> predicate = QueryExp.Translate(query);
          List<ObjectName> results = new List<ObjectName>();
          foreach (ObjectName key in _beans.Keys)
          {
             if ((name == null || name.Apply(key))&&
-               (query == null || query.Match(new EvaluationContext(key, _beans[key]))))
+               (query == null || predicate(new EvaluationContext(key, _beans[key]))))
             {
                results.Add(key);
             }

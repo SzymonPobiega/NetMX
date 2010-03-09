@@ -1,16 +1,17 @@
 using System;
 using System.Linq;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 
 namespace NetMX
 {
    [Serializable]
-   public class AndExpression : QueryExp
+   public class AndExp : QueryExp
    {
       private readonly QueryExp _left;
       private readonly QueryExp _right;
 
-      public AndExpression(QueryExp left, QueryExp right)
+      public AndExp(QueryExp left, QueryExp right)
       {
          if (left == null)
          {
@@ -34,9 +35,9 @@ namespace NetMX
          get { return _left; }
       }
 
-      public override bool Match(IQueryEvaluationContext instance)
+      public override Expression Convert()
       {
-         return _left.Match(instance) && _right.Match(instance);
+         return BinaryExpression.Add(_left.Convert(), _right.Convert());
       }
    }
 }

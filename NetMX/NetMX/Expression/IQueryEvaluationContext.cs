@@ -7,7 +7,7 @@ namespace NetMX
    public interface IQueryEvaluationContext
    {
       ObjectName Name { get; }
-      string ClassName { get; }
-      object GetAttribute(string attributeName);
+      T GetAttribute<T>(string attributeName);
+      bool HasAttribute(string attributeName);
    }
 }
