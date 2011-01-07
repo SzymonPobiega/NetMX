@@ -1,14 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{95F701FD-2093-4520-AB90-D314864AE21F}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{65736DF0-90F5-4DA5-831F-384E81F52639}"
-	ProjectSection(SolutionItems) = preProject
-		NetMX.proj = NetMX.proj
-		SolutionInfo.cs = SolutionInfo.cs
-	EndProjectSection
-EndProject
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetMX", "NetMX\NetMX.csproj", "{619AD956-B7BC-492D-9722-25DA4891E144}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetMX.Server", "NetMX.Default\NetMX.Server.csproj", "{9B9279AA-5B62-4834-9949-F2CCE7318610}"
@@ -39,25 +31,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetMX.Remote.WCF", "NetMX.R
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetMX.Spring.BeanExporter", "NetMX.Spring.BeanExporter\NetMX.Spring.BeanExporter.csproj", "{C19B42A6-0CDA-439C-B3E9-6E11FB057733}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libs", "Libs", "{996F2F65-9530-4421-8D3B-6F04D939852A}"
-	ProjectSection(SolutionItems) = preProject
-		Libs\antlr.runtime.dll = Libs\antlr.runtime.dll
-		Libs\Common.Logging.dll = Libs\Common.Logging.dll
-		Libs\nunit.framework.dll = Libs\nunit.framework.dll
-		Libs\Rhino.Mocks.dll = Libs\Rhino.Mocks.dll
-		Libs\Spring.Core.dll = Libs\Spring.Core.dll
-		Libs\Spring.Core.pdb = Libs\Spring.Core.pdb
-		Libs\Spring.Services.dll = Libs\Spring.Services.dll
-		Libs\Spring.Services.pdb = Libs\Spring.Services.pdb
-		Libs\WSMan.NET.dll = Libs\WSMan.NET.dll
-		Libs\WSMan.NET.pdb = Libs\WSMan.NET.pdb
-	EndProjectSection
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WcfSpringConsoleDemo", "Samples\SpringWcfConsoleManagementServer\WcfSpringConsoleDemo.csproj", "{06975F6E-744C-4622-8B67-F6B520461308}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetMX.Remote.Jsr262", "NetMX.Remote.Jsr262\NetMX.Remote.Jsr262.csproj", "{BA2A4CF7-BE10-4CBC-899C-0976D9DBCC74}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Connectors", "Connectors", "{A0329667-EB28-48C0-A4CF-FA1CF01C5FEA}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebClientDemo", "Samples\WebClientDemo\WebClientDemo.csproj", "{04A97CF5-52F9-45C1-B114-CA21AF6A7F28}"
 EndProject
@@ -71,96 +47,171 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetMX.Remote.Tests", "NetMX
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetMX.Remote.Remoting.Tests", "NetMX.Remote.Remoting.Tests\NetMX.Remote.Remoting.Tests.csproj", "{E0762BF1-F906-49AB-B4C1-6880425F3345}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetMX.Remote.ReST", "NetMX.Remote.ReST\NetMX.Remote.ReST.csproj", "{C1681215-3913-43ED-B14C-4DD3D1AB84FB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Demos", "Demos", "{812FFB17-627C-4D83-A577-64713B2C99BB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Remote", "Remote", "{FC39F3A2-599C-4FA8-B836-A59797C8FF7E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{1B348652-5D15-4CC9-8B03-7941466FB562}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Extensions", "Extensions", "{F8B45652-B702-4D49-A05A-26633A4F3A3B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libs", "Libs", "{72084550-B731-4A63-9AAE-C310B21448EA}"
+	ProjectSection(SolutionItems) = preProject
+		Libs\antlr.runtime.dll = Libs\antlr.runtime.dll
+		Libs\Common.Logging.dll = Libs\Common.Logging.dll
+		Libs\nunit.framework.dll = Libs\nunit.framework.dll
+		Libs\Rhino.Mocks.dll = Libs\Rhino.Mocks.dll
+		Libs\Spring.Core.dll = Libs\Spring.Core.dll
+		Libs\Spring.Services.dll = Libs\Spring.Services.dll
+		Libs\WSMan.NET.dll = Libs\WSMan.NET.dll
+		Libs\WSMan.NET.pdb = Libs\WSMan.NET.pdb
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 24
+		SccNumberOfProjects = 23
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccTeamFoundationServer = https://tfs04.codeplex.com/
-		SccLocalPath0 = .
-		SccProjectUniqueName1 = NetMX.Remote.Remoting\\NetMX.Remote.Remoting.csproj
+		SccTeamFoundationServer = https://tfs.codeplex.com/tfs/tfs04
+		SccProjectUniqueName0 = NetMX\\NetMX.csproj
+		SccProjectTopLevelParentUniqueName0 = NetMX.sln
+		SccProjectName0 = NetMX
+		SccAuxPath0 = https://tfs.codeplex.com/tfs/tfs04
+		SccLocalPath0 = NetMX
+		SccProvider0 = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccProjectUniqueName1 = NetMX.Default\\NetMX.Server.csproj
 		SccProjectTopLevelParentUniqueName1 = NetMX.sln
-		SccProjectName1 = NetMX.Remote.Remoting
-		SccLocalPath1 = NetMX.Remote.Remoting
-		SccProjectUniqueName2 = NetMX.Tests\\NetMX.Tests.csproj
-		SccProjectName2 = NetMX.Tests
-		SccLocalPath2 = NetMX.Tests
-		SccProjectUniqueName3 = NetMX\\NetMX.csproj
-		SccProjectName3 = NetMX
-		SccLocalPath3 = NetMX
+		SccProjectName1 = NetMX.Default
+		SccAuxPath1 = https://tfs.codeplex.com/tfs/tfs04
+		SccLocalPath1 = NetMX.Default
+		SccProvider1 = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccProjectUniqueName2 = NetMX.Remote.Remoting\\NetMX.Remote.Remoting.csproj
+		SccProjectTopLevelParentUniqueName2 = NetMX.sln
+		SccProjectName2 = NetMX.Remote.Remoting
+		SccAuxPath2 = https://tfs.codeplex.com/tfs/tfs04
+		SccLocalPath2 = NetMX.Remote.Remoting
+		SccProvider2 = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccProjectUniqueName3 = Samples\\SimpleConsoleDemo\\SimpleConsoleDemo.csproj
+		SccProjectTopLevelParentUniqueName3 = NetMX.sln
+		SccProjectName3 = Samples/SimpleConsoleDemo
+		SccAuxPath3 = https://tfs.codeplex.com/tfs/tfs04
+		SccLocalPath3 = Samples\\SimpleConsoleDemo
+		SccProvider3 = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccProjectUniqueName4 = Samples\\RemotingDemo\\RemotingDemo.csproj
 		SccProjectTopLevelParentUniqueName4 = NetMX.sln
 		SccProjectName4 = Samples/RemotingDemo
+		SccAuxPath4 = https://tfs.codeplex.com/tfs/tfs04
 		SccLocalPath4 = Samples\\RemotingDemo
+		SccProvider4 = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccProjectUniqueName5 = Samples\\RemotingServerDemo\\RemotingServerDemo.csproj
 		SccProjectTopLevelParentUniqueName5 = NetMX.sln
 		SccProjectName5 = Samples/RemotingServerDemo
+		SccAuxPath5 = https://tfs.codeplex.com/tfs/tfs04
 		SccLocalPath5 = Samples\\RemotingServerDemo
-		SccProjectUniqueName6 = Samples\\SimpleConsoleDemo\\SimpleConsoleDemo.csproj
+		SccProvider5 = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccProjectUniqueName6 = NetMX.Tests\\NetMX.Tests.csproj
 		SccProjectTopLevelParentUniqueName6 = NetMX.sln
-		SccProjectName6 = Samples/SimpleConsoleDemo
-		SccLocalPath6 = Samples\\SimpleConsoleDemo
+		SccProjectName6 = NetMX.Tests
+		SccAuxPath6 = https://tfs.codeplex.com/tfs/tfs04
+		SccLocalPath6 = NetMX.Tests
+		SccProvider6 = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccProjectUniqueName7 = NetMX.WebUI\\NetMX.WebUI.csproj
+		SccProjectTopLevelParentUniqueName7 = NetMX.sln
 		SccProjectName7 = NetMX.WebUI
+		SccAuxPath7 = https://tfs.codeplex.com/tfs/tfs04
 		SccLocalPath7 = NetMX.WebUI
+		SccProvider7 = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccProjectUniqueName8 = NetMX.Proxy.Castle\\NetMX.Proxy.Castle.csproj
+		SccProjectTopLevelParentUniqueName8 = NetMX.sln
 		SccProjectName8 = NetMX.Proxy.Castle
+		SccAuxPath8 = https://tfs.codeplex.com/tfs/tfs04
 		SccLocalPath8 = NetMX.Proxy.Castle
-		SccProjectUniqueName9 = NetMX.Timer\\NetMX.Timer.csproj
-		SccProjectName9 = NetMX.Timer
-		SccLocalPath9 = NetMX.Timer
-		SccProjectUniqueName10 = NetMX.Monitor\\NetMX.Monitor.csproj
-		SccProjectName10 = NetMX.Monitor
-		SccLocalPath10 = NetMX.Monitor
-		SccProjectUniqueName11 = Samples\\TimersConsoleDemo\\TimersConsoleDemo.csproj
+		SccProvider8 = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccProjectUniqueName9 = Samples\\CLRMonitoringSample\\CLRMonitoringDemo.csproj
+		SccProjectTopLevelParentUniqueName9 = NetMX.sln
+		SccProjectName9 = Samples/CLRMonitoringSample
+		SccAuxPath9 = https://tfs.codeplex.com/tfs/tfs04
+		SccLocalPath9 = Samples\\CLRMonitoringSample
+		SccProvider9 = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccProjectUniqueName10 = NetMX.Timer\\NetMX.Timer.csproj
+		SccProjectTopLevelParentUniqueName10 = NetMX.sln
+		SccProjectName10 = NetMX.Timer
+		SccAuxPath10 = https://tfs.codeplex.com/tfs/tfs04
+		SccLocalPath10 = NetMX.Timer
+		SccProvider10 = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccProjectUniqueName11 = NetMX.Monitor\\NetMX.Monitor.csproj
 		SccProjectTopLevelParentUniqueName11 = NetMX.sln
-		SccProjectName11 = Samples/TimersConsoleDemo
-		SccLocalPath11 = Samples\\TimersConsoleDemo
-		SccProjectUniqueName12 = NetMX.Spring.BeanExporter\\NetMX.Spring.BeanExporter.csproj
-		SccProjectName12 = NetMX.Spring.BeanExporter
-		SccLocalPath12 = NetMX.Spring.BeanExporter
-		SccProjectUniqueName13 = NetMX.Remote.Jsr262\\NetMX.Remote.Jsr262.csproj
+		SccProjectName11 = NetMX.Monitor
+		SccAuxPath11 = https://tfs.codeplex.com/tfs/tfs04
+		SccLocalPath11 = NetMX.Monitor
+		SccProvider11 = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccProjectUniqueName12 = Samples\\TimersConsoleDemo\\TimersConsoleDemo.csproj
+		SccProjectTopLevelParentUniqueName12 = NetMX.sln
+		SccProjectName12 = Samples/TimersConsoleDemo
+		SccAuxPath12 = https://tfs.codeplex.com/tfs/tfs04
+		SccLocalPath12 = Samples\\TimersConsoleDemo
+		SccProvider12 = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccProjectUniqueName13 = NetMX.Remote.ServiceModel\\NetMX.Remote.WCF.csproj
 		SccProjectTopLevelParentUniqueName13 = NetMX.sln
-		SccProjectName13 = NetMX.Remote.Jsr262
-		SccLocalPath13 = NetMX.Remote.Jsr262
-		SccProjectUniqueName14 = Samples\\SpringWcfConsoleManagementServer\\WcfSpringConsoleDemo.csproj
+		SccProjectName13 = NetMX.Remote.ServiceModel
+		SccAuxPath13 = https://tfs.codeplex.com/tfs/tfs04
+		SccLocalPath13 = NetMX.Remote.ServiceModel
+		SccProvider13 = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccProjectUniqueName14 = NetMX.Spring.BeanExporter\\NetMX.Spring.BeanExporter.csproj
 		SccProjectTopLevelParentUniqueName14 = NetMX.sln
-		SccProjectName14 = Samples/SpringWcfConsoleManagementServer
-		SccLocalPath14 = Samples\\SpringWcfConsoleManagementServer
-		SccProjectUniqueName15 = Samples\\CLRMonitoringSample\\CLRMonitoringDemo.csproj
+		SccProjectName14 = NetMX.Spring.BeanExporter
+		SccAuxPath14 = https://tfs.codeplex.com/tfs/tfs04
+		SccLocalPath14 = NetMX.Spring.BeanExporter
+		SccProvider14 = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccProjectUniqueName15 = Samples\\SpringWcfConsoleManagementServer\\WcfSpringConsoleDemo.csproj
 		SccProjectTopLevelParentUniqueName15 = NetMX.sln
-		SccProjectName15 = Samples/CLRMonitoringSample
-		SccLocalPath15 = Samples\\CLRMonitoringSample
-		SccProjectUniqueName16 = NetMX.Default\\NetMX.Server.csproj
-		SccProjectName16 = NetMX.Default
-		SccLocalPath16 = NetMX.Default
+		SccProjectName15 = Samples/SpringWcfConsoleManagementServer
+		SccAuxPath15 = https://tfs.codeplex.com/tfs/tfs04
+		SccLocalPath15 = Samples\\SpringWcfConsoleManagementServer
+		SccProvider15 = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccProjectUniqueName16 = NetMX.Remote.Jsr262\\NetMX.Remote.Jsr262.csproj
+		SccProjectTopLevelParentUniqueName16 = NetMX.sln
+		SccProjectName16 = NetMX.Remote.Jsr262
+		SccAuxPath16 = https://tfs.codeplex.com/tfs/tfs04
+		SccLocalPath16 = NetMX.Remote.Jsr262
+		SccProvider16 = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccProjectUniqueName17 = Samples\\WebClientDemo\\WebClientDemo.csproj
 		SccProjectTopLevelParentUniqueName17 = NetMX.sln
 		SccProjectName17 = Samples/WebClientDemo
+		SccAuxPath17 = https://tfs.codeplex.com/tfs/tfs04
 		SccLocalPath17 = Samples\\WebClientDemo
+		SccProvider17 = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccProjectUniqueName18 = Samples\\Jsr262Demo\\Jsr262Demo.csproj
 		SccProjectTopLevelParentUniqueName18 = NetMX.sln
 		SccProjectName18 = Samples/Jsr262Demo
+		SccAuxPath18 = https://tfs.codeplex.com/tfs/tfs04
 		SccLocalPath18 = Samples\\Jsr262Demo
+		SccProvider18 = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccProjectUniqueName19 = Samples\\JmxClientDemo\\JmxClientDemo.csproj
 		SccProjectTopLevelParentUniqueName19 = NetMX.sln
 		SccProjectName19 = Samples/JmxClientDemo
+		SccAuxPath19 = https://tfs.codeplex.com/tfs/tfs04
 		SccLocalPath19 = Samples\\JmxClientDemo
-		SccProjectUniqueName20 = NetMX.Remote.ServiceModel\\NetMX.Remote.WCF.csproj
+		SccProvider19 = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccProjectUniqueName20 = NetMX.Remote.Jsr262.Tests\\NetMX.Remote.Jsr262.Tests.csproj
 		SccProjectTopLevelParentUniqueName20 = NetMX.sln
-		SccProjectName20 = NetMX.Remote.ServiceModel
-		SccLocalPath20 = NetMX.Remote.ServiceModel
-		SccProjectUniqueName21 = NetMX.Remote.Jsr262.Tests\\NetMX.Remote.Jsr262.Tests.csproj
+		SccProjectName20 = NetMX.Remote.Jsr262.Tests
+		SccAuxPath20 = https://tfs.codeplex.com/tfs/tfs04
+		SccLocalPath20 = NetMX.Remote.Jsr262.Tests
+		SccProvider20 = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccProjectUniqueName21 = NetMX.Remote.Tests\\NetMX.Remote.Tests.csproj
 		SccProjectTopLevelParentUniqueName21 = NetMX.sln
-		SccProjectName21 = NetMX.Remote.Jsr262.Tests
-		SccLocalPath21 = NetMX.Remote.Jsr262.Tests
-		SccProjectUniqueName22 = NetMX.Remote.Tests\\NetMX.Remote.Tests.csproj
+		SccProjectName21 = NetMX.Remote.Tests
+		SccAuxPath21 = https://tfs.codeplex.com/tfs/tfs04
+		SccLocalPath21 = NetMX.Remote.Tests
+		SccProvider21 = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccProjectUniqueName22 = NetMX.Remote.Remoting.Tests\\NetMX.Remote.Remoting.Tests.csproj
 		SccProjectTopLevelParentUniqueName22 = NetMX.sln
-		SccProjectName22 = NetMX.Remote.Tests
-		SccLocalPath22 = NetMX.Remote.Tests
-		SccProjectUniqueName23 = NetMX.Remote.Remoting.Tests\\NetMX.Remote.Remoting.Tests.csproj
-		SccProjectTopLevelParentUniqueName23 = NetMX.sln
-		SccProjectName23 = NetMX.Remote.Remoting.Tests
-		SccLocalPath23 = NetMX.Remote.Remoting.Tests
+		SccProjectName22 = NetMX.Remote.Remoting.Tests
+		SccAuxPath22 = https://tfs.codeplex.com/tfs/tfs04
+		SccLocalPath22 = NetMX.Remote.Remoting.Tests
+		SccProvider22 = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -259,25 +310,38 @@ Global
 		{E0762BF1-F906-49AB-B4C1-6880425F3345}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E0762BF1-F906-49AB-B4C1-6880425F3345}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E0762BF1-F906-49AB-B4C1-6880425F3345}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C1681215-3913-43ED-B14C-4DD3D1AB84FB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C1681215-3913-43ED-B14C-4DD3D1AB84FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C1681215-3913-43ED-B14C-4DD3D1AB84FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C1681215-3913-43ED-B14C-4DD3D1AB84FB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{3E96B42A-8678-4B4E-BC43-F64F2FFE48B6} = {95F701FD-2093-4520-AB90-D314864AE21F}
-		{3CB15450-54E5-4CBE-B252-68B15E9A45F3} = {95F701FD-2093-4520-AB90-D314864AE21F}
-		{717E0E35-9A63-4A2B-B9AE-6C6139CC6861} = {95F701FD-2093-4520-AB90-D314864AE21F}
-		{C20C2476-6811-4557-8DA1-389BCB5A4399} = {95F701FD-2093-4520-AB90-D314864AE21F}
-		{FD20227D-E09E-4AF0-B055-F959C09455CE} = {95F701FD-2093-4520-AB90-D314864AE21F}
-		{06975F6E-744C-4622-8B67-F6B520461308} = {95F701FD-2093-4520-AB90-D314864AE21F}
-		{04A97CF5-52F9-45C1-B114-CA21AF6A7F28} = {95F701FD-2093-4520-AB90-D314864AE21F}
-		{592E0D6E-453B-4C70-9F29-98E684F2A79E} = {95F701FD-2093-4520-AB90-D314864AE21F}
-		{4B3B3AC2-5797-4FB7-BCED-18BF461EBDC4} = {95F701FD-2093-4520-AB90-D314864AE21F}
-		{ED2EA082-7271-4615-8B1F-B9C5BDA695B4} = {A0329667-EB28-48C0-A4CF-FA1CF01C5FEA}
-		{BA2A4CF7-BE10-4CBC-899C-0976D9DBCC74} = {A0329667-EB28-48C0-A4CF-FA1CF01C5FEA}
-		{FF650A14-16B7-4CB3-BBC0-592FAE591D3D} = {A0329667-EB28-48C0-A4CF-FA1CF01C5FEA}
-		{1CB5FB98-FA6A-49D5-B3F5-3B878B437782} = {A0329667-EB28-48C0-A4CF-FA1CF01C5FEA}
-		{47D58C3C-63E6-48A5-B6C9-BE70A48FCA2C} = {A0329667-EB28-48C0-A4CF-FA1CF01C5FEA}
-		{E0762BF1-F906-49AB-B4C1-6880425F3345} = {A0329667-EB28-48C0-A4CF-FA1CF01C5FEA}
+		{C20C2476-6811-4557-8DA1-389BCB5A4399} = {812FFB17-627C-4D83-A577-64713B2C99BB}
+		{4B3B3AC2-5797-4FB7-BCED-18BF461EBDC4} = {812FFB17-627C-4D83-A577-64713B2C99BB}
+		{592E0D6E-453B-4C70-9F29-98E684F2A79E} = {812FFB17-627C-4D83-A577-64713B2C99BB}
+		{3CB15450-54E5-4CBE-B252-68B15E9A45F3} = {812FFB17-627C-4D83-A577-64713B2C99BB}
+		{717E0E35-9A63-4A2B-B9AE-6C6139CC6861} = {812FFB17-627C-4D83-A577-64713B2C99BB}
+		{3E96B42A-8678-4B4E-BC43-F64F2FFE48B6} = {812FFB17-627C-4D83-A577-64713B2C99BB}
+		{FD20227D-E09E-4AF0-B055-F959C09455CE} = {812FFB17-627C-4D83-A577-64713B2C99BB}
+		{06975F6E-744C-4622-8B67-F6B520461308} = {812FFB17-627C-4D83-A577-64713B2C99BB}
+		{04A97CF5-52F9-45C1-B114-CA21AF6A7F28} = {812FFB17-627C-4D83-A577-64713B2C99BB}
+		{BA2A4CF7-BE10-4CBC-899C-0976D9DBCC74} = {FC39F3A2-599C-4FA8-B836-A59797C8FF7E}
+		{1CB5FB98-FA6A-49D5-B3F5-3B878B437782} = {FC39F3A2-599C-4FA8-B836-A59797C8FF7E}
+		{FF650A14-16B7-4CB3-BBC0-592FAE591D3D} = {FC39F3A2-599C-4FA8-B836-A59797C8FF7E}
+		{E0762BF1-F906-49AB-B4C1-6880425F3345} = {FC39F3A2-599C-4FA8-B836-A59797C8FF7E}
+		{C1681215-3913-43ED-B14C-4DD3D1AB84FB} = {FC39F3A2-599C-4FA8-B836-A59797C8FF7E}
+		{47D58C3C-63E6-48A5-B6C9-BE70A48FCA2C} = {FC39F3A2-599C-4FA8-B836-A59797C8FF7E}
+		{ED2EA082-7271-4615-8B1F-B9C5BDA695B4} = {FC39F3A2-599C-4FA8-B836-A59797C8FF7E}
+		{619AD956-B7BC-492D-9722-25DA4891E144} = {1B348652-5D15-4CC9-8B03-7941466FB562}
+		{9B9279AA-5B62-4834-9949-F2CCE7318610} = {1B348652-5D15-4CC9-8B03-7941466FB562}
+		{02C0718F-E261-41BE-BB30-5978AE2E1CC7} = {1B348652-5D15-4CC9-8B03-7941466FB562}
+		{308E1A58-89D2-4943-84AF-3AC97568D9EE} = {F8B45652-B702-4D49-A05A-26633A4F3A3B}
+		{7ABCFCE5-8A64-4D8F-AC60-731637E54F3B} = {F8B45652-B702-4D49-A05A-26633A4F3A3B}
+		{2C4128C4-CD09-4CB6-A97B-E8F36E92AA6E} = {F8B45652-B702-4D49-A05A-26633A4F3A3B}
+		{C19B42A6-0CDA-439C-B3E9-6E11FB057733} = {F8B45652-B702-4D49-A05A-26633A4F3A3B}
+		{5D56EAF4-F219-44CA-B6BD-55A31959CAE6} = {F8B45652-B702-4D49-A05A-26633A4F3A3B}
 	EndGlobalSection
 EndGlobal
