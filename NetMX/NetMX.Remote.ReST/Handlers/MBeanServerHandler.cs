@@ -1,6 +1,6 @@
 namespace NetMX.Remote.ReST.Handlers
 {
-    public class ServerHandler
+    public class MBeanServerHandler
     {
          
     }
