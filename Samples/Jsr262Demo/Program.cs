@@ -16,16 +16,15 @@ namespace Jsr262Demo
             Sample o = new Sample();
             ObjectName name = new ObjectName("Sample:a=b");
             server.RegisterMBean(o, name);
-            Uri serviceUrl = new Uri("http://simon-hp:80/MBeanServer");
+            Uri serviceUrl = new Uri("http://localhost:12345/MBeanServer");
 
             using (INetMXConnectorServer connectorServer = NetMXConnectorServerFactory.NewNetMXConnectorServer(serviceUrl, server))
             {
                 connectorServer.Start();
 
-                using (INetMXConnector connector = NetMXConnectorFactory.Connect(new Uri("http://localhost:8888/MBeanServer"), null))
+                using (INetMXConnector connector = NetMXConnectorFactory.Connect(new Uri("http://localhost:12345/MBeanServer"), null))
                 {
                     IMBeanServerConnection remoteServer = connector.MBeanServerConnection;
-
 
                     string defaultDomain = remoteServer.GetDefaultDomain();
                     Console.WriteLine("Default domain is {0}", defaultDomain);
@@ -44,7 +43,7 @@ namespace Jsr262Demo
                         Console.WriteLine(" * {0}", objectName);
                     }
 
-                    //remoteServer.AddNotificationListener(name, CounterChanged, null, null);
+                    remoteServer.AddNotificationListener(name, CounterChanged, null, null);
 
                     Console.WriteLine("******");
                     MBeanInfo info = remoteServer.GetMBeanInfo(name);
