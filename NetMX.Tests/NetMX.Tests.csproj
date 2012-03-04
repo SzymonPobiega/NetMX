@@ -64,7 +64,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\NetMX.Proxy.Castle\Lib\Castle.DynamicProxy.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="nunit.framework, Version=2.4.8.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Libs\nunit.framework.dll</HintPath>
@@ -83,6 +83,7 @@
       <Link>Properties\SolutionInfo.cs</Link>
     </Compile>
     <Compile Include="Tests\CASPermissionsTests.cs" />
+    <Compile Include="Tests\DynamicMBeanProxyTests.cs" />
     <Compile Include="Tests\ExpressionTests.cs" />
     <Compile Include="Tests\MBeanInternalInfoTests.cs" />
     <Compile Include="Tests\MBeanPermissionTest.cs" />
