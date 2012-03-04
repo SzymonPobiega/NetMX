@@ -160,7 +160,7 @@ namespace NetMX.Remote.ServiceModel
       /// list is returned.</returns>
       [OperationContract]
       [NetDataContractFormat]
-      IEnumerable<ObjectName> QueryNames(ObjectName name, QueryExp query);
+      IEnumerable<ObjectName> QueryNames(ObjectName name, IExpression<bool> query);
       /// <summary>
       /// Unregisters an MBean from the MBean server. The MBean is identified by its object name. 
       /// Once the method has been invoked, the MBean may no longer be accessed by its object name.

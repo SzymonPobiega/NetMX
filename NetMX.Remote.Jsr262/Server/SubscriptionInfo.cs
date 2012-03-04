@@ -1,25 +1,22 @@
-using System;
-using System.Linq;
-using System.Collections.Generic;
 using NetMX.Remote.Jsr262.Structures;
-using WSMan.NET.Eventing;
+using WSMan.NET.Eventing.Server;
 
 namespace NetMX.Remote.Jsr262.Server
 {
    public class SubscriptionInfo
    {
       private readonly int _listenerId;
-      private readonly IEventingRequestHandlerContext _eventingContext;
+      private readonly IEventSink _eventSink;
 
-      public SubscriptionInfo(IEventingRequestHandlerContext eventingContext, int listenerId)
+      public SubscriptionInfo(IEventSink eventSink, int listenerId)
       {
-         _eventingContext = eventingContext;
+         _eventSink = eventSink;
          _listenerId = listenerId;
       }
 
-      public IEventingRequestHandlerContext EventingContext
+      public IEventSink EventSink
       {
-         get { return _eventingContext; }
+         get { return _eventSink; }
       }
 
       public int ListenerId
@@ -29,7 +26,7 @@ namespace NetMX.Remote.Jsr262.Server
 
       public void OnNotification(Notification notification, object handback)
       {
-         EventingContext.Push(new TargetedNotificationType(notification, ListenerId));                                  
+         EventSink.Push(new TargetedNotificationType(notification, ListenerId));                                  
       }
 
       public bool FilterNotification(Notification notification)

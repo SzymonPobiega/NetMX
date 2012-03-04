@@ -18,7 +18,7 @@ namespace NetMX.Remote.Jsr262
    public class IsInstanceOfMessage
    {
       [MessageBodyMember]
-      [XmlElement("String", Namespace = Schema.ConnectorNamespace)]
+      [XmlElement("String", Namespace = Schema.ConnectorNamespaceName)]
       public string Value { get; set; }
 
       public IsInstanceOfMessage()
@@ -35,7 +35,7 @@ namespace NetMX.Remote.Jsr262
    public class IsInstanceOfResponseMessage
    {
       [MessageBodyMember]
-      [XmlElement("Boolean", Namespace = Schema.ConnectorNamespace)]
+      [XmlElement("Boolean", Namespace = Schema.ConnectorNamespaceName)]
       public bool Value { get; set; }
       
       public IsInstanceOfResponseMessage()
@@ -52,7 +52,7 @@ namespace NetMX.Remote.Jsr262
    public class ResourceMetaDataTypeMessage
    {
       [MessageBodyMember]
-      [XmlElement(Namespace = Schema.ConnectorNamespace)]
+      [XmlElement(Namespace = Schema.ConnectorNamespaceName)]
       public ResourceMetaDataType DynamicMBeanResourceMetaData { get; set; }
       
       public ResourceMetaDataTypeMessage()
@@ -69,7 +69,7 @@ namespace NetMX.Remote.Jsr262
    public class InvokeMessage
    {
       [MessageBodyMember]
-      [XmlElement(Namespace = Schema.ConnectorNamespace)]
+      [XmlElement(Namespace = Schema.ConnectorNamespaceName)]
       public OperationRequestType ManagedResourceOperation { get; set; }
 
       public InvokeMessage()
@@ -86,7 +86,7 @@ namespace NetMX.Remote.Jsr262
    public class InvokeResponseMessage
    {
       [MessageBodyMember]
-      [XmlElement(Namespace = Schema.ConnectorNamespace)]
+      [XmlElement(Namespace = Schema.ConnectorNamespaceName)]
       public GenericValueType ManagedResourceOperationResult { get; set; }
 
       public InvokeResponseMessage()
@@ -100,8 +100,8 @@ namespace NetMX.Remote.Jsr262
    } 
 
    [Serializable]
-   [XmlType(AnonymousType = true, Namespace = Schema.ConnectorNamespace)]
-   [XmlRoot(Namespace = Schema.ConnectorNamespace, IsNullable = false)]
+   [XmlType(AnonymousType = true, Namespace = Schema.ConnectorNamespaceName)]
+   [XmlRoot(Namespace = Schema.ConnectorNamespaceName, IsNullable = false)]
    public class GetDefaultDomainResponse
    {
       [XmlText]

@@ -1,35 +1,21 @@
-using System;
-using System.Linq;
-using System.Collections.Generic;
-using System.Linq.Expressions;
+﻿using System;
 
 namespace NetMX
 {
-   [Serializable]
-   public class AttributeExp : QueryExp
-   {
-      private readonly string _attributeName;
+    public class AttributeExp<T> : IExpression<T>
+    {
+        private readonly string _name;
 
-      public AttributeExp(string attributeName)
-      {
-         if (attributeName == null)
-         {
-            throw new ArgumentNullException("attributeName", "Attribute name cannot be null.");
-         }
-         _attributeName = attributeName;
-      }
+        public AttributeExp(string name)
+        {
+            _name = name;
+        }
 
-      public string AttributeName
-      {
-         get { return _attributeName; }
-      }
-
-      public override Expression Convert()
-      {
-         return 
-            Expression.Call(Expression.Parameter(typeof(IQueryEvaluationContext), "context"),
-                                typeof (IQueryEvaluationContext).GetMethod("GetAttribute"),
-                                Expression.Constant(_attributeName));
-      }      
-   }
+        public T Evaluate(IQueryEvaluationContext context)
+        {            
+            return context.HasAttribute(_name) 
+                ? (T)context.GetAttribute(_name) 
+                : default(T);
+        }
+    }
 }

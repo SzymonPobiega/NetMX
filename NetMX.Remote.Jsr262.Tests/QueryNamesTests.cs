@@ -1,13 +1,8 @@
 using System;
-using System.IO;
 using System.Linq;
-using System.Collections.Generic;
-using System.ServiceModel.Channels;
-using System.Xml.Serialization;
 using NUnit.Framework;
-using WSMan.NET;
-using WSMan.NET.Enumeration;
 
+// ReSharper disable InconsistentNaming
 namespace NetMX.Remote.Jsr262.Tests
 {
    [TestFixture]
@@ -24,7 +19,7 @@ namespace NetMX.Remote.Jsr262.Tests
          _server.RegisterMBean(new Sample(), secondQuotedName);
 
          ObjectName[] names;
-         using (INetMXConnector connector = new Jsr262Connector(_serviceUrl, null, 100))
+         using (INetMXConnector connector = new Jsr262Connector(_serviceUrl, 100))
          {
             connector.Connect(null);
             IMBeanServerConnection remoteServer = connector.MBeanServerConnection;
@@ -39,7 +34,7 @@ namespace NetMX.Remote.Jsr262.Tests
       public void Large_result_sets_can_be_returned_using_multiple_pull_requests_set_in_code()
       {
          RegisterBeansForLargeResultSetTests();
-         using (INetMXConnector connector = new Jsr262Connector(_serviceUrl, null, 100))
+         using (INetMXConnector connector = new Jsr262Connector(_serviceUrl, 100))
          {
             connector.Connect(null);
             IMBeanServerConnection remoteServer = connector.MBeanServerConnection;
@@ -52,26 +47,13 @@ namespace NetMX.Remote.Jsr262.Tests
       public void Large_result_sets_can_be_returned_using_multiple_pull_requests_set_in_configuration()
       {
          RegisterBeansForLargeResultSetTests();
-         using (INetMXConnector connector = NetMXConnectorFactory.Connect(_serviceUrl, null))
+         using (INetMXConnector connector = NetMXConnectorFactory.Connect(new Uri(_serviceUrl), null))
          {
             IMBeanServerConnection remoteServer = connector.MBeanServerConnection;
 
             Assert.AreEqual(1001, remoteServer.QueryNames(null, null).Count());
          }
       } 
-
-      [Test]
-      public void Large_result_sets_can_be_returned_using_specific_binding_configuration()
-      {
-         RegisterBeansForLargeResultSetTests();
-         using (INetMXConnector connector = new Jsr262Connector(_serviceUrl, "LargeMessages", 1500))
-         {
-            connector.Connect(null);
-            IMBeanServerConnection remoteServer = connector.MBeanServerConnection;
-
-            Assert.AreEqual(1001, remoteServer.QueryNames(null, null).Count());
-         }
-      }      
 
       private void RegisterBeansForLargeResultSetTests()
       {
@@ -87,8 +69,8 @@ namespace NetMX.Remote.Jsr262.Tests
       public void SetUp()
       {
          _server = MBeanServerFactory.CreateMBeanServer();
-         
-         _connectorServer = NetMXConnectorServerFactory.NewNetMXConnectorServer(_serviceUrl, _server);
+
+         _connectorServer = NetMXConnectorServerFactory.NewNetMXConnectorServer(new Uri(_serviceUrl), _server);
          _connectorServer.Start();         
       }
 
@@ -98,9 +80,10 @@ namespace NetMX.Remote.Jsr262.Tests
          _connectorServer.Dispose();
       }
 
-      private static readonly Uri _serviceUrl = new Uri("http://localhost:13545/MBeanServer");
+      private const string _serviceUrl = @"http://localhost:13545/MBeanServer";
       private IMBeanServer _server;
       private INetMXConnectorServer _connectorServer;
       
    }
 }
+// ReSharper restore InconsistentNaming

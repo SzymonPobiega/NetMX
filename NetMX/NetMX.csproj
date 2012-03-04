@@ -10,10 +10,14 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>NetMX</RootNamespace>
     <AssemblyName>NetMX</AssemblyName>
-    <SccProjectName>SAK</SccProjectName>
-    <SccLocalPath>SAK</SccLocalPath>
-    <SccAuxPath>SAK</SccAuxPath>
-    <SccProvider>SAK</SccProvider>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccProvider>
+    </SccProvider>
     <SignAssembly>false</SignAssembly>
     <AssemblyOriginatorKeyFile>
     </AssemblyOriginatorKeyFile>
@@ -93,20 +97,24 @@
     <Compile Include="Exceptions\MalformedObjectNameException.cs" />
     <Compile Include="Exceptions\OperationsException.cs" />
     <Compile Include="Expression\AndExp.cs" />
-    <Compile Include="Expression\ArithmeticExp.cs" />
-    <Compile Include="Expression\ArithmeticOperator.cs" />
     <Compile Include="Expression\AttributeExp.cs" />
     <Compile Include="Expression\BetweenExp.cs" />
+    <Compile Include="Expression\BinaryExp.cs" />
     <Compile Include="Expression\ConstantExp.cs" />
-    <Compile Include="Expression\ExpressionUtils.cs" />
-    <Compile Include="Expression\InExpression.cs" />
+    <Compile Include="Expression\EqualExp.cs" />
+    <Compile Include="Expression\EqualObjectExp.cs" />
+    <Compile Include="Expression\GreaterExp.cs" />
+    <Compile Include="Expression\GreaterOrEqualExp.cs" />
+    <Compile Include="Expression\HasAttributeExp.cs" />
+    <Compile Include="Expression\IExpression.cs" />
     <Compile Include="Expression\IQueryEvaluationContext.cs" />
-    <Compile Include="Expression\LambdaExp.cs" />
-    <Compile Include="Expression\NotExpression.cs" />
-    <Compile Include="Expression\ObjectMath.cs" />
-    <Compile Include="Expression\OrExpression.cs" />
-    <Compile Include="Expression\RelationalOperator.cs" />
-    <Compile Include="Expression\RelationExp.cs" />
+    <Compile Include="Expression\AddExp.cs" />
+    <Compile Include="Expression\LessExp.cs" />
+    <Compile Include="Expression\LessOrEqualExp.cs" />
+    <Compile Include="Expression\NotExp.cs" />
+    <Compile Include="Expression\NumericAttributeExp.cs" />
+    <Compile Include="Expression\OrExp.cs" />
+    <Compile Include="Expression\UnaryExp.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="IMBeanServerConnection.cs" />
     <Compile Include="Exceptions\AttributeNotFoundException.cs" />
@@ -199,7 +207,6 @@
     <Compile Include="Proxy\ProxyFactory.cs" />
     <Compile Include="Proxy\ProxyInvocationHandler.cs" />
     <Compile Include="Proxy\ProxyProvider.cs" />
-    <Compile Include="Expression\QueryExp.cs" />
     <Compile Include="Relation\Exceptions\InvalidRelationIdException.cs" />
     <Compile Include="Relation\Exceptions\InvalidRelationServiceException.cs" />
     <Compile Include="Relation\Exceptions\InvalidRelationTypeException.cs" />

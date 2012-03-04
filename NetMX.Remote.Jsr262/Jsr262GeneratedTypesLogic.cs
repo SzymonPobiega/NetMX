@@ -1,12 +1,7 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
-using System.ServiceModel;
-using System.Text;
 using NetMX.Relation;
 using NetMX.Remote.Jsr262.Structures;
-using WSMan.NET;
 
 namespace NetMX.Remote.Jsr262
 {
@@ -46,22 +41,19 @@ namespace NetMX.Remote.Jsr262
       }
       public MapType(IDictionary value)
       {
-         List<MapTypeEntry> mapTypeEntries = new List<MapTypeEntry>();
-         foreach (DictionaryEntry entry in value)
-         {
-            mapTypeEntries.Add(new MapTypeEntry
-                                  {
-                                     Key = new GenericValueType(entry.Key),
-                                     Value = new GenericValueType(entry.Value)
-                                  });
-         }
-         Entry = mapTypeEntries.ToArray();
+          Entry = value.Cast<DictionaryEntry>()
+              .Select(entry => new MapTypeEntry
+                                   {
+                                       Key = new GenericValueType(entry.Key),
+                                       Value = new GenericValueType(entry.Value)
+                                   })
+              .ToArray();
       }
 
       public object Deserialize()
       {
-         Hashtable results = new Hashtable();
-         foreach (MapTypeEntry entry in Entry)
+         var results = new Hashtable();
+         foreach (var entry in Entry)
          {
             results.Add(entry.Key.Deserialize(), entry.Value.Deserialize());
          }
@@ -77,17 +69,14 @@ namespace NetMX.Remote.Jsr262
 
       public MultipleValueType(ICollection values)
       {
-         List<GenericValueType> valueTypes = new List<GenericValueType>();
-         foreach (object value in values)
-         {
-            valueTypes.Add(new GenericValueType(value));
-         }
-         Value = valueTypes.ToArray();
+          Value = values.Cast<object>()
+              .Select(value => new GenericValueType(value))
+              .ToArray();
       }
       public object Deserialize()
       {
-         ArrayList results = new ArrayList();
-         foreach (GenericValueType valueType in Value)
+         var results = new ArrayList();
+         foreach (var valueType in Value)
          {
             results.Add(valueType.Deserialize());
          }
@@ -138,11 +127,11 @@ namespace NetMX.Remote.Jsr262
       public ManagedResourceRole(Role role)
       {
          name = role.Name;
-         Value = role.Value.Select(x => new EndpointReference(ObjectNameSelector.CreateEndpointAddress(x))).ToArray();
+         Value = role.Value.Select(ObjectNameSelector.CreateEndpointAddress).ToArray();
       }
       public Role Deserialize()
       {
-         return new Role(name, Value.Select(x => x.Address.ExtractObjectName()));
+         return new Role(name, Value.Select(x => x.ExtractObjectName()));
       }
    }
 
@@ -154,13 +143,13 @@ namespace NetMX.Remote.Jsr262
       public ManagedResourceRoleUnresolved(RoleUnresolved role)
       {
          name = role.RoleName;
-         Value = role.RoleValue.Select(x => new EndpointReference(ObjectNameSelector.CreateEndpointAddress(x))).ToArray();
+         Value = role.RoleValue.Select(ObjectNameSelector.CreateEndpointAddress).ToArray();
          problemSpecified = true;
          problem = (int)role.ProblemType;
       }
       public RoleUnresolved Deserialize()
       {
-         return new RoleUnresolved(name, Value.Select(x => x.Address.ExtractObjectName()), (RoleStatus)problem);
+         return new RoleUnresolved(name, Value.Select(x => x.ExtractObjectName()), (RoleStatus)problem);
       }
    }
 

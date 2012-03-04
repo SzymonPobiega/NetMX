@@ -154,7 +154,7 @@ namespace NetMX.Remote.Remoting
 		{
 			return _buffer.FetchNotifications(startSequenceId, maxCount);
 		}
-		public IEnumerable<ObjectName> QueryNames(object token, ObjectName name, QueryExp query)
+		public IEnumerable<ObjectName> QueryNames(object token, ObjectName name, IExpression<bool> query)
 		{
 			using (TemporarySecurityContext tsc = new TemporarySecurityContext(Authorize(token)))
 			{

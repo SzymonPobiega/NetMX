@@ -1,6 +1,4 @@
-using System;
 using System.Linq;
-using System.Collections.Generic;
 
 namespace NetMX.Server
 {
@@ -25,9 +23,9 @@ namespace NetMX.Server
          get { return _bean.GetMBeanInfo().ClassName; }
       }
 
-      public T GetAttribute<T>(string attributeName)
+      public object GetAttribute(string attributeName)
       {
-         return (T)_bean.GetAttribute(attributeName);
+         return _bean.GetAttribute(attributeName);
       }
 
       public bool HasAttribute(string attributeName)

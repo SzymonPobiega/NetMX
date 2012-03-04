@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.ServiceModel;
-using System.Text;
+using WSMan.NET.Addressing;
 using WSMan.NET.Management;
 using WSMan.NET.Transfer;
 
@@ -24,12 +23,12 @@ namespace NetMX.Remote.Jsr262.Server
 
       public object HandleGet(string fragmentExpression, IEnumerable<Selector> selectors)
       {
-         GetAttributesFragment typedFragment = GetAttributesFragment.Parse(fragmentExpression);
+         var typedFragment = GetAttributesFragment.Parse(fragmentExpression);
 
-         DynamicMBeanResource response = new DynamicMBeanResource();
-         ObjectName objectName = selectors.ExtractObjectName();
+         var response = new DynamicMBeanResource();
+         var objectName = selectors.ExtractObjectName();
 
-         IList<AttributeValue> values = _server.GetAttributes(objectName, typedFragment.Names);
+         var values = _server.GetAttributes(objectName, typedFragment.Names);
 
          response.Property = values.Select(x => new NamedGenericValueType(x.Name, x.Value)).ToArray();
          return new XmlFragment<DynamicMBeanResource>(response);
@@ -37,25 +36,25 @@ namespace NetMX.Remote.Jsr262.Server
 
       public object HandlePut(string fragmentExpression, IEnumerable<Selector> selectors, ExtractBodyDelegate extractBodyCallback)
       {
-         DynamicMBeanResource response = new DynamicMBeanResource();
-         ObjectName objectName = selectors.ExtractObjectName();
+         var response = new DynamicMBeanResource();
+         var objectName = selectors.ExtractObjectName();
 
-         XmlFragment<DynamicMBeanResource> request = (XmlFragment<DynamicMBeanResource>)extractBodyCallback(typeof(XmlFragment<DynamicMBeanResource>));
+         var request = (XmlFragment<DynamicMBeanResource>)extractBodyCallback(typeof(XmlFragment<DynamicMBeanResource>));
 
-         IList<AttributeValue> values = _server.SetAttributes(objectName, request.Value.Property.Select(x => new AttributeValue(x.name, x.Deserialize())));
+         var values = _server.SetAttributes(objectName, request.Value.Property.Select(x => new AttributeValue(x.name, x.Deserialize())));
 
          response.Property = values.Select(x => new NamedGenericValueType(x.Name, x.Value)).ToArray();
          return new XmlFragment<DynamicMBeanResource>(response);
       }
 
-      public EndpointAddress HandleCreate(ExtractBodyDelegate extractBodyCallback)
+      public EndpointReference HandleCreate(ExtractBodyDelegate extractBodyCallback)
       {
          throw new NotSupportedException();
       }
 
       public void HandlerDelete(IEnumerable<Selector> selectors)
       {
-         ObjectName objectName = selectors.ExtractObjectName();
+         var objectName = selectors.ExtractObjectName();
          _server.UnregisterMBean(objectName);
       }
    }

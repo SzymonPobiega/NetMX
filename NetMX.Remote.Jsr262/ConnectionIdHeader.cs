@@ -12,7 +12,7 @@ namespace NetMX.Remote.Jsr262
 
         public override string Namespace
         {
-            get { return Schema.ConnectorNamespace; }
+            get { return Schema.ConnectorNamespaceName; }
         }
 
         protected override void OnWriteHeaderContents(XmlDictionaryWriter writer, MessageVersion messageVersion)

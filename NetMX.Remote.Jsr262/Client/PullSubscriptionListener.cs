@@ -1,8 +1,6 @@
 using System;
-using System.Linq;
-using System.Collections.Generic;
 using NetMX.Remote.Jsr262.Structures;
-using WSMan.NET.Eventing;
+using WSMan.NET.Eventing.Client;
 
 namespace NetMX.Remote.Jsr262.Client
 {

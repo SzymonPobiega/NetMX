@@ -9,6 +9,7 @@ using System.Xml.Serialization;
 using NetMX.OpenMBean;
 using NetMX.Relation;
 using WSMan.NET;
+using WSMan.NET.Addressing;
 
 namespace NetMX.Remote.Jsr262.Structures
 {
@@ -239,7 +240,7 @@ namespace NetMX.Remote.Jsr262.Structures
          {
             return null;
          }
-         IDeserializable deserializable = Item as IDeserializable;
+         var deserializable = Item as IDeserializable;
          if (deserializable != null)
          {
             return deserializable.Deserialize();

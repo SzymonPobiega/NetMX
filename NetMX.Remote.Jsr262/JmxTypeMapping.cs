@@ -112,7 +112,7 @@ namespace NetMX.Remote.Jsr262
       /// <returns></returns>
       public static XmlQualifiedName GetJmxXmlType(string clrTypeName)
       {
-         return new XmlQualifiedName(GetJmxXmlTypeName(clrTypeName), Schema.ConnectorNamespace);
+         return new XmlQualifiedName(GetJmxXmlTypeName(clrTypeName), Schema.ConnectorNamespaceName);
       }
 
       public static string GetJmxXmlTypeName(string clrTypeName)

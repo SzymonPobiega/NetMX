@@ -1,33 +1,19 @@
-using System;
-using System.Linq;
-using System.Collections.Generic;
-using System.Linq.Expressions;
+﻿using System;
 
 namespace NetMX
 {
-   [Serializable]
-   public class ConstantExp : QueryExp
-   {
-      private readonly object _constantValue;
+    public class ConstantExp<T> : IExpression<T>
+    {
+        private readonly T _constantValue;
 
-      public ConstantExp(object constantValue)
-      {
-         if (constantValue == null)
-         {
-            throw new ArgumentNullException("constantValue", "Constant value cannot be null.");
-         }
-         _constantValue = constantValue;
-      }
+        public ConstantExp(T constantValue)
+        {
+            _constantValue = constantValue;
+        }
 
-      public object ConstantValue
-      {
-         get { return _constantValue; }
-      }
-
-
-      public override Expression Convert()
-      {
-         return Expression.Constant(_constantValue);
-      }
-   }
+        public T Evaluate(IQueryEvaluationContext context)
+        {
+            return _constantValue;
+        }
+    }
 }

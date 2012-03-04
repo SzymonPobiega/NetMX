@@ -7,87 +7,87 @@ using System.Security.Principal;
 
 namespace Jsr262Demo
 {
-	class Program
-	{
-		static void Main(string[] args)
-		{
-			AppDomain.CurrentDomain.SetPrincipalPolicy(PrincipalPolicy.WindowsPrincipal);
-			IMBeanServer server = MBeanServerFactory.CreateMBeanServer();
-			Sample o = new Sample();
-			ObjectName name = new ObjectName("Sample:a=b");
-			server.RegisterMBean(o, name);
-         Uri serviceUrl = new Uri("http://simon-hp:80/MBeanServer");            
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            AppDomain.CurrentDomain.SetPrincipalPolicy(PrincipalPolicy.WindowsPrincipal);
+            IMBeanServer server = MBeanServerFactory.CreateMBeanServer();
+            Sample o = new Sample();
+            ObjectName name = new ObjectName("Sample:a=b");
+            server.RegisterMBean(o, name);
+            Uri serviceUrl = new Uri("http://simon-hp:80/MBeanServer");
 
-			using (INetMXConnectorServer connectorServer = NetMXConnectorServerFactory.NewNetMXConnectorServer(serviceUrl, server))
-			{
-				connectorServer.Start();
+            using (INetMXConnectorServer connectorServer = NetMXConnectorServerFactory.NewNetMXConnectorServer(serviceUrl, server))
+            {
+                connectorServer.Start();
 
-            using (INetMXConnector connector = NetMXConnectorFactory.Connect(new Uri("http://localhost:8888/MBeanServer"), null))
-				{
-               IMBeanServerConnection remoteServer = connector.MBeanServerConnection;
+                using (INetMXConnector connector = NetMXConnectorFactory.Connect(new Uri("http://localhost:8888/MBeanServer"), null))
+                {
+                    IMBeanServerConnection remoteServer = connector.MBeanServerConnection;
 
 
-               string defaultDomain = remoteServer.GetDefaultDomain();
-               Console.WriteLine("Default domain is {0}", defaultDomain);
+                    string defaultDomain = remoteServer.GetDefaultDomain();
+                    Console.WriteLine("Default domain is {0}", defaultDomain);
 
-               IEnumerable<string> domains = remoteServer.GetDomains();
-               Console.WriteLine("Following domains are registereds:");
-               foreach (string domain in domains)
-               {
-                  Console.WriteLine(" * {0}", domain);
-               }
+                    IEnumerable<string> domains = remoteServer.GetDomains();
+                    Console.WriteLine("Following domains are registereds:");
+                    foreach (string domain in domains)
+                    {
+                        Console.WriteLine(" * {0}", domain);
+                    }
 
-               IEnumerable<ObjectName> names = remoteServer.QueryNames(null, null);
-               Console.WriteLine("Following MBeans are registered in the server:");
-               foreach (ObjectName objectName in names)
-               {
-                  Console.WriteLine(" * {0}", objectName);
-               }
+                    IEnumerable<ObjectName> names = remoteServer.QueryNames(null, null);
+                    Console.WriteLine("Following MBeans are registered in the server:");
+                    foreach (ObjectName objectName in names)
+                    {
+                        Console.WriteLine(" * {0}", objectName);
+                    }
 
-               //remoteServer.AddNotificationListener(name, CounterChanged, null, null);
+                    //remoteServer.AddNotificationListener(name, CounterChanged, null, null);
 
-               Console.WriteLine("******");
-               MBeanInfo info = remoteServer.GetMBeanInfo(name);
-               Console.WriteLine("MBean description: {0}", info.Description);
-               Console.WriteLine("MBean class name: {0}", info.ClassName);
-               foreach (MBeanAttributeInfo attributeInfo in info.Attributes)
-               {
-                  Console.WriteLine("Attribute {0} ({1}) [{2}{3}]: {4}", attributeInfo.Name, attributeInfo.Description,
-                     attributeInfo.Readable ? "r" : "", attributeInfo.Writable ? "w" : "", attributeInfo.Type);
-               }
-               foreach (MBeanOperationInfo operationInfo in info.Operations)
-               {
-                  Console.WriteLine("Operation {0} ({1}) [{2}]", operationInfo.Name, operationInfo.Description,
-                    operationInfo.Impact);
-               }
-               Console.WriteLine("******");
+                    Console.WriteLine("******");
+                    MBeanInfo info = remoteServer.GetMBeanInfo(name);
+                    Console.WriteLine("MBean description: {0}", info.Description);
+                    Console.WriteLine("MBean class name: {0}", info.ClassName);
+                    foreach (MBeanAttributeInfo attributeInfo in info.Attributes)
+                    {
+                        Console.WriteLine("Attribute {0} ({1}) [{2}{3}]: {4}", attributeInfo.Name, attributeInfo.Description,
+                           attributeInfo.Readable ? "r" : "", attributeInfo.Writable ? "w" : "", attributeInfo.Type);
+                    }
+                    foreach (MBeanOperationInfo operationInfo in info.Operations)
+                    {
+                        Console.WriteLine("Operation {0} ({1}) [{2}]", operationInfo.Name, operationInfo.Description,
+                          operationInfo.Impact);
+                    }
+                    Console.WriteLine("******");
 
-               object counter = remoteServer.GetAttribute(name, "Counter");
+                    object counter = remoteServer.GetAttribute(name, "Counter");
 
-               Console.WriteLine("Counter value is {0}", counter);
+                    Console.WriteLine("Counter value is {0}", counter);
 
-               remoteServer.SetAttribute(name, "Counter", 5);
-               counter = remoteServer.GetAttribute(name, "Counter");
+                    remoteServer.SetAttribute(name, "Counter", 5);
+                    counter = remoteServer.GetAttribute(name, "Counter");
 
-               Console.WriteLine("Now, counter value is {0}", counter);
+                    Console.WriteLine("Now, counter value is {0}", counter);
 
-               counter = remoteServer.Invoke(name, "AddAmount", new object[] { 5 });
-               counter = remoteServer.GetAttribute(name, "Counter");
+                    counter = remoteServer.Invoke(name, "AddAmount", new object[] { 5 });
+                    counter = remoteServer.GetAttribute(name, "Counter");
 
-               Console.WriteLine("Now, counter value is {0}", counter);
+                    Console.WriteLine("Now, counter value is {0}", counter);
 
-               counter = remoteServer.Invoke(name, "ResetCounter", new object[] { });
-               counter = remoteServer.GetAttribute(name, "Counter");
+                    counter = remoteServer.Invoke(name, "ResetCounter", new object[] { });
+                    counter = remoteServer.GetAttribute(name, "Counter");
 
-               Console.WriteLine("Now, counter value is {0}", counter);
+                    Console.WriteLine("Now, counter value is {0}", counter);
 
-					Console.ReadKey();
-				}
-			}
-		}
-		static void CounterChanged(Notification notification, object handback)
-		{
-			Console.WriteLine("Counter changed! New value is {0}", notification.UserData);
-		}
-	}
+                    Console.ReadKey();
+                }
+            }
+        }
+        static void CounterChanged(Notification notification, object handback)
+        {
+            Console.WriteLine("Counter changed! New value is {0}", notification.UserData);
+        }
+    }
 }

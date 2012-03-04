@@ -78,7 +78,7 @@ namespace NetMX.Remote.ServiceModel
       {
          return _proxy.IsRegistered(name);
       }
-      public IEnumerable<ObjectName> QueryNames(ObjectName name, QueryExp query)
+      public IEnumerable<ObjectName> QueryNames(ObjectName name, IExpression<bool> query)
       {
          return _proxy.QueryNames(name, query);
       }

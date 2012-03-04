@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using System.ServiceModel;
+using WSMan.NET.Addressing;
 using WSMan.NET.Management;
 using WSMan.NET.Transfer;
 
@@ -49,14 +50,14 @@ namespace NetMX.Remote.Jsr262.Server
          throw new NotSupportedException();
       }
 
-      public EndpointAddress HandleCreate(ExtractBodyDelegate extractBodyCallback)
+      public EndpointReference HandleCreate(ExtractBodyDelegate extractBodyCallback)
       {
-         DynamicMBeanResourceConstructor request = (DynamicMBeanResourceConstructor)extractBodyCallback(typeof(DynamicMBeanResourceConstructor));
+         var request = (DynamicMBeanResourceConstructor)extractBodyCallback(typeof(DynamicMBeanResourceConstructor));
 
-         ObjectName objectName = request.ResourceEPR.Address.ExtractObjectName();
-         object[] arguments = request.RegistrationParameters.Select(x => x.Deserialize()).ToArray();
+         var objectName = request.ResourceEPR.ExtractObjectName();
+         var arguments = request.RegistrationParameters.Select(x => x.Deserialize()).ToArray();
 
-         ObjectInstance instance = _server.CreateMBean(request.ResourceClass, objectName, arguments);
+         var instance = _server.CreateMBean(request.ResourceClass, objectName, arguments);
 
          return ObjectNameSelector.CreateEndpointAddress(instance.ObjectName);
       }

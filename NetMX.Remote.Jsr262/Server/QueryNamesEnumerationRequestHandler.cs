@@ -1,9 +1,8 @@
 using System;
 using System.Linq;
 using System.Collections.Generic;
-using System.ServiceModel;
 using WSMan.NET.Enumeration;
-using WSMan.NET.Management;
+using WSMan.NET.SOAP;
 
 namespace NetMX.Remote.Jsr262.Server
 {
@@ -16,14 +15,14 @@ namespace NetMX.Remote.Jsr262.Server
          _server = server;
       }
 
-      public IEnumerable<object> Enumerate(IEnumerationContext context)
+      public IEnumerable<object> Enumerate(IEnumerationContext context, IncomingMessage incomingMessage, OutgoingMessage outgoingMessage)
       {
          //QueryExpr expr = (QueryExpr) context.Filter;
          return _server.QueryNames(context.Selectors.ExtractObjectName(), null)
-            .Select(x => ObjectNameSelector.CreateEndpointAddress(x)).Cast<object>();
+            .Select(ObjectNameSelector.CreateEndpointAddress).Cast<object>();
       }
 
-      public int EstimateRemainingItemsCount(IEnumerationContext context)
+      public int EstimateRemainingItemsCount(IEnumerationContext context, IncomingMessage incomingMessage, OutgoingMessage outgoingMessage)
       {
          throw new NotSupportedException();
       }      

@@ -10,12 +10,16 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>NetMX.Remote.Jsr262</RootNamespace>
     <AssemblyName>NetMX.Remote.Jsr262</AssemblyName>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <SccProjectName>SAK</SccProjectName>
-    <SccLocalPath>SAK</SccLocalPath>
-    <SccAuxPath>SAK</SccAuxPath>
-    <SccProvider>SAK</SccProvider>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccProvider>
+    </SccProvider>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
     <OldToolsVersion>4.0</OldToolsVersion>
@@ -35,6 +39,7 @@
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -120,15 +125,13 @@
     <Compile Include="Server\Jsr262ConnectorServer.cs" />
     <Compile Include="Server\Jsr262ConnectorServerProvider.cs" />
     <Compile Include="Client\Jsr262MBeanServerConnection.cs" />
-    <Compile Include="Server\Jsr262ServiceImplementation.cs" />
+    <Compile Include="Server\Jsr262ExtensionMethodHandler.cs" />
     <Compile Include="Jsr262Types.cs" />
     <Compile Include="NotificationFilter.cs" />
     <Compile Include="NotificationListenerListHeader.cs" />
     <Compile Include="ObjectNameSelector.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Client\ProxyFactory.cs" />
     <Compile Include="Jsr262GeneratedTypesLogic.cs" />
-    <Compile Include="Server\ServerAddressExtension.cs" />
     <Compile Include="Soap12Addressing200408WSHttpBinding.cs" />
     <Compile Include="Soap12Addressing200408WSHttpBindingCollectionElement.cs" />
     <Compile Include="Soap12Addressing200408WSHttpBindingElement.cs" />

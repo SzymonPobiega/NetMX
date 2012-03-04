@@ -8,6 +8,7 @@ using System.Xml.Serialization;
 using NetMX.Remote.Jsr262.Structures;
 using NetMX.Remote.Jsr262.Structures.Query;
 using WSMan.NET;
+using WSMan.NET.Addressing;
 
 namespace NetMX.Remote.Jsr262
 {
@@ -1447,7 +1448,7 @@ namespace NetMX.Remote.Jsr262
    [GeneratedCode("xsd", "2.0.50727.1432")]
    [Serializable]
 
-   [MessageContract(WrapperNamespace = Schema.ConnectorNamespace)]
+   [MessageContract(WrapperNamespace = Schema.ConnectorNamespaceName)]
    [DesignerCategory("code")]
    [XmlType(Namespace = "http://jsr262.dev.java.net/jmxconnector")]
    [XmlRoot("ManagedResourceOperation", Namespace = "http://jsr262.dev.java.net/jmxconnector", IsNullable = false)]

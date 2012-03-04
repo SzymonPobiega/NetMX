@@ -9,7 +9,7 @@ namespace NetMX.Remote.Jsr262
    {
       public override INetMXConnectorServer NewNetMXConnectorServer(Uri serviceUrl, IMBeanServer server)
       {
-         return new Jsr262ConnectorServer(serviceUrl, server);
+         return new Jsr262ConnectorServer(serviceUrl+"/", server);
       }
    }
 }

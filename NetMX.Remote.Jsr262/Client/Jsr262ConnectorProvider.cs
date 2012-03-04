@@ -1,22 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Configuration;
-using System.Linq;
-using System.Text;
 
 namespace NetMX.Remote.Jsr262
 {
    public sealed class Jsr262ConnectorProvider : NetMXConnectorProvider
    {
       private int _enumerationMaxElements = 1500;
-      private string _bindingConfiguration;
 
       public override INetMXConnector NewNetMXConnector(Uri serviceUrl)
       {
-         return new Jsr262Connector(serviceUrl, _bindingConfiguration, _enumerationMaxElements);
+         return new Jsr262Connector(serviceUrl.ToString(), _enumerationMaxElements);
       }
 
-      public override void Initialize(string name, System.Collections.Specialized.NameValueCollection config, System.Configuration.ConfigurationElement nestedElement)
+      public override void Initialize(string name, System.Collections.Specialized.NameValueCollection config, ConfigurationElement nestedElement)
       {
          base.Initialize(name, config, nestedElement);
          string tmp = config["enumerationMaxElements"];
@@ -33,7 +29,6 @@ namespace NetMX.Remote.Jsr262
             }
             _enumerationMaxElements = value;
          }
-         _bindingConfiguration = config["bindingConfiguration"];
       }
    }
 }

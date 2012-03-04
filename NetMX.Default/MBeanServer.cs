@@ -261,14 +261,13 @@ namespace NetMX.Server
       {
          return _beans.ContainsKey(GetNameWithDomain(name));
       }
-      public IEnumerable<ObjectName> QueryNames(ObjectName name, QueryExp query)
+      public IEnumerable<ObjectName> QueryNames(ObjectName name, IExpression<bool> query)
       {
-         Func<IQueryEvaluationContext, bool> predicate = QueryExp.Translate(query);
-         List<ObjectName> results = new List<ObjectName>();
-         foreach (ObjectName key in _beans.Keys)
+         var results = new List<ObjectName>();
+         foreach (var key in _beans.Keys)
          {
             if ((name == null || name.Apply(key))&&
-               (query == null || predicate(new EvaluationContext(key, _beans[key]))))
+               (query == null || query.Evaluate(new EvaluationContext(key, _beans[key]))))
             {
                results.Add(key);
             }

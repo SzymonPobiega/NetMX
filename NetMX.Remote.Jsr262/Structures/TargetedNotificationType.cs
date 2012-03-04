@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Xml;
 using System.Xml.Serialization;
 using WSMan.NET;
+using WSMan.NET.Addressing;
 
 namespace NetMX.Remote.Jsr262.Structures
 {
