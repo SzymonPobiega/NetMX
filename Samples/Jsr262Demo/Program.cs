@@ -36,8 +36,8 @@ namespace Jsr262Demo
                         Console.WriteLine(" * {0}", domain);
                     }
 
-                    IEnumerable<ObjectName> names = remoteServer.QueryNames(null, null);
-                    Console.WriteLine("Following MBeans are registered in the server:");
+                    IEnumerable<ObjectName> names = remoteServer.QueryNames(null, new EqualExp(new AttributeExp("Counter"), new ConstantExp<Number>(0)));
+                    Console.WriteLine("Following MBeans have attribute counter with value 0:");
                     foreach (ObjectName objectName in names)
                     {
                         Console.WriteLine(" * {0}", objectName);
@@ -80,7 +80,8 @@ namespace Jsr262Demo
 
                     Console.WriteLine("Now, counter value is {0}", counter);
 
-                    Console.ReadKey();
+                    Console.WriteLine("Press <enter> to exit.");
+                    Console.ReadLine();
                 }
             }
         }

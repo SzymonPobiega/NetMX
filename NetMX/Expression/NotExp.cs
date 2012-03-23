@@ -8,6 +8,12 @@ namespace NetMX
         {
         }
 
+        public override void Accept(IExpressionTreeVisitor visitor)
+        {
+            base.Accept(visitor);
+            visitor.Visit(this);
+        }
+
         public override bool Evaluate(Func<bool> inputValue)
         {
             return !inputValue();

@@ -11,9 +11,19 @@ namespace NetMX
             _constantValue = constantValue;
         }
 
+        public T ConstantValue
+        {
+            get { return _constantValue; }
+        }
+
         public T Evaluate(IQueryEvaluationContext context)
         {
-            return _constantValue;
+            return ConstantValue;
+        }
+
+        public void Accept(IExpressionTreeVisitor visitor)
+        {
+            visitor.Visit(this);
         }
     }
 }

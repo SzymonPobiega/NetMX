@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using NetMX.Expression;
 using NetMX.Remote.Jsr262.Structures;
 using WSMan.NET.Addressing.Faults;
 using WSMan.NET.SOAP;
@@ -224,7 +225,10 @@ namespace NetMX.Remote.Jsr262.Client
 
         public IEnumerable<ObjectName> QueryNames(ObjectName name, IExpression<bool> query)
         {
-            var filter = new Filter(Schema.QueryNamesDialect, query);
+            var queryExpression = query != null 
+                ? ExpressionGenerator.Generate(query)
+                : null;
+            var filter = new Filter(Schema.QueryNamesDialect, queryExpression);
             return _enumClient.EnumerateEPR(Schema.DynamicMBeanResourceUri, filter, _enumerationMaxElements,
                                             name.CreateSelectorSet())
                .Select(x => x.ExtractObjectName());

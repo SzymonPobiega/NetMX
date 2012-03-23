@@ -46,7 +46,7 @@ namespace NetMX.Remote.Jsr262
             managementHandler.Bind(Schema.MBeanServerResourceUri, new MBeanServerManagementRequestHandler(_server));
 
             var enumerationServer = new EnumerationServer();
-            enumerationServer.Bind(Schema.DynamicMBeanResourceUri, Schema.QueryNamesDialect, typeof(QueryExpr), new QueryNamesEnumerationRequestHandler(_server));
+            enumerationServer.Bind(Schema.DynamicMBeanResourceUri, Schema.QueryNamesDialect, typeof(string), new QueryNamesEnumerationRequestHandler(_server));
             enumerationServer.Bind(Schema.DynamicMBeanResourceUri, FilterMap.DefaultDialect, typeof(void), new IsRegisteredEnumerationRequestHandler(_server));
 
             var eventingServer = new EventingServer(new EventingRequestHandler(_server));

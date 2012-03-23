@@ -14,8 +14,8 @@ namespace NetMX.Tests
         public void Can_specify_alternatives_in_query()
         {
             Assert.IsTrue(_server.QueryNames(null, new OrExp(
-                                                      new EqualExp(new NumericAttributeExp("IntAttribute"), new ConstantExp<decimal>(1)),
-                                                      new EqualObjectExp(new AttributeExp<string>("StringAttribute"), new ConstantExp<string>("AAA"))))
+                                                      new EqualExp(new ConvertToNumberExp(new AttributeExp("IntAttribute")), new ConstantExp<Number>(1)),
+                                                      new EqualExp(new AttributeExp("StringAttribute"), new ConstantExp<string>("AAA"))))
                              .Contains(new ObjectName("sample:id=1")));            
         }
 

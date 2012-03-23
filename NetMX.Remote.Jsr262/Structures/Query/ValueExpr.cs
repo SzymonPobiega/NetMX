@@ -20,7 +20,7 @@ namespace NetMX.Remote.Jsr262.Structures.Query
       [XmlElement("Attr", typeof(ValueExprAttr))]
       [XmlElement("Boolean", typeof(bool))]
       [XmlElement("Class", typeof(ValueExprClass))]
-      [XmlElement("Double", typeof(double))]
+      [XmlElement("Double", typeof(decimal))]
       [XmlElement("Long", typeof(long))]
       [XmlElement("Op", typeof(ValueExprOP))]
       [XmlElement("String", typeof(string))]

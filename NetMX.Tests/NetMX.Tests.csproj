@@ -84,6 +84,7 @@
     </Compile>
     <Compile Include="Tests\CASPermissionsTests.cs" />
     <Compile Include="Tests\DynamicMBeanProxyTests.cs" />
+    <Compile Include="Tests\ExpressionParserTests.cs" />
     <Compile Include="Tests\ExpressionTests.cs" />
     <Compile Include="Tests\MBeanInternalInfoTests.cs" />
     <Compile Include="Tests\MBeanPermissionTest.cs" />

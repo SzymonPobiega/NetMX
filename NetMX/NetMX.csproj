@@ -66,6 +66,9 @@
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Antlr3.Runtime">
+      <HintPath>..\Libs\Antlr3.Runtime.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
     <Reference Include="System.configuration" />
@@ -97,22 +100,30 @@
     <Compile Include="Exceptions\OperationsException.cs" />
     <Compile Include="Expression\AndExp.cs" />
     <Compile Include="Expression\AttributeExp.cs" />
-    <Compile Include="Expression\BetweenExp.cs" />
     <Compile Include="Expression\BinaryExp.cs" />
     <Compile Include="Expression\ConstantExp.cs" />
+    <Compile Include="Expression\ConvertToBooleanExp.cs" />
+    <Compile Include="Expression\DivExp.cs" />
     <Compile Include="Expression\EqualExp.cs" />
-    <Compile Include="Expression\EqualObjectExp.cs" />
+    <Compile Include="Expression\ExpressionGenerator.cs" />
+    <Compile Include="Expression\ExpressionParser.cs" />
     <Compile Include="Expression\GreaterExp.cs" />
     <Compile Include="Expression\GreaterOrEqualExp.cs" />
     <Compile Include="Expression\HasAttributeExp.cs" />
     <Compile Include="Expression\IExpression.cs" />
+    <Compile Include="Expression\IExpressionTreeVisitor.cs" />
     <Compile Include="Expression\IQueryEvaluationContext.cs" />
     <Compile Include="Expression\AddExp.cs" />
     <Compile Include="Expression\LessExp.cs" />
     <Compile Include="Expression\LessOrEqualExp.cs" />
+    <Compile Include="Expression\MulExp.cs" />
+    <Compile Include="Expression\netmxprLexer.cs" />
+    <Compile Include="Expression\netmxprParser.cs" />
     <Compile Include="Expression\NotExp.cs" />
-    <Compile Include="Expression\NumericAttributeExp.cs" />
+    <Compile Include="Expression\Number.cs" />
+    <Compile Include="Expression\ConvertToNumberExp.cs" />
     <Compile Include="Expression\OrExp.cs" />
+    <Compile Include="Expression\SubExp.cs" />
     <Compile Include="Expression\UnaryExp.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="IMBeanServerConnection.cs" />
@@ -272,6 +283,9 @@
       <ProductName>Windows Installer 3.1</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Expression\netmxpr.g" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

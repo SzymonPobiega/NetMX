@@ -1,4 +1,6 @@
-﻿namespace NetMX
+﻿using System;
+
+namespace NetMX
 {
     public class AndExp : BinaryExp<bool, bool, bool>
     {
@@ -6,7 +8,13 @@
         {
         }
 
-        public override bool Evaluate(System.Func<bool> leftValue, System.Func<bool> rightValue)
+        public override void Accept(IExpressionTreeVisitor visitor)
+        {
+            base.Accept(visitor);
+            visitor.Visit(this);
+        }
+
+        public override bool Evaluate(Func<bool> leftValue, Func<bool> rightValue)
         {
             return leftValue() && rightValue();
         }

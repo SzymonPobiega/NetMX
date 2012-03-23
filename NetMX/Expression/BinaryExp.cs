@@ -18,6 +18,12 @@ namespace NetMX
             return Evaluate(() => _left.Evaluate(context), () => _right.Evaluate(context));
         }
 
+        public virtual void Accept(IExpressionTreeVisitor visitor)
+        {
+            _left.Accept(visitor);
+            _right.Accept(visitor);
+        }
+
         public abstract TResult Evaluate(Func<TLeft> leftValue, Func<TRight> rightValue);
     }
 }

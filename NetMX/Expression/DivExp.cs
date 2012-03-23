@@ -2,9 +2,9 @@
 
 namespace NetMX
 {
-    public class GreaterOrEqualExp : BinaryExp<bool, Number, Number>
+    public class DivExp : BinaryExp<Number, Number, Number>
     {
-        public GreaterOrEqualExp(IExpression<Number> left, IExpression<Number> right)
+        public DivExp(IExpression<Number> left, IExpression<Number> right)
             : base(left, right)
         {
         }
@@ -15,9 +15,9 @@ namespace NetMX
             visitor.Visit(this);
         }
 
-        public override bool Evaluate(Func<Number> leftValue, Func<Number> rightValue)
+        public override Number Evaluate(Func<Number> leftValue, Func<Number> rightValue)
         {
-            return leftValue() >= rightValue();
+            return leftValue() + rightValue();
         }
     }
 }
