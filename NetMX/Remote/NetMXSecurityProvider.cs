@@ -10,9 +10,9 @@ using NetMX.Configuration.Provider;
 
 namespace NetMX.Remote
 {
-    public abstract class NetMXSecurityProvider : ProviderBaseEx
+    public interface INetMXSecurityProvider
     {
-        public abstract void Authenticate(object credentials, out object subject, out object token);
-        public abstract INetMXPrincipal Authorize(object subject, object token);
+        void Authenticate(object credentials, out object subject, out object token);
+        INetMXPrincipal Authorize(object subject, object token);
     }
 }

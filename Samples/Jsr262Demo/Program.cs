@@ -4,6 +4,7 @@ using System.Text;
 using NetMX;
 using NetMX.Remote;
 using System.Security.Principal;
+using NetMX.Remote.Jsr262;
 
 namespace Jsr262Demo
 {
@@ -11,18 +12,20 @@ namespace Jsr262Demo
     {
         static void Main(string[] args)
         {
-            AppDomain.CurrentDomain.SetPrincipalPolicy(PrincipalPolicy.WindowsPrincipal);
+            var connectorServerFactory = new Jsr262ConnectorServerFactory();
+            var connectorFactory = new Jsr262ConnectorFactory();
+
             IMBeanServer server = MBeanServerFactory.CreateMBeanServer();
             Sample o = new Sample();
             ObjectName name = new ObjectName("Sample:a=b");
             server.RegisterMBean(o, name);
             Uri serviceUrl = new Uri("http://localhost:12345/MBeanServer");
 
-            using (INetMXConnectorServer connectorServer = NetMXConnectorServerFactory.NewNetMXConnectorServer(serviceUrl, server))
+            using (INetMXConnectorServer connectorServer = connectorServerFactory.NewNetMXConnectorServer(serviceUrl, server))
             {
                 connectorServer.Start();
 
-                using (INetMXConnector connector = NetMXConnectorFactory.Connect(new Uri("http://localhost:12345/MBeanServer"), null))
+                using (INetMXConnector connector = connectorFactory.Connect(new Uri("http://localhost:12345/MBeanServer"), null))
                 {
                     IMBeanServerConnection remoteServer = connector.MBeanServerConnection;
 

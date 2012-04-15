@@ -16,18 +16,19 @@ namespace NetMX.Remote.Remoting
 		private bool _disposed;
 		private bool _started;
 		private bool _stopped;
-		private Uri _serviceUrl;
+		private readonly Uri _serviceUrl;
 		private TcpServerChannel _channel;
-		private IMBeanServer _server;
-		private RemotingServerImpl _remotingServer;
-		private RemotingConnectionImplConfig _connectionConfig;
+		private readonly IMBeanServer _server;
+	    private readonly INetMXSecurityProvider _securityProvider;
+	    private readonly int _bufferSize;
+	    private RemotingServerImpl _remotingServer;
 		#endregion
 
 		#region PROPERTIES
 		#endregion
 
 		#region CONSTRUCTOR
-		public RemotingConnectorServer(Uri serviceUrl, IMBeanServer server, RemotingConnectionImplConfig connectionConfig)
+		public RemotingConnectorServer(Uri serviceUrl, IMBeanServer server, INetMXSecurityProvider securityProvider, int bufferSize)
 		{
 			if (!serviceUrl.IsLoopback)
 			{
@@ -35,7 +36,8 @@ namespace NetMX.Remote.Remoting
 			}
 			_serviceUrl = serviceUrl;
 			_server = server;
-			_connectionConfig = connectionConfig;
+		    _securityProvider = securityProvider;
+		    _bufferSize = bufferSize;
 		}
 		#endregion
 
@@ -53,7 +55,7 @@ namespace NetMX.Remote.Remoting
 			if (!_started)
 			{
 				int port = _serviceUrl.Port;				
-				BinaryServerFormatterSinkProvider sinkProvider = new BinaryServerFormatterSinkProvider();
+				var sinkProvider = new BinaryServerFormatterSinkProvider();
 				IDictionary props = new Hashtable();
 				props["name"] = "remotingConnector"+port;
 				props["secure"] = "true";
@@ -61,7 +63,7 @@ namespace NetMX.Remote.Remoting
 				props["impersonate"] = "true";
 				_channel = new TcpServerChannel(props, sinkProvider);
 				ChannelServices.RegisterChannel(_channel, false);
-				_remotingServer = new RemotingServerImpl(_server, _connectionConfig);
+				_remotingServer = new RemotingServerImpl(_server, _securityProvider, _bufferSize);
 				RemotingServices.Marshal(_remotingServer, _serviceUrl.AbsolutePath.Trim('/'));
 				_started = true;
 			}

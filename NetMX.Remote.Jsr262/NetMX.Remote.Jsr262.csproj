@@ -124,9 +124,9 @@
     <Compile Include="Server\DynamicMBeanManagementRequestHandler.cs" />
     <Compile Include="Jsr262ServiceContract.cs" />
     <Compile Include="Client\Jsr262Connector.cs" />
-    <Compile Include="Client\Jsr262ConnectorProvider.cs" />
+    <Compile Include="Client\Jsr262ConnectorFactory.cs" />
     <Compile Include="Server\Jsr262ConnectorServer.cs" />
-    <Compile Include="Server\Jsr262ConnectorServerProvider.cs" />
+    <Compile Include="Server\Jsr262ConnectorServerFactory.cs" />
     <Compile Include="Client\Jsr262MBeanServerConnection.cs" />
     <Compile Include="Server\Jsr262ExtensionMethodHandler.cs" />
     <Compile Include="Jsr262Types.cs" />

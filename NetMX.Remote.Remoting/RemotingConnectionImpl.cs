@@ -14,28 +14,28 @@ namespace NetMX.Remote.Remoting
 	{
 		#region MEMBERS
 		private bool _disposed;
-		private IMBeanServer _server;
-		private RemotingServerImpl _remotingServer;
-		private string _connectionId;
-		private object _subject;
-		private string _secutityProvider;
+		private readonly IMBeanServer _server;
+	    private readonly INetMXSecurityProvider _securityProvider;
+	    private readonly RemotingServerImpl _remotingServer;
+		private readonly string _connectionId;
+		private readonly object _subject;
 		private int _currentListenerId;
-		private NotificationBuffer _buffer;
-		private Dictionary<int, ListenerProxy> _listenerProxys;
+		private readonly NotificationBuffer _buffer;
+		private readonly Dictionary<int, ListenerProxy> _listenerProxys;
 		#endregion
 
 		#region PROPERTIES
 		#endregion
 
 		#region CONSTRUCTOR
-		public RemotingConnectionImpl(IMBeanServer server, RemotingServerImpl remotingServer, string connectionId, object subject, RemotingConnectionImplConfig config)
+		public RemotingConnectionImpl(IMBeanServer server, INetMXSecurityProvider securityProvider,  RemotingServerImpl remotingServer, string connectionId, object subject, int bufferSize)
 		{
 			_server = server;
-			_remotingServer = remotingServer;
+		    _securityProvider = securityProvider;
+		    _remotingServer = remotingServer;
 			_connectionId = connectionId;
 			_subject = subject;
-			_secutityProvider = config.SecurityProvider;
-			_buffer = new NotificationBuffer(config.BufferSize);
+			_buffer = new NotificationBuffer(bufferSize);
 			_listenerProxys = new Dictionary<int, ListenerProxy>();
 		}
 		#endregion		
@@ -48,7 +48,7 @@ namespace NetMX.Remote.Remoting
 		}
 		private IPrincipal Authorize(object token)
 		{
-			return NetMXSecurityService.Authorize(_secutityProvider, _subject, token);
+            return _securityProvider.Authorize(_subject, token);
 		}
 		#endregion
 

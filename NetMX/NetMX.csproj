@@ -163,10 +163,8 @@
     <Compile Include="MBeanPermissionAction.cs" />
     <Compile Include="MBeanPermissionImpl.cs" />
     <Compile Include="IMBeanRegistration.cs" />
-    <Compile Include="MBeanServerBuilder.cs" />
     <Compile Include="MBeanServerDelegate.cs" />
     <Compile Include="MBeanServerDelegateMBean.cs" />
-    <Compile Include="MBeanServerFactory.cs" />
     <Compile Include="MBeanServerNotification.cs" />
     <Compile Include="Notification.cs" />
     <Compile Include="NotificationEmitterSupport.cs" />
@@ -244,12 +242,9 @@
     <Compile Include="Relation\RoleUnresolved.cs" />
     <Compile Include="Remote\INetMXConnector.cs" />
     <Compile Include="Remote\INetMXConnectorServer.cs" />
-    <Compile Include="Remote\NetMXConnectorFactory.cs" />
-    <Compile Include="Remote\NetMXConnectorProvider.cs" />
-    <Compile Include="Remote\NetMXConnectorServerFactory.cs" />
-    <Compile Include="Remote\NetMXConnectorServerProvider.cs" />
+    <Compile Include="Remote\INetMXConnectorFactory.cs" />
+    <Compile Include="Remote\INetMXConnectorServerFactory.cs" />
     <Compile Include="Remote\NetMXSecurityProvider.cs" />
-    <Compile Include="Remote\NetMXSecurityService..cs" />
     <Compile Include="Remote\NotificationBuffer.cs" />
     <Compile Include="Remote\NotificationResult.cs" />
     <Compile Include="Remote\NullSecurityProvider.cs" />

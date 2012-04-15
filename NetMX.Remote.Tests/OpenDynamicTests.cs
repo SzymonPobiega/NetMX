@@ -76,13 +76,15 @@ namespace NetMX.Remote.Tests
          _server.RegisterMBean(_bean, name);
          Uri serviceUrl = GetUri();
 
-         _connectorServer = NetMXConnectorServerFactory.NewNetMXConnectorServer(serviceUrl, _server);
+         _connectorServer = GetConnectorServerFactory().NewNetMXConnectorServer(serviceUrl, _server);
          _connectorServer.Start();
-         _connector = NetMXConnectorFactory.Connect(serviceUrl, null);
+         _connector = GetConnectorFactory().Connect(serviceUrl, null);
          _remoteServer = _connector.MBeanServerConnection;
       }
 
       protected abstract Uri GetUri();
+      protected abstract INetMXConnectorServerFactory GetConnectorServerFactory();
+      protected abstract INetMXConnectorFactory GetConnectorFactory();
 
       [TearDown]
       public void TearDown()

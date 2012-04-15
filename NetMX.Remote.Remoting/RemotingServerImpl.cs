@@ -9,22 +9,23 @@ namespace NetMX.Remote.Remoting
 {
 	internal class RemotingServerImpl : MarshalByRefObject, IRemotingServer
 	{
-		#region MEMBERS
 		private IMBeanServer _server;
-		private RemotingConnectionImplConfig _connectionConfig;
-		private Dictionary<string, RemotingConnectionImpl> _connections = new Dictionary<string, RemotingConnectionImpl>();
-		#endregion
+	    private readonly INetMXSecurityProvider _securityProvider;
+	    private readonly int _bufferSize;
+	    private Dictionary<string, RemotingConnectionImpl> _connections = new Dictionary<string, RemotingConnectionImpl>();
 
 		#region PROPERTIES
 		#endregion
 
 		#region CONSTRUCTOR
-		public RemotingServerImpl(IMBeanServer server, RemotingConnectionImplConfig connectionConfig)
+		public RemotingServerImpl(IMBeanServer server, INetMXSecurityProvider securityProvider, int bufferSize)
 		{
-			_server = server;
-			_connectionConfig = connectionConfig;
+		    _server = server;
+		    _securityProvider = securityProvider;
+		    _bufferSize = bufferSize;
 		}
-		#endregion
+
+	    #endregion
 
 		#region OVERRIDDEN
 		public override object InitializeLifetimeService()
@@ -47,9 +48,9 @@ namespace NetMX.Remote.Remoting
 		public IRemotingConnection NewClient(object credentials, out object token)
 		{
 			object subject;
-			NetMXSecurityService.Authenticate(_connectionConfig.SecurityProvider, credentials, out subject, out token);
+			_securityProvider.Authenticate(credentials, out subject, out token);
 			string connectionId = Guid.NewGuid().ToString();
-			RemotingConnectionImpl connection = new RemotingConnectionImpl(_server, this, connectionId, subject, _connectionConfig);
+			var connection = new RemotingConnectionImpl(_server, _securityProvider, this, connectionId, subject, _bufferSize );
 			lock (_connections)
 			{
 				_connections.Add(connectionId, connection);

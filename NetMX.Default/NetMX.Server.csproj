@@ -95,7 +95,7 @@
     <Compile Include="InternalInfo\StandardBeanInfoFactory.cs" />
     <Compile Include="MBeanRegistrationHelper.cs" />
     <Compile Include="MBeanServer.cs" />
-    <Compile Include="MBeanServerBuilder.cs" />
+    <Compile Include="MBeanServerFactory.cs" />
     <Compile Include="OpenInfoUtils.cs" />
     <Compile Include="OpenMBean.Mapper\Attributes\AttributeUtils.cs" />
     <Compile Include="OpenMBean.Mapper\Attributes\CompositeTypeItemAttribute.cs" />

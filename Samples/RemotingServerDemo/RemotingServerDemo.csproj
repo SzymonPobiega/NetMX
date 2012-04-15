@@ -78,9 +78,6 @@
     <Compile Include="SampleMappedMBean.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\..\NetMX.Default\NetMX.Server.csproj">
       <Project>{9B9279AA-5B62-4834-9949-F2CCE7318610}</Project>
       <Name>NetMX.Server</Name>

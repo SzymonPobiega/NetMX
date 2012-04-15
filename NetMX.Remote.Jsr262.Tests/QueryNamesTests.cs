@@ -47,7 +47,7 @@ namespace NetMX.Remote.Jsr262.Tests
       public void Large_result_sets_can_be_returned_using_multiple_pull_requests_set_in_configuration()
       {
          RegisterBeansForLargeResultSetTests();
-         using (INetMXConnector connector = NetMXConnectorFactory.Connect(new Uri(_serviceUrl), null))
+         using (INetMXConnector connector = new Jsr262ConnectorFactory().Connect(new Uri(_serviceUrl), null))
          {
             IMBeanServerConnection remoteServer = connector.MBeanServerConnection;
 
@@ -70,7 +70,7 @@ namespace NetMX.Remote.Jsr262.Tests
       {
          _server = MBeanServerFactory.CreateMBeanServer();
 
-         _connectorServer = NetMXConnectorServerFactory.NewNetMXConnectorServer(new Uri(_serviceUrl), _server);
+         _connectorServer = new Jsr262ConnectorServerFactory().NewNetMXConnectorServer(new Uri(_serviceUrl), _server);
          _connectorServer.Start();         
       }
 

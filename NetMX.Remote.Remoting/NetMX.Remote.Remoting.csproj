@@ -81,21 +81,13 @@
     <Compile Include="IRemotingConnection.cs" />
     <Compile Include="IRemotingServer.cs" />
     <Compile Include="RemotingConnectionImpl.cs" />
-    <Compile Include="RemotingConnectionImplConfig.cs" />
     <Compile Include="RemotingMBeanServerConnection.cs" />
     <Compile Include="RemotingServerImpl.cs" />
-    <Compile Include="RemotingServerProvider.cs" />
+    <Compile Include="RemotingConnectorServerFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RemotingConnector.cs" />
-    <Compile Include="RemotingConnectorProvider.cs" />
+    <Compile Include="RemotingConnectorFactory.cs" />
     <Compile Include="RemotingConnectorServer.cs" />
-    <Compile Include="Security\NetMXWindowsPrincipal.cs" />
-    <Compile Include="Security\PermissionCollection.cs" />
-    <Compile Include="Security\PermissionElement.cs" />
-    <Compile Include="Security\RoleCollection.cs" />
-    <Compile Include="Security\RoleElement.cs" />
-    <Compile Include="Security\WindowsSecurityProvider.cs" />
-    <Compile Include="Security\WindowsSecurityProviderConfigurationSection.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NetMX\NetMX.csproj">

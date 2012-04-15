@@ -90,7 +90,7 @@
     <Compile Include="NetDataContractFormatAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServiceModelConnector.cs" />
-    <Compile Include="ServiceModelConnectorProvider.cs" />
+    <Compile Include="ServiceModelConnectorFactory.cs" />
     <Compile Include="ServiceModelConnectorServer.cs" />
     <Compile Include="ServiceModelMBeanServerConnection.cs" />
     <Compile Include="ServiceModelServerProvider.cs" />

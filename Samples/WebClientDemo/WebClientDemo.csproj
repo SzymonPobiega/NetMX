@@ -25,6 +25,7 @@
     <OldToolsVersion>4.0</OldToolsVersion>
     <UpgradeBackupLocation />
     <TargetFrameworkProfile />
+    <UseIISExpress>false</UseIISExpress>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -101,10 +102,6 @@
     <ProjectReference Include="..\..\NetMX.Remote.ServiceModel\NetMX.Remote.WCF.csproj">
       <Project>{ED2EA082-7271-4615-8B1F-B9C5BDA695B4}</Project>
       <Name>NetMX.Remote.WCF</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\NetMX.WebUI\NetMX.WebUI.csproj">
-      <Project>{7ABCFCE5-8A64-4D8F-AC60-731637E54F3B}</Project>
-      <Name>NetMX.WebUI</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\NetMX\NetMX.csproj">
       <Project>{619AD956-B7BC-492D-9722-25DA4891E144}</Project>
