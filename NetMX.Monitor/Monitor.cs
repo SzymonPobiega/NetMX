@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using NetMX.Timer;
-using NetMX.Proxy;
 
 namespace NetMX.Monitor
 {
@@ -21,7 +19,7 @@ namespace NetMX.Monitor
 
       #region Fields
       private IMBeanServer _server;
-      private TimerMBean _timer;
+      private dynamic _timer;
       private bool _isActive;
       private int _notificationId;
       private TimeSpan _granularityPeriod;
@@ -174,12 +172,12 @@ namespace NetMX.Monitor
       public ObjectName PreRegister(IMBeanServer server, ObjectName name)
       {
          _server = server;
-         Timer.Timer timer = new Timer.Timer();
+         var timer = new Timer.Timer();
          IDictionary<string, string> props = name.KeyPropertyList;
          props.Add("EmbeddedTimer", "true");
-         ObjectName timerName = new ObjectName(name.Domain, props);
+         var timerName = new ObjectName(name.Domain, props);
          server.RegisterMBean(timer, timerName);
-         _timer = NetMXProxyExtensions.NewMBeanProxy<TimerMBean>(_server, timerName);
+          _timer = _server.CreateDynamicProxy(timerName);
          _server.AddNotificationListener(timerName, OnTimerEvent, null, null);
          return name;
       }

@@ -82,16 +82,6 @@
     </Compile>
     <Compile Include="Attributes\MBeanResourceAttribute.cs" />
     <Compile Include="AttributeValue.cs" />
-    <Compile Include="Configuration\Provider\ConfigurationSectionAttribute.cs" />
-    <Compile Include="Configuration\Provider\INestedConfigurationElement.cs" />
-    <Compile Include="Configuration\Provider\ProviderBaseEx.cs" />
-    <Compile Include="Configuration\Provider\ProviderConfigurationSection.cs" />
-    <Compile Include="Configuration\Provider\ProviderConfigurationSectionWithDefault.cs" />
-    <Compile Include="Configuration\Provider\ProviderSettingsCollectionEx.cs" />
-    <Compile Include="Configuration\Provider\ProviderSettingsEx.cs" />
-    <Compile Include="Configuration\Provider\ProvidersHelper.cs" />
-    <Compile Include="Configuration\Provider\ServiceBase.cs" />
-    <Compile Include="Configuration\TypedConfigurationManager.cs" />
     <Compile Include="DynamicMBeanProxy.cs" />
     <Compile Include="Exceptions\ListenerNotFoundException.cs" />
     <Compile Include="Exceptions\MBeanRegistrationException.cs" />
@@ -212,10 +202,6 @@
     <Compile Include="OpenMBean\TabularDataSupport.cs" />
     <Compile Include="OpenMBean\TabularType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Proxy\NetMXProxyExtensions.cs" />
-    <Compile Include="Proxy\ProxyFactory.cs" />
-    <Compile Include="Proxy\ProxyInvocationHandler.cs" />
-    <Compile Include="Proxy\ProxyProvider.cs" />
     <Compile Include="Relation\Exceptions\InvalidRelationIdException.cs" />
     <Compile Include="Relation\Exceptions\InvalidRelationServiceException.cs" />
     <Compile Include="Relation\Exceptions\InvalidRelationTypeException.cs" />

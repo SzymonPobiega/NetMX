@@ -1,10 +1,6 @@
 #region USING
 using System;
 using System.Collections.Generic;
-using System.Linq.Expressions;
-using System.Text;
-using System.Configuration;
-using NetMX.Configuration;
 using System.ComponentModel;
 using NetMX.Server.Configuration;
 
@@ -34,7 +30,12 @@ namespace NetMX.Server
          _delegate = new MBeanServerDelegate(instanceName, "", "http://netmx.eu",
                                              typeof(MBeanServer).Assembly.GetName().Version.ToString());
          RegisterMBean(_delegate, MBeanServerDelegate.ObjectName);
-         MBeanServerConfigurationSection section = TypedConfigurationManager.GetSection<MBeanServerConfigurationSection>(instanceName, false);
+          object section1 = System.Configuration.ConfigurationManager.GetSection(instanceName);
+          if (section1 == null && false)
+          {
+              throw new ArgumentException("Section not found");
+          }
+          MBeanServerConfigurationSection section = (MBeanServerConfigurationSection)section1;
          if (section != null)
          {
             foreach (MBeanElement beanConfig in section.Beans)

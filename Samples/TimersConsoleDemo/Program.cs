@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using NetMX;
 using NetMX.Timer;
-using NetMX.Proxy;
 
 namespace TimersConsoleDemo
 {
@@ -16,7 +13,7 @@ namespace TimersConsoleDemo
          ObjectName name = new ObjectName("Timer:");
          server.RegisterMBean(timer, name);
 
-         TimerMBean timerBean = NetMXProxyExtensions.NewMBeanProxy<TimerMBean>(server, name);
+         var timerBean = server.CreateDynamicProxy(name);
          timerBean.Start();
          server.AddNotificationListener(name, OnTimerEvent, null, null);         
 

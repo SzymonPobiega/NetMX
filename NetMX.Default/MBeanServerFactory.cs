@@ -1,13 +1,4 @@
-#region USING
-using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Configuration.Provider;
-using System.Text;
-using NetMX.Configuration.Provider;
 using NetMX.Server;
-
-#endregion
 
 namespace NetMX
 {
