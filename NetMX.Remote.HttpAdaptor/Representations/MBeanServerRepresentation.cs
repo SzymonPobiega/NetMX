@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 
-namespace NetMX.Remote.HttpAdaptor.Resources
+namespace NetMX.Remote.HttpAdaptor.Representations
 {
-    public class MBeanServerResource
+    public class MBeanServerRepresentation
     {
         public List<MBeanInfo> Beans { get; set; }
     }

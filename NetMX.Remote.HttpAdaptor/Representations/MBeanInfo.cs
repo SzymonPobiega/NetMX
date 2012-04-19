@@ -1,4 +1,4 @@
-﻿namespace NetMX.Remote.HttpAdaptor.Resources
+﻿namespace NetMX.Remote.HttpAdaptor.Representations
 {
     public class MBeanInfo
     {

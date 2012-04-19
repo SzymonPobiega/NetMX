@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 
-namespace NetMX.Remote.HttpAdaptor.Resources
+namespace NetMX.Remote.HttpAdaptor.Representations
 {
-    public class MBeanResource
+    public class MBeanRepresentation
     {
         public string ClassName { get; set; }
         public string Description { get; set; }

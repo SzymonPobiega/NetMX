@@ -41,13 +41,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="HttpConnectorServer.cs" />
-    <Compile Include="IRenderer.cs" />
+    <Compile Include="IFormatter.cs" />
+    <Compile Include="IResource.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Resources\MBeanResource.cs" />
-    <Compile Include="Resources\MBeanAttributeResource.cs" />
-    <Compile Include="Resources\MBeanAttributeInfo.cs" />
-    <Compile Include="Resources\MBeanInfo.cs" />
-    <Compile Include="Resources\MBeanServerResource.cs" />
+    <Compile Include="Representations\MBeanRepresentation.cs" />
+    <Compile Include="Representations\MBeanAttributeRepresentation.cs" />
+    <Compile Include="Representations\MBeanAttributeInfo.cs" />
+    <Compile Include="Representations\MBeanInfo.cs" />
+    <Compile Include="Representations\MBeanServerRepresentation.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NetMX\NetMX.csproj">
@@ -57,6 +58,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Renderers\" />
+    <Folder Include="Resources\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
