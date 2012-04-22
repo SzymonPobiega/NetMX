@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading;
 using NUnit.Framework;
 using Rhino.Mocks;
-using Rhino.Mocks.Constraints;
+using Is = Rhino.Mocks.Constraints.Is;
 
 namespace NetMX.Remote.Tests
 {

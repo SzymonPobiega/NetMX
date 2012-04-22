@@ -36,7 +36,7 @@ namespace NetMX.OpenMBean.Tests
             new OpenType[] { SimpleType.Integer, null });
       }
       [Test]
-      [ExpectedException(typeof(OpenDataException), "CompositeType items cannot have duplicate keys.")]
+      [ExpectedException(typeof(OpenDataException), ExpectedMessage = "CompositeType items cannot have duplicate keys.")]
       public void TestConstructorFailureDuplicateItems()
       {
          CompositeType type = new CompositeType("TypeName", "TypeDescription",

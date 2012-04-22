@@ -25,8 +25,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimersConsoleDemo", "Sample
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetMX.Remote.WCF", "NetMX.Remote.ServiceModel\NetMX.Remote.WCF.csproj", "{ED2EA082-7271-4615-8B1F-B9C5BDA695B4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetMX.Spring.BeanExporter", "NetMX.Spring.BeanExporter\NetMX.Spring.BeanExporter.csproj", "{C19B42A6-0CDA-439C-B3E9-6E11FB057733}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetMX.Remote.Jsr262", "NetMX.Remote.Jsr262\NetMX.Remote.Jsr262.csproj", "{BA2A4CF7-BE10-4CBC-899C-0976D9DBCC74}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jsr262Demo", "Samples\Jsr262Demo\Jsr262Demo.csproj", "{592E0D6E-453B-4C70-9F29-98E684F2A79E}"
@@ -47,13 +45,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Extensions", "Extensions", 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libs", "Libs", "{72084550-B731-4A63-9AAE-C310B21448EA}"
 	ProjectSection(SolutionItems) = preProject
-		Libs\antlr.runtime.dll = Libs\antlr.runtime.dll
-		Libs\Common.Logging.dll = Libs\Common.Logging.dll
-		Libs\nunit.framework.dll = Libs\nunit.framework.dll
-		Libs\OpenRasta.dll = Libs\OpenRasta.dll
-		Libs\Rhino.Mocks.dll = Libs\Rhino.Mocks.dll
-		Libs\Spring.Core.dll = Libs\Spring.Core.dll
-		Libs\Spring.Services.dll = Libs\Spring.Services.dll
+		Libs\Antlr3.Runtime.dll = Libs\Antlr3.Runtime.dll
 		Libs\WSMan.NET.dll = Libs\WSMan.NET.dll
 		Libs\WSMan.NET.pdb = Libs\WSMan.NET.pdb
 	EndProjectSection
@@ -122,10 +114,6 @@ Global
 		{ED2EA082-7271-4615-8B1F-B9C5BDA695B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ED2EA082-7271-4615-8B1F-B9C5BDA695B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ED2EA082-7271-4615-8B1F-B9C5BDA695B4}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C19B42A6-0CDA-439C-B3E9-6E11FB057733}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C19B42A6-0CDA-439C-B3E9-6E11FB057733}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C19B42A6-0CDA-439C-B3E9-6E11FB057733}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C19B42A6-0CDA-439C-B3E9-6E11FB057733}.Release|Any CPU.Build.0 = Release|Any CPU
 		{BA2A4CF7-BE10-4CBC-899C-0976D9DBCC74}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{BA2A4CF7-BE10-4CBC-899C-0976D9DBCC74}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BA2A4CF7-BE10-4CBC-899C-0976D9DBCC74}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -177,7 +165,6 @@ Global
 		{592E0D6E-453B-4C70-9F29-98E684F2A79E} = {812FFB17-627C-4D83-A577-64713B2C99BB}
 		{3E96B42A-8678-4B4E-BC43-F64F2FFE48B6} = {812FFB17-627C-4D83-A577-64713B2C99BB}
 		{308E1A58-89D2-4943-84AF-3AC97568D9EE} = {F8B45652-B702-4D49-A05A-26633A4F3A3B}
-		{C19B42A6-0CDA-439C-B3E9-6E11FB057733} = {F8B45652-B702-4D49-A05A-26633A4F3A3B}
 		{5D56EAF4-F219-44CA-B6BD-55A31959CAE6} = {F8B45652-B702-4D49-A05A-26633A4F3A3B}
 	EndGlobalSection
 EndGlobal

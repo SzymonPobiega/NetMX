@@ -160,7 +160,7 @@ namespace NetMX.Relation.Tests
          _relationService.AddRelationType(null);
       }
       [Test]
-      [ExpectedException(typeof(InvalidRelationTypeException), "Relation type with that name already registered.")]
+      [ExpectedException(typeof(InvalidRelationTypeException), ExpectedMessage = "Relation type with that name already registered.")]
       public void TestAddRelationTypeFailureInvalidRelationTypeName()
       {
          RelationTypeSupport type = new RelationTypeSupport("Parenthood",
@@ -169,14 +169,14 @@ namespace NetMX.Relation.Tests
          _relationService.AddRelationType(type);
       }
       [Test]
-      [ExpectedException(typeof(InvalidRelationTypeException), "Relation type contains no roles.")]
+      [ExpectedException(typeof(InvalidRelationTypeException), ExpectedMessage = "Relation type contains no roles.")]
       public void TestAddRelationTypeFailureNoRoles()
       {
          RelationTypeSupport type = new RelationTypeSupport("Partnership");
          _relationService.AddRelationType(type);
       }
       [Test]
-      [ExpectedException(typeof(InvalidRelationTypeException), "Relation type contains null RoleInfo.")]
+      [ExpectedException(typeof(InvalidRelationTypeException), ExpectedMessage = "Relation type contains null RoleInfo.")]
       public void TestAddRelationTypeFailureNullRoleInfo()
       {
          RelationTypeSupport type = new RelationTypeSupport("Partnership",
@@ -185,7 +185,7 @@ namespace NetMX.Relation.Tests
          _relationService.AddRelationType(type);
       }
       [Test]
-      [ExpectedException(typeof(InvalidRelationTypeException), "Relation type contains two roles with same name.")]
+      [ExpectedException(typeof(InvalidRelationTypeException), ExpectedMessage = "Relation type contains two roles with same name.")]
       public void TestAddRelationTypeFailureDuplicateRoleName()
       {
          RelationTypeSupport type = new RelationTypeSupport("Partnership",

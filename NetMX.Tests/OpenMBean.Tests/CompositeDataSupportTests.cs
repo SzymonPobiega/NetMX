@@ -13,25 +13,25 @@ namespace NetMX.OpenMBean.Tests
             new string[] { "Descr1", "Descr2" },
             new OpenType[] { SimpleType.Integer, SimpleType.Double });
       [Test]
-      [ExpectedException(typeof(OpenDataException), "Names and value collections must have equal size.")]
+      [ExpectedException(typeof(OpenDataException), ExpectedMessage = "Names and value collections must have equal size.")]
       public void TestConstructorFailureNotEqualSizes()
       {     
          CompositeDataSupport data = new CompositeDataSupport(_sampleType, new string[] {"Name1", "Name2"}, new object[] {1});
       }
       [Test]
-      [ExpectedException(typeof(OpenDataException), "Composite type doesn't have item with name Name3")]
+      [ExpectedException(typeof(OpenDataException), ExpectedMessage = "Composite type doesn't have item with name Name3")]
       public void TestConstructorFailureNoSuchItem()
       {
          CompositeDataSupport data = new CompositeDataSupport(_sampleType, new string[] { "Name1", "Name3" }, new object[] { 1, 1.2 });
       }
       [Test]
-      [ExpectedException(typeof(OpenDataException), "Value is not valid for its item's open type.")]
+      [ExpectedException(typeof(OpenDataException), ExpectedMessage = "Value is not valid for its item's open type.")]
       public void TestConstructorFailureItemDataNotValid()
       {
          CompositeDataSupport data = new CompositeDataSupport(_sampleType, new string[] { "Name1", "Name2" }, new object[] { 1, true });
       }
       [Test]
-      [ExpectedException(typeof(OpenDataException), "Composite type has different item count (1) than count of items provided (2).")]
+      [ExpectedException(typeof(OpenDataException), ExpectedMessage = "Composite type has different item count (1) than count of items provided (2).")]
       public void TestConstructorFailureInvalidItemCount()
       {
          CompositeDataSupport data = new CompositeDataSupport(_sampleType, new string[] { "Name1" }, new object[] { 1 });

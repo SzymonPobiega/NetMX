@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 
 namespace NetMX.Remote.HttpAdaptor.Tests
 {
@@ -16,7 +11,7 @@ namespace NetMX.Remote.HttpAdaptor.Tests
             var adaptor = new SelfHostingHttpAdaptor("http://localhost:12345/adaptor");
             adaptor.Start();
 
-            Thread.Sleep(100000);
+            //Thread.Sleep(100000);
         }
     }
 }
