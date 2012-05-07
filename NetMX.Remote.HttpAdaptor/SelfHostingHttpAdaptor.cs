@@ -7,10 +7,12 @@ namespace NetMX.Remote.HttpAdaptor
     {
         private HttpSelfHostServer _server;
         private readonly string _listenAddress;
+        private readonly IMBeanServerConnection _serverConnection;
 
-        public SelfHostingHttpAdaptor(string listenAddress)
+        public SelfHostingHttpAdaptor(IMBeanServerConnection serverConnection, string listenAddress)
         {
             _listenAddress = listenAddress;
+            _serverConnection = serverConnection;
         }
 
         public void Start()
@@ -20,7 +22,7 @@ namespace NetMX.Remote.HttpAdaptor
                 throw new InvalidOperationException("Server is already started.");
             }
             var config = new HttpSelfHostConfiguration(_listenAddress);
-            Configure(config);
+            Configure(config, _serverConnection, _listenAddress);
             _server = new HttpSelfHostServer(config);
             _server.OpenAsync().Wait();
         }

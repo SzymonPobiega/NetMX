@@ -46,7 +46,7 @@ namespace Jsr262Demo
                         Console.WriteLine(" * {0}", objectName);
                     }
 
-                    remoteServer.AddNotificationListener(name, CounterChanged, null, null);
+                    //remoteServer.AddNotificationListener(name, CounterChanged, null, null);
 
                     Console.WriteLine("******");
                     MBeanInfo info = remoteServer.GetMBeanInfo(name);
@@ -76,7 +76,8 @@ namespace Jsr262Demo
                     counter = remoteServer.Invoke(name, "AddAmount", new object[] { 5 });
                     counter = remoteServer.GetAttribute(name, "Counter");
 
-                    Console.WriteLine("Now, counter value is {0}", counter);
+                    Console.WriteLine("Now, counter value is {0}. Press <enter>", counter);
+                    Console.ReadLine();
 
                     counter = remoteServer.Invoke(name, "ResetCounter", new object[] { });
                     counter = remoteServer.GetAttribute(name, "Counter");

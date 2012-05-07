@@ -21,59 +21,59 @@ namespace NetMX.OpenMBean
       /// <summary>
       /// Void type.
       /// </summary>
-      public static readonly OpenType Void = new SimpleType(typeof (void), "Void type");
+      public static readonly OpenType Void = new SimpleType(typeof (void), "Void", "Void type");
       /// <summary>
       /// Boolean type.
       /// </summary>
-      public static readonly OpenType Boolean = new SimpleType(typeof (bool), "Boolean type");
+      public static readonly OpenType Boolean = new SimpleType(typeof (bool), "Boolean", "Boolean type");
       /// <summary>
       /// Character type (UTF-16).
       /// </summary>
-      public static readonly OpenType Character = new SimpleType(typeof(char), "Character type (UTF-16)");
+      public static readonly OpenType Character = new SimpleType(typeof(char), "Character", "Character type (UTF-16)");
       /// <summary>
       /// Byte type (8 bit, unsigned).
       /// </summary>
-      public static readonly OpenType Byte = new SimpleType(typeof(byte), "Byte type (8 bit, unsigned)");
+      public static readonly OpenType Byte = new SimpleType(typeof(byte), "Byte", "Byte type (8 bit, unsigned)");
       /// <summary>
       /// Short integer type (16 bit, signed).
       /// </summary>
-      public static readonly OpenType Short = new SimpleType(typeof(short), "Short integer type (16 bit, signed)");
+      public static readonly OpenType Short = new SimpleType(typeof(short), "Short", "Short integer type (16 bit, signed)");
       /// <summary>
       /// Integer type (32 bit, signed).
       /// </summary>
-      public static readonly OpenType Integer = new SimpleType(typeof(int), "Integer type (32 bit, signed)");
+      public static readonly OpenType Integer = new SimpleType(typeof(int),"Integer", "Integer type (32 bit, signed)");
       /// <summary>
       /// Long integer type (64 bit, signed).
       /// </summary>
-      public static readonly OpenType Long = new SimpleType(typeof(long), "Long integer type (64 bit, signed)");
+      public static readonly OpenType Long = new SimpleType(typeof(long), "Long", "Long integer type (64 bit, signed)");
       /// <summary>
       /// Float type.
       /// </summary>
-      public static readonly OpenType Float = new SimpleType(typeof(float), "Float type");
+      public static readonly OpenType Float = new SimpleType(typeof(float), "Float", "Float type");
       /// <summary>
       /// Double precision float type.
       /// </summary>
-      public static readonly OpenType Double = new SimpleType(typeof(double), "Double precision float type");
+      public static readonly OpenType Double = new SimpleType(typeof(double),"Double", "Double precision float type");
       /// <summary>
       /// String type.
       /// </summary>
-      public static readonly OpenType String = new SimpleType(typeof(string), "String type");
+      public static readonly OpenType String = new SimpleType(typeof(string), "String", "String type");
       /// <summary>
       /// Decimal (fixed-point) type.
       /// </summary>
-      public static readonly OpenType Decimal = new SimpleType(typeof(decimal), "Decimal (fixed-point) type");
+      public static readonly OpenType Decimal = new SimpleType(typeof(decimal), "Decimal", "Decimal (fixed-point) type");
       /// <summary>
       /// Date and time type.
       /// </summary>
-      public static readonly OpenType DateTime = new SimpleType(typeof(DateTime), "Date and time type");
+      public static readonly OpenType DateTime = new SimpleType(typeof(DateTime), "DateTime", "Date and time type");
       /// <summary>
       /// Time span type.
       /// </summary>
-      public static readonly OpenType TimeSpan = new SimpleType(typeof(TimeSpan), "Time span type");
+      public static readonly OpenType TimeSpan = new SimpleType(typeof(TimeSpan), "TimeSpan", "Time span type");
       /// <summary>
       /// ObjectName type.
       /// </summary>
-      public static readonly OpenType ObjectName = new SimpleType(typeof(ObjectName), "ObjectName type");      
+      public static readonly OpenType ObjectName = new SimpleType(typeof(ObjectName), "ObjectName", "ObjectName type");      
       #endregion
 
       #region Static type dictionary
@@ -98,8 +98,8 @@ namespace NetMX.OpenMBean
       #endregion
 
       #region CONSTRUCTOR
-      private SimpleType(Type representation, string description)
-         : base(representation, representation.FullName, description)
+      private SimpleType(Type representation, string name, string description)
+         : base(representation, name, description)
       {
       }
       #endregion

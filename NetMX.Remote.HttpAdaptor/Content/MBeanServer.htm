@@ -1,0 +1,74 @@
+﻿<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>MBean server powered by <a href="http://github.com/SzymonPobiega/NetMX">NetMX</a></title>
+	</head>
+	<body>
+        <div>
+	        <h1>MBean server powered by <a href="http://github.com/SzymonPobiega/NetMX">NetMX</a></h1>
+            <div id="beans">
+                <h3>Registered MBeans:</h3>
+                <ul data-bind="foreach: beans">
+                    <li>                    
+                        <a data-bind="attr: { href: url, title: objectName }, text: objectName"></a>
+                    </li>
+                </ul>
+            </div>
+            <div id="beanDetails">
+                
+            </div>
+        </div>
+        <script type="text/javascript" src="knockout-2.0.0.js"></script>
+        <script type="text/javascript" src="jquery-1.7.2.min.js"></script>
+        <script type="text/javascript">
+
+            function BeanReference(objectName, url) {
+                var self = this;
+
+                self.objectName = ko.observable(objectName);
+                self.url = ko.observable(url);
+            }
+
+            function BeanInfo(objectName, className, description, attributes) {
+                var self = this;
+
+                self.objectName = ko.observable(objectName);
+                self.className = ko.observable(className);
+                self.description = ko.observable(description);
+                self.objectName = ko.observable(objectName);
+            }
+
+            function BeanViewModel(beanArray) {
+                var self = this;
+
+                self.beans = ko.observableArray([]);
+                self.selectedBean = ko.observable();
+
+                self.viewBean(objectName) {
+                    $.ajax({
+                        accepts: "application/vnd.netmx.server+json",
+                        url: "../server",
+                        dataType: "json",
+                        success: function (data, textStatus, jqXHR) {
+                            self.selectedBean(new BeanInfo(objectName, data.ClassName, data.Description, data.Attributes));
+                        }
+                    });
+                }
+
+                $.ajax({
+                    accepts: "application/vnd.netmx.server+json",
+                    url: "../server",
+                    dataType: "json",
+                    success: function (data, textStatus, jqXHR) {
+                        for (var i = 0; i < data.Beans.length; i++) {
+                            self.beans.push(new BeanReference(data.Beans[i].ObjectName, data.Beans[i].HRef));
+                        }
+
+                    }
+                });
+            }
+
+            ko.applyBindings(new BeanViewModel());         
+        </script>
+	</body>
+</html>
