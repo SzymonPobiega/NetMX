@@ -20,9 +20,14 @@ namespace NetMX.Remote.HttpAdaptor.Controllers
                                      ObjectName = x.CanonicalName,
                                      HRef = GetResourceUrl("bean", new { objectName = x.CanonicalName})
                                  });
+
+            var delegateBeanProxy = _serverConnection.CreateDynamicProxy(MBeanServerDelegate.ObjectName);
+
             var resource = new MBeanServerResource
                                {
-                                   Beans = beans.ToList()
+                                   Beans = beans.ToList(),
+                                   InstanceName = delegateBeanProxy.MBeanServerId,
+                                   Version = delegateBeanProxy.ImplementationVersion
                                };
 
             return new HttpResponseMessage<MBeanServerResource>(resource);

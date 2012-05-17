@@ -13,9 +13,17 @@ namespace HttpAdaptorDemo
         {
             const string address = "http://localhost:12345/adaptor";
 
-            var server = MBeanServerFactory.CreateMBeanServer();
+            var server = MBeanServerFactory.CreateMBeanServer("HttpAdaptorDemo");
 
             server.RegisterMBean(new Sample(), "sample:a=b");
+
+            var dynamicMBean = new SampleDynamicMBean();
+            dynamicMBean.AddRow(1, "Simon");
+            dynamicMBean.AddRow(2, "John");
+            dynamicMBean.SetComposite(3, "Jane");
+            dynamicMBean.SetArray(new[] { 1, 2.5m, 4.3m, 5.64m });
+
+            server.RegisterMBean(dynamicMBean, "dynamic:a=b");
 
             var adaptor = new SelfHostingHttpAdaptor(server, address);
             adaptor.Start();

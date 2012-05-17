@@ -12,9 +12,9 @@ namespace NetMX.Remote.HttpAdaptor.Formatters
 
         protected override void WriteBody(object value, TextWriter writer)
         {
-            var typedValue = (MBeanSimpleValueAttributeResource)value;
+            var typedValue = (MBeanAttributeResource)value;
             writer.WriteLine("<div>");
-            writer.WriteLine(string.Format("<div><span>{0}</span><span>{1}</span></div>",typedValue.Name,typedValue.SimpleValue));
+            writer.WriteLine(string.Format("<div><span>{0}</span><span>{1}</span></div>",typedValue.Name,typedValue.Value));
             writer.WriteLine(string.Format("<a href=\"{0}\">MBean</a>",typedValue.MBeanHRef));
             writer.WriteLine("</div>");
         }

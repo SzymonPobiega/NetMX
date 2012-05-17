@@ -6,6 +6,6 @@ namespace NetMX.Remote.HttpAdaptor.Tests
     public interface SampleMBean
     {
         [OpenMBeanAttributeAttribute]
-        string StringValue { get; set; }        
+        string StringValue { get; set; }
     }
 }

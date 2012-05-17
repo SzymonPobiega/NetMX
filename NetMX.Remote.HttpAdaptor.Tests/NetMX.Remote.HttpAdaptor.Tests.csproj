@@ -62,6 +62,7 @@
   <ItemGroup>
     <Compile Include="MBeanControllerTests.cs" />
     <Compile Include="Sample.cs" />
+    <Compile Include="SampleDynamicMBean.cs" />
     <Compile Include="SampleMBean.cs" />
     <Compile Include="MBeanAttributeControllerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

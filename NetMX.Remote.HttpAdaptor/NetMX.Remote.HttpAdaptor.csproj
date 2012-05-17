@@ -71,6 +71,7 @@
     <Compile Include="Controllers\MBeanAttributeController.cs" />
     <Compile Include="Controllers\MBeanController.cs" />
     <Compile Include="Controllers\MBeanServerController.cs" />
+    <Compile Include="Controllers\OpenValueFormatter.cs" />
     <Compile Include="Controllers\UIController.cs" />
     <Compile Include="Formatters\MBeanAttributeHtmlFormatter.cs" />
     <Compile Include="Formatters\MBeanAttributeXmlFormatter.cs" />
@@ -102,6 +103,7 @@
     <Content Include="Content\jquery-1.7.2.min.js" />
     <Content Include="Content\knockout-2.0.0.js" />
     <Content Include="Content\MBeanServer.htm" />
+    <Content Include="Content\style.css" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -1,23 +1,121 @@
 ﻿<!DOCTYPE HTML>
 <html>
 	<head>
-		<title>MBean server powered by <a href="http://github.com/SzymonPobiega/NetMX">NetMX</a></title>
+		<title>MBean server powered by NetMX</title>
+        <link type="text/css" href="style.css" rel="Stylesheet" />
 	</head>
 	<body>
         <div>
-	        <h1>MBean server powered by <a href="http://github.com/SzymonPobiega/NetMX">NetMX</a></h1>
-            <div id="beans">
+	        <h1>MBean server <span data-bind="text: instanceName"></span> (version <span data-bind="text: version"></span>) powered by <a href="http://github.com/SzymonPobiega/NetMX">NetMX</a></h1>
+            <div id="beans" data-bind="visible: shouldShowList">
                 <h3>Registered MBeans:</h3>
                 <ul data-bind="foreach: beans">
                     <li>                    
-                        <a data-bind="attr: { href: url, title: objectName }, text: objectName"></a>
+                        <a class="button" data-bind="click: $root.viewBean, text: objectName"></a>
                     </li>
                 </ul>
             </div>
-            <div id="beanDetails">
-                
+            <div id="beanDetails" data-bind="visible: shouldShowDetails, with: selectedBean">
+                <h3 data-bind="text: objectName"></h3>
+                <div>
+                    <span data-bind="text: className"></span>
+                    <span data-bind="text: description"></span>                
+                </div>
+                <table>
+                    <tbody data-bind="foreach: attributes">
+                        <tr>
+                            <td data-bind="text: name"></td>                            
+                            <td>
+                                <div data-bind="template: { name: templateName, data: value }"></div>
+                            </td>
+                            <td>
+                                <a class="button" data-bind="visible: isViewMode, click: edit">Edit</a>
+                                <a class="button" data-bind="visible: isEditMode, click: save">Save</a>
+                                <a class="button" data-bind="visible: isEditMode, click: cancel">Cancel</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <a class="button" data-bind="click: $root.browseBeans">Back to list</a> |
+                <a class="button" data-bind="click: $root.reload">Refresh</a>
             </div>
         </div>
+        
+        <script type="text/html" id="empty-value">
+            <span>Loading...</span>
+        </script>
+        <script type="text/html" id="simple-value">
+            <span data-bind="text: value"></span>
+        </script>
+        <script type="text/html" id="simple-value-edit">
+            <input type="text" data-bind="value: value"></input>
+        </script>
+        <script type="text/html" id="array-value">
+            <ol data-bind="foreach: items">
+                <li data-bind="text: value"></li>
+            </ol>
+        </script>
+        <script type="text/html" id="array-value-edit">
+            <ol data-bind="foreach: items">
+                <li>
+                    <input type="text" data-bind="value: value"></input>
+                    <a class="button" data-bind="click: $parent.remove">Remove</a>
+                </li>
+            </ol>
+            <a class="button" data-bind="click: add">Add</a>
+        </script>
+        <script type="text/html" id="composite-value">
+            <ul data-bind="foreach: value">
+                <li>
+                    <span data-bind="text: name"></span>
+                    <span data-bind="text: value"></span>
+                </li>
+            </ul>
+        </script>
+        <script type="text/html" id="composite-value-edit">
+            <ul data-bind="foreach: value">
+                <li>
+                    <span data-bind="text: name"></span>
+                    <span><input type="text" data-bind="value: value"></input></span>
+                </li>
+            </ul>
+        </script>
+        <script type="text/html" id="tabular-value">
+            <table>
+                <tr data-bind="foreach: header">
+                    <th data-bind="text: name"></th>
+                </tr>
+                <tbody data-bind="foreach: rows">
+                    <tr data-bind="foreach: value">
+                        <td data-bind="text: value"></td>
+                    <tr>
+                </tbody>                
+            </table>
+        </script>
+        <script type="text/html" id="tabular-value-edit">
+            <table>
+                <tr>                    
+                    <!-- ko foreach: header -->
+                        <th data-bind="text: name"></th>
+                    <!-- /ko -->
+                    <th></th>
+                </tr>
+                <tbody data-bind="foreach: rows">
+                    <tr>
+                        <!-- ko foreach: value -->
+                        <td>
+                            <input type="text" data-bind="value: value"></input>
+                        </td>
+                        <!-- /ko -->
+                        <td>
+                            <a class="button" data-bind="click: $parent.remove">Remove</a>
+                        </td>
+                    <tr>
+                </tbody>                
+            </table>
+            <a class="button" data-bind="click: add">Add</a>
+        </script>
+
         <script type="text/javascript" src="knockout-2.0.0.js"></script>
         <script type="text/javascript" src="jquery-1.7.2.min.js"></script>
         <script type="text/javascript">
@@ -35,37 +133,299 @@
                 self.objectName = ko.observable(objectName);
                 self.className = ko.observable(className);
                 self.description = ko.observable(description);
-                self.objectName = ko.observable(objectName);
+                self.attributes = ko.observableArray([]);
+
+                for (var i = 0; i < attributes.length; i++) {
+                    self.attributes.push(new AttributeInfo(objectName, attributes[i].Name));
+                }
+            }
+
+            function SimpleValue(simpleValue) {
+                var self = this;
+
+                self.value = ko.observable(simpleValue);
+                self.templateName = ko.observable("simple-value");
+
+                self.edit = function () {
+                    self.templateName("simple-value-edit");
+                }
+
+                self.save = function () {
+                    self.templateName("simple-value");
+                    return self.value();
+                }
+
+                self.cancel = function () {
+                    self.templateName("simple-value");                    
+                }
+            }
+            
+            function ArrayValue(arrayValue) {
+                var self = this;
+
+                self.items = ko.observableArray([]);
+
+                for (var i = 0; i < arrayValue.length; i++) {
+                    self.items.push(new SimpleValue(arrayValue[i]));
+                }
+
+                self.templateName = ko.observable("array-value");
+
+                self.edit = function () {
+                    self.templateName("array-value-edit");
+                }
+
+                self.save = function () {
+                    self.templateName("array-value");
+                    return $.map(self.items(), function (val, i) { return val.value(); });
+                }
+
+                self.cancel = function () {
+                    self.templateName("array-value");
+                }
+
+                self.add = function () {
+                    self.items.push(new SimpleValue(null));
+                }
+
+                self.remove = function (item) {
+                    self.items.remove(item);
+                }
+            } 
+
+            function CompositeValueProperty(name, value)
+            {
+                var self = this;
+
+                self.name = ko.observable(name);
+                self.value = ko.observable(value);
+            }            
+            
+            function CompositeValue(compositeValue) {
+                var self = this;
+
+                self.value = ko.observableArray([]);
+
+                for (var name in compositeValue) {
+                    if (compositeValue.hasOwnProperty(name)) {
+                        self.value.push(new CompositeValueProperty(name, compositeValue[name]));
+                    }
+                }
+
+                self.templateName = ko.observable("composite-value");
+
+                self.edit = function () {
+                    self.templateName("composite-value-edit");
+                }
+
+                self.save = function () {
+                    self.templateName("composite-value");
+                    var result = {};
+                    var value = self.value();
+                    for (var i = 0; i < value.length; i++) {
+                        var property = value[i];
+                        result[property.name()] = property.value();
+                    }
+                    return result;
+                }
+
+                self.cancel = function () {
+                    self.templateName("composite-value");
+                }
+            }
+
+            function HeaderCell(name) {
+                var self = this;
+
+                self.name = ko.observable(name);
+            }            
+            
+            function TabularValue(tabularValue) {
+                var self = this;
+
+                self.rows = ko.observableArray([]);
+                self.header = ko.observableArray([]);
+
+                for (var i = 0; i < tabularValue.length; i++) {
+                    var row = tabularValue[i];
+                    self.rows.push(new CompositeValue(row));
+                }
+
+                for (var name in tabularValue[0]) {
+                    if (tabularValue[0].hasOwnProperty(name)) {
+                        self.header.push(new HeaderCell(name));
+                    }
+                }
+
+                self.add = function () {
+                    var emptyRow = {};
+                    var headerValue = self.header();
+                    for (var i = 0; i < headerValue.length; i++) {
+                        emptyRow[headerValue[i].name()] = "";
+                    }
+                    self.rows.push(new CompositeValue(emptyRow));
+                }
+
+                self.remove = function (row) {
+                    self.rows.remove(row);
+                }
+
+                self.templateName = ko.observable("tabular-value");
+
+                self.edit = function () {
+                    self.templateName("tabular-value-edit");
+                }
+
+                self.save = function () {
+                    self.templateName("tabular-value");
+                    return $.map(self.rows(), function (val, i) { return val.save(); });
+                }
+
+                self.cancel = function () {
+                    self.templateName("tabular-value");
+                }      
+            }          
+
+            function AttributeInfo(objectName, attributeName) {
+                var self = this;
+
+                self.objectName = objectName;
+                self.name = ko.observable(attributeName);
+                self.value = ko.observable();
+                self.isEditMode = ko.observable(false);                
+                self.isViewMode = ko.observable(true);
+
+                self.loadValue = function () {
+                    $.ajax({
+                        accepts: "application/vnd.netmx.attr+json",
+                        url: "../" + self.objectName + "/" + self.name(),
+                        dataType: "json",
+                        success: function (data, textStatus, jqXHR) {
+                            var wrappedValue = self.wrap(data.value);
+                            self.value(wrappedValue);
+                        }
+                    });
+                }
+
+                self.loadValue();
+
+                self.templateName = function () {
+                    if (self.value() != null) {
+                        return self.value().templateName();
+                    }
+                    return "empty-value";
+                }
+
+                self.edit = function () {
+                    if (self.value() != null) {
+                        self.value().edit();
+                        self.isEditMode(true);
+                        self.isViewMode(false);
+                    }
+                }
+
+                self.save = function () {
+                    if (self.value() != null) {
+                        var newValue = self.value().save();
+
+                        $.ajax({
+                            accepts: "application/vnd.netmx.attr+json",
+                            contentType: "application/vnd.netmx.attr+json",
+                            url: "../" + objectName + "/" + attributeName,
+                            type: "PUT",
+                            data: JSON.stringify({ "value": newValue }),
+                            dataType: "json",
+                            processData: false,
+                            success: function (data, textStatus, jqXHR) {
+                                var wrappedValue = self.wrap(data.value);
+                                self.value(wrappedValue);
+                            },
+                            error: function (jqXHR, textStatus, errorThrown) {
+                                self.loadValue();
+                            }
+                        });
+
+                        self.isEditMode(false);
+                        self.isViewMode(true);
+                    }
+                }
+
+                self.cancel = function () {
+                    if (self.value() != null) {
+                        self.value().cancel();
+                        self.isEditMode(false);
+                        self.isViewMode(true);  
+                    }
+                }
+
+                self.wrap = function (value) {
+                    if (value === null) {
+                        return null;
+                    }
+                    if (typeof (value) === "string") {
+                        return new SimpleValue(value);
+                    }
+                    if ($.isArray(value)) {
+                        var firstElement = value[0];
+                        if (typeof (firstElement) === "string") {
+                            return new ArrayValue(value);
+                        } else {
+                            return new TabularValue(value);
+                        }
+                    }
+                    return new CompositeValue(value);
+                }
             }
 
             function BeanViewModel(beanArray) {
                 var self = this;
 
+                self.instanceName = ko.observable();
+                self.version = ko.observable();
                 self.beans = ko.observableArray([]);
                 self.selectedBean = ko.observable();
 
-                self.viewBean(objectName) {
+                self.viewBean = function(beanReference) {
+                    $.ajax({
+                        accepts: "application/vnd.netmx.bean+json",
+                        url: "../" + beanReference.objectName(),
+                        dataType: "json",
+                        success: function (data, textStatus, jqXHR) {
+                            self.selectedBean(new BeanInfo(beanReference.objectName(), data.ClassName, data.Description, data.Attributes));                            
+                        }
+                    });
+                }
+
+                self.reload = function () {
+                    self.viewBean(self.selectedBean());
+                }
+
+                self.browseBeans = function () {
                     $.ajax({
                         accepts: "application/vnd.netmx.server+json",
                         url: "../server",
                         dataType: "json",
                         success: function (data, textStatus, jqXHR) {
-                            self.selectedBean(new BeanInfo(objectName, data.ClassName, data.Description, data.Attributes));
+                            for (var i = 0; i < data.Beans.length; i++) {
+                                self.beans.remove(function (beanReference) { return beanReference.objectName() === data.Beans[i].ObjectName });
+                                self.beans.push(new BeanReference(data.Beans[i].ObjectName, data.Beans[i].HRef));
+                            }
+                            self.selectedBean(null);
+                            self.instanceName(data.InstanceName);
+                            self.version(data.Version);
                         }
                     });
                 }
 
-                $.ajax({
-                    accepts: "application/vnd.netmx.server+json",
-                    url: "../server",
-                    dataType: "json",
-                    success: function (data, textStatus, jqXHR) {
-                        for (var i = 0; i < data.Beans.length; i++) {
-                            self.beans.push(new BeanReference(data.Beans[i].ObjectName, data.Beans[i].HRef));
-                        }
+                self.shouldShowDetails = ko.computed(function () {
+                    return self.selectedBean() != null;
+                }, self);
 
-                    }
-                });
+                self.shouldShowList = ko.computed(function () {
+                    return self.selectedBean() == null;
+                }, self);
+                
+                self.browseBeans();                
             }
 
             ko.applyBindings(new BeanViewModel());         

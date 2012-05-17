@@ -1,4 +1,7 @@
+using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net.Http.Formatting;
 using System.Net.Http.Headers;
 using System.Text;
@@ -11,27 +14,24 @@ namespace NetMX.Remote.HttpAdaptor.Formatters
 {
     public class MBeanAttributeXmlFormatter: MediaTypeFormatter
     {
-        private const string SimpleContentType = "application/vnd.netmx.attr.simple+xml";
-        private const string ComplexContentType = "application/vnd.netmx.attr.complex+xml";
-
         public MBeanAttributeXmlFormatter()
         {
-            SupportedMediaTypes.Add(new MediaTypeHeaderValue(SimpleContentType));
-            SupportedMediaTypes.Add(new MediaTypeHeaderValue(ComplexContentType));
+            SupportedMediaTypes.Add(new MediaTypeHeaderValue("application/vnd.netmx.attr+xml"));
+            SupportedMediaTypes.Add(new MediaTypeHeaderValue("application/xml"));
             Encoding = new UTF8Encoding(false, true);
         }
 
-        protected override bool CanReadType(System.Type type)
+        protected override bool CanReadType(Type type)
         {
             return type != typeof(IKeyValueModel);
         }
 
-        protected override bool CanWriteType(System.Type type)
+        protected override bool CanWriteType(Type type)
         {
             return type == typeof (MBeanAttributeResource);
         }
 
-        protected override Task<object> OnReadFromStreamAsync(System.Type type, Stream stream, HttpContentHeaders contentHeaders, FormatterContext formatterContext)
+        protected override Task<object> OnReadFromStreamAsync(Type type, Stream stream, HttpContentHeaders contentHeaders, FormatterContext formatterContext)
         {
             return Task.Factory.StartNew(
                 () =>
@@ -40,12 +40,11 @@ namespace NetMX.Remote.HttpAdaptor.Formatters
                         {
                             var root = XElement.Load(streamReader);
                             object result = null;
-                            if (contentHeaders.ContentType.MediaType == SimpleContentType)
+                            if (contentHeaders.ContentType.MediaType == "application/vnd.netmx.attr+xml")
                             {
-                                result = new MBeanSimpleValueAttributeResource
+                                result = new MBeanAttributeResource
                                              {
-                                                 Type = root.Element("Type").Value,
-                                                 SimpleValue = root.Element("Value").Value
+                                                 Value = DeserializeValue(root.Element("Value"))
                                              };
                             }
                             return result;
@@ -53,16 +52,57 @@ namespace NetMX.Remote.HttpAdaptor.Formatters
                     });
         }
 
-        protected override Task OnWriteToStreamAsync(System.Type type, object value, Stream stream, HttpContentHeaders contentHeaders, FormatterContext formatterContext, System.Net.TransportContext transportContext)
+        private static object DeserializeValue(XElement root)
+        {
+            if (root.IsEmpty)
+            {
+                return null;
+            }
+            var content = root.FirstNode;
+            if (content.NodeType == XmlNodeType.Text)
+            {
+                return ((XText) content).Value;
+            }
+            var element = (XElement) content;
+            if (element.Name == "Array")
+            {
+                return DeserializeArrayValue(element, x => x.Value);
+            }
+            if (element.Name == "Composite")
+            {
+                return DeserializeCompositeValue(element);
+            }
+            if (element.Name == "Tabular")
+            {
+                return DeserializeTabularValue(element);
+            }
+            throw new NotSupportedException("Not supported value type: " + root);
+        }
+
+        private static object DeserializeTabularValue(XElement element)
+        {
+            return DeserializeArrayValue(element, DeserializeCompositeValue);
+        }
+
+        private static Dictionary<string, string> DeserializeCompositeValue(XElement element)
+        {
+            return element.Elements().ToDictionary(x => x.Name.LocalName, x => x.Value);
+        }
+
+        private static object DeserializeArrayValue<T>(XElement element, Func<XElement, T> valueFunction)
+        {
+            return element.Elements().Select(valueFunction).ToArray();
+        }
+
+        protected override Task OnWriteToStreamAsync(Type type, object value, Stream stream, HttpContentHeaders contentHeaders, FormatterContext formatterContext, System.Net.TransportContext transportContext)
         {
             return Task.Factory.StartNew(
                 () =>
                     {
-                        var typedValue = (MBeanSimpleValueAttributeResource) value;
+                        var typedValue = (MBeanAttributeResource) value;
 
                         var root = new XElement("MBeanAttribute",
-                                                new XElement("Type", typedValue.Type),
-                                                new XElement("Value", typedValue.SimpleValue),
+                                                new XElement("Value", SerializeValue(typedValue.Value)),
                                                 new XElement("Parent", typedValue.MBeanHRef),
                                                 new XElement("Name", typedValue.Name));
 
@@ -75,6 +115,39 @@ namespace NetMX.Remote.HttpAdaptor.Formatters
                     });
         }
 
-        
+        private static XNode SerializeValue(object value)
+        {
+            var stringValue = value as String;
+            if (stringValue != null)
+            {
+                return new XText(stringValue);
+            }
+            var arrayValue = value as string[];
+            if (arrayValue != null)
+            {
+                return SerializeArrayValue(arrayValue, "Array", "Element");
+            }
+            var compositeValue = value as Dictionary<string, string>;
+            if (compositeValue != null)
+            {
+                return new XElement("Composite", SerializeCompositeValue(compositeValue));
+            }
+            var tabularValue = value as Dictionary<string, string>[];
+            if (tabularValue != null)
+            {
+                return SerializeArrayValue(tabularValue.Select(SerializeCompositeValue), "Tabular", "Row");
+            }
+            throw new NotSupportedException("Not supported value type: " + value.GetType().FullName);
+        }
+
+        private static object[] SerializeCompositeValue(Dictionary<string, string> compositeValue)
+        {
+            return compositeValue.Select(x => new XElement(x.Key, x.Value)).ToArray();
+        }
+
+        private static XElement SerializeArrayValue(IEnumerable<object> elements, string parentName, string childName)
+        {
+            return new XElement(parentName, elements.Select(x => new XElement(childName, x)));
+        }
     }
 }

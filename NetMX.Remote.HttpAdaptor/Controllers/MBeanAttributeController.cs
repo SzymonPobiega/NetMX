@@ -1,11 +1,8 @@
 ﻿using System;
-using System.ComponentModel;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
-using System.Web.Http.Controllers;
-using System.Web.Http.ModelBinding;
 using NetMX.OpenMBean;
 using NetMX.Remote.HttpAdaptor.Resources;
 
@@ -23,10 +20,9 @@ namespace NetMX.Remote.HttpAdaptor.Controllers
             try
             {
                 var attributeInfo = GetAttributeInfo(objectName, attribute);
-                var value = _serverConnection.GetAttribute(objectName, attribute);
-                var resource = FormatValue(attributeInfo, value);
-                resource.Name = attribute;
-                resource.MBeanHRef = GetRouteToParent(objectName);
+                var openType = attributeInfo.Descriptor.GetFieldValue(OpenTypeDescriptor.Field);
+
+                var resource = BuildResourceRepresentation(objectName, attribute, openType);
                 return new HttpResponseMessage<MBeanAttributeResource>(resource);
             }
             catch (AttributeNotFoundException)
@@ -39,6 +35,18 @@ namespace NetMX.Remote.HttpAdaptor.Controllers
             }
         }
 
+        private MBeanAttributeResource BuildResourceRepresentation(string objectName, string attribute, OpenType openType)
+        {
+            var value = _serverConnection.GetAttribute(objectName, attribute);
+            var formattedValue = OpenValueFormatter.FormatValue(openType, value);
+            return new MBeanAttributeResource
+                       {
+                           Value = formattedValue,
+                           Name = attribute,
+                           MBeanHRef = GetRouteToParent(objectName)
+                       };
+        }
+
         public HttpResponseMessage<MBeanAttributeResource> Put(MBeanAttributeResource valueResource)
         {
             try
@@ -47,12 +55,12 @@ namespace NetMX.Remote.HttpAdaptor.Controllers
                 var attribute = (string) ControllerContext.RouteData.Values["attribute"];
 
                 var attributeInfo = GetAttributeInfo(objectName, attribute);
-                var value = ExtractValue(attributeInfo, valueResource);
+                var openType = attributeInfo.Descriptor.GetFieldValue(OpenTypeDescriptor.Field);
+
+                var value = OpenValueFormatter.ExtractValue(openType, valueResource.Value);
                 _serverConnection.SetAttribute(objectName, attribute, value);
-                var currentValue = _serverConnection.GetAttribute(objectName, attribute);
-                var resource = FormatValue(attributeInfo, currentValue);
-                resource.Name = attribute;
-                resource.MBeanHRef = GetRouteToParent(objectName);
+
+                var resource = BuildResourceRepresentation(objectName, attribute, openType);
                 return new HttpResponseMessage<MBeanAttributeResource>(resource);
             }
             catch (InstanceNotFoundException)
@@ -77,35 +85,6 @@ namespace NetMX.Remote.HttpAdaptor.Controllers
             return GetResourceUrl("bean", new { objectName });
         }
 
-        private static object ExtractValue(MBeanAttributeInfo attributeInfo, MBeanAttributeResource valueResource)
-        {
-            var openType = attributeInfo.Descriptor.GetFieldValue(OpenTypeDescriptor.Field);
-            if (openType.Kind == OpenTypeKind.SimpleType)
-            {
-                var typeConverter = TypeDescriptor.GetConverter(openType.Representation);
-                var simpleValueResource = (MBeanSimpleValueAttributeResource)valueResource;
-                return typeConverter.ConvertFromString(simpleValueResource.SimpleValue);
-            }
-            var complexValueResource = (MBeanComplexValueAttributeResource)valueResource;
-            return complexValueResource.ComplexValue;
-        }
-
-        private static MBeanAttributeResource FormatValue(MBeanAttributeInfo attributeInfo, object value)
-        {
-            var openType = attributeInfo.Descriptor.GetFieldValue(OpenTypeDescriptor.Field);
-            if (openType.Kind == OpenTypeKind.SimpleType)
-            {
-                var typeConverter = TypeDescriptor.GetConverter(openType.Representation);
-                return new MBeanSimpleValueAttributeResource
-                           {
-                               Type = openType.TypeName,
-                               SimpleValue = typeConverter.ConvertToString(value)
-                           };
-            }
-            return new MBeanComplexValueAttributeResource
-                       {
-                           ComplexValue = value
-                       };
-        }
+        
     }
 }
