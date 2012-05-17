@@ -84,10 +84,11 @@ namespace NetMX.Remote.HttpAdaptor.Formatters
             throw new NotSupportedException("Not supported value type: " + deserialized.Type);
         }
 
-        private static Dictionary<string, string> DeserializeCompositeValue(JToken compositeValue)
+        private static CompositeData DeserializeCompositeValue(JToken compositeValue)
         {
             var jsonObject = (JObject) compositeValue;
-            return jsonObject.Properties().ToDictionary(x => x.Name, x => x.Value.Value<string>());
+            var properties = jsonObject.Properties().Select(x => new CompositeDataProperty(x.Name, x.Value.Value<string>()));
+            return new CompositeData(properties);
         }
 
         protected override Task OnWriteToStreamAsync(Type type, object value, Stream stream, HttpContentHeaders contentHeaders, FormatterContext formatterContext, System.Net.TransportContext transportContext)
@@ -121,15 +122,15 @@ namespace NetMX.Remote.HttpAdaptor.Formatters
             {
                 return new JArray(arrayValue);
             }
-            var compositeValue = value as Dictionary<string, string>;
+            var compositeValue = value as CompositeData;
             if (compositeValue != null)
             {
-                return new JObject(compositeValue.Select(x => new JProperty(x.Key, x.Value)));
+                return new JObject(compositeValue.Properties.Select(x => new JProperty(x.Name, x.Value)));
             }
-            var tabularValue = value as Dictionary<string, string>[];
+            var tabularValue = value as CompositeData[];
             if (tabularValue != null)
             {
-                return new JArray(tabularValue.Select(r => new JObject(r.Select(x => new JProperty(x.Key, x.Value)))));
+                return new JArray(tabularValue.Select(r => new JObject(r.Properties.Select(x => new JProperty(x.Name, x.Value)))));
             }
             throw new NotSupportedException("Not supported value type: "+value.GetType().FullName);
         }

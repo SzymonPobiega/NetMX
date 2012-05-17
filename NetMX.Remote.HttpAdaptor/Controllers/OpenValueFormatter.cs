@@ -2,11 +2,11 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Web.Http;
 using NetMX.OpenMBean;
+using NetMX.Remote.HttpAdaptor.Resources;
 
 namespace NetMX.Remote.HttpAdaptor.Controllers
 {
@@ -20,7 +20,7 @@ namespace NetMX.Remote.HttpAdaptor.Controllers
             }
             if (openType.Kind == OpenTypeKind.CompositeType)
             {
-                return ExtractCompositeValue((CompositeType)openType, (Dictionary<string, string>)value);
+                return ExtractCompositeValue((CompositeType)openType, (CompositeData)value);
             }
             if (openType.Kind == OpenTypeKind.ArrayType)
             {
@@ -28,12 +28,12 @@ namespace NetMX.Remote.HttpAdaptor.Controllers
             }
             if (openType.Kind == OpenTypeKind.TabularType)
             {
-                return ExtractTabularValue((TabularType)openType, (Dictionary<string, string>[])value);
+                return ExtractTabularValue((TabularType)openType, (CompositeData[])value);
             }
             throw new NotSupportedException(string.Format("Open type kind {0} is not supported", openType.Kind));
         }
 
-        private static ITabularData ExtractTabularValue(TabularType openType, Dictionary<string, string>[] value)
+        private static ITabularData ExtractTabularValue(TabularType openType, CompositeData[] value)
         {
             var tabularValue = new TabularDataSupport(openType);
             tabularValue.PutAll(value.Select(x => ExtractCompositeValue(openType.RowType, x)));
@@ -48,10 +48,11 @@ namespace NetMX.Remote.HttpAdaptor.Controllers
             return typedArray;
         }
 
-        private static ICompositeData ExtractCompositeValue(CompositeType openType, Dictionary<string, string> value)
+        private static ICompositeData ExtractCompositeValue(CompositeType openType, CompositeData compositeData)
         {
-            var values = value.Keys.ToDictionary(x => x, x => ExtractSimpleValue(openType.GetOpenType(x), value[x]));
-            return new CompositeDataSupport(openType, values);
+            return new CompositeDataSupport(openType, 
+                compositeData.Properties.Select(x => x.Name), 
+                compositeData.Properties.Select(x => ExtractSimpleValue(openType.GetOpenType(x.Name), x.Value)));
         }
 
         private static object ExtractSimpleValue(OpenType openType, object value)
@@ -59,12 +60,14 @@ namespace NetMX.Remote.HttpAdaptor.Controllers
             try
             {
                 var typeConverter = TypeDescriptor.GetConverter(openType.Representation);
-                return typeConverter.ConvertFromString(null, CultureInfo.InvariantCulture, value.ToString());
+                // ReSharper disable PossibleNullReferenceException
+                return typeConverter.ConvertFromInvariantString(value.ToString());
+                // ReSharper restore PossibleNullReferenceException              
             }
             catch (Exception)
             {
-                throw new HttpResponseException(string.Format("Value {0} is not convertible to {1}", value, openType.Representation.Name), HttpStatusCode.BadRequest);
-            }            
+                throw new FormatException(string.Format("Value {0} is not convertible to {1}", value, openType.Representation.Name));
+            }
         }
 
         public static object FormatValue(OpenType openType, object value)
@@ -94,17 +97,17 @@ namespace NetMX.Remote.HttpAdaptor.Controllers
             throw new NotSupportedException(string.Format("Open type kind {0} is not supported", openType.Kind));
         }
 
-        private static Dictionary<string, string> FormatCompositeValue(CompositeType compositeType, ICompositeData compositeData)
+        private static CompositeData FormatCompositeValue(CompositeType compositeType, ICompositeData compositeData)
         {
-            return compositeType.KeySet
-                .ToDictionary(x => x,
-                              x => FormatSimpleValue(compositeType.GetOpenType(x), compositeData[x]));
+            return new CompositeData(compositeType.KeySet.Select(x => new CompositeDataProperty(x, FormatSimpleValue(compositeType.GetOpenType(x), compositeData[x]))));
         }
 
         private static string FormatSimpleValue(OpenType openType, object value)
         {
             var typeConverter = TypeDescriptor.GetConverter(openType.Representation);
-            return typeConverter.ConvertToString(null, CultureInfo.InvariantCulture, value);
+// ReSharper disable PossibleNullReferenceException
+            return typeConverter.ConvertToInvariantString(value);
+// ReSharper restore PossibleNullReferenceException
         }
     }
 }

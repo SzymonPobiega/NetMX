@@ -11,9 +11,10 @@
                 <h3>Registered MBeans:</h3>
                 <ul data-bind="foreach: beans">
                     <li>                    
-                        <a class="button" data-bind="click: $root.viewBean, text: objectName"></a>
+                        <a href="#" class="button" data-bind="click: $root.viewBean, text: objectName"></a>
                     </li>
                 </ul>
+                <a href="..">Static UI</a>
             </div>
             <div id="beanDetails" data-bind="visible: shouldShowDetails, with: selectedBean">
                 <h3 data-bind="text: objectName"></h3>
@@ -29,16 +30,16 @@
                                 <div data-bind="template: { name: templateName, data: value }"></div>
                             </td>
                             <td>
-                                <a class="button" data-bind="visible: isViewMode, click: edit">Edit</a>
-                                <a class="button" data-bind="visible: isEditMode, click: save">Save</a>
-                                <a class="button" data-bind="visible: isEditMode, click: cancel">Cancel</a>
+                                <a href="#" class="button" data-bind="visible: isViewMode, click: edit">Edit</a>
+                                <a href="#" class="button" data-bind="visible: isEditMode, click: save">Save</a>
+                                <a href="#" class="button" data-bind="visible: isEditMode, click: cancel">Cancel</a>
                             </td>
                         </tr>
                     </tbody>
                 </table>
-                <a class="button" data-bind="click: $root.browseBeans">Back to list</a> |
-                <a class="button" data-bind="click: $root.reload">Refresh</a>
-            </div>
+                <a href="#" class="button" data-bind="click: $root.browseBeans">Back to list</a> |
+                <a href="#" class="button" data-bind="click: $root.reload">Refresh</a>
+            </div>            
         </div>
         
         <script type="text/html" id="empty-value">
@@ -59,10 +60,10 @@
             <ol data-bind="foreach: items">
                 <li>
                     <input type="text" data-bind="value: value"></input>
-                    <a class="button" data-bind="click: $parent.remove">Remove</a>
+                    <a href="#" class="button" data-bind="click: $parent.remove">Remove</a>
                 </li>
             </ol>
-            <a class="button" data-bind="click: add">Add</a>
+            <a href="#" class="button" data-bind="click: add">Add</a>
         </script>
         <script type="text/html" id="composite-value">
             <ul data-bind="foreach: value">
@@ -108,12 +109,12 @@
                         </td>
                         <!-- /ko -->
                         <td>
-                            <a class="button" data-bind="click: $parent.remove">Remove</a>
+                            <a href="#" class="button" data-bind="click: $parent.remove">Remove</a>
                         </td>
                     <tr>
                 </tbody>                
             </table>
-            <a class="button" data-bind="click: add">Add</a>
+            <a href="#" class="button" data-bind="click: add">Add</a>
         </script>
 
         <script type="text/javascript" src="knockout-2.0.0.js"></script>

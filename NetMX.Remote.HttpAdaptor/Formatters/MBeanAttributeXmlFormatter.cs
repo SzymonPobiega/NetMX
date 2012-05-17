@@ -84,9 +84,10 @@ namespace NetMX.Remote.HttpAdaptor.Formatters
             return DeserializeArrayValue(element, DeserializeCompositeValue);
         }
 
-        private static Dictionary<string, string> DeserializeCompositeValue(XElement element)
+        private static CompositeData DeserializeCompositeValue(XElement element)
         {
-            return element.Elements().ToDictionary(x => x.Name.LocalName, x => x.Value);
+            var properties = element.Elements().Select(x => new CompositeDataProperty(x.Name.LocalName, x.Value));
+            return new CompositeData(properties);
         }
 
         private static object DeserializeArrayValue<T>(XElement element, Func<XElement, T> valueFunction)
@@ -127,12 +128,12 @@ namespace NetMX.Remote.HttpAdaptor.Formatters
             {
                 return SerializeArrayValue(arrayValue, "Array", "Element");
             }
-            var compositeValue = value as Dictionary<string, string>;
+            var compositeValue = value as CompositeData;
             if (compositeValue != null)
             {
                 return new XElement("Composite", SerializeCompositeValue(compositeValue));
             }
-            var tabularValue = value as Dictionary<string, string>[];
+            var tabularValue = value as CompositeData[];
             if (tabularValue != null)
             {
                 return SerializeArrayValue(tabularValue.Select(SerializeCompositeValue), "Tabular", "Row");
@@ -140,9 +141,9 @@ namespace NetMX.Remote.HttpAdaptor.Formatters
             throw new NotSupportedException("Not supported value type: " + value.GetType().FullName);
         }
 
-        private static object[] SerializeCompositeValue(Dictionary<string, string> compositeValue)
+        private static object[] SerializeCompositeValue(CompositeData compositeValue)
         {
-            return compositeValue.Select(x => new XElement(x.Key, x.Value)).ToArray();
+            return compositeValue.Properties.Select(x => new XElement(x.Name, x.Value)).ToArray();
         }
 
         private static XElement SerializeArrayValue(IEnumerable<object> elements, string parentName, string childName)

@@ -51,8 +51,8 @@ namespace NetMX.Remote.HttpAdaptor.Controllers
         {
             try
             {
-                var objectName = (string) ControllerContext.RouteData.Values["objectName"];
-                var attribute = (string) ControllerContext.RouteData.Values["attribute"];
+                var objectName = (string)ControllerContext.RouteData.Values["objectName"];
+                var attribute = (string)ControllerContext.RouteData.Values["attribute"];
 
                 var attributeInfo = GetAttributeInfo(objectName, attribute);
                 var openType = attributeInfo.Descriptor.GetFieldValue(OpenTypeDescriptor.Field);
@@ -62,6 +62,10 @@ namespace NetMX.Remote.HttpAdaptor.Controllers
 
                 var resource = BuildResourceRepresentation(objectName, attribute, openType);
                 return new HttpResponseMessage<MBeanAttributeResource>(resource);
+            }
+            catch (FormatException ex)
+            {
+                throw new HttpResponseException(ex.Message, HttpStatusCode.BadRequest);
             }
             catch (InstanceNotFoundException)
             {
@@ -85,6 +89,6 @@ namespace NetMX.Remote.HttpAdaptor.Controllers
             return GetResourceUrl("bean", new { objectName });
         }
 
-        
+
     }
 }

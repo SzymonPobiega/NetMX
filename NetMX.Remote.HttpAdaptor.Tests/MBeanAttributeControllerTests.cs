@@ -182,7 +182,7 @@ namespace NetMX.Remote.HttpAdaptor.Tests
         {
             var client = new HttpClient();
             client.DefaultRequestHeaders.Accept.Clear();
-            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/vnd.netmx.attr+json"));
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/vnd.netmx.attr+xml"));
 
             string resultString = "";
             client.GetStringAsync("http://localhost:12345/adaptor/dynamic:a=b/Array")
@@ -192,7 +192,7 @@ namespace NetMX.Remote.HttpAdaptor.Tests
             var resultObject = XElement.Parse(resultString);
             var valueElement = resultObject.Element("Value");
             var arrayElement = valueElement.Element("Array");
-            var values = arrayElement.Elements("Item").Select(x => x.Value).ToList();
+            var values = arrayElement.Elements("Element").Select(x => x.Value).ToList();
 
             Assert.AreEqual("1", values[0]);
             Assert.AreEqual("2.5", values[1]);

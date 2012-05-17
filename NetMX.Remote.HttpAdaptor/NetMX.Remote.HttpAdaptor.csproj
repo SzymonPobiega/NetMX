@@ -90,7 +90,7 @@
     <Compile Include="Resources\MBeanAttributeInfo.cs" />
     <Compile Include="Resources\MBeanInfo.cs" />
     <Compile Include="Resources\MBeanServerResource.cs" />
-    <Compile Include="Resources\ValueType.cs" />
+    <Compile Include="Resources\CompositeData.cs" />
     <Compile Include="SelfHostingHttpAdaptor.cs" />
   </ItemGroup>
   <ItemGroup>

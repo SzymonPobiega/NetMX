@@ -14,7 +14,7 @@ namespace NetMX.Remote.HttpAdaptor.Formatters
         {
             var typedValue = (MBeanServerResource)value;
             writer.WriteLine("<div>");
-            writer.WriteLine("<h1>MBean server powered by <a href=\"http://github.com/SzymonPobiega/NetMX\">NetMX</a></h1>");
+            writer.WriteLine("<h1>MBean server {0} (version {1}) powered by <a href=\"http://github.com/SzymonPobiega/NetMX\">NetMX</a></h1>", typedValue.InstanceName, typedValue.Version);
             writer.WriteLine("<h3>Registered MBeans:</h3>");
             writer.WriteLine("<ul>");
             foreach (var attributeInfo in typedValue.Beans)
@@ -22,6 +22,7 @@ namespace NetMX.Remote.HttpAdaptor.Formatters
                 writer.WriteLine(string.Format("<li><a href=\"{0}\">{1}</a></li>", attributeInfo.HRef, attributeInfo.ObjectName));
             }
             writer.WriteLine("</ul>");
+            writer.WriteLine("<a href=\"ui/mbeanserver.htm\">Dynamic UI</a>");
             writer.WriteLine("</div>");
         }
 
