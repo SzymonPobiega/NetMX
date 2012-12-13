@@ -13,12 +13,12 @@ namespace NetMX.Remote.HttpAdaptor.Formatters
             SupportedMediaTypes.Add(new MediaTypeHeaderValue(ContentType));
         }
 
-        protected override bool CanReadType(System.Type type)
+        public override bool CanReadType(System.Type type)
         {
             return false;
         }
 
-        protected override bool CanWriteType(System.Type type)
+        public override bool CanWriteType(System.Type type)
         {
             return type == typeof(MBeanServerResource);
         }

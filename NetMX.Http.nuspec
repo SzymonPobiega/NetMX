@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>NetMX.Http</id>
+    <version>0.7.0</version>
+    <title>NetMX.Http</title>
+    <authors>Szymon Pobiega</authors>
+    <owners>Szymon Pobiega</owners>
+    <projectUrl>http://netmx.codeplex.com/</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>NetMX HTTP protocol adaptor</description>
+    <summary>NetMX HTTP protocol adaptor</summary>
+    <copyright>Szymon Pobiega</copyright>
+
+    <dependencies>
+      <dependency id="NetMX" version="0.7.0" />
+      <dependency id="Microsoft.AspNet.WebApi.Client" version="4.0.20710.0" />
+      <dependency id="Microsoft.AspNet.WebApi.Core" version="4.0.20710.0" />
+      <dependency id="Microsoft.AspNet.WebApi.SelfHost" version="4.0.20918.0" />
+      <dependency id="Microsoft.Net.Http" version="2.0.20710.0" />
+      <dependency id="Newtonsoft.Json" version="4.5.11" />
+    </dependencies>
+  </metadata>
+  
+  <files>
+    <file src="bin\NetMX.Remote.HttpAdaptor.dll" target="lib\net\NetMX.Remote.HttpAdaptor.dll" />
+  </files>
+</package>

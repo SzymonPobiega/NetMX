@@ -12,7 +12,7 @@ namespace NetMX.Remote.HttpAdaptor.Controllers
         {
         }
 
-        public HttpResponseMessage<MBeanServerResource> Get()
+        public MBeanServerResource Get()
         {
             var beans = _serverConnection.QueryNames(null, null)
                 .Select(x => new Resources.MBeanInfo
@@ -30,7 +30,7 @@ namespace NetMX.Remote.HttpAdaptor.Controllers
                                    Version = delegateBeanProxy.ImplementationVersion
                                };
 
-            return new HttpResponseMessage<MBeanServerResource>(resource);
+            return resource;
         }
     }
 }

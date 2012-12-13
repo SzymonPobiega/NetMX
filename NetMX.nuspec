@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>NetMX</id>
+    <version>0.7.0</version>
+    <title>NetMX</title>
+    <authors>Szymon Pobiega</authors>
+    <owners>Szymon Pobiega</owners>
+    <projectUrl>http://netmx.codeplex.com/</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>.NET port of Java Management Extensions</description>
+    <summary>.NET port of Java Management Extensions</summary>
+    <copyright>Szymon Pobiega</copyright>
+  </metadata>
+  <files>
+    <file src="bin\Antlr3.Runtime.dll" target="lib\net\Antlr3.Runtime.dll" />
+    <file src="bin\NetMX.dll" target="lib\net\NetMX.dll" />
+    <file src="bin\NetMX.Monitor.dll" target="lib\net\NetMX.Monitor.dll" />
+    <file src="bin\NetMX.Server.dll" target="lib\net\NetMX.Server.dll" />
+    <file src="bin\NetMX.Timer.dll" target="lib\net\NetMX.Timer.dll" />
+  </files>
+</package>

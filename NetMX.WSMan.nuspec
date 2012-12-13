@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>NetMX.WSMan</id>
+    <version>0.7.0</version>
+    <title>NetMX.WSMan</title>
+    <authors>Szymon Pobiega</authors>
+    <owners>Szymon Pobiega</owners>
+    <projectUrl>http://netmx.codeplex.com/</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>NetMX WS-Management connector</description>
+    <summary>NetMX WS-Management connector</summary>
+    <copyright>Szymon Pobiega</copyright>
+
+    <dependencies>
+      <dependency id="NetMX" version="0.7.0" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="bin\NetMX.Remote.Jsr262.dll" target="lib\net\NetMX.Remote.Jsr262.dll" />
+    <file src="bin\WSMan.NET.dll" target="lib\net\WSMan.NET.dll" />
+  </files>
+</package>

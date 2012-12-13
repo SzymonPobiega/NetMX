@@ -18,25 +18,24 @@ namespace NetMX.Remote.HttpAdaptor.Formatters
         {
             SupportedMediaTypes.Add(new MediaTypeHeaderValue("application/vnd.netmx.attr+json"));
             SupportedMediaTypes.Add(new MediaTypeHeaderValue("application/json"));
-            Encoding = new UTF8Encoding(false, true);
         }
 
-        protected override bool CanReadType(Type type)
+        public override bool CanReadType(Type type)
         {
-            return type != typeof(IKeyValueModel);
+            return true; // type != typeof(IKeyValueModel);
         }
 
-        protected override bool CanWriteType(Type type)
+        public override bool CanWriteType(Type type)
         {
             return type == typeof (MBeanAttributeResource);
         }
 
-        protected override Task<object> OnReadFromStreamAsync(Type type, Stream stream, HttpContentHeaders contentHeaders, FormatterContext formatterContext)
+        public override Task<object> ReadFromStreamAsync(Type type, Stream readStream, System.Net.Http.HttpContent content, IFormatterLogger formatterLogger)
         {
             return Task.Factory.StartNew(
                 () =>
                     {
-                        using (var streamReader = new StreamReader(stream, Encoding))
+                        using (var streamReader = new StreamReader(readStream, Encoding.UTF8))
                         {
                             using (var jsonTextReader = new JsonTextReader(streamReader))
                             {
@@ -91,7 +90,7 @@ namespace NetMX.Remote.HttpAdaptor.Formatters
             return new CompositeData(properties);
         }
 
-        protected override Task OnWriteToStreamAsync(Type type, object value, Stream stream, HttpContentHeaders contentHeaders, FormatterContext formatterContext, System.Net.TransportContext transportContext)
+        public override Task WriteToStreamAsync(Type type, object value, Stream writeStream, System.Net.Http.HttpContent content, System.Net.TransportContext transportContext)
         {
             return Task.Factory.StartNew(
                 () =>
@@ -102,7 +101,7 @@ namespace NetMX.Remote.HttpAdaptor.Formatters
                         jsonObject["name"] = typedValue.Name;
                         jsonObject["value"] = SerializeValue(typedValue.Value);
                         
-                        using (var jsonTextWriter = new JsonTextWriter(new StreamWriter(stream, Encoding)) {CloseOutput = false})
+                        using (var jsonTextWriter = new JsonTextWriter(new StreamWriter(writeStream, Encoding.UTF8)) {CloseOutput = false})
                         {
                             jsonObject.WriteTo(jsonTextWriter);
                             jsonTextWriter.Flush();

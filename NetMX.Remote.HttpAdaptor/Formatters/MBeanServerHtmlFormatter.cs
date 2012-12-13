@@ -5,7 +5,7 @@ namespace NetMX.Remote.HttpAdaptor.Formatters
 {
     public class MBeanServerHtmlFormatter : HtmlFormatterBase
     {
-        protected override bool CanWriteType(System.Type type)
+        public override bool CanWriteType(System.Type type)
         {
             return type == typeof(MBeanServerResource);
         }

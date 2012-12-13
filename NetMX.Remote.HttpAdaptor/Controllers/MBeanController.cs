@@ -15,7 +15,7 @@ namespace NetMX.Remote.HttpAdaptor.Controllers
         {
         }
 
-        public HttpResponseMessage<MBeanResource> Get(string objectName)
+        public MBeanResource Get(string objectName)
         {
             try
             {
@@ -27,7 +27,8 @@ namespace NetMX.Remote.HttpAdaptor.Controllers
                                        Attributes = MapAttributes(objectName, info.Attributes),
                                        ServerHRef = GetResourceUrl("server", new {})
                                    };
-                return new HttpResponseMessage<MBeanResource>(resource);
+                //response.StatusCode = HttpStatusCode.OK;
+                return resource;
             }
             catch (InstanceNotFoundException)
             {

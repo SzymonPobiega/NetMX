@@ -7,8 +7,8 @@ namespace NetMX.Remote.HttpAdaptor
     public class HttpAdaptor
     {
         protected void Configure(HttpConfiguration configuration, IMBeanServerConnection serverConnection, string baseUrl)
-        {            
-            configuration.ServiceResolver.SetService(typeof(IHttpControllerActivator), new ControllerActivator(serverConnection, baseUrl));
+        {
+            configuration.Services.Replace(typeof(IHttpControllerActivator), new ControllerActivator(serverConnection, baseUrl));
             configuration.Formatters.Clear();
             configuration.Formatters.Add(new MBeanAttributeJsonFormatter());
             configuration.Formatters.Add(new MBeanAttributeXmlFormatter());

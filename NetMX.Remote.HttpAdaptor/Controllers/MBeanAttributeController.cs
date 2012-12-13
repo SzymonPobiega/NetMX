@@ -15,7 +15,7 @@ namespace NetMX.Remote.HttpAdaptor.Controllers
         {
         }
 
-        public HttpResponseMessage<MBeanAttributeResource> Get(string objectName, string attribute)
+        public MBeanAttributeResource Get(string objectName, string attribute)
         {
             try
             {
@@ -23,7 +23,7 @@ namespace NetMX.Remote.HttpAdaptor.Controllers
                 var openType = attributeInfo.Descriptor.GetFieldValue(OpenTypeDescriptor.Field);
 
                 var resource = BuildResourceRepresentation(objectName, attribute, openType);
-                return new HttpResponseMessage<MBeanAttributeResource>(resource);
+                return resource;
             }
             catch (AttributeNotFoundException)
             {
@@ -47,7 +47,7 @@ namespace NetMX.Remote.HttpAdaptor.Controllers
                        };
         }
 
-        public HttpResponseMessage<MBeanAttributeResource> Put(MBeanAttributeResource valueResource)
+        public MBeanAttributeResource Put(MBeanAttributeResource valueResource)
         {
             try
             {
@@ -61,11 +61,11 @@ namespace NetMX.Remote.HttpAdaptor.Controllers
                 _serverConnection.SetAttribute(objectName, attribute, value);
 
                 var resource = BuildResourceRepresentation(objectName, attribute, openType);
-                return new HttpResponseMessage<MBeanAttributeResource>(resource);
+                return resource;
             }
             catch (FormatException ex)
             {
-                throw new HttpResponseException(ex.Message, HttpStatusCode.BadRequest);
+                throw new HttpResponseException(HttpStatusCode.BadRequest);
             }
             catch (InstanceNotFoundException)
             {

@@ -13,21 +13,20 @@ namespace NetMX.Remote.HttpAdaptor.Formatters
         {
             SupportedMediaTypes.Add(new MediaTypeHeaderValue("application/xhtml+xml"));
             SupportedMediaTypes.Add(new MediaTypeHeaderValue("text/html"));
-            Encoding = new UTF8Encoding(false, true);
         }
 
-        protected override bool CanReadType(System.Type type)
+        public override bool CanReadType(System.Type type)
         {
             return false;
         }
 
-        protected override Task OnWriteToStreamAsync(System.Type type, object value, Stream stream, HttpContentHeaders contentHeaders, FormatterContext formatterContext, System.Net.TransportContext transportContext)
-        {
+        public override Task WriteToStreamAsync(System.Type type, object value, Stream writeStream, System.Net.Http.HttpContent content, System.Net.TransportContext transportContext)
+        {        
             return Task.Factory.StartNew(
                 () =>
                 {
 
-                    using (var streamWriter = new StreamWriter(stream, Encoding))
+                    using (var streamWriter = new StreamWriter(writeStream, Encoding.UTF8))
                     {
                         streamWriter.WriteLine(string.Format(@"<?xml version=""1.0"" encoding=""utf-8""?>
 <?xml-stylesheet type=""text/css"" href=""style.css""?>

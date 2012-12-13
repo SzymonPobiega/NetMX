@@ -15,7 +15,7 @@ namespace NetMX.Remote.HttpAdaptor.Controllers
 
         public HttpResponseMessage Get(string contentFile)
         {
-            const string basePath = @"C:\Users\Simon\Documents\Visual Studio 2010\Projects\NetMX\NetMX.Remote.HttpAdaptor\Content";
+            const string basePath = @"C:\Users\Spobiega\Documents\Visual Studio 2010\Projects\NetMX\NetMX.Remote.HttpAdaptor\Content";
             var path = Path.Combine(basePath, contentFile);
 
             var response = new HttpResponseMessage

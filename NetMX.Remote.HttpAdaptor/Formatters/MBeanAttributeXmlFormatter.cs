@@ -18,29 +18,27 @@ namespace NetMX.Remote.HttpAdaptor.Formatters
         {
             SupportedMediaTypes.Add(new MediaTypeHeaderValue("application/vnd.netmx.attr+xml"));
             SupportedMediaTypes.Add(new MediaTypeHeaderValue("application/xml"));
-            Encoding = new UTF8Encoding(false, true);
         }
 
-        protected override bool CanReadType(Type type)
+        public override bool CanReadType(Type type)
         {
-            return type != typeof(IKeyValueModel);
+            return true; // type != typeof(IKeyValueModel);
         }
 
-        protected override bool CanWriteType(Type type)
+        public override bool CanWriteType(Type type)
         {
             return type == typeof (MBeanAttributeResource);
         }
-
-        protected override Task<object> OnReadFromStreamAsync(Type type, Stream stream, HttpContentHeaders contentHeaders, FormatterContext formatterContext)
+        public override Task<object> ReadFromStreamAsync(Type type, Stream readStream, System.Net.Http.HttpContent content, IFormatterLogger formatterLogger)
         {
             return Task.Factory.StartNew(
                 () =>
                     {
-                        using (var streamReader = new StreamReader(stream, Encoding))
+                        using (var streamReader = new StreamReader(readStream, Encoding.UTF8))
                         {
                             var root = XElement.Load(streamReader);
                             object result = null;
-                            if (contentHeaders.ContentType.MediaType == "application/vnd.netmx.attr+xml")
+                            if (content.Headers.ContentType.MediaType == "application/vnd.netmx.attr+xml")
                             {
                                 result = new MBeanAttributeResource
                                              {
@@ -95,7 +93,7 @@ namespace NetMX.Remote.HttpAdaptor.Formatters
             return element.Elements().Select(valueFunction).ToArray();
         }
 
-        protected override Task OnWriteToStreamAsync(Type type, object value, Stream stream, HttpContentHeaders contentHeaders, FormatterContext formatterContext, System.Net.TransportContext transportContext)
+        public override Task WriteToStreamAsync(Type type, object value, Stream writeStream, System.Net.Http.HttpContent content, System.Net.TransportContext transportContext)
         {
             return Task.Factory.StartNew(
                 () =>
@@ -107,7 +105,7 @@ namespace NetMX.Remote.HttpAdaptor.Formatters
                                                 new XElement("Parent", typedValue.MBeanHRef),
                                                 new XElement("Name", typedValue.Name));
 
-                        using (var streamWriter = new StreamWriter(stream, Encoding))
+                        using (var streamWriter = new StreamWriter(writeStream, Encoding.UTF8))
                         using (var xmlWriter = XmlWriter.Create(streamWriter))
                         {
                             root.WriteTo(xmlWriter);
