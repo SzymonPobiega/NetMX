@@ -82,6 +82,7 @@
     <Compile Include="Formatters\HtmlFormatterBase.cs" />
     <Compile Include="HttpAdaptor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Resources\MBeanRelationInfo.cs" />
     <Compile Include="Resources\MBeanResource.cs" />
     <Compile Include="Resources\MBeanAttributeResource.cs" />
     <Compile Include="Resources\MBeanAttributeInfo.cs" />

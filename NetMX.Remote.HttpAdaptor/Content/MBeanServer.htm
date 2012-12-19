@@ -7,7 +7,7 @@
 	<body>
         <div>
 	        <h1>MBean server <span data-bind="text: instanceName"></span> (version <span data-bind="text: version"></span>) powered by <a href="http://github.com/SzymonPobiega/NetMX">NetMX</a></h1>
-            <div id="beans" style="float: left; width: 50%">
+            <div id="beans" style="float: left; width: 40%; height: 500px">
                 <h3>Registered MBeans:</h3>
                 <ul data-bind="foreach: beans">
                     <li>                    
@@ -22,6 +22,7 @@
                     <span data-bind="text: className"></span>
                     <span data-bind="text: description"></span>                
                 </div>
+                <em>Attributes:</em>
                 <table>
                     <tbody data-bind="foreach: attributes">
                         <tr>
@@ -37,7 +38,12 @@
                         </tr>
                     </tbody>
                 </table>
-                <a href="#" class="button" data-bind="click: $root.browseBeans">Back to list</a> |
+                <em>Relations:</em>
+                <ul data-bind="foreach: relations">
+                   <li>
+                        <a href="#" class="button" data-bind="click: $root.viewBean, text: title"></a>
+                   </li>
+                </ul>                
                 <a href="#" class="button" data-bind="click: $root.reload">Refresh</a>
             </div>            
         </div>
@@ -128,16 +134,21 @@
                 self.url = ko.observable(url);
             }
 
-            function BeanInfo(objectName, className, description, attributes) {
+            function BeanInfo(objectName, className, description, attributes, relations) {
                 var self = this;
 
                 self.objectName = ko.observable(objectName);
                 self.className = ko.observable(className);
                 self.description = ko.observable(description);
                 self.attributes = ko.observableArray([]);
+                self.relations = ko.observableArray([]);
 
                 for (var i = 0; i < attributes.length; i++) {
                     self.attributes.push(new AttributeInfo(objectName, attributes[i].Name));
+                }
+
+                for (var i = 0; i < relations.length; i++) {
+                    self.relations.push(new RelationInfo(relations[i].ObjectName, relations[i].RelationType));
                 }
             }
 
@@ -284,8 +295,19 @@
 
                 self.cancel = function () {
                     self.templateName("tabular-value");
-                }      
-            }          
+                }
+            }
+
+            function RelationInfo(objectName, relationType) {
+                var self = this;
+
+                self.objectName = ko.observable(objectName);
+                self.relationType = ko.observable(relationType);
+
+                self.title = ko.computed(function () {
+                    return self.relationType() + ": " + self.objectName();
+                }, self);
+            }
 
             function AttributeInfo(objectName, attributeName) {
                 var self = this;
@@ -392,7 +414,11 @@
                         url: "../" + beanReference.objectName(),
                         dataType: "json",
                         success: function (data, textStatus, jqXHR) {
-                            self.selectedBean(new BeanInfo(beanReference.objectName(), data.ClassName, data.Description, data.Attributes));                            
+                            self.selectedBean(new BeanInfo(beanReference.objectName(),
+                                data.ClassName,
+                                data.Description, 
+                                data.Attributes,
+                                data.Relations));                            
                         }
                     });
                 }

@@ -8,5 +8,6 @@ namespace NetMX.Remote.HttpAdaptor.Resources
         public string Description { get; set; }
         public List<MBeanAttributeInfo> Attributes { get; set; }
         public string ServerHRef { get; set; }
+        public List<MBeanRelationInfo> Relations { get; set; }
     }
 }

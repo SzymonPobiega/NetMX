@@ -15,7 +15,7 @@ namespace NetMX.Remote.HttpAdaptor.Controllers
 
         protected string GetResourceUrl(string name, object routeData)
         {
-            return _baseUrl + "/" +  Url.Route(name, routeData);
+            return  Url.Route(name, routeData);
         }
     }
 }

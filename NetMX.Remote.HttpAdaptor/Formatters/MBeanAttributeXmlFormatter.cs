@@ -105,7 +105,7 @@ namespace NetMX.Remote.HttpAdaptor.Formatters
                                                 new XElement("Parent", typedValue.MBeanHRef),
                                                 new XElement("Name", typedValue.Name));
 
-                        using (var streamWriter = new StreamWriter(writeStream, Encoding.UTF8))
+                        var streamWriter = new StreamWriter(writeStream, Encoding.UTF8);
                         using (var xmlWriter = XmlWriter.Create(streamWriter))
                         {
                             root.WriteTo(xmlWriter);

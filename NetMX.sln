@@ -54,6 +54,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetMX.Remote.HttpAdaptor", 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{1BE56929-4897-4D67-B449-F38886037303}"
 	ProjectSection(SolutionItems) = preProject
+		NetMX.Http.nuspec = NetMX.Http.nuspec
+		NetMX.nuspec = NetMX.nuspec
+		NetMX.WSMan.nuspec = NetMX.WSMan.nuspec
 		.nuget\NuGet.exe = .nuget\NuGet.exe
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
