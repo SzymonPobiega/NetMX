@@ -80,6 +80,7 @@
     <Compile Include="..\SolutionInfo.cs">
       <Link>Properties\SolutionInfo.cs</Link>
     </Compile>
+    <Compile Include="Tests\AggregateMBeanServerConnectionTests.cs" />
     <Compile Include="Tests\CASPermissionsTests.cs" />
     <Compile Include="Tests\DynamicMBeanProxyTests.cs" />
     <Compile Include="Tests\ExpressionParserTests.cs" />

@@ -17,7 +17,7 @@ namespace HttpAdaptorDemo
             var server = MBeanServerFactory.CreateMBeanServer("HttpAdaptorDemo");
             server.RegisterMBean(new RelationService(), RelationService.ObjectName);
 
-            server.RegisterMBean(new Sample(), "sample:a=b");
+            server.RegisterMBean(new Sample(), "sample:t=static");
 
             var dynamicMBean = new SampleDynamicMBean();
             dynamicMBean.AddRow(1, "Simon");
@@ -25,7 +25,7 @@ namespace HttpAdaptorDemo
             dynamicMBean.SetComposite(3, "Jane");
             dynamicMBean.SetArray(new[] { 1, 2.5m, 4.3m, 5.64m });
 
-            server.RegisterMBean(dynamicMBean, "dynamic:a=b");
+            server.RegisterMBean(dynamicMBean, "sample:t=dynamic");
 
             var relationSerice = server.CreateDynamicProxy(RelationService.ObjectName);
             relationSerice.CreateRelationType("Binding",
@@ -40,8 +40,8 @@ namespace HttpAdaptorDemo
             relationSerice.CreateRelation("Rel1", "Binding",
                                           new[]
                                               {
-                                                  new Role("Source", new ObjectName("sample:a=b")),
-                                                  new Role("Destination", new ObjectName("dynamic:a=b"))
+                                                  new Role("Source", new ObjectName("sample:t=static")),
+                                                  new Role("Destination", new ObjectName("sample:t=dynamic"))
                                               });
 
             var adaptor = new SelfHostingHttpAdaptor(server, address);

@@ -79,6 +79,7 @@
     <Compile Include="..\SolutionInfo.cs">
       <Link>Properties\SolutionInfo.cs</Link>
     </Compile>
+    <Compile Include="AggregateMBeanServerConnection.cs" />
     <Compile Include="Configuration\MBeanCollection.cs" />
     <Compile Include="Configuration\MBeanConstructorArgumentCollection.cs" />
     <Compile Include="Configuration\MBean.cs" />

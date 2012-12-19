@@ -8,6 +8,6 @@ namespace NetMX
 {
 	public interface IMBeanServer : IMBeanServerConnection
 	{
-		void RegisterMBean(object bean, ObjectName name);		
+		void RegisterMBean(object bean, ObjectName name);	    
 	}
 }
