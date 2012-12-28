@@ -18,6 +18,11 @@ namespace HttpAdaptorDemo
             server.RegisterMBean(new RelationService(), RelationService.ObjectName);
 
             server.RegisterMBean(new Sample(), "sample:t=static");
+            server.RegisterMBean(new Sample(), "d1.sample:t=static");
+            server.RegisterMBean(new Sample(), "d1.sample2:t=static");
+            server.RegisterMBean(new Sample(), "d1.d2.sample1:t=static");
+            server.RegisterMBean(new Sample(), "d1.d2.sample2:t=static");
+            server.RegisterMBean(new Sample(), "d1.d2.d3.sample1:t=static");
 
             var dynamicMBean = new SampleDynamicMBean();
             dynamicMBean.AddRow(1, "Simon");

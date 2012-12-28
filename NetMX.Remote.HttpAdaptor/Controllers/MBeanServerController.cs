@@ -1,6 +1,6 @@
+using System;
+using System.Collections.Generic;
 using System.Linq;
-using System.Net.Http;
-using System.Web.Http;
 using NetMX.Remote.HttpAdaptor.Resources;
 
 namespace NetMX.Remote.HttpAdaptor.Controllers
@@ -14,23 +14,51 @@ namespace NetMX.Remote.HttpAdaptor.Controllers
 
         public MBeanServerResource Get()
         {
-            var beans = _serverConnection.QueryNames(null, null)
-                .Select(x => new Resources.MBeanInfo
-                                 {
-                                     ObjectName = x.CanonicalName,
-                                     HRef = GetResourceUrl("bean", new { objectName = x.CanonicalName})
-                                 });
-
+            var beans = _serverConnection.QueryNames(null, null);
             var delegateBeanProxy = _serverConnection.CreateDynamicProxy(MBeanServerDelegate.ObjectName);
+
+            var rootDomain = new MBeanDomain();
+
+            foreach (var bean in beans)
+            {
+                var nameParts = bean.Domain.Split(new[] {'.'}, StringSplitOptions.RemoveEmptyEntries);
+                var domainParts = nameParts.Take(nameParts.Length - 1).ToArray();
+                var currentDomain = EnsureSubdomain(rootDomain, domainParts);
+                currentDomain.Beans.Add(new Resources.MBeanInfo
+                                            {
+                                                ObjectName = bean.CanonicalName,
+                                                HRef = GetResourceUrl("bean", new {objectName = bean.CanonicalName})
+                                            });
+            }
 
             var resource = new MBeanServerResource
                                {
-                                   Beans = beans.ToList(),
+                                   RootDomain = rootDomain,
                                    InstanceName = delegateBeanProxy.MBeanServerId,
-                                   Version = delegateBeanProxy.ImplementationVersion
+                                   Version = delegateBeanProxy.ImplementationVersion,
+                                   StaticViewHref = GetResourceUrl("server", new {}),
+                                   DynamicViewHref = GetResourceUrl("ui", new { contentFile = "mbeanserver.htm" })
                                };
 
             return resource;
+        }
+
+        private static MBeanDomain EnsureSubdomain(MBeanDomain currentDomain, string[] domainParts)
+        {
+            foreach (var domainPartName in domainParts)
+            {
+                var subdomain = currentDomain.Subdomains.FirstOrDefault(x => x.Name == domainPartName);
+                if (subdomain == null)
+                {
+                    subdomain = new MBeanDomain()
+                                    {
+                                        Name = domainPartName
+                                    };
+                    currentDomain.Subdomains.Add(subdomain);
+                }
+                currentDomain = subdomain;
+            }
+            return currentDomain;
         }
     }
 }

@@ -39,6 +39,8 @@ namespace NetMX.Remote.HttpAdaptor.Controllers
                     return "text/javascript";
                 case ".css":
                     return "text/css";
+                case ".gif":
+                    return "image/gif";
                 default:
                     return "text/plain";
             }

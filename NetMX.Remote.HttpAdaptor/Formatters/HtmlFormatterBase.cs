@@ -34,12 +34,14 @@ namespace NetMX.Remote.HttpAdaptor.Formatters
 <!DOCTYPE html PUBLIC ""-//W3C//DTD XHTML 1.1//EN"" ""http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd"">
 <html xmlns=""http://www.w3.org/1999/xhtml"" xml:lang=""en"">
 <head>
-  <title>{0}</title>
+    <title>{0}</title>
+    <link type=""text/css"" href=""UI/style.css"" rel=""Stylesheet"" />
+    <link type=""text/css"" href=""UI/jquery.treeview.css"" rel=""Stylesheet"" />
 </head>
 <body>",
                                 Title));
 
-                        WriteBody(value, streamWriter);
+                        WriteBody(value, streamWriter);                        
                         streamWriter.WriteLine(@"</body></html>");
                         streamWriter.Flush();
                     });

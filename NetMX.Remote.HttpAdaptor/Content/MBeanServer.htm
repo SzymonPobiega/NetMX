@@ -3,20 +3,17 @@
 	<head>
 		<title>MBean server powered by NetMX</title>
         <link type="text/css" href="style.css" rel="Stylesheet" />
+        <link type="text/css" href="jquery.treeview.css" rel="Stylesheet" />
 	</head>
 	<body>
         <div>
 	        <h1>MBean server <span data-bind="text: instanceName"></span> (version <span data-bind="text: version"></span>) powered by <a href="http://github.com/SzymonPobiega/NetMX">NetMX</a></h1>
-            <div id="beans" style="float: left; width: 40%; height: 500px">
+            <div id="beans" style="float: left; width: 40%">
                 <h3>Registered MBeans:</h3>
-                <ul data-bind="foreach: beans">
-                    <li>                    
-                        <a href="#" class="button" data-bind="click: $root.viewBean, text: objectName"></a>
-                    </li>
-                </ul>
-                <a href="..">Static UI</a>
+                <ul id="beanTree" data-bind="template: { name: 'domain-items', data: rootDomain, afterRender: afterRender }" class="filetree"></ul>                
+                <a href="#" data-bind="attr: { href: staticUILink, title: 'Static UI' }">Static UI</a>
             </div>
-            <div id="beanDetails" data-bind="visible: shouldShowDetails, with: selectedBean">
+            <div id="beanDetails" style="float: left;" data-bind="visible: shouldShowDetails, with: selectedBean">
                 <h3 data-bind="text: objectName"></h3>
                 <div>
                     <span data-bind="text: className"></span>
@@ -61,6 +58,21 @@
             <ol data-bind="foreach: items">
                 <li data-bind="text: value"></li>
             </ol>
+        </script>
+        <script type="text/html" id="domain">
+            <span data-bind="text: name"  class="folder"/>
+            <ul data-bind="template: { name: 'domain-items'}">                                
+            </ul>
+        </script>
+        <script type="text/html" id="domain-items">
+            <!-- ko foreach: beans -->
+            <li>
+                <span href="#" class="button file" data-bind="click: $root.viewBean, text: objectName"></span>
+            </li>
+            <!-- /ko -->
+            <!-- ko foreach: subdomains -->
+            <li data-bind="template: { name: 'domain', data: $data }"></li>
+            <!-- /ko -->
         </script>
         <script type="text/html" id="array-value-edit">
             <ol data-bind="foreach: items">
@@ -125,6 +137,7 @@
 
         <script type="text/javascript" src="knockout-2.0.0.js"></script>
         <script type="text/javascript" src="jquery-1.7.2.min.js"></script>
+        <script type="text/javascript" src="jquery.treeview.js"></script>
         <script type="text/javascript">
 
             function BeanReference(objectName, url) {
@@ -132,6 +145,22 @@
 
                 self.objectName = ko.observable(objectName);
                 self.url = ko.observable(url);
+            }
+
+            function Domain(name, beans, subdomains) {
+                var self = this;
+
+                self.name = ko.observable(name);
+                self.beans = ko.observableArray([]);
+                self.subdomains = ko.observableArray([]);
+
+                for (var i = 0; i < beans.length; i++) {
+                    self.beans.push(new BeanReference(beans[i].ObjectName, beans[i].HRef));
+                }
+
+                for (var i = 0; i < subdomains.length; i++) {
+                    self.subdomains.push(new Domain(subdomains[i].Name, subdomains[i].Beans, subdomains[i].Subdomains));
+                }
             }
 
             function BeanInfo(objectName, className, description, attributes, relations) {
@@ -405,8 +434,9 @@
 
                 self.instanceName = ko.observable();
                 self.version = ko.observable();
-                self.beans = ko.observableArray([]);
+                self.rootDomain = ko.observable(new Domain("",[], []));
                 self.selectedBean = ko.observable();
+                self.staticUILink = ko.observable();
 
                 self.viewBean = function(beanReference) {
                     $.ajax({
@@ -433,13 +463,11 @@
                         url: "../server",
                         dataType: "json",
                         success: function (data, textStatus, jqXHR) {
-                            for (var i = 0; i < data.Beans.length; i++) {
-                                self.beans.remove(function (beanReference) { return beanReference.objectName() === data.Beans[i].ObjectName });
-                                self.beans.push(new BeanReference(data.Beans[i].ObjectName, data.Beans[i].HRef));
-                            }
+                            self.rootDomain(new Domain(data.RootDomain.Name, data.RootDomain.Beans, data.RootDomain.Subdomains));
                             self.selectedBean(null);
                             self.instanceName(data.InstanceName);
                             self.version(data.Version);
+                            self.staticUILink(data.StaticViewHref);
                         }
                     });
                 }
@@ -451,11 +479,14 @@
                 self.shouldShowList = ko.computed(function () {
                     return self.selectedBean() == null;
                 }, self);
-                
+
+                self.afterRender = function (elements) {
+                    $("#beanTree").treeview();         
+                }
                 self.browseBeans();                
             }
 
-            ko.applyBindings(new BeanViewModel());         
+            ko.applyBindings(new BeanViewModel());
         </script>
 	</body>
 </html>

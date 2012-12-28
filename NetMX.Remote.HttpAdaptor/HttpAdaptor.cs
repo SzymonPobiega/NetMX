@@ -30,6 +30,10 @@ namespace NetMX.Remote.HttpAdaptor
                                               "ui/{contentFile}",
                                               new { controller = "UI" });
 
+            configuration.Routes.MapHttpRoute("ui-images",
+                                              "ui/images/{contentFile}",
+                                              new { controller = "UI" });
+
             configuration.Routes.MapHttpRoute("attribute",
                                               "{objectName}/{attribute}",
                                               new { controller = "MBeanAttribute" });

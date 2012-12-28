@@ -1,4 +1,7 @@
-﻿a.button
+﻿span.button:hover
 {
     cursor : pointer;
+}
+#beanTree {
+	font-family: Verdana, helvetica, arial, sans-serif;
 }
