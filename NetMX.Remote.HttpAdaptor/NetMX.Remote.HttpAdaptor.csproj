@@ -99,29 +99,37 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\Images\ajax-loader.gif" />
-    <Content Include="Content\Images\file.gif" />
-    <Content Include="Content\Images\folder-closed.gif" />
-    <Content Include="Content\Images\folder.gif" />
-    <Content Include="Content\Images\minus.gif" />
-    <Content Include="Content\Images\plus.gif" />
-    <Content Include="Content\Images\treeview-black-line.gif" />
-    <Content Include="Content\Images\treeview-black.gif" />
-    <Content Include="Content\Images\treeview-default-line.gif" />
-    <Content Include="Content\Images\treeview-default.gif" />
-    <Content Include="Content\Images\treeview-famfamfam-line.gif" />
-    <Content Include="Content\Images\treeview-famfamfam.gif" />
-    <Content Include="Content\Images\treeview-gray-line.gif" />
-    <Content Include="Content\Images\treeview-gray.gif" />
-    <Content Include="Content\Images\treeview-red-line.gif" />
-    <Content Include="Content\Images\treeview-red.gif" />
-    <Content Include="Content\jquery-1.7.2.min.js" />
-    <Content Include="Content\knockout-2.0.0.js" />
-    <Content Include="Content\MBeanServer.htm" />
-    <Content Include="Content\style.css" />
+    <EmbeddedResource Include="Content\ajax-loader.gif" />
+    <EmbeddedResource Include="Content\file.gif" />
+    <EmbeddedResource Include="Content\folder-closed.gif" />
+    <EmbeddedResource Include="Content\folder.gif" />
+    <EmbeddedResource Include="Content\jquery-1.7.2.min.js" />
+    <EmbeddedResource Include="Content\knockout-2.0.0.js" />
+    <EmbeddedResource Include="Content\mbeanserver.htm" />
+    <EmbeddedResource Include="Content\minus.gif" />
+    <EmbeddedResource Include="Content\plus.gif" />
+    <EmbeddedResource Include="Content\style.css" />
+    <EmbeddedResource Include="Content\treeview-black-line.gif" />
+    <EmbeddedResource Include="Content\treeview-black.gif" />
+    <EmbeddedResource Include="Content\treeview-default-line.gif" />
+    <EmbeddedResource Include="Content\treeview-default.gif" />
+    <EmbeddedResource Include="Content\treeview-famfamfam-line.gif" />
+    <EmbeddedResource Include="Content\treeview-famfamfam.gif" />
+    <EmbeddedResource Include="Content\treeview-gray-line.gif" />
+    <EmbeddedResource Include="Content\treeview-gray.gif" />
+    <EmbeddedResource Include="Content\treeview-red-line.gif" />
+    <EmbeddedResource Include="Content\treeview-red.gif" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Content\jquery.treeview.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Content\jquery.treeview.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\.nuget\nuget.targets" />

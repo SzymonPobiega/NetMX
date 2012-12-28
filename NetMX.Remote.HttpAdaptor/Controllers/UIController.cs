@@ -3,6 +3,7 @@ using System.IO;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Reflection;
 using System.Web.Http;
 
 namespace NetMX.Remote.HttpAdaptor.Controllers
@@ -15,14 +16,23 @@ namespace NetMX.Remote.HttpAdaptor.Controllers
 
         public HttpResponseMessage Get(string contentFile)
         {
-            const string basePath = @"C:\Users\Spobiega\Documents\Visual Studio 2010\Projects\NetMX\NetMX.Remote.HttpAdaptor\Content";
-            var path = Path.Combine(basePath, contentFile);
+            //const string basePath = @"C:\Users\Spobiega\Documents\Visual Studio 2010\Projects\NetMX\NetMX.Remote.HttpAdaptor\Content";
+            //var path = Path.Combine(basePath, contentFile);
 
+            //var response = new HttpResponseMessage
+            //                              {
+            //                                  StatusCode = HttpStatusCode.OK,
+            //                                  Content = new StreamContent(new FileStream(path,FileMode.Open)),
+            //                              };
+
+            var path = "NetMX.Remote.HttpAdaptor.Content." + contentFile;
+            var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(path);
             var response = new HttpResponseMessage
-                                          {
-                                              StatusCode = HttpStatusCode.OK,
-                                              Content = new StreamContent(new FileStream(path,FileMode.Open)),
-                                          };
+            {
+                StatusCode = HttpStatusCode.OK,
+                Content = new StreamContent(stream),
+            };
+
             response.Content.Headers.ContentType = new MediaTypeHeaderValue(GetContentType(contentFile));
             return response;
         }

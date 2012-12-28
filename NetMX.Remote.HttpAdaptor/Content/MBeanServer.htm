@@ -13,7 +13,7 @@
                 <ul id="beanTree" data-bind="template: { name: 'domain-items', data: rootDomain, afterRender: afterRender }" class="filetree"></ul>                
                 <a href="#" data-bind="attr: { href: staticUILink, title: 'Static UI' }">Static UI</a>
             </div>
-            <div id="beanDetails" style="float: left;" data-bind="visible: shouldShowDetails, with: selectedBean">
+            <div id="beanDetails" style="float: left; max-width: 60%" data-bind="visible: shouldShowDetails, with: selectedBean">
                 <h3 data-bind="text: objectName"></h3>
                 <div>
                     <span data-bind="text: className"></span>
@@ -67,7 +67,7 @@
         <script type="text/html" id="domain-items">
             <!-- ko foreach: beans -->
             <li>
-                <span href="#" class="button file" data-bind="click: $root.viewBean, text: objectName"></span>
+                <span href="#" class="button file" data-bind="click: $root.viewBean, text: shortName"></span>
             </li>
             <!-- /ko -->
             <!-- ko foreach: subdomains -->
@@ -140,9 +140,10 @@
         <script type="text/javascript" src="jquery.treeview.js"></script>
         <script type="text/javascript">
 
-            function BeanReference(objectName, url) {
+            function BeanReference(objectName, shortName, url) {
                 var self = this;
 
+                self.shortName = ko.observable(shortName);
                 self.objectName = ko.observable(objectName);
                 self.url = ko.observable(url);
             }
@@ -155,7 +156,7 @@
                 self.subdomains = ko.observableArray([]);
 
                 for (var i = 0; i < beans.length; i++) {
-                    self.beans.push(new BeanReference(beans[i].ObjectName, beans[i].HRef));
+                    self.beans.push(new BeanReference(beans[i].ObjectName, beans[i].ShortName, beans[i].HRef));
                 }
 
                 for (var i = 0; i < subdomains.length; i++) {

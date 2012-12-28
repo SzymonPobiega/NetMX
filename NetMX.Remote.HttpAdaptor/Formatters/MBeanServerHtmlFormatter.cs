@@ -36,7 +36,7 @@ namespace NetMX.Remote.HttpAdaptor.Formatters
         {
             foreach (var bean in domain.Beans)
             {
-                writer.WriteLine("<li><span class=\"file\"><a href=\"{0}\">{1}</a></span></li>", bean.HRef, bean.ObjectName);
+                writer.WriteLine("<li><span class=\"file\"><a href=\"{0}\">{1}</a></span></li>", bean.HRef, bean.ShortName);
             }
             foreach (var subdomain in domain.Subdomains)
             {
