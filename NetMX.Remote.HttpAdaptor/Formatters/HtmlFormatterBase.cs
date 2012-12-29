@@ -25,7 +25,6 @@ namespace NetMX.Remote.HttpAdaptor.Formatters
             return Task.Factory.StartNew(
                 () =>
                     {
-
                         var streamWriter = new StreamWriter(writeStream, Encoding.UTF8);
                         streamWriter.WriteLine(
                             string.Format(

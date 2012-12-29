@@ -12,7 +12,7 @@ namespace HttpAdaptorDemo
     {
         static void Main(string[] args)
         {
-            const string address = "http://localhost:12345/adaptor";
+            const string address = "http://localhost:12345/adaptor/sample";
 
             var server = MBeanServerFactory.CreateMBeanServer("HttpAdaptorDemo");
             server.RegisterMBean(new RelationService(), RelationService.ObjectName);

@@ -1,5 +1,6 @@
 using System.Web.Http;
 using System.Web.Http.Dispatcher;
+using System.Web.Http.Routing;
 using NetMX.Remote.HttpAdaptor.Formatters;
 
 namespace NetMX.Remote.HttpAdaptor
@@ -22,7 +23,7 @@ namespace NetMX.Remote.HttpAdaptor
             configuration.Formatters.Add(new MBeanServerXmlFormatter());
             configuration.Formatters.Add(new MBeanServerHtmlFormatter());
 
-            configuration.Routes.MapHttpRoute("server2",
+            configuration.Routes.MapHttpRoute("server",
                                               "server",
                                               new { controller = "MBeanServer" });
 
@@ -42,9 +43,9 @@ namespace NetMX.Remote.HttpAdaptor
                                               "{objectName}",
                                               new { controller = "MBean" });
 
-            configuration.Routes.MapHttpRoute("server",
+            configuration.Routes.MapHttpRoute("root",
                                               "",
-                                              new {controller = "MBeanServer"});
+                                              new {controller = "Root"});
 
         }
     }

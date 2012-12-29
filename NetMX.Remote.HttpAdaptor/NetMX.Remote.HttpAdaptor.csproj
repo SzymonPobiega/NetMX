@@ -69,6 +69,7 @@
     <Compile Include="Controllers\MBeanController.cs" />
     <Compile Include="Controllers\MBeanServerController.cs" />
     <Compile Include="Controllers\OpenValueFormatter.cs" />
+    <Compile Include="Controllers\RootController.cs" />
     <Compile Include="Controllers\UIController.cs" />
     <Compile Include="Formatters\MBeanAttributeHtmlFormatter.cs" />
     <Compile Include="Formatters\MBeanAttributeXmlFormatter.cs" />
@@ -133,6 +134,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\.nuget\nuget.targets" />
+  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

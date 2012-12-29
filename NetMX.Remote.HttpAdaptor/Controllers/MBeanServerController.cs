@@ -27,7 +27,7 @@ namespace NetMX.Remote.HttpAdaptor.Controllers
                 currentDomain.Beans.Add(new Resources.MBeanInfo
                                             {
                                                 ObjectName = bean.CanonicalName,
-                                                ShortName = nameParts.Last(),
+                                                ShortName = nameParts.Last()+":"+bean.KeyPropertyListString,
                                                 HRef = GetResourceUrl("bean", new {objectName = bean.CanonicalName})
                                             });
             }
